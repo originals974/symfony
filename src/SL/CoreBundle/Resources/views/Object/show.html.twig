@@ -1,0 +1,78 @@
+<div class="well btn-group"> 
+    <input skin="bootstrap-switch" type="checkbox" name="isEnabled" value="isEnabled" {% if object.isEnabled %}checked{% endif %} ajax-action={{ path('object_update_checkbox', { 'id': object.id }) }}>
+</div>
+<div class="well btn-group"> 
+    <button title="{{ 'object.choose.icon'|trans }}" class="btn btn-default btn-xs" role="iconpicker" data-iconset="fontawesome" data-icon="{{ object.icon }}" data-rows="6" data-cols="6" data-placement="bottom" ajax-action={{ path('object_update_icon', { 'id': object.id }) }}>
+    </button>
+    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+        <span class="caret"></span>
+        <span class="sr-only">Toggle Dropdown</span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+        <li>
+            <a data-toggle="modal" href="{{ path('object_edit', { 'id': object.id }) }}" data-target="#">
+                <span class="fa fa-pencil"> {{ 'object.edit'|trans }}</span>  
+            </a>
+        </li>
+        <li>
+            <a data-toggle="modal" href="{{ path('object_remove', { 'id': object.id }) }}" data-target="#">
+                <span class="fa fa-times"> {{ 'object.delete'|trans }}</span>  
+            </a>
+        </li>
+        <li class="divider"></li>
+        <li>
+            <a data-toggle="modal" href="{{ path('object_edit_calculated_name', { 'id': object.id }) }}" data-target="#">
+                <span class="fa fa-barcode"> {{ 'object.update.calculatedName'|trans }}</span>  
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('object_refresh_calculated_name', { 'id': object.id }) }}">
+                <span class="fa fa-refresh"> {{ 'object.refresh.calculatedName'|trans }}</span>  
+            </a>
+        </li>
+    </ul>
+</div>
+
+<div class="panel-group" id="accordion">
+
+    {# PROPERTIES INFORMATIONS #}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                  {{ 'property.index.title'|trans }}
+                </a>
+            </h4>
+        </div>
+        <div id="collapseTwo" class="panel-collapse collapse in">
+            <div id="accordionPropertyContent" class="panel-body">
+                {% include "SLCoreBundle:Property:propertyTable.html.twig" with {'object' : object} only %} 
+            </div>
+        </div>
+    </div>
+
+    {# SUBOJECTS INFORMATIONS #}
+    {% if object.isParent %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+
+                {% if object.isDocument %}
+                    {% set title = 'sub_document.index.title' %}
+                {% else %}
+                    {% set title = 'sub_object.index.title' %}
+                {% endif %}
+
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+                        {{ title|trans }}
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseThree" class="panel-collapse collapse">
+                <div id="accordionSubObjectContent" class="panel-body">
+                    {% include "SLCoreBundle:Object:subObjectTable.html.twig" with {'object' : object} only %} 
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>

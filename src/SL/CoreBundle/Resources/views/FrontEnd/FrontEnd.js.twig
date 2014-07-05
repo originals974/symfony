@@ -1,0 +1,45 @@
+<script type="text/javascript">    
+	$(document).ready(function () {
+
+		$(document).on('submit', 'form', function(event) {
+			$(this).find('button[type="submit"]').attr('disabled', true);
+            submitFormToAjaxFrontEnd($(this));
+            return false;
+        });
+
+
+		/**
+	     * Process submitted form by using ajax
+	     *
+	     * @param $form Submitted form
+	     */
+        function submitFormToAjaxFrontEnd($form) {
+
+        	var validTarget, noValidTarget, modalId; 
+
+        	validTarget = '#'+$form.attr('valid-target'); 
+        	noValidTarget = '#'+$form.attr('no-valid-target'); 
+
+            $.ajax({
+                type: $form.attr('method'),
+                url: $form.attr('action'),
+                data: $form.serializeArray(),
+                success: function(data) {
+                	if(data.isValid) {
+                        //Get the modal id  
+                        modalId = '#'+$($form).parent().parent().attr('id');
+
+                        //Close the modal
+                        $(modalId).modal('hide'); 
+                    }
+                    else {
+						$(noValidTarget).html(data.html);
+		            }
+                },
+                error: function(data) {
+                    alert('error');
+                }
+            });
+        };
+	}); 
+</script>

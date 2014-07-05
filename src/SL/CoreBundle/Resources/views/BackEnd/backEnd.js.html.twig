@@ -1,0 +1,238 @@
+<script type="text/javascript">    
+	$(document).ready(function () {
+
+		//Default BootstrapSwitch parameter
+        $.fn.bootstrapSwitch.defaults.size = 'mini';
+        $.fn.bootstrapSwitch.defaults.onColor = "success"; 
+        $.fn.bootstrapSwitch.defaults.offColor = "danger"; 
+
+
+		/*$('ul.tree').toggle(300);
+
+	    $('span.tree-toggler').click(function () {
+	        $(this).parent().children('ul.tree').toggle(300);
+	    });*/
+
+		$('#jstree')
+		.on('changed.jstree', function (e, data) {
+			//$('body').modalmanager('loading');
+			$htmlTarget = '#backEndSection'; 
+			$($htmlTarget).html(null);
+
+			var i, j;
+
+		    for(i = 0, j = data.selected.length; i < j; i++) {
+		    	var $url = data.instance.get_node(data.selected[0]).a_attr['href']; 
+		    }
+
+		    if($url != null && $url != '#' ) {
+		    	$target = '#backEndSection'; 
+		    	sendToAjax('POST', $url, null, $htmlTarget);		    			    	
+		    }
+		})
+		/*.on('dnd_start.vakata', function (e, data) {
+			//console.log(data);
+		    
+
+			var i, j;
+		    for(i = 0, j = data.selected.length; i < j; i++) {
+		    	console.log(data);
+		    	alert("move"); 
+		    	//alert(data.instance.get_node(data.selected[i]).a_attr['href']);
+		    }
+		 })*/
+		/*.on('move_node.jstree', function (e, data) {
+			var i, j;
+		    for(i = 0, j = data.selected.length; i < j; i++) {
+		    	console.log(data);
+		    	alert("move"); 
+		    	//alert(data.instance.get_node(data.selected[i]).a_attr['href']);
+		    }
+		  })*/
+		.jstree({
+			"core" : {
+			    "check_callback" : true,
+			    "multiple" : false,
+		    },
+		    "dnd" : { 
+		    	"is_draggable" : function (data) { 
+		    		console.log(data);
+		    		return false; 
+		    	},
+				"copy" : false ,
+			},
+			"state" : { 
+				"key" : "lateralBackEndMenu" ,
+			},
+    		"plugins" : [ "state", "dnd" ],
+		});
+
+		$(document).on('submit', 'form', function(event) {
+			$(this).find('button[type="submit"]').attr('disabled', true);
+            submitFormToAjax2($(this));
+            return false;
+        });
+
+
+		/**
+	     * Process submitted form by using ajax
+	     *
+	     * @param $form Submitted form
+	     */
+        function submitFormToAjax2($form) {
+
+        	var validTarget, ref, sel, parent_node, new_node, modalId, parentNode; 
+
+        	validTarget = '#'+$form.attr('valid-target'); 
+
+            $.ajax({
+                type: $form.attr('method'),
+                url: $form.attr('action'),
+                data: $form.serializeArray(),
+                success: function(data) {
+
+                	if(data.form.isValid) {
+
+                		//Get the modal id  
+		            	modalId = '#'+$($form).parent().parent().attr('id');
+
+		            	//Get selected node
+                		ref = $('#jstree').jstree(true);
+                		sel = ref.get_selected(); 
+                		ref.open_node(sel); 
+
+                		if(data.form.action == 'post') {
+                			//Select parent node
+                			switch(data.node.nodeProperties.parent) {
+								case 'first.child.node':
+								    parentNode = ref.get_children_dom(sel).first();
+								    break;
+								case 'current.node':
+								    parentNode = sel;
+								    break;
+							} 
+
+						    //Create the new node attach to parent node
+							new_node = ref.create_node(parentNode,data.node.nodeStructure);	
+
+							//Select the new node
+							if(data.node.nodeProperties.select){
+						    	ref.deselect_node(sel, true);
+						    	ref.select_node(new_node);
+							}
+							else {
+								ref.open_node(parentNode); 
+							}
+						}
+						else if(data.form.action == 'put') {
+
+							//Rename node
+							if(data.node != null) {
+		            			ref.rename_node(data.node.nodeStructure.id, data.node.nodeStructure.text);
+							}
+		            	}
+		            	else if(data.form.action == 'delete') {
+
+		            		//Delete selected node
+		            		ref.delete_node(data.node.nodeStructure.id); 
+		            	}
+
+		            	//Close the modal
+		            	$(modalId).modal('hide'); 
+
+		            	//Update Screen
+		            	if(data.html != null) {
+		            		$(validTarget).html(data.html);
+		            	}
+		            	
+		            	$('button[role="iconpicker"]').iconpicker();
+		            }
+		            else {
+						$('#ajax-modal').html(data.html);
+		            }
+                },
+                error: function(data) {
+                    alert('error');
+                }
+            });
+        };
+
+        //When choose Property type to create
+        $(document).on("change", 'form[name="property_form_choice"]', function(event){
+		    var $data, $form, $htmlTarget; 
+
+		    $data = { formMode : $(this).find('input[type="radio"]:checked').val()}; 
+		    $form = $(this); 
+		    $htmlTarget = "#ajax-modal"; 
+
+		    sendToAjax($form.attr('method'), $form.attr('action'), $data, $htmlTarget);
+		});
+
+        //When select an icon by using iconpicker button
+        $(document).on("change", 'button[role="iconpicker"]', function(event){
+		   	var $button; 
+
+		   	$button = $(this); 
+		    sendToAjax('PUT', $button.attr('ajax-action'), {icon : event.icon}, null);
+		});
+
+        //When change the state of a checkbox
+        $(document).on("change", 'input[type="checkbox"]', function(event){
+		    $checkbox = $(this); 
+		    sendToAjax('PUT', $checkbox.attr('ajax-action'), {name : $checkbox.attr("name"), value : $checkbox.is(':checked')}, null);
+		});
+
+        //When change state of switch button ON/OFF
+        $(document).on('switchChange.bootstrapSwitch', 'input[skin="bootstrap-switch"]', function(event, state) {
+        	$bootstrapSwitch = $(this); 
+		    sendToAjax('PUT', $bootstrapSwitch.attr('ajax-action'), {value : state}, null);
+		});
+
+        //When define calculated name of an object 
+        $(document).on('click', '#object_name_designer_button button', function(event) {
+        	
+        	var $button, $input, $initialValue; 
+ 
+        	$button = $(this); 
+        	$input = $('#object_calculated_name_calculatedName');
+        	$input.insertAtCaret('%'+$button.attr('title')+'%');
+
+		});
+
+        /**
+	     * Submit data by using ajax
+	     *
+	     * @param String $method Ajax method used to send data
+	     * @param String $url  Url where data are send
+	     * @param JSonArray $data Data to send
+	     * @param String $htmlTarget Html section to modify after success
+	     *
+	     */
+		function sendToAjax($method, $url, $data, $htmlTarget) {
+        	$.ajax({
+		        type: $method,
+		        url: $url,
+		        data: $data,
+		        success: function(data) {
+
+		        	if($htmlTarget != null) {
+		        		$($htmlTarget).html(data);
+		            	$('button[role="iconpicker"]').iconpicker();
+		            	$('input[skin="bootstrap-switch"]').bootstrapSwitch();
+		        	}
+
+		        	if(data.icon != null) {
+		        		//Get JSTree
+					    ref = $('#jstree').jstree(true);
+
+					    //Change JSTree icon    	
+					    ref.set_icon(data.id, data.icon); 
+		        	}
+		        },
+		        error: function(data) {	           
+			        alert('error');
+		        }
+		    }); 
+        };
+	}); 
+</script>

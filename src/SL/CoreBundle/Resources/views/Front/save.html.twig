@@ -1,0 +1,17 @@
+{% extends "SLCoreBundle::modalContent.html.twig" %}
+
+{% block modal_title %}{{ action|trans }} {{ 'object'|trans }}{% endblock %}
+
+{% block modal_body %}
+
+	{% if action == 'delete' %}
+		<div class="text-center">
+			{{ 'object.delete.message'|trans}}
+		</div>
+	{% endif %}
+
+	<br/>
+
+	{{ form(form) }}
+
+{% endblock %}

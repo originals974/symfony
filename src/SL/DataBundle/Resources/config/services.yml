@@ -1,0 +1,7 @@
+parameters:
+#    sl_data.example.class: SL\DataBundle\Example
+
+services:
+#    sl_data.example:
+#        class: %sl_data.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

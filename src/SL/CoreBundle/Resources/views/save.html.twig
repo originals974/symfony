@@ -1,0 +1,32 @@
+{% from 'MopaBootstrapBundle::macros.html.twig' import label %}
+{% extends "SLCoreBundle::modalContent.html.twig" %}
+
+{% set delete_message = form.vars.full_name ~ '.' ~ form.vars.method|lower ~ '.message' %}
+
+{% block modal_title %}
+	{% if object is defined %}
+		<h2>{{ object.displayName }}|<small>{{ form.vars.method|lower|trans}}</small></h2>
+	{% else %}
+		{% set title = form.vars.full_name ~ '.' ~ form.vars.method|lower ~ '.title' %}
+		{{ title|lower|trans}}
+	{% endif %}
+{% endblock %}
+
+{% block modal_body %}
+
+	{% if form.vars.method|lower == 'delete' %}
+		<div class="text-center">
+			{{ delete_message|trans({'%displayName%': entity.displayName})}}
+		</div>
+	{% endif %}
+
+	<br/>
+	
+	{% if formChoice is defined %}
+		{{ form(formChoice) }}
+	{% endif %}
+
+	{{ form(form) }}
+{% endblock %}
+
+{% block modal_footer %}{% endblock %}

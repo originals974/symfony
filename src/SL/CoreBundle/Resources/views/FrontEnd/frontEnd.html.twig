@@ -1,0 +1,39 @@
+{% extends '::base.html.twig' %}
+
+{% block header %}
+	{{ parent() }}
+
+	{# Menu section #}
+	{% block top_menu %}
+	    {% embed '@MopaBootstrap/Navbar/navbar.html.twig' with {fixedTop: true, staticTop: false, inverse: true}  %}
+	        {% block brand %}
+	            <a class="navbar-brand" href="#">{{ 'main_application.name'|trans }}</a>
+	        {% endblock %}
+	        {% block menu %}
+	            {{ mopa_bootstrap_menu('SLCoreBundle:Builder:frontMenu') }}
+	        {% endblock %}
+	    {% endembed %}
+	{% endblock %}
+{% endblock %}
+
+
+{% block nav %}
+	{{ parent() }}
+	{% embed '@MopaBootstrap/Navbar/navbar.html.twig' with {fixedTop: false, staticTop: false, inverse: false}  %}
+        {% block menu %}
+        	<div class="col-md-3">
+            	{{ mopa_bootstrap_menu('SLCoreBundle:Builder:lateralFrontEndMenu') }}
+            </div>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+
+{% block footer %}
+	{{ parent() }}
+	{{ 'frontEnd'|trans }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% include 'SLCoreBundle:FrontEnd:FrontEnd.js.twig' only %} 
+{% endblock %}

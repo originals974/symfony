@@ -1,0 +1,7 @@
+search:
+    pattern:  /
+    defaults: { _controller: "SLCoreBundle:Search:index" }
+
+search_process:
+    pattern:  /process
+    defaults: { _controller: "SLCoreBundle:Search:Process" }

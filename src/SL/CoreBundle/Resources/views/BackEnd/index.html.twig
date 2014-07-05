@@ -1,0 +1,11 @@
+{% extends 'SLCoreBundle:BackEnd:backEnd.html.twig' %}
+
+{% block head_title %}
+    {{ parent() }} - {{ 'backEnd.welcome'|trans }}
+{% endblock %}
+
+{% block sections %}
+    {{ parent() }}
+    <section id="backEndSection">
+    </section>
+{% endblock %}

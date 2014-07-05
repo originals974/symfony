@@ -1,0 +1,33 @@
+<tr id = "{{ object.technicalName }}_{{ entity.id }}">
+    {% for property in properties %}
+        {% if loop.first %}
+            <td>{{ attribute(entity, 'displayName') }}</td>
+        {% endif %}
+
+        {% if property.fieldType.dataType == 'date' %}
+            <td>{{ attribute(entity, property.technicalName)|date("d/m/Y") }}</td>
+        {% elseif  property.fieldType.technicalName == 'entity' %}
+            <td>
+            {% set entityProperties = attribute(entity, property.technicalName) %}
+            {% for entityProperty in entityProperties %}
+                {{ entityProperty.name }}
+                {% if not loop.last %}
+                    ,
+                {% endif %}
+            {% endfor %}
+            </td>
+        {% else %}
+            <td>{{ attribute(entity, property.technicalName) }}</td>
+        {% endif %}
+    {% endfor %}
+    <td>
+        <div class="btn-group">              
+            <a class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('front_edit', { 'object_id': object.id, 'entity_id': entity.id }) }}" data-target="#">
+                <span class="fa fa-pencil"></span>
+            </a>       
+            <a class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('front_remove', { 'object_id': object.id, 'entity_id': entity.id }) }}" data-target="#">
+               <span class="fa fa-times"></span>       
+            </a>
+        </div>
+    </td>
+</tr>

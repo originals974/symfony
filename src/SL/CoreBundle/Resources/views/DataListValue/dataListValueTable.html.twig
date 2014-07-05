@@ -1,0 +1,45 @@
+{% if dataList.dataListValues|length == 0 %}
+    <div class="text-center">
+        <i>{{ 'dataListValue.create.description'|trans }}</i>
+        <br/>
+        <a title="{{ 'datalistvalue.add'|trans }}" class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('data_list_value_new', { 'id': dataList.id }) }}" data-target="#">
+            <span class="fa fa-plus"></span>  
+        </a>   
+    </div>
+{% else %}
+    <table class="table table-striped table-condensed table-hover table-bordered">
+        <thead>
+            <tr>
+                <th style="width:100px;">
+                    <a title="{{ 'datalistvalue.add'|trans }}" class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('data_list_value_new', { 'id': dataList.id }) }}" data-target="#">
+                        <span class="fa fa-plus"></span>  
+                    </a>
+                </th>
+                <th style="width:60px;">{{ 'isEnabled'|trans }}</th>
+                <th>{{ 'displayName'|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dataListValue in dataList.dataListValues %}
+                <tr>
+                    <td>
+                        <div class="btn-group"> 
+                            <button title="{{ 'datalistvalue.change.icon'|trans }}" class="btn btn-default btn-xs" role="iconpicker" data-iconset="fontawesome" data-icon="{{ dataListValue.icon }}" data-rows="6" data-cols="6" data-placement="bottom" ajax-action={{ path('data_list_value_update_icon', { 'id': dataListValue.id }) }}></button>
+                            <a title="{{ 'datalistvalue.delete'|trans }}" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#" href="{{ path('data_list_value_remove', { 'id': dataListValue.id }) }}" >
+                                <span class="fa fa-times"></span>        
+                            </a>
+                        </div>
+                    </td>
+                    <td>
+                        <input title="{{ 'datalistvalue.enable.disable'|trans }}" type="checkbox" name="isEnabled" value="isEnabled" {% if dataListValue.isEnabled %}checked{% endif %} ajax-action={{ path('data_list_value_update_checkbox', { 'id': dataListValue.id }) }}>
+                    </td>
+                    <td>
+                        <a title="{{ 'datalistvalue.update'|trans }}" data-toggle="modal" data-target="#" href="{{ path('data_list_value_edit', { 'id': dataListValue.id }) }}">
+                            {{ dataListValue.displayName }}  
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}

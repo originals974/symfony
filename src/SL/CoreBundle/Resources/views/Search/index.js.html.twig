@@ -1,0 +1,92 @@
+<script type="text/javascript">    
+	$(document).ready(function() {
+
+		$('#sl_corebundle_search').on('submit', function(event) {
+            formSendToAjax($(this));
+            return false;
+        });
+
+        function formSendToAjax($form) {
+		    var $validTarget = $($form.attr('valid-data-target'));
+		    var $noValidTarget = $($form.attr('no-valid-data-target'));
+
+		    $.ajax({
+		        type: $form.attr('method'),
+		        url: $form.attr('action'),
+		        data: $form.serializeArray(),
+		        success: function($data) {
+	            	$('#tree').treeview({
+						data: $data,
+						levels: 0,
+						expandIcon: 'glyphicon glyphicon-plus',
+		  				collapseIcon: 'glyphicon glyphicon-minus',
+						showBorder: false,
+					});  
+
+					$('#tree').on('nodeSelected', function(event, node) {
+					    alert(node.objectType); 
+					});
+		        },
+		        error: function(data) {
+		            alert('error');
+		        }
+		    });
+		};
+
+
+
+
+
+		/*var tree = [
+						  {
+						  	id: 1,
+						  	objectType: "Jeune",
+						    text: "Parent 1",
+						    icon: "glyphicon-euro",
+						    nodes: [
+						      {
+						        text: "Child 1",
+						        nodes: [
+						          {
+						            text: "Grandchild 1"
+						          },
+						          {
+						            text: "Grandchild 2"
+						          }
+						        ]
+						      },
+						      {
+						        text: "Child 2"
+						      }
+						    ]
+						  },
+						  {
+						    text: "Parent 2"
+						  },
+						  {
+						    text: "Parent 3"
+						  },
+						  {
+						    text: "Parent 4"
+						  },
+						  {
+						    text: "Parent 5"
+						  }
+						];*/
+
+
+
+
+			$('#tree').treeview({
+				data: tree,
+				expandIcon: 'glyphicon glyphicon-stop',
+  				collapseIcon: 'glyphicon glyphicon-unchecked',
+				showBorder: false,
+			});  
+
+			$('#tree').on('nodeSelected', function(event, node) {
+			    alert(node.objectType); 
+			});
+	});
+
+</script>

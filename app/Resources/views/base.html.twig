@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block head_title %}{{ 'main_application.name'|trans }}{% endblock %}</title>
+        
+        {# CSS section #}
+        {% block stylesheets %}
+            <!--JQuery CSS Library-->
+            <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
+
+            <!--Bootstrap CSS Library-->
+            <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+            <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+
+            <!--FontAwesome CSS Library-->
+            <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css" rel="stylesheet">
+
+            <!--Assetic CSS-->
+            {% stylesheets '@bootstrap_modal_css' 'bundles/slcore/css/*' 'bundles/slcore/css/jstree/style.min.css' filter='cssrewrite' %}
+                <link rel="stylesheet" href="{{ asset_url }}" />
+            {% endstylesheets %}
+
+            <!--Favicon-->
+            <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        {% endblock %}
+    </head>
+
+    <body class="page-container">
+        <div id="section">
+            <!--Preloader-->
+            <!--<div id="preloader">
+                <div id="status">&nbsp;</div>
+            </div>-->
+
+            <!--Header section-->
+            <header class="row"> 
+                {% block header %}{% endblock %}
+            </header>
+
+            <div class="row">
+                <!--Navigation section-->
+                <nav class="col-md-3">
+                    {% block nav %}{% endblock %}
+                </nav>
+
+                <!--Main section-->
+                <section class="col-md-9">
+                    {% block sections %}{% endblock %}
+                </section>
+            </div>
+
+            <!--Footer section-->
+            <footer class="row">
+                <nav class="navbar navbar-default navbar-fixed-bottom">
+                    <div class="navbar-inner navbar-content-center">
+                        {% block footer %}
+                            <p class="text-muted credit text-center">{{ app_version }}</p>
+                        {% endblock %}
+                    </div>
+                </nav>
+            </footer>
+
+            <!--Modal-->
+            <div id="ajax-modal" class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="false" style="display:none;"></div>
+
+            <!--Javascript section-->
+            {% block javascripts %}
+                <!--JQuery JS Library-->
+                <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+                <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+
+                <!--Bootstrap JS Library-->
+                <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+                <!--Assetic JS-->
+                {% javascripts '@mopabootstrap_js' '@bootstrap_modal_js' '@custom_js' '@bootstrap_treeview_js' '@tree_js' '@fos_js_routting_js' %}
+                    <script src="{{ asset_url }}"></script>
+                {% endjavascripts %}
+
+                <!--FosJsRouting-->
+                <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+
+                <!--Specific JS-->
+                {% include '::base.js.html.twig' only %} 
+            {% endblock %}
+        </div>
+    </body>
+</html>

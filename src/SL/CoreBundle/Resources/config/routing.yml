@@ -1,0 +1,48 @@
+#Main
+sl_core_main:
+    resource: "@SLCoreBundle/Resources/config/routing/main.yml"
+    prefix: /
+
+#Server
+sl_core_server:
+    resource: "@SLCoreBundle/Resources/config/routing/server.yml"
+    prefix: /back_end/server
+
+#Object
+sl_core_object:
+    resource: "@SLCoreBundle/Resources/config/routing/object.yml"
+    prefix: /back_end/object
+
+#Property
+sl_core_property:
+    resource: "@SLCoreBundle/Resources/config/routing/property.yml"
+    prefix: /back_end/object/property
+
+#DataList
+sl_core_data_list:
+    resource: "@SLCoreBundle/Resources/config/routing/dataList.yml"
+    prefix: /back_end/data_list
+
+#DataListValue
+sl_core_data_list_value:
+    resource: "@SLCoreBundle/Resources/config/routing/dataListValue.yml"
+    prefix: /back_end/data_list_value
+
+#Front
+sl_core_font:
+    resource: "@SLCoreBundle/Resources/config/routing/front.yml"
+    prefix: /front_end
+
+#Search
+sl_core_search:
+    resource: "@SLCoreBundle/Resources/config/routing/search.yml"
+    prefix: /search
+
+#Authentification
+login:
+    pattern:   /login
+    defaults:  { _controller: SLCoreBundle:Default:login }
+
+login_check:
+    pattern:   /login_check
+

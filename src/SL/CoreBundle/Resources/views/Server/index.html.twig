@@ -1,0 +1,16 @@
+{% set panelClass = 'panel panel-info' %}
+
+{% embed 'SLCoreBundle::sectionSkeleton.html.twig' with {
+    'panelClass':panelClass,
+    } only
+%}
+
+    {% block section_heading %}
+        <h4>{{ 'server.index.title' | trans }}</h4>
+    {% endblock %}
+
+    {% block section_body %}
+       {{ 'server.index.description' | trans }}
+    {% endblock %}
+
+{% endembed %}

@@ -1,0 +1,51 @@
+property_new:
+    pattern:  /{id}/new
+    defaults: { _controller: "SLCoreBundle:Property:new"}
+    requirements:
+        id:  \d+
+
+property_choice_form:
+    pattern:  /{id}/choice_form
+    defaults: { _controller: "SLCoreBundle:Property:choiceForm"}
+    requirements:
+        id:  \d+
+
+property_create:
+    pattern:  /{id}/create/{formMode}
+    defaults: { _controller: "SLCoreBundle:Property:create"}
+    requirements: 
+        id:  \d+
+        _method: post 
+
+property_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "SLCoreBundle:Property:edit" }
+    requirements: 
+        id:  \d+
+
+property_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "SLCoreBundle:Property:update" }
+    requirements: 
+        id: \d+
+        _method: put
+
+property_remove:
+    pattern:  /{id}/remove
+    defaults: { _controller: "SLCoreBundle:Property:remove" }
+    requirements:
+        id:  \d+
+
+property_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "SLCoreBundle:Property:delete" }
+    requirements:
+        id: \d+
+        _method: delete 
+
+property_update_checkbox:
+    pattern:  /{id}/updateCheckbox
+    defaults: { _controller: "SLCoreBundle:Property:updateCheckbox" }
+    requirements: 
+        id: \d+
+        _method: put

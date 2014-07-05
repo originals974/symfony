@@ -1,0 +1,45 @@
+parameters:
+    sl_core.doctrine.bundle: SL/DataBundle
+
+services:
+    sl_core.doctrine:
+        class: SL\CoreBundle\Services\DoctrineService
+        arguments: [@filesystem, @doctrine, @kernel, %sl_core.doctrine.bundle%]
+
+    sl_core.jsTree:
+        class: SL\CoreBundle\Services\JSTreeService
+        arguments: [@router, @translator, @sl_core.icon]
+
+    sl_core.icon:
+        class: SL\CoreBundle\Services\IconService
+
+    sl_core.object:
+        class: SL\CoreBundle\Services\ObjectService
+        arguments: [@doctrine.orm.entity_manager, @translator]
+
+    sl_core.property:
+        class: SL\CoreBundle\Services\PropertyService
+        arguments: [@doctrine.orm.entity_manager, @translator]
+
+    sl_core.dataList:
+        class: SL\CoreBundle\Services\DataListService
+        arguments: [@doctrine.orm.entity_manager, @translator]
+
+    sl_core.class:
+        class: SL\CoreBundle\Services\ClassService
+
+    sl_core.elastica:
+        class: SL\CoreBundle\Services\ElasticaService
+        arguments: [@doctrine.orm.entity_manager, @fos_elastica.index.slcore]
+
+    twig.text_extension:
+        class: Twig_Extensions_Extension_Text
+        tags:
+            - name: twig.extension
+
+    #Validator
+    validator.unique.calculated_name_pattern:
+        class: SL\CoreBundle\Validator\Constraints\CalculatedNamePatternValidator
+        arguments: [@doctrine.orm.entity_manager]
+        tags:
+            - { name: validator.constraint_validator, alias: calculated_name_pattern }

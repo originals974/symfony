@@ -1,0 +1,52 @@
+data_list_value_new:
+    pattern:  /{id}/new
+    defaults: { _controller: "SLCoreBundle:DataListValue:new"}
+    requirements:
+        id:  \d+
+
+data_list_value_create:
+    pattern:  /{id}/create
+    defaults: { _controller: "SLCoreBundle:DataListValue:create"}
+    requirements: 
+        id:  \d+
+        _method: post 
+
+data_list_value_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "SLCoreBundle:DataListValue:edit" }
+    requirements: 
+        id:  \d+
+
+data_list_value_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "SLCoreBundle:DataListValue:update" }
+    requirements: 
+        id: \d+
+        _method: put
+
+data_list_value_remove:
+    pattern:  /{id}/remove
+    defaults: { _controller: "SLCoreBundle:DataListValue:remove" }
+    requirements:
+        id: \d+
+
+data_list_value_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "SLCoreBundle:DataListValue:delete" }
+    requirements:
+        id:  \d+
+        _method: delete 
+
+data_list_value_update_icon:
+    pattern:  /{id}/updateIcon
+    defaults: { _controller: "SLCoreBundle:DataListValue:updateIcon" }
+    requirements: 
+        id: \d+
+        _method: put
+
+data_list_value_update_checkbox:
+    pattern:  /{id}/updateCheckbox
+    defaults: { _controller: "SLCoreBundle:DataListValue:updateCheckbox" }
+    requirements: 
+        id: \d+
+        _method: put

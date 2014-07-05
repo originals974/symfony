@@ -1,0 +1,35 @@
+<script type="text/javascript">    
+    /*$(window).load(function() {
+        $('#status').fadeOut();
+        $('#preloader').delay(300).fadeOut('slow'); 
+        $('body').delay(300).css({'overflow':'visible'});
+    })*/
+           
+    $(document).ready(function() {
+
+        //Manage modal windows
+        $.fn.modal.defaults.spinner = $.fn.modalmanager.defaults.spinner = 
+            '<div class="loading-spinner" style="width: 200px; margin-left: -100px;">' +
+                '<div class="progress progress-striped active">' +
+                    '<div class="progress-bar" style="width: 100%;"></div>' +
+                '</div>' +
+            '</div>';
+
+        var modalId = '#ajax-modal'
+        var $modal = $(modalId);
+ 
+        $(document).on('click', '[data-toggle=modal]', function(){
+
+            $('body').modalmanager('loading');
+            
+            var current = this;
+            var href = $(current).attr('href'); 
+
+            setTimeout(function(){
+                $modal.load(href, '', function(){
+                    $modal.modal();
+                });
+            }, 1000);
+        });
+    });
+</script>

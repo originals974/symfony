@@ -1,0 +1,14 @@
+{% extends 'SLCoreBundle:FrontEnd:frontEnd.html.twig' %}
+
+{% block body %}
+
+	{{ form(form) }}
+
+    <div id="tree"></div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    {% include 'SLCoreBundle:Search:index.js.html.twig' only %} 
+{% endblock %}
