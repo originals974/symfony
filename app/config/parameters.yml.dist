@@ -16,5 +16,5 @@ parameters:
     mailer_user: null
     mailer_password: null
     locale: fr
-    secret: ThisTokenIsNotSoSecretChangeIt
+    secret: 1443237523556754187614
     application_version: 0.1.0_RC1

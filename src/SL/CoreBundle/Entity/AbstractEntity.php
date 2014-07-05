@@ -75,7 +75,6 @@ abstract class AbstractEntity
      */
     public function setTechnicalName($entityType)
     {
-        //$id = ($this->getId() != null)?'_'.strval($this->getId()):null; 
         $this->technicalName = $entityType.$this->getId();
 
         return $this;
