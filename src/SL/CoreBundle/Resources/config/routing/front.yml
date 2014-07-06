@@ -12,8 +12,8 @@ front_create:
     pattern:  /{id}/create
     defaults: { _controller: SLCoreBundle:Front:create }
     requirements: 
-        _method:  POST 
         id:  \d+
+        _method:  POST 
 front_edit:
     pattern:  /{object_id}.{entity_id}/edit
     defaults: { _controller: SLCoreBundle:Front:edit }
