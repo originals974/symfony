@@ -21,7 +21,7 @@
 
         "mopa/bootstrap-bundle": "dev-master",
         "twbs/bootstrap": "dev-master",
-        "knplabs/knp-paginator-bundle": "dev-master",
+        "knplabs/knp-paginator-bundle": "2.4.*@dev",
         "knplabs/knp-menu-bundle": "dev-master",
         "knplabs/knp-menu": "dev-master",
         "leafo/lessphp": "dev-master",
