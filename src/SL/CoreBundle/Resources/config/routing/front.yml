@@ -12,7 +12,7 @@ front_create:
     pattern:  /{id}/create
     defaults: { _controller: SLCoreBundle:Front:create }
     requirements: 
-        _method: POST 
+        _method:  POST 
         id:  \d+
 front_edit:
     pattern:  /{object_id}.{entity_id}/edit
@@ -26,7 +26,7 @@ front_update:
     requirements: 
         object_id:  \d+
         entity_id: \d+
-        _method: PUT
+        _method:  PUT
 front_remove:
     pattern:  /{object_id}.{entity_id}/remove
     defaults: { _controller: SLCoreBundle:Front:remove }
@@ -39,7 +39,7 @@ front_delete:
     requirements:
         object_id:  \d+
         entity_id: \d+
-        _method: DELETE 
+        _method:  DELETE 
 front_tree_view:
     pattern:  /tree_view
     defaults: { _controller: SLCoreBundle:Front:treeView }
