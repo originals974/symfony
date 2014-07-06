@@ -1,7 +1,6 @@
 front_end:
     pattern: /front_end
     defaults: { _controller: SLCoreBundle:Main:indexFrontEnd }
-
 back_end:
     pattern: /back_end
     defaults: { _controller: SLCoreBundle:Main:indexBackEnd }
