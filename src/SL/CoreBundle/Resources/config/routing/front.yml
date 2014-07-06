@@ -3,27 +3,23 @@ front:
     defaults: { _controller: SLCoreBundle:Front:index }
     requirements:
         id: \d+
-
 front_new:
     pattern: /{id}/new
     defaults: { _controller: SLCoreBundle:Front:new }
     requirements:
         id: \d+
-
 front_create:
     pattern: /{id}/create
     defaults: { _controller: SLCoreBundle:Front:create }
     requirements:
         id: \d+
         _method: POST 
-
 front_edit:
     pattern: /{object_id}.{entity_id}/edit
     defaults: { _controller: SLCoreBundle:Front:edit }
     requirements:
         object_id: \d+
         entity_id: \d+
-
 front_update:
     pattern: /{object_id}.{entity_id}/update
     defaults: { _controller: SLCoreBundle:Front:update }
@@ -31,14 +27,12 @@ front_update:
         object_id: \d+
         entity_id: \d+
         _method: PUT
-
 front_remove:
     pattern: /{object_id}.{entity_id}/remove
     defaults: { _controller: SLCoreBundle:Front:remove }
     requirements:
         object_id: \d+
         entity_id: \d+
-
 front_delete:
     pattern: /{object_id}.{entity_id}/delete
     defaults: { _controller: SLCoreBundle:Front:delete }
@@ -46,7 +40,6 @@ front_delete:
         object_id: \d+
         entity_id: \d+
         _method: DELETE
-        
 front_tree_view:
     pattern: /tree_view
     defaults: { _controller: SLCoreBundle:Front:treeView }
