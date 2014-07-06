@@ -33,7 +33,7 @@
         "genemu/form-bundle": "2.2.*",
         "jschr/bootstrap-modal": "dev-master",
         "stof/doctrine-extensions-bundle": "~1.1@dev",
-        "friendsofsymfony/elastica-bundle": "3.0.*@dev",
+        "friendsofsymfony/elastica-bundle": "3.0.*@alpha",
         "jms/serializer-bundle": "0.13.*@dev",
         "shivas/versioning-bundle": "dev-master",
         "friendsofsymfony/jsrouting-bundle": "@stable",
