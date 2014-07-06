@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f1d45b2e42d70e67a92aa8215199ece4",
+    "hash": "bac1036360ff11317271c3f2d144ea6b",
     "packages": [
         {
             "name": "coresphere/console-bundle",
@@ -1706,16 +1706,16 @@
         },
         {
             "name": "jschr/bootstrap-modal",
-            "version": "dev-master",
+            "version": "2.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jschr/bootstrap-modal.git",
-                "reference": "6f852200a560d8da550cbe41e256cffc0dd4b6e3"
+                "reference": "d2a0270d82f8e6b7655583b42e7f402479610b0f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jschr/bootstrap-modal/zipball/6f852200a560d8da550cbe41e256cffc0dd4b6e3",
-                "reference": "6f852200a560d8da550cbe41e256cffc0dd4b6e3",
+                "url": "https://api.github.com/repos/jschr/bootstrap-modal/zipball/d2a0270d82f8e6b7655583b42e7f402479610b0f",
+                "reference": "d2a0270d82f8e6b7655583b42e7f402479610b0f",
                 "shasum": ""
             },
             "type": "library",
@@ -1737,7 +1737,7 @@
                 "javascript",
                 "modal"
             ],
-            "time": "2014-05-22 14:15:47"
+            "time": "2014-04-28 13:25:25"
         },
         {
             "name": "knplabs/knp-components",
@@ -2627,17 +2627,17 @@
         },
         {
             "name": "shivas/versioning-bundle",
-            "version": "dev-master",
+            "version": "1.0.1",
             "target-dir": "Shivas/VersioningBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/shivas/versioning-bundle.git",
-                "reference": "2d27fec8e4e52fd4894d4de7f4b2155437044382"
+                "reference": "20c91a5993c898b25866185c56c684bdfc073158"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/shivas/versioning-bundle/zipball/2d27fec8e4e52fd4894d4de7f4b2155437044382",
-                "reference": "2d27fec8e4e52fd4894d4de7f4b2155437044382",
+                "url": "https://api.github.com/repos/shivas/versioning-bundle/zipball/20c91a5993c898b25866185c56c684bdfc073158",
+                "reference": "20c91a5993c898b25866185c56c684bdfc073158",
                 "shasum": ""
             },
             "require": {
@@ -2669,7 +2669,7 @@
                 "version",
                 "versioning"
             ],
-            "time": "2013-12-18 16:24:58"
+            "time": "2013-12-18 12:57:54"
         },
         {
             "name": "stof/doctrine-extensions-bundle",
@@ -3139,12 +3139,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twbs/bootstrap.git",
-                "reference": "83c9510da25ccfe3b1b3e84cc65af910645d8182"
+                "reference": "a34e52de4d5c95b4c1db448c298ce1ee9d8414c4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/83c9510da25ccfe3b1b3e84cc65af910645d8182",
-                "reference": "83c9510da25ccfe3b1b3e84cc65af910645d8182",
+                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/a34e52de4d5c95b4c1db448c298ce1ee9d8414c4",
+                "reference": "a34e52de4d5c95b4c1db448c298ce1ee9d8414c4",
                 "shasum": ""
             },
             "replace": {
@@ -3182,7 +3182,7 @@
                 "responsive",
                 "web"
             ],
-            "time": "2014-07-04 00:41:42"
+            "time": "2014-07-06 07:36:52"
         },
         {
             "name": "twig/extensions",
@@ -3454,11 +3454,9 @@
         "jms/di-extra-bundle": 20,
         "symfony/yaml": 20,
         "symfony/filesystem": 20,
-        "jschr/bootstrap-modal": 20,
         "stof/doctrine-extensions-bundle": 20,
         "friendsofsymfony/elastica-bundle": 15,
         "jms/serializer-bundle": 20,
-        "shivas/versioning-bundle": 20,
         "friendsofsymfony/jsrouting-bundle": 0,
         "willdurand/js-translation-bundle": 0,
         "doctrine/doctrine-fixtures-bundle": 20
