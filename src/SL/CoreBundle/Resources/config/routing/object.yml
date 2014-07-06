@@ -1,87 +1,81 @@
 object:
     pattern: /{isDocument}
-    defaults: { _controller: SLCoreBundle:Object:index }
+    defaults: { _controller: SLCoreBundle:ObjectCRD:index }
 
 object_new:
     pattern: /{id}/new/{isDocument}
-    defaults: { _controller: SLCoreBundle:Object:new, id:0 }
+    defaults: { _controller: SLCoreBundle:ObjectCRD:new, id:0 }
     requirements:
         id: \d+
 
 object_create:
     pattern: /{id}/create/{isDocument}
-    defaults: { _controller: SLCoreBundle:Object:create, id:0 }
+    defaults: { _controller: SLCoreBundle:ObjectCRD:create, id:0 }
     requirements:
         id: \d+
         _method: POST 
 
 object_edit:
     pattern: /{id}/edit
-    defaults: { _controller: SLCoreBundle:Object:edit }
+    defaults: { _controller: SLCoreBundle:ObjectUpdate:edit }
     requirements:
         id: \d+
 
 object_update:
     pattern: /{id}/update
-    defaults: { _controller: SLCoreBundle:Object:update }
+    defaults: { _controller: SLCoreBundle:ObjectUpdate:update }
     requirements:
         id: \d+
         _method: PUT
 
 object_show:
     pattern: /{id}/show
-    defaults: { _controller: SLCoreBundle:Object:show }
+    defaults: { _controller: SLCoreBundle:ObjectCRD:show }
     requirements:
         id: \d+
 
 object_remove:
     pattern: /{id}/remove
-    defaults: { _controller: SLCoreBundle:Object:remove }
+    defaults: { _controller: SLCoreBundle:ObjectCRD:remove }
     requirements:
         id: \d+
 
 object_delete:
     pattern: /{id}/delete
-    defaults: { _controller: SLCoreBundle:Object:delete }
+    defaults: { _controller: SLCoreBundle:ObjectCRD:delete }
     requirements:
         id: \d+
         _method: DELETE
 
 object_update_icon:
     pattern: /{id}/updateIcon
-    defaults: { _controller: SLCoreBundle:Object:updateIcon }
+    defaults: { _controller: SLCoreBundle:ObjectUpdate:updateIcon }
     requirements:
         id: \d+
         _method: PUT 
 
 object_update_checkbox:
     pattern: /{id}/updateCheckbox
-    defaults: { _controller: SLCoreBundle:Object:updateCheckbox }
+    defaults: { _controller: SLCoreBundle:ObjectUpdate:updateCheckbox }
     requirements:
         id: \d+
         _method: PUT 
 
 object_edit_calculated_name:
     pattern: /{id}/editCalculatedName
-    defaults: { _controller: SLCoreBundle:Object:editCalculatedName }
+    defaults: { _controller: SLCoreBundle:ObjectUpdate:editCalculatedName }
     requirements:
         id: \d+
 
 object_update_calculated_name:
     pattern:  /{id}/updateCalculatedName
-    defaults: { _controller: SLCoreBundle:Object:updateCalculatedName }
+    defaults: { _controller: SLCoreBundle:ObjectUpdate:updateCalculatedName }
     requirements:
         id: \d+
         _method: PUT
 
-object_synchronisation:
-    pattern: /synchronisation
-    defaults: { _controller: SLCoreBundle:Object:synchronisation }
-    requirements:
-        id: \d+
-
 object_refresh_calculated_name:
     pattern: /{id}/refreshCalculatedName
-    defaults: { _controller: SLCoreBundle:Object:refreshCalculatedName }
+    defaults: { _controller: SLCoreBundle:ObjectUpdate:refreshCalculatedName }
     requirements:
         id: \d+
