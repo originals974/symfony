@@ -1,45 +1,52 @@
 front:
-    pattern:  /{id}
+    pattern: /{id}
     defaults: { _controller: SLCoreBundle:Front:index }
     requirements:
-        id:  \d+
+        id: \d+
+
 front_new:
-    pattern:  /{id}/new
+    pattern: /{id}/new
     defaults: { _controller: SLCoreBundle:Front:new }
     requirements:
-        id:  \d+
+        id: \d+
+
 front_create:
-    pattern:  /{id}/create
+    pattern: /{id}/create
     defaults: { _controller: SLCoreBundle:Front:create }
-    requirements: 
-        id:  \d+
-        _method:  POST 
+    requirements:
+        id: \d+
+        _method: POST 
+
 front_edit:
-    pattern:  /{object_id}.{entity_id}/edit
+    pattern: /{object_id}.{entity_id}/edit
     defaults: { _controller: SLCoreBundle:Front:edit }
-    requirements: 
-        object_id:  \d+
+    requirements:
+        object_id: \d+
         entity_id: \d+
+
 front_update:
-    pattern:  /{object_id}.{entity_id}/update
+    pattern: /{object_id}.{entity_id}/update
     defaults: { _controller: SLCoreBundle:Front:update }
-    requirements: 
-        object_id:  \d+
+    requirements:
+        object_id: \d+
         entity_id: \d+
-        _method:  PUT
+        _method: PUT
+
 front_remove:
-    pattern:  /{object_id}.{entity_id}/remove
+    pattern: /{object_id}.{entity_id}/remove
     defaults: { _controller: SLCoreBundle:Front:remove }
     requirements:
-        object_id:  \d+
+        object_id: \d+
         entity_id: \d+
+
 front_delete:
-    pattern:  /{object_id}.{entity_id}/delete
+    pattern: /{object_id}.{entity_id}/delete
     defaults: { _controller: SLCoreBundle:Front:delete }
     requirements:
-        object_id:  \d+
+        object_id: \d+
         entity_id: \d+
-        _method:  DELETE 
+        _method: DELETE
+        
 front_tree_view:
-    pattern:  /tree_view
+    pattern: /tree_view
     defaults: { _controller: SLCoreBundle:Front:treeView }
