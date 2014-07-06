@@ -5,18 +5,12 @@ namespace SL\CoreBundle\Controller;
 //Symfony classes
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Component\Yaml\Dumper;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use JMS\DiExtraBundle\Annotation as DI;
 
 //Custom classes
 use SL\CoreBundle\Entity\Object;
-use SL\CoreBundle\Form\ObjectType;
 use SL\CoreBundle\Form\FrontType;
-use SL\CoreBundle\Form\DeleteFrontType;
-use SL\DataBundle\Entity; 
 
 /**
  * Front controller.

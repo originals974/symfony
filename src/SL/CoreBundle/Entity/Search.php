@@ -2,8 +2,6 @@
 //TO COMPLETE
 namespace SL\CoreBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
  * Object
  *

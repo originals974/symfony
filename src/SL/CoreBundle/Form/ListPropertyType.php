@@ -4,7 +4,6 @@ namespace SL\CoreBundle\Form;
 
 //Symfony classes
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\ORM\EntityRepository;
 
 class ListPropertyType extends PropertyType

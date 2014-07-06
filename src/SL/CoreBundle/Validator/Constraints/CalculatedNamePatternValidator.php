@@ -6,7 +6,6 @@ namespace SL\CoreBundle\Validator\Constraints;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Doctrine\ORM\EntityManager;
-use Symfony\Component\Translation\Translator;
 
 class CalculatedNamePatternValidator extends ConstraintValidator
 {

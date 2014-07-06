@@ -4,7 +4,6 @@ namespace SL\CoreBundle\Entity;
 
 //Doctrine classes
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\QueryBuilder; 
 
 //Custom classes
 use SL\CoreBundle\Entity\DataList;
