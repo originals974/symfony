@@ -25,7 +25,7 @@
         "knplabs/knp-menu-bundle": "2.0.*@dev",
         "knplabs/knp-menu": "2.0.*@dev",
         "leafo/lessphp": "0.4.*@dev",
-        "coresphere/console-bundle": "dev-master",
+        "coresphere/console-bundle": "dev-stable",
         "jms/translation-bundle": "1.1.*@dev",
         "jms/di-extra-bundle": "1.4.*@dev",
         "symfony/yaml": "2.5.*@dev",
