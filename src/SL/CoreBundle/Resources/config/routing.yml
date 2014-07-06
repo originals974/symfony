@@ -25,7 +25,7 @@ sl_core_data_list:
 
 #DataListValue
 sl_core_data_list_value:
-    resource: "@SLCoreBundle/Resources/config/routing/dataListValue.yml"
+    resource: "@SLCoreBundle/resources/config/routing/dataListValue.yml"
     prefix: /back_end/data_list_value
 
 #Front

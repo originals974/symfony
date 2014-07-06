@@ -1,33 +1,33 @@
 data_list:
     pattern:  /
-    defaults: { _controller: "SLCoreBundle:DataList:index"}
+    defaults: { _controller: SLCoreBundle:DataList:index}
 
 data_list_new:
     pattern:  /new
-    defaults: { _controller: "SLCoreBundle:DataList:new" }
+    defaults: { _controller: SLCoreBundle:DataList:new }
 
 data_list_create:
     pattern:  /create
-    defaults: { _controller: "SLCoreBundle:DataList:create" }
+    defaults: { _controller: SLCoreBundle:DataList:create }
     requirements: 
         _method: post 
 
 data_list_edit:
     pattern:  /{id}/edit
-    defaults: { _controller: "SLCoreBundle:DataList:edit" }
+    defaults: { _controller: SLCoreBundle:DataList:edit }
     requirements:
         id:  \d+
 
 data_list_update:
     pattern:  /{id}/update
-    defaults: { _controller: "SLCoreBundle:DataList:update" }
+    defaults: { _controller: SLCoreBundle:DataList:update }
     requirements: 
         id:  \d+
         _method: put 
 
 data_list_show:
     pattern:  /{id}/show
-    defaults: { _controller: "SLCoreBundle:DataList:show" }
+    defaults: { _controller: SLCoreBundle:DataList:show }
     requirements: 
         id:  \d+
     options:
@@ -35,20 +35,20 @@ data_list_show:
 
 data_list_remove:
     pattern:  /{id}/remove
-    defaults: { _controller: "SLCoreBundle:DataList:remove" }
+    defaults: { _controller: SLCoreBundle:DataList:remove }
     requirements: 
         id:  \d+
 
 data_list_delete:
     pattern:  /{id}/delete
-    defaults: { _controller: "SLCoreBundle:DataList:delete" }
+    defaults: { _controller: SLCoreBundle:DataList:delete }
     requirements: 
         id:  \d+
         _method: delete
 
 data_list_update_checkbox:
     pattern:  /{id}/updateCheckbox
-    defaults: { _controller: "SLCoreBundle:DataList:updateCheckbox" }
+    defaults: { _controller: SLCoreBundle:DataList:updateCheckbox }
     requirements: 
         id:  \d+
         _method: put 
