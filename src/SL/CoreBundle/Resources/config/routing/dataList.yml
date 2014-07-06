@@ -1,54 +1,54 @@
 data_list:
-    pattern:  /
-    defaults: { _controller: SLCoreBundle:DataList:index}
+    pattern: /
+    defaults: { _controller: SLCoreBundle:DataList:index }
 
 data_list_new:
-    pattern:  /new
+    pattern: /new
     defaults: { _controller: SLCoreBundle:DataList:new }
 
 data_list_create:
-    pattern:  /create
+    pattern: /create
     defaults: { _controller: SLCoreBundle:DataList:create }
-    requirements: 
-        _method: post 
+    requirements:
+        _method: POST
 
 data_list_edit:
-    pattern:  /{id}/edit
+    pattern: /{id}/edit
     defaults: { _controller: SLCoreBundle:DataList:edit }
     requirements:
-        id:  \d+
+        id: \d+
 
 data_list_update:
-    pattern:  /{id}/update
+    pattern: /{id}/update
     defaults: { _controller: SLCoreBundle:DataList:update }
-    requirements: 
-        id:  \d+
-        _method: put 
+    requirements:
+        id: \d+
+        _method: PUT
 
 data_list_show:
-    pattern:  /{id}/show
+    pattern: /{id}/show
     defaults: { _controller: SLCoreBundle:DataList:show }
-    requirements: 
-        id:  \d+
+    requirements:
+        id: \d+
     options:
         expose: true
 
 data_list_remove:
-    pattern:  /{id}/remove
+    pattern: /{id}/remove
     defaults: { _controller: SLCoreBundle:DataList:remove }
-    requirements: 
-        id:  \d+
+    requirements:
+        id: \d+
 
 data_list_delete:
-    pattern:  /{id}/delete
+    pattern: /{id}/delete
     defaults: { _controller: SLCoreBundle:DataList:delete }
-    requirements: 
-        id:  \d+
-        _method: delete
+    requirements:
+        id: \d+
+        _method: DELETE
 
 data_list_update_checkbox:
-    pattern:  /{id}/updateCheckbox
+    pattern: /{id}/updateCheckbox
     defaults: { _controller: SLCoreBundle:DataList:updateCheckbox }
-    requirements: 
-        id:  \d+
-        _method: put 
+    requirements:
+        id: \d+
+        _method: PUT 
