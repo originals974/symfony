@@ -22,7 +22,6 @@ use SL\CoreBundle\Form\ObjectCalculatedNameType;
  */
 class ObjectController extends Controller
 {
-    private $doctrine; 
     private $em;
     private $objectService;
     private $propertyService;

@@ -54,7 +54,6 @@ class SearchController extends Controller
             $elasticaResultsSet = $elasticaService->elasticaRequest($search->getSearchField()); 
 
             $elasticaResults  = $elasticaResultsSet->getResults();
-            $totalResults     = $elasticaResultsSet->getTotalHits();
 
             $data = array(); 
 

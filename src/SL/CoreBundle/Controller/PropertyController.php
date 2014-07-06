@@ -166,7 +166,7 @@ class PropertyController extends Controller
                 );
 
                 //Create the Property node in menu tree 
-                $nodeStructure = $this->jstreeService->createNewPropertyNode($object, $property);
+                $nodeStructure = $this->jstreeService->createNewPropertyNode($property);
                 $nodeProperties = array(
                     'parent' => 'current.node',
                     'select' => false,  

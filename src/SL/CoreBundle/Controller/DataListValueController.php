@@ -107,7 +107,7 @@ class DataListValueController extends Controller
                 );
 
                 //Create the DataListValue node in menu tree 
-                $nodeStructure = $this->jstreeService->createNewDataListValueNode($dataList, $dataListValue);
+                $nodeStructure = $this->jstreeService->createNewDataListValueNode($dataListValue);
                 $nodeProperties = array(
                     'parent' => 'current.node',
                     'select' => false,  
@@ -213,7 +213,7 @@ class DataListValueController extends Controller
                 $dataList = $this->em->getRepository('SLCoreBundle:DataList')->findFullById($dataListValue->getDataList()->getId()); 
 
                 $html = $this->renderView('SLCoreBundle:DataListValue:dataListValueTable.html.twig', array(
-                    'dataList' => $dataListValue->getDataList(), 
+                    'dataList' => $dataList(), 
                     )
                 );
 
@@ -408,7 +408,6 @@ class DataListValueController extends Controller
     {
         if ($request->isXmlHttpRequest()) {
 
-            $name = $request->request->get('name'); 
             $value = ($request->request->get('value')=='true')?true:false;
 
             $dataListValue->setIsEnabled($value);      

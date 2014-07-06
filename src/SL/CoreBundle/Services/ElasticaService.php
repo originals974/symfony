@@ -16,7 +16,6 @@ use FOS\ElasticaBundle\DynamicIndex;
 class ElasticaService
 {
     private $em;
-    private $elasticaType; 
 
     public function __construct(EntityManager $em, DynamicIndex $elasticaIndex)
     {

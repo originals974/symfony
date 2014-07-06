@@ -89,12 +89,11 @@ class JSTreeService
     /**
      * Create new Property node
      *
-     * @param Object $object New Parent Object Property 
      * @param Property $property New Property
      *
      * @return Array $newNode Property node
      */
-    public function createNewPropertyNode(Object $object, Property $property)
+    public function createNewPropertyNode(Property $property)
     {
         $newNode = array(
             'id' => $property->getTechnicalName(),
@@ -129,12 +128,11 @@ class JSTreeService
     /**
      * Create new DataListValue node
      *
-     * @param DataList $dataList Parent DataList
      * @param DataListValue $dataListValue New DataListValue
      *
      * @return Array $newNode DataListValue node
      */
-    public function createNewDataListValueNode(DataList $dataList, DataListValue $dataListValue)
+    public function createNewDataListValueNode(DataListValue $dataListValue)
     {
         $newNode = array(
             'id' => $dataListValue->getTechnicalName(),

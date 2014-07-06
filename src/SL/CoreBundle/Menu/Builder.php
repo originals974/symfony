@@ -164,7 +164,6 @@ class Builder extends ContainerAware
     {
         //Variables initialisation
         $em = $this->container->get('Doctrine')->getManager();
-        $jstree = $this->container->get('sl_core.jsTree');
         $icon = $this->container->get('sl_core.icon');
 
         //Create root menu
@@ -330,7 +329,7 @@ class Builder extends ContainerAware
             foreach($properties as $property) {
 
                 //Create a node for Property
-                $propertyItem = $this->addPropertyItem($childObjectItem, $childObject, $property); 
+                $this->addPropertyItem($childObjectItem, $childObject, $property); 
             }
         }
         
@@ -339,7 +338,7 @@ class Builder extends ContainerAware
 
         //Create a node for each Objects' Properties
         foreach($properties as $property) {
-            $propertyItem = $this->addPropertyItem($objectItem, $object, $property); 
+            $this->addPropertyItem($objectItem, $object, $property); 
         }
     }
 
