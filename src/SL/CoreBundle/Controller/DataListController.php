@@ -383,7 +383,7 @@ class DataListController extends Controller
 
             $value = ($request->request->get('value')=='true')?true:false;
 
-            $dataList->setIsEnabled($value);     
+            $dataList->setEnabled($value);     
  
             $this->em->flush();
 

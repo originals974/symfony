@@ -378,7 +378,7 @@ class DataListValueController extends Controller
 
             $value = ($request->request->get('value')=='true')?true:false;
 
-            $dataListValue->setIsEnabled($value);      
+            $dataListValue->setEnabled($value);      
             $this->em->flush();
 
             $response = new JsonResponse(

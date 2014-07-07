@@ -47,7 +47,7 @@ class IconService
      */
     public function getObjectIcon(Object $object)
     {
-        $option = (!$object->getIsEnabled())?'text-danger':null; 
+        $option = (!$object->isEnabled())?'text-danger':null; 
         return 'fa '.$object->getIcon().' '.$option; 
     }
 
@@ -60,7 +60,7 @@ class IconService
      */
     /*public function getPacthObjectIcon(Object $object)
     {
-        $option = (!$object->getIsEnabled())?'text-danger':null; 
+        $option = (!$object->isEnabled())?'text-danger':null; 
         return str_replace("icon-", "", $this->getObjectIcon($object)); 
     }*/
 
@@ -109,7 +109,7 @@ class IconService
      */
     public function getDataListIcon(DataList $dataList)
     {
-        $option = (!$dataList->getIsEnabled())?'text-danger':null; 
+        $option = (!$dataList->isEnabled())?'text-danger':null; 
         return 'fa fa-list '.$option; 
     }
 
@@ -122,7 +122,7 @@ class IconService
      */
     public function getDataListValueIcon(DataListValue $dataListValue)
     {
-        $option = (!$dataListValue->getIsEnabled())?'text-danger':null; 
+        $option = (!$dataListValue->isEnabled())?'text-danger':null; 
         return 'fa '.$dataListValue->getIcon().' '.$option; 
     }
 
@@ -147,7 +147,7 @@ class IconService
      */
     public function getPropertyIcon(Property $property=null)
     {
-        $option = (!$property->getIsEnabled())?'text-danger':null; 
+        $option = (!$property->isEnabled())?'text-danger':null; 
 
         if($property->getFieldType()->getTechnicalName() == 'entity' ){
             $icon = $this->getRootObjectIcon($option);

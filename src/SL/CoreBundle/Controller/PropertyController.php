@@ -61,8 +61,8 @@ class PropertyController extends Controller
             $property = new Property();
  
             $formArray = $this->createCreateForm($object, $property, 'default');
-            $formChoice = $formArray[0]; 
-            $form = $formArray[1];
+            $formChoice = $formArray['choiceForm']; 
+            $form = $formArray['mainForm'];
 
             $response = $this->render('SLCoreBundle::save.html.twig', array(
                 'entity' => $property,
@@ -97,8 +97,8 @@ class PropertyController extends Controller
             $property->setObject($object); 
 
             $formArray = $this->createCreateForm($object, $property, $formMode);
-            $formChoice = $formArray[0]; 
-            $form = $formArray[1];
+            $formChoice = $formArray['choiceForm']; 
+            $form = $formArray['mainForm'];
 
             $response = $this->render('SLCoreBundle::save.html.twig', array(
                 'entity' => $property,
@@ -127,8 +127,7 @@ class PropertyController extends Controller
         $property->setObject($object);
 
         $formArray = $this->createCreateForm($object, $property, $formMode);
-        $formChoice = $formArray[0]; 
-        $form = $formArray[1];
+        $form = $formArray['mainForm'];
 
         $form->handleRequest($request);
 
@@ -175,12 +174,14 @@ class PropertyController extends Controller
     * @param Property $property Property to create
     * @param String $formMode Depending of the property type to create (Default | Entity | List) 
     *
-    * @return array of Form
+    * @return Array $form Array of Form
     *
     */
     private function createCreateForm(Object $object, Property $property, $formMode)
     {   
-        $formChoice = $this->createForm(new PropertyFormChoiceType(), null, array(
+        $form = array(); 
+
+        $choiceForm = $this->createForm(new PropertyFormChoiceType(), null, array(
             'action' => $this->generateUrl('property_choice_form', array(
             'id' => $object->getId(),
             )
@@ -189,12 +190,14 @@ class PropertyController extends Controller
             )
         );
 
-        $formChoice->get('formMode')->setData($formMode);
+        $choiceForm->get('formMode')->setData($formMode);
+
+        $form['choiceForm'] = $choiceForm; 
 
         //Select formType depending to formMode
         $formType = $this->propertyService->selectFormType($formMode, $object); 
 
-        $form = $this->createForm($formType, $property, array(
+        $mainForm = $this->createForm($formType, $property, array(
             'action' => $this->generateUrl('property_create', array(
                     'id' => $object->getId(),
                     'formMode' => $formMode,
@@ -203,13 +206,15 @@ class PropertyController extends Controller
             'method' => 'POST',
         ));
 
-        $form->add('submit', 'submit', array(
+        $mainForm->add('submit', 'submit', array(
             'label' => 'create',
             'attr' => array('class'=>'btn btn-primary btn-sm'),
             )
         );
 
-        return array($formChoice, $form);
+        $form['mainForm'] = $mainForm; 
+
+        return $form;
     }
 
     /**
@@ -446,7 +451,7 @@ class PropertyController extends Controller
 
             switch ($name) {
                 case 'isEnabled':
-                    $property->setIsEnabled($value);
+                    $property->setEnabled($value);
                     $response = new JsonResponse(
                         array(
                             'id' => $property->getTechnicalName(),
@@ -456,7 +461,7 @@ class PropertyController extends Controller
                     break;
                 
                 case 'isRequired':
-                    $property->setIsRequired($value);
+                    $property->setRequired($value);
                     $response = new Response();
                     break;
             }

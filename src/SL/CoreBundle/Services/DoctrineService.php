@@ -293,7 +293,7 @@ class DoctrineService
                         'fieldName' => $property->getTechnicalName(), 
                         'type' => $property->getFieldType()->getDataType(),
                         'length' => $property->getFieldType()->getLength(),
-                        'nullable' => !$property->getIsRequired()
+                        'nullable' => !$property->isRequired()
                         ); 
 
                     break;

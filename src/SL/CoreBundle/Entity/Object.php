@@ -76,13 +76,13 @@ class Object extends AbstractEntity
         $this->properties = new \Doctrine\Common\Collections\ArrayCollection();
         $this->children = new \Doctrine\Common\Collections\ArrayCollection();
         $this->setParent($parentObject);
-        $this->setIsDocument($isDocument);
+        $this->setDocument($isDocument);
 
         if($defaultPropertyfieldType != null) {
             $property = new Property(); 
             $property->setDisplayName('Nom');
             $property->setDisplayOrder(1);
-            $property->setIsRequired(true);
+            $property->setRequired(true);
             $property->setFieldType($defaultPropertyfieldType);
 
             $property->setObject($this);
@@ -211,10 +211,10 @@ class Object extends AbstractEntity
     public function setParent($parent)
     {
         if($parent != null) {
-            $this->setIsParent(false);
+            $this->setParent(false);
         }
         else{
-            $this->setIsParent(true);
+            $this->setParent(true);
         }
         
         $this->parent = $parent;
@@ -238,7 +238,7 @@ class Object extends AbstractEntity
      * @param boolean $isParent
      * @return Object
      */
-    public function setIsParent($isParent)
+    public function setParent($isParent)
     {
         $this->isParent = $isParent;
 
@@ -250,7 +250,7 @@ class Object extends AbstractEntity
      *
      * @return boolean 
      */
-    public function getIsParent()
+    public function isParent()
     {
         return $this->isParent;
     }
@@ -261,7 +261,7 @@ class Object extends AbstractEntity
      * @param boolean $isDocument
      * @return Object
      */
-    public function setIsDocument($isDocument)
+    public function setDocument($isDocument)
     {
         $this->isDocument = $isDocument;
 
@@ -273,7 +273,7 @@ class Object extends AbstractEntity
      *
      * @return boolean 
      */
-    public function getIsDocument()
+    public function isDocument()
     {
         return $this->isDocument;
     }
@@ -283,7 +283,7 @@ class Object extends AbstractEntity
     */
     public function initObject()
     {
-        if(!$this->getIsParent()){
+        if(!$this->isParent()){
             $this->setCalculatedName($this->getParent()->getCalculatedName());
         }   
     }

@@ -109,7 +109,7 @@ class FrontType extends AbstractType
         //Globals options
         $formFieldOptions = array(
             'label' =>  $property->getDisplayName(),
-            'required' => $property->getIsRequired(),
+            'required' => $property->isRequired(),
             'horizontal_input_wrapper_class' => 'col-lg-6',
             );
 
@@ -139,7 +139,7 @@ class FrontType extends AbstractType
                     'class' =>  'SLDataBundle:'.$property->getTargetObject()->getTechnicalName(),
                     'property' => 'displayName',
                     'label_render' => false,
-                    'required' => $property->getIsRequired(),
+                    'required' => $property->isRequired(),
                     'horizontal_input_wrapper_class' => 'col-lg-6',
                     'widget_remove_btn' => array(
                         'wrapper_div' => false,

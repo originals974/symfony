@@ -295,7 +295,7 @@ class ObjectUpdateController extends Controller
 
             $value = ($request->request->get('value')=='true')?true:false;
 
-            $object->setIsEnabled($value);     
+            $object->setEnabled($value);     
             $this->em->flush();
 
             $response = new JsonResponse(

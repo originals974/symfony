@@ -49,7 +49,7 @@ class Property extends AbstractEntity
      * @param boolean $isRequired
      * @return Property
      */
-    public function setIsRequired($isRequired)
+    public function setRequired($isRequired)
     {
         $this->isRequired = $isRequired;
 
@@ -61,7 +61,7 @@ class Property extends AbstractEntity
      *
      * @return boolean 
      */
-    public function getIsRequired()
+    public function isRequired()
     {
         return $this->isRequired;
     }
@@ -72,7 +72,7 @@ class Property extends AbstractEntity
      * @param boolean $isMultiple
      * @return Property
      */
-    public function setIsMultiple($isMultiple)
+    public function setMultiple($isMultiple)
     {
         $this->isMultiple = $isMultiple;
 
@@ -84,7 +84,7 @@ class Property extends AbstractEntity
      *
      * @return boolean 
      */
-    public function getIsMultiple()
+    public function isMultiple()
     {
         return $this->isMultiple;
     }

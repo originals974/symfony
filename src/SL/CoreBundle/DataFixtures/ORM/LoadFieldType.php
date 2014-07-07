@@ -102,7 +102,7 @@ class LoadFieldTypeData implements FixtureInterface
         $entityType->setDisplayOrder(0);
         $entityType->setDataType('string'); 
         $entityType->setLength(255);
-        $entityType->setIsEnabled(false);
+        $entityType->setEnabled(false);
         $entityType->setFieldCategory($choiceCategory); 
         $entityType->setFormType('collection'); 
 
@@ -113,7 +113,7 @@ class LoadFieldTypeData implements FixtureInterface
         $dataList->setDisplayOrder(10);
         $dataList->setDataType('string'); 
         $dataList->setLength(255);
-        $dataList->setIsEnabled(false);
+        $dataList->setEnabled(false);
         $dataList->setFieldCategory($choiceCategory); 
         $dataList->setFormType('choice'); 
 

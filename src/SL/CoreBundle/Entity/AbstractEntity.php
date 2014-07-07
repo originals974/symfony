@@ -166,7 +166,7 @@ abstract class AbstractEntity
      * @param boolean $isEnabled
      * @return AbstractEntity
      */
-    public function setIsEnabled($isEnabled)
+    public function setEnabled($isEnabled)
     {
         $this->isEnabled = $isEnabled;
 
@@ -178,7 +178,7 @@ abstract class AbstractEntity
      *
      * @return boolean 
      */
-    public function getIsEnabled()
+    public function isEnabled()
     {
         return $this->isEnabled;
     }
