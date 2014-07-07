@@ -87,7 +87,6 @@ class FrontController extends Controller
      */
     public function createAction(Request $request, Object $object)
     {
-
         $class = $this->doctrineService->getEntityClass($object->getTechnicalName());
         $entity =  new $class(); 
         
@@ -102,8 +101,8 @@ class FrontController extends Controller
 
                 //Calculate displayName value
                 $displayName = $this->objectService->calculateDisplayName($entity, $object);
+                
                 $entity->setDisplayName($displayName); 
-
                 $entity->setObjectTechnicalName($object->getTechnicalName()); 
                 
                 //Save entity in database

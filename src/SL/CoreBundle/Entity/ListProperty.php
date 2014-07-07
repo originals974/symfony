@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="SL\CoreBundle\Entity\PropertyRepository")
  */
 class ListProperty extends Property
-{
+{ 
     /**
      * @ORM\ManyToOne(targetEntity="SL\CoreBundle\Entity\DataList")
      * @Assert\NotBlank()

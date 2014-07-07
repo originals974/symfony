@@ -71,12 +71,23 @@ class Object extends AbstractEntity
     /**
      * Constructor
      */
-    public function __construct($parentObject, $isDocument)
+    public function __construct($parentObject, $isDocument, $defaultPropertyfieldType)
     {
         $this->properties = new \Doctrine\Common\Collections\ArrayCollection();
         $this->children = new \Doctrine\Common\Collections\ArrayCollection();
         $this->setParent($parentObject);
         $this->setIsDocument($isDocument);
+
+        if($defaultPropertyfieldType != null) {
+            $property = new Property(); 
+            $property->setDisplayName('Nom');
+            $property->setDisplayOrder(1);
+            $property->setIsRequired(true);
+            $property->setFieldType($defaultPropertyfieldType);
+
+            $property->setObject($this);
+            $this->addProperty($property);
+        }
     }
 
     /**
@@ -265,5 +276,15 @@ class Object extends AbstractEntity
     public function getIsDocument()
     {
         return $this->isDocument;
+    }
+
+    /**
+    * @ORM\PostPersist
+    */
+    public function initObject()
+    {
+        if(!$this->getIsParent()){
+            $this->setCalculatedName($this->getParent()->getCalculatedName());
+        }   
     }
 }

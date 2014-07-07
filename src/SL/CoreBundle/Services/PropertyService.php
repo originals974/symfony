@@ -5,6 +5,9 @@ namespace SL\CoreBundle\Services;
 //Symfony classes
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Translation\Translator;
+use Symfony\Component\Form\Form; 
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\TwigBundle\Debug\TimedTwigEngine;  
 
 //Custom classes
 use SL\CoreBundle\Form\PropertyType;
@@ -23,18 +26,24 @@ class PropertyService
 {
     private $em;
     private $translator;
+    private $jstreeService;
+    private $templating;
 
     /**
      * Constructor
      *
      * @param EntityManager $em
      * @param Translator $translator
+     * @param JSTreeService $jstreeService
+     * @param TimedTwigEngine $templating
      *
      */
-    public function __construct(EntityManager $em, Translator $translator)
+    public function __construct(EntityManager $em, Translator $translator, JSTreeService $jstreeService, TimedTwigEngine $templating)
     {
         $this->em = $em;
         $this->translator = $translator;
+        $this->jstreeService = $jstreeService;
+        $this->templating = $templating;
     }
 
    /**
@@ -107,28 +116,6 @@ class PropertyService
     }
 
     /**
-     * Creates a default Property called "Name" for an object
-     *
-     * @return Property $property The default Property 
-     */
-    public function createDefaultPropertyName() 
-    {
-        //Variables initialisation 
-        $property = new Property(); 
-
-        //Get FielType text
-        $FieldType = $this->em->getRepository('SLCoreBundle:FieldType')->findOneByTechnicalName('text');
-
-        //Initialised Property
-        $property->setDisplayName('Nom');
-        $property->setDisplayOrder(1);
-        $property->setIsRequired(true);
-        $property->setFieldType($FieldType);
-
-        return $property; 
-    }
-
-    /**
      * Verify integrity of an Property before delete
      *
      * @param Property $property Property to delete
@@ -157,5 +144,58 @@ class PropertyService
         }
 
         return $integrityError; 
+    }
+
+    /**
+     * Create JsonResponse for Property creation  
+     *
+     * @param Property $property Created Property
+     * @param Form $form Creation Property form
+     *
+     * @return JsonResponse
+     */
+    public function createJsonResponse(Property $property, Form $form) {
+
+        $isValid = $form->isValid(); 
+
+        if($isValid) {
+            $html = $this->templating->render('SLCoreBundle:Property:propertyTable.html.twig', array(
+                'object' => $property->getObject(), 
+                )
+            );
+
+            //Create the Property node in menu tree 
+            $nodeStructure = $this->jstreeService->createNewPropertyNode($property);
+            $nodeProperties = array(
+                'parent' => 'current.node',
+                'select' => false,  
+            );
+        }
+        else {
+            //Create form with errors 
+            $html = $this->templating->render('SLCoreBundle::save.html.twig', array(
+                'entity' => $property,
+                'formChoice' => $formChoice->createView(),
+                'form'   => $form->createView(),
+                )
+            ); 
+
+            $nodeStructure = null; 
+            $nodeProperties = null; 
+        }
+
+        $data = array(  
+            'form' => array(
+                'action' => strtolower($form->getConfig()->getMethod()),
+                'isValid' => $isValid,
+                ),
+            'html' => $html,
+            'node' => array(
+                'nodeStructure' => $nodeStructure,
+                'nodeProperties' => $nodeProperties,
+            ),
+        );
+
+        return new JsonResponse($data); 
     }
 }

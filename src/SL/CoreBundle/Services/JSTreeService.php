@@ -42,13 +42,12 @@ class JSTreeService
      * Create new Object node
      *
      * @param Object $object New Object 
-     * @param Property $property Default Property
      * @param Object $parentObject Parent Object of new Object
      * @param Boolean $isDocument True if new Object is a document
      *
      * @return Array $newNode Object node
      */
-    public function createNewObjectNode(Object $object, Property $property=null, Object $parentObject=null, $isDocument)
+    public function createNewObjectNode(Object $object, Object $parentObject=null, $isDocument)
     {
         $newNode = array(
             'id' => $object->getTechnicalName(),
@@ -75,6 +74,8 @@ class JSTreeService
                 );
             array_push($newNode['children'],$subObjectNode); 
         
+            $property = $object->getProperties()->first(); 
+
             $defaultPropertyNode = array(
                 'id' => $property->getTechnicalName(),
                 'text' => $property->getDisplayName(),

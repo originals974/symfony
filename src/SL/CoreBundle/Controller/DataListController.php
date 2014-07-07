@@ -109,41 +109,13 @@ class DataListController extends Controller
                 $this->em->persist($dataList);
                 $this->em->flush();
 
-                //Define technicalName of DataList
-                $dataList->setTechnicalName($this->classService->getClassShortName($dataList)); 
+                //Dont delete this flush : Persist data after Doctrine evenement
                 $this->em->flush();
-                
-                //Create the DataList node in menu tree 
-                $html = null; 
-                $nodeStructure = $this->jstreeService->createNewDataListNode($dataList);
-                $nodeProperties = array(
-                    'parent' => 'current.node',
-                    'select' => true,  
-                );
-            }
-            else {
-                //Create form with errors
-                $html = $this->renderView('SLCoreBundle::save.html.twig', array(
-                    'entity' => $dataList,
-                    'form'   => $form->createView(),
-                    )
-                ); 
-                $nodeStructure = null; 
-                $nodeProperties = null;
-            }
+            }  
+            
+            $jsonResponse = $this->dataListService->createJsonResponse($dataList, $form); 
 
-            $data = array(
-                'form' => array(
-                    'action' => strtolower($form->getConfig()->getMethod()),
-                    'isValid' => $isValid,
-                    ),
-                'html' => $html,
-                'node' => array(
-                    'nodeStructure' => $nodeStructure,
-                    'nodeProperties' => $nodeProperties,
-                ),
-            );
-            $response = new JsonResponse($data);
+            $response = $jsonResponse;
         }
         else {
             $response = $this->redirect($this->generateUrl('back_end'));

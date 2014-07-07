@@ -23,21 +23,24 @@ class DataListValueController extends Controller
     private $jstreeService;
     private $iconService;
     private $classService;
+    private $dataListValueService;
 
     /**
      * @DI\InjectParams({
      *     "em" = @DI\Inject("doctrine.orm.entity_manager"),
      *     "jstreeService" = @DI\Inject("sl_core.jsTree"),
      *     "iconService" = @DI\Inject("sl_core.icon"),
-     *     "classService" = @DI\Inject("sl_core.class")
+     *     "classService" = @DI\Inject("sl_core.class"),
+     *     "dataListValueService" = @DI\Inject("sl_core.dataListValue")
      * })
      */
-    public function __construct($em, $jstreeService, $iconService, $classService)
+    public function __construct($em, $jstreeService, $iconService, $classService, $dataListValueService)
     {
         $this->em = $em;
         $this->jstreeService = $jstreeService;
         $this->iconService = $iconService;
         $this->classService = $classService;
+        $this->dataListValueService = $dataListValueService;
     }
 
     /**
@@ -94,47 +97,14 @@ class DataListValueController extends Controller
                 //Save DataListValue in database
                 $this->em->persist($dataListValue);
                 $this->em->flush();
-         
-                //Define technicalName of DataListValue
-                $dataListValue->setTechnicalName($this->classService->getClassShortName($dataListValue)); 
+
+                //Dont delete this flush : Persist data after Doctrine evenement
                 $this->em->flush();
+            }  
+            
+            $jsonResponse = $this->dataListValueService->createJsonResponse($dataListValue, $form); 
 
-                $html = $this->renderView('SLCoreBundle:DataListValue:dataListValueTable.html.twig', array(
-                    'dataList' => $dataList, 
-                    )
-                );
-
-                //Create the DataListValue node in menu tree 
-                $nodeStructure = $this->jstreeService->createNewDataListValueNode($dataListValue);
-                $nodeProperties = array(
-                    'parent' => 'current.node',
-                    'select' => false,  
-                );
-            }
-            else {
-                //Create form with errors 
-                $html = $this->renderView('SLCoreBundle::save.html.twig', array(
-                    'entity' => $dataListValue,
-                    'form'   => $form->createView(),
-                    )
-                ); 
-
-                $nodeStructure = null; 
-                $nodeProperties = null;
-            }
-
-            $data = array(  
-                'form' => array(
-                    'action' => strtolower($form->getConfig()->getMethod()),
-                    'isValid' => $isValid,
-                    ), 
-                'html' => $html,
-                'node' => array(
-                    'nodeStructure' => $nodeStructure,
-                    'nodeProperties' => $nodeProperties,
-                ),
-            );
-            $response = new JsonResponse($data);
+            $response = $jsonResponse;
         }
         else {
             $response = $this->redirect($this->generateUrl('back_end'));

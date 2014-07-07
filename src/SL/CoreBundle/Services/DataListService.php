@@ -5,6 +5,9 @@ namespace SL\CoreBundle\Services;
 //Symfony classes
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Translation\Translator;
+use Symfony\Component\Form\Form; 
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\TwigBundle\Debug\TimedTwigEngine;  
 
 //Custom classes
 use SL\CoreBundle\Entity\DataList;
@@ -17,18 +20,24 @@ class DataListService
 {
     private $em;
     private $translator;
+    private $jstreeService;
+    private $templating;
 
     /**
      * Constructor
      *
      * @param EntityManager $em
      * @param Translator $translator
+     * @param JSTreeService $jstreeService
+     * @param TimedTwigEngine $templating
      *
      */
-    public function __construct(EntityManager $em, Translator $translator)
+    public function __construct(EntityManager $em, Translator $translator, JSTreeService $jstreeService, TimedTwigEngine $templating)
     {
         $this->em = $em;
         $this->translator = $translator;
+        $this->jstreeService = $jstreeService;
+        $this->templating = $templating;
     }
 
    /**
@@ -58,5 +67,52 @@ class DataListService
         }
 
         return $integrityError; 
+    }
+
+    /**
+     * Create JsonResponse for DataList creation  
+     *
+     * @param DataList $dataList Created DataList
+     * @param Form $form Creation DataList form
+     *
+     * @return JsonResponse
+     */
+    public function createJsonResponse(DataList $dataList, Form $form) {
+
+        $isValid = $form->isValid(); 
+
+        if($isValid) {
+
+            $html = null; 
+            $nodeStructure = $this->jstreeService->createNewDataListNode($dataList);
+            $nodeProperties = array(
+                'parent' => 'current.node',
+                'select' => true,  
+            );
+        }
+        else {
+            //Create form with errors
+            $html = $this->renderView('SLCoreBundle::save.html.twig', array(
+                'entity' => $dataList,
+                'form'   => $form->createView(),
+                )
+            ); 
+            $nodeStructure = null; 
+            $nodeProperties = null;
+        }
+
+        $data = array(
+            'form' => array(
+                'action' => strtolower($form->getConfig()->getMethod()),
+                'isValid' => $isValid,
+                ),
+            'html' => $html,
+            'node' => array(
+                'nodeStructure' => $nodeStructure,
+                'nodeProperties' => $nodeProperties,
+            ),
+        );
+
+        return new JsonResponse($data); 
     }
 }

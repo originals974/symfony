@@ -82,7 +82,7 @@ class ObjectCRDController extends Controller
     {
         if ($request->isXmlHttpRequest()) {
 
-            $object = new Object($parentObject, $isDocument);
+            $object = new Object($parentObject, $isDocument, null);
  
             $form = $this->createCreateForm($object, $parentObject, $isDocument);
 
@@ -108,7 +108,9 @@ class ObjectCRDController extends Controller
      */
     public function createAction(Request $request,  $isDocument, Object $parentObject=null)
     {
-        $object = new Object($parentObject, $isDocument);
+        $defaultPropertyfieldType = ($parentObject==null)?$this->em->getRepository('SLCoreBundle:FieldType')->findOneByTechnicalName('text'):null;
+
+        $object = new Object($parentObject, $isDocument, $defaultPropertyfieldType);
 
         $form = $this->createCreateForm($object, $parentObject, $isDocument);
 
@@ -116,87 +118,24 @@ class ObjectCRDController extends Controller
  
         if ($request->isXmlHttpRequest()) {
             
-            $isValid = $form->isValid();
-            
-            if ($isValid) {
+            if ($form->isValid()) {
 
-                //Define Object display position
-                $maxDiplayOrder = $this->em->getRepository('SLCoreBundle:Object')->findMaxDisplayOrder($parentObject);
-                $object->setDisplayOrder($maxDiplayOrder + 1); 
+                //Define Object display order
+                $object->setDisplayOrder($this->em->getRepository('SLCoreBundle:Object')->findMaxDisplayOrder($parentObject) + 1); 
 
-                //Create default Property
-                if($parentObject == null) {
-                    $property = $this->propertyService->createDefaultPropertyName();
-                    $property->setObject($object);
-                    $object->addProperty($property);
-                }
-                else{
-                    $property = null;
-                }
-
-                //Save Object and default Property in database
                 $this->em->persist($object);
                 $this->em->flush();
 
-                //Define technicalName of Object
-                $object->setTechnicalName($this->classService->getClassShortName($object));
-                
-                if($parentObject == null) {
-                    $property->setTechnicalName($this->classService->getClassShortName($property));
-                }
-
-                $this->em->flush();
-
-                //Update default calculated name of Object
-                if($parentObject == null) {
-                    $object->setCalculatedName('%'.$property->getTechnicalName().'%'); 
-                }
-                else{
-                    $object->setCalculatedName($parentObject->getCalculatedName());
-                }
+                //Dont delete this flush : Persist data after Doctrine evenement
                 $this->em->flush();
 
                 //Update database Object schema
                 $this->doctrineService->updateObjectSchema($object); 
-
-                //Create the Object node in menu tree
-                if($parentObject == null) {
-                    $parent = 'current.node'; 
-                }
-                else {
-                    $parent = 'first.child.node'; 
-                }
-
-                $html = null; 
-                $nodeStructure = $this->jstreeService->createNewObjectNode($object, $property, $parentObject, $isDocument);
-                $nodeProperties = array(
-                    'parent' => $parent,
-                    'select' => true,  
-                );
             }
-            else {
-                //Create form with errors
-                $html = $this->renderView('SLCoreBundle::save.html.twig', array(
-                    'entity' => $object,
-                    'form'   => $form->createView(),
-                    )
-                ); 
-                $nodeStructure = null; 
-                $nodeProperties = null;
-            }
+ 
+            $jsonResponse = $this->objectService->createJsonResponse($object, $form);
 
-            $data = array(  
-                'form' => array(
-                    'action' => strtolower($form->getConfig()->getMethod()),
-                    'isValid' => $isValid,
-                    ),
-                'html' => $html,
-                'node' => array(
-                    'nodeStructure' => $nodeStructure,
-                    'nodeProperties' => $nodeProperties,
-                ),
-            );
-            $response = new JsonResponse($data);
+            $response = $jsonResponse;
         }
         else {
             $response = $this->redirect($this->generateUrl('back_end'));
@@ -204,7 +143,6 @@ class ObjectCRDController extends Controller
 
         return $response; 
     }
-
 
     /**
     * Create Object form

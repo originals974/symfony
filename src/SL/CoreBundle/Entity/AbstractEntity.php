@@ -7,7 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * AbstractEntity
  *
- * @ORM\MappedSuperclass 
+ * @ORM\MappedSuperclass
+ * @ORM\HasLifecycleCallbacks() 
  *
  */
 abstract class AbstractEntity
@@ -73,9 +74,9 @@ abstract class AbstractEntity
      * @param string $entityType
      * @return AbstractEntity
      */
-    public function setTechnicalName($entityType)
+    public function setTechnicalName()
     {
-        $this->technicalName = $entityType.$this->getId();
+        $this->technicalName = $this->getClassShortName().$this->getId();
 
         return $this;
     }
@@ -180,5 +181,25 @@ abstract class AbstractEntity
     public function getIsEnabled()
     {
         return $this->isEnabled;
+    }
+
+
+    /**
+     * Get short name of a entity class
+     *
+     * @return String $classShortName Short name of the class
+     */
+    public function getClassShortName() 
+    {
+        $classShortName = ucfirst(basename(strtr(get_class($this), "\\", "/")));
+        return $classShortName;
+    }
+
+    /**
+    * @ORM\PostPersist
+    */
+    public function initAbstractEntity()
+    {
+        $this->setTechnicalName();
     }
 }

@@ -15,15 +15,19 @@ services:
 
     sl_core.object:
         class: SL\CoreBundle\Services\ObjectService
-        arguments: [@doctrine.orm.entity_manager, @translator]
+        arguments: [@doctrine.orm.entity_manager, @translator, @sl_core.jsTree, @templating]
 
     sl_core.property:
         class: SL\CoreBundle\Services\PropertyService
-        arguments: [@doctrine.orm.entity_manager, @translator]
+        arguments: [@doctrine.orm.entity_manager, @translator, @sl_core.jsTree, @templating]
 
     sl_core.dataList:
         class: SL\CoreBundle\Services\DataListService
-        arguments: [@doctrine.orm.entity_manager, @translator]
+        arguments: [@doctrine.orm.entity_manager, @translator, @sl_core.jsTree, @templating]
+
+    sl_core.dataListValue:
+        class: SL\CoreBundle\Services\DataListValueService
+        arguments: [@sl_core.jsTree, @templating]
 
     sl_core.class:
         class: SL\CoreBundle\Services\ClassService

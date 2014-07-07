@@ -11,6 +11,7 @@ use JMS\DiExtraBundle\Annotation as DI;
 
 //Custom classes
 use SL\CoreBundle\Entity\Object;
+use SL\CoreBundle\Form\ObjectType;
 use SL\CoreBundle\Form\ObjectCalculatedNameType;
 
 /**

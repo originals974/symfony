@@ -5,9 +5,13 @@ namespace SL\CoreBundle\Services;
 //Symfony classes
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Translation\Translator;
+use Symfony\Component\Form\Form; 
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\TwigBundle\Debug\TimedTwigEngine;  
 
 //Custom classes
 use SL\CoreBundle\Entity\Object;
+use SL\CoreBundle\Services\JSTreeService;
 
 /**
  * Object Service
@@ -17,18 +21,24 @@ class ObjectService
 {
     private $em;
     private $translator;
+    private $jstreeService;
+    private $templating;
 
     /**
      * Constructor
      *
      * @param EntityManager $em
      * @param Translator $translator
+     * @param JSTreeService $jstreeService
+     * @param TimedTwigEngine $templating
      *
      */
-    public function __construct(EntityManager $em, Translator $translator)
+    public function __construct(EntityManager $em, Translator $translator, JSTreeService $jstreeService, TimedTwigEngine $templating)
     {
         $this->em = $em;
         $this->translator = $translator;
+        $this->jstreeService = $jstreeService;
+        $this->templating = $templating;
     }
 
    /**
@@ -79,7 +89,7 @@ class ObjectService
      * Calculate displayName attribute of a new entity 
      * by using calculatedName attribute of Object
      *
-     * @param Mixed $entity Enity
+     * @param Mixed $entity Entity
      * @param Object $object Object
      *
      * @return String $displayName DisplayName of new entity
@@ -103,4 +113,52 @@ class ObjectService
 
         return $displayName; 
     }
+
+    /**
+     * Create JsonResponse for Object creation  
+     *
+     * @param Object $object Created Object
+     * @param Form $form Creation Object form
+     *
+     * @return JsonResponse
+     */
+    public function createJsonResponse(Object $object, Form $form) {
+
+        $parentObject = $object->getParent(); 
+        $isValid = $form->isValid(); 
+
+        if($isValid) {
+            $html = null; 
+            $nodeStructure = $this->jstreeService->createNewObjectNode($object, $parentObject, $object->getIsDocument());
+            $nodeProperties = array(
+                'parent' => ($parentObject == null)?'current.node':'first.child.node',
+                'select' => true,  
+            );
+        }
+        else {
+            //Create form with errors
+            $html = $this->templating->render('SLCoreBundle::save.html.twig', array(
+                'entity' => $object,
+                'form'   => $form->createView(),
+                )
+            ); 
+            $nodeStructure = null; 
+            $nodeProperties = null;
+        }
+
+        $data = array(  
+            'form' => array(
+                'action' => strtolower($form->getConfig()->getMethod()),
+                'isValid' => $isValid,
+                ),
+            'html' => $html,
+            'node' => array(
+                'nodeStructure' => $nodeStructure,
+                'nodeProperties' => $nodeProperties,
+            ),
+        );
+
+        return new JsonResponse($data); 
+    }
+
 }

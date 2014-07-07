@@ -129,7 +129,6 @@ class PropertyController extends Controller
         $formArray = $this->createCreateForm($object, $property, $formMode);
         $formChoice = $formArray[0]; 
         $form = $formArray[1];
-        $action = strtolower($form->getConfig()->getMethod()); 
 
         $form->handleRequest($request);
 
@@ -150,51 +149,17 @@ class PropertyController extends Controller
                 //Save Property in database
                 $this->em->persist($property);
                 $this->em->flush();
-         
-                //Define technicalName of Property
-                $property->setTechnicalName($this->classService->getClassShortName($property));
+
+                //Dont delete this flush : Persist data after Doctrine evenement
                 $this->em->flush();
 
                 //Update database Object schema
                 $this->doctrineService->updateObjectSchema($object);
-
-                $html = $this->renderView('SLCoreBundle:Property:propertyTable.html.twig', array(
-                    'object' => $object, 
-                    )
-                );
-
-                //Create the Property node in menu tree 
-                $nodeStructure = $this->jstreeService->createNewPropertyNode($property);
-                $nodeProperties = array(
-                    'parent' => 'current.node',
-                    'select' => false,  
-                );
-            }
-            else {
-                //Create form with errors 
-                $html = $this->renderView('SLCoreBundle::save.html.twig', array(
-                    'entity' => $property,
-                    'formChoice' => $formChoice->createView(),
-                    'form'   => $form->createView(),
-                    )
-                ); 
-
-                $nodeStructure = null; 
-                $nodeProperties = null; 
             }
 
-            $data = array(  
-                'form' => array(
-                    'action' => $action,
-                    'isValid' => $isValid,
-                    ),
-                'html' => $html,
-                'node' => array(
-                    'nodeStructure' => $nodeStructure,
-                    'nodeProperties' => $nodeProperties,
-                ),
-            );
-            $response = new JsonResponse($data);
+            $jsonResponse = $this->propertyService->createJsonResponse($property, $form); 
+
+            $response = $jsonResponse;
         }
         else {
             $response = $this->redirect($this->generateUrl('back_end'));

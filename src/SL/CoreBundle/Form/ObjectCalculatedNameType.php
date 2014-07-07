@@ -17,6 +17,7 @@ class ObjectCalculatedNameType extends AbstractType
         $builder
             ->add('calculatedName' , 'textarea',  array(
                 'label' => 'calculatedName',
+                'required' => false,
                 'attr' => array(  
                     'max_length' => '255',
                     )
