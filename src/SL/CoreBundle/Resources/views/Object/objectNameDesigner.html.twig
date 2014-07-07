@@ -6,9 +6,9 @@
 
 {% block modal_body %}
 	<div id="object_name_designer_button" class="btn-group">
-    {% if object.parent is not null %}
+    {% if object.parentObject is not null %}
       <div class="well">
-        {% for property in object.parent.properties %}
+        {% for property in object.parentObject.properties %}
           {% if property.isEnabled %}
             <button title="{{ property.technicalName }}" type="button" class="btn btn-default">{{ property.displayName }}</button>
           {% endif %}

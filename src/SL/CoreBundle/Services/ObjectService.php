@@ -68,7 +68,7 @@ class ObjectService
         }
 
         //Check if the Object have Object child
-        $parentObject = $this->em->getRepository('SLCoreBundle:Object')->findByParent($object);
+        $parentObject = $this->em->getRepository('SLCoreBundle:Object')->findByParentObject($object);
 
         if($parentObject != null){
             $title = $this->translator->trans('delete.error.title');
@@ -124,12 +124,12 @@ class ObjectService
      */
     public function createJsonResponse(Object $object, Form $form) {
 
-        $parentObject = $object->getParent(); 
+        $parentObject = $object->getParentObject(); 
         $isValid = $form->isValid(); 
 
         if($isValid) {
             $html = null; 
-            $nodeStructure = $this->jstreeService->createNewObjectNode($object, $parentObject, $object->getIsDocument());
+            $nodeStructure = $this->jstreeService->createNewObjectNode($object, $parentObject, $object->isDocument());
             $nodeProperties = array(
                 'parent' => ($parentObject == null)?'current.node':'first.child.node',
                 'select' => true,  

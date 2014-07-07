@@ -25,26 +25,23 @@ class PropertyController extends Controller
     private $propertyService;
     private $jstreeService;
     private $iconService;
-    private $classService;
     private $doctrineService;
 
     /**
      * @DI\InjectParams({
      *     "em" = @DI\Inject("doctrine.orm.entity_manager"),
      *     "propertyService" = @DI\Inject("sl_core.property"),
-     *     "jstreeService" = @DI\Inject("sl_core.jsTree"),
+     *     "jstreeService" = @DI\Inject("sl_core.js_tree"),
      *     "iconService" = @DI\Inject("sl_core.icon"),
-     *     "classService" = @DI\Inject("sl_core.class"),
      *     "doctrineService" = @DI\Inject("sl_core.doctrine")
      * })
      */
-    public function __construct($em, $propertyService, $jstreeService, $iconService, $classService, $doctrineService)
+    public function __construct($em, $propertyService, $jstreeService, $iconService, $doctrineService)
     {
         $this->em = $em;
         $this->propertyService = $propertyService;
         $this->jstreeService = $jstreeService;
         $this->iconService = $iconService;
-        $this->classService = $classService;
         $this->doctrineService = $doctrineService;
     }
 

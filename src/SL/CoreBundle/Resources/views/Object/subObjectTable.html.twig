@@ -4,7 +4,7 @@
     {% set isDocument = 0 %}
 {% endif %}
 
-{% if object.children|length == 0 %}
+{% if object.childrenObject|length == 0 %}
     <div class="text-center">
         <i>{% if object.isDocument %}
             {{ 'subDocument.create.description'|trans }}
@@ -29,7 +29,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for child in object.children %}
+            {% for child in object.childrenObject %}
                 <tr {% if not(child.isEnabled) %}class="danger"{% endif %}>
                     <td>
                         <span class="fa {{ child.icon }}"></span>  

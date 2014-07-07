@@ -22,24 +22,21 @@ class DataListValueController extends Controller
     private $em;
     private $jstreeService;
     private $iconService;
-    private $classService;
     private $dataListValueService;
 
     /**
      * @DI\InjectParams({
      *     "em" = @DI\Inject("doctrine.orm.entity_manager"),
-     *     "jstreeService" = @DI\Inject("sl_core.jsTree"),
+     *     "jstreeService" = @DI\Inject("sl_core.js_tree"),
      *     "iconService" = @DI\Inject("sl_core.icon"),
-     *     "classService" = @DI\Inject("sl_core.class"),
-     *     "dataListValueService" = @DI\Inject("sl_core.dataListValue")
+     *     "dataListValueService" = @DI\Inject("sl_core.data_list_value")
      * })
      */
-    public function __construct($em, $jstreeService, $iconService, $classService, $dataListValueService)
+    public function __construct($em, $jstreeService, $iconService, $dataListValueService)
     {
         $this->em = $em;
         $this->jstreeService = $jstreeService;
         $this->iconService = $iconService;
-        $this->classService = $classService;
         $this->dataListValueService = $dataListValueService;
     }
 

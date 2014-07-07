@@ -345,15 +345,15 @@ class DoctrineService
         $this->getMappingByObject($mapping, $object); 
         
         //Get parent Object metadata   
-        if($object->getParent()){
-            $this->getMappingByObject($mapping, $object->getParent()); 
+        if($object->getParentObject()){
+            $this->getMappingByObject($mapping, $object->getParentObject()); 
         }
 
         //Generate entity file
         $this->doctrineGenerateEntity($object->getTechnicalName(), 'annotation', $mapping);  
 
         //Get child Object metadata 
-        foreach ($object->getChildren() as $child) {
+        foreach ($object->getchildrenObject() as $child) {
             $this->getMappingByObject($mapping, $child); 
 
             //Generate entity file

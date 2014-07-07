@@ -6,7 +6,7 @@ services:
         class: SL\CoreBundle\Services\DoctrineService
         arguments: [@filesystem, @doctrine, @kernel, %sl_core.doctrine.bundle%]
 
-    sl_core.jsTree:
+    sl_core.js_tree:
         class: SL\CoreBundle\Services\JSTreeService
         arguments: [@router, @translator, @sl_core.icon]
 
@@ -15,22 +15,19 @@ services:
 
     sl_core.object:
         class: SL\CoreBundle\Services\ObjectService
-        arguments: [@doctrine.orm.entity_manager, @translator, @sl_core.jsTree, @templating]
+        arguments: [@doctrine.orm.entity_manager, @translator, @sl_core.js_tree, @templating]
 
     sl_core.property:
         class: SL\CoreBundle\Services\PropertyService
-        arguments: [@doctrine.orm.entity_manager, @translator, @sl_core.jsTree, @templating]
+        arguments: [@doctrine.orm.entity_manager, @translator, @sl_core.js_tree, @templating]
 
-    sl_core.dataList:
+    sl_core.data_list:
         class: SL\CoreBundle\Services\DataListService
-        arguments: [@doctrine.orm.entity_manager, @translator, @sl_core.jsTree, @templating]
+        arguments: [@doctrine.orm.entity_manager, @translator, @sl_core.js_tree, @templating]
 
-    sl_core.dataListValue:
+    sl_core.data_list_value:
         class: SL\CoreBundle\Services\DataListValueService
-        arguments: [@sl_core.jsTree, @templating]
-
-    sl_core.class:
-        class: SL\CoreBundle\Services\ClassService
+        arguments: [@sl_core.js_tree, @templating]
 
     sl_core.elastica:
         class: SL\CoreBundle\Services\ElasticaService

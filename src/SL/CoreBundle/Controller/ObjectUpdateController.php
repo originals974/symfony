@@ -29,7 +29,7 @@ class ObjectUpdateController extends Controller
      * @DI\InjectParams({
      *     "em" = @DI\Inject("doctrine.orm.entity_manager"),
      *     "objectService" = @DI\Inject("sl_core.object"),
-     *     "jstreeService" = @DI\Inject("sl_core.jsTree"),
+     *     "jstreeService" = @DI\Inject("sl_core.js_tree"),
      *     "iconService" = @DI\Inject("sl_core.icon")
      * })
      */

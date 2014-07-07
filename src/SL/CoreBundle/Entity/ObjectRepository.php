@@ -25,11 +25,11 @@ class ObjectRepository extends EntityRepository
     $subQuery = $this->getEntityManager()->createQuery("
                     SELECT parentObject
                     FROM SLCoreBundle:Object parentObject
-                    JOIN parentObject.children childObject
+                    JOIN parentObject.childrenObject childObject
                     WHERE childObject.id = o.id");
                 
 		$qb ->join('o.properties','p')
-        ->leftJoin('o.children','co')
+        ->leftJoin('o.childrenObject','co')
         ->leftJoin('co.properties', 'cop')
         ->where($qb->expr()->not($qb->expr()->exists($subQuery->getDql())))
   		  ->addOrderBy('o.displayOrder', 'ASC')
@@ -106,7 +106,7 @@ class ObjectRepository extends EntityRepository
 	                 ->select('MAX(o.displayOrder)');
 
       if($parentObject != null){
-        $qb ->join('o.parent', 'p')
+        $qb ->join('o.parentObject', 'p')
             ->where('p.id = :id') 
             ->setParameter('id', $parentObject->getId());
       }
@@ -134,7 +134,7 @@ class ObjectRepository extends EntityRepository
     //Select parent Object
     $notInParent = $this->createQueryBuilder('o')
                     ->select('po.id')
-                    ->leftJoin('o.parent', 'po')
+                    ->leftJoin('o.parentObject', 'po')
                     ->where('o.id = :id')
                     ->setParameter('id', $excludeObject->getId())
                     ->getQuery()
@@ -147,7 +147,7 @@ class ObjectRepository extends EntityRepository
     //Select children Object
     $notInChildren = $this->createQueryBuilder('o')
                       ->select('co.id')
-                      ->leftJoin('o.children', 'co')
+                      ->leftJoin('o.childrenObject', 'co')
                       ->where('o.id = :id')
                       ->setParameter('id', $excludeObject->getId())
                       ->getQuery()

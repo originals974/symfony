@@ -109,7 +109,7 @@ class PropertyRepository extends EntityRepository
 	    $qb = $this ->createQueryBuilder('pop')
 	    			->leftJoin('pop.object','po')
 	    			->leftJoin('pop.fieldType', 'ft')
-	                ->leftJoin('po.children','o')
+	                ->leftJoin('po.childrenObject','o')
 	                ->where('o.id = :id')
 	                ->setParameter('id', $object->getId())
 	                ->andWhere('pop.isEnabled = true')

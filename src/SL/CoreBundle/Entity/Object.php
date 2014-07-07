@@ -45,14 +45,14 @@ class Object extends AbstractEntity
     private $properties;
 
     /**
-     * @ORM\ManyToOne(targetEntity="SL\CoreBundle\Entity\Object", inversedBy="children")
+     * @ORM\ManyToOne(targetEntity="SL\CoreBundle\Entity\Object", inversedBy="childrenObject")
      */
-    private $parent;
+    private $parentObject;
 
     /**
-     * @ORM\OneToMany(targetEntity="SL\CoreBundle\Entity\Object", mappedBy="parent")
+     * @ORM\OneToMany(targetEntity="SL\CoreBundle\Entity\Object", mappedBy="parentObject")
      */
-    private $children;
+    private $childrenObject;
 
     /**
      * @var boolean
@@ -74,8 +74,8 @@ class Object extends AbstractEntity
     public function __construct($parentObject, $isDocument, $defaultPropertyfieldType)
     {
         $this->properties = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->children = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->setParent($parentObject);
+        $this->childrenObject = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->setParentObject($parentObject);
         $this->setDocument($isDocument);
 
         if($defaultPropertyfieldType != null) {
@@ -170,54 +170,54 @@ class Object extends AbstractEntity
     }
 
     /**
-     * Add children
+     * Add child Object
      *
      * @param \SL\CoreBundle\Entity\Object $child
      * @return Object
      */
-    public function addChildren(\SL\CoreBundle\Entity\Object $child)
+    public function addChildrenObject(\SL\CoreBundle\Entity\Object $child)
     {
-        $this->children[] = $child;
+        $this->childrenObject[] = $child;
 
         return $this;
     }
 
     /**
-     * Remove children
+     * Remove child Object
      *
-     * @param \SL\CoreBundle\Entity\Object $children
+     * @param \SL\CoreBundle\Entity\Object $child
      */
-    public function removeChildren(\SL\CoreBundle\Entity\Object $child)
+    public function removeChildrenObject(\SL\CoreBundle\Entity\Object $child)
     {
         $this->child->removeElement($child);
     }
 
     /**
-     * Get children
+     * Get children Object Collection
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getChildren()
+    public function getChildrenObject()
     {
-        return $this->children;
+        return $this->childrenObject;
     }
 
     /**
-     * Set parent
+     * Set parent Object
      *
      * @param string $parent
      * @return Object
      */
-    public function setParent($parent)
+    public function setParentObject($parentObject)
     {
-        if($parent != null) {
+        if($parentObject != null) {
             $this->setParent(false);
         }
         else{
             $this->setParent(true);
         }
         
-        $this->parent = $parent;
+        $this->parentObject = $parentObject;
 
         return $this;
     }
@@ -227,9 +227,9 @@ class Object extends AbstractEntity
      *
      * @return Object 
      */
-    public function getParent()
+    public function getParentObject()
     {
-        return $this->parent;
+        return $this->parentObject;
     }
 
     /**
@@ -284,7 +284,7 @@ class Object extends AbstractEntity
     public function initObject()
     {
         if(!$this->isParent()){
-            $this->setCalculatedName($this->getParent()->getCalculatedName());
+            $this->setCalculatedName($this->getParentObject()->getCalculatedName());
         }   
     }
 }

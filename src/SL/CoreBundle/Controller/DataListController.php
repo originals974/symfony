@@ -7,11 +7,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
 
 //Custom classes
 use SL\CoreBundle\Entity\DataList;
 use SL\CoreBundle\Form\DataListType;
+use SL\CoreBundle\Services\DataListService;
+use SL\CoreBundle\Services\JSTreeService;
+use SL\CoreBundle\Services\IconService;
 
 /**
  * DataList controller
@@ -23,24 +27,21 @@ class DataListController extends Controller
     private $dataListService;
     private $jstreeService;
     private $iconService;
-    private $classService;
 
-    /**
+     /**
      * @DI\InjectParams({
      *     "em" = @DI\Inject("doctrine.orm.entity_manager"),
-     *     "dataListService" = @DI\Inject("sl_core.dataList"),
-     *     "jstreeService" = @DI\Inject("sl_core.jsTree"),
+     *     "dataListService" = @DI\Inject("sl_core.data_list"),
+     *     "jstreeService" = @DI\Inject("sl_core.js_tree"),
      *     "iconService" = @DI\Inject("sl_core.icon"),
-     *     "classService" = @DI\Inject("sl_core.class")
      * })
      */
-    public function __construct($em, $dataListService, $jstreeService, $iconService, $classService)
+    public function __construct(EntityManager $em, DataListService $dataListService, JSTreeService $jstreeService, IconService $iconService)
     {
         $this->em = $em;
         $this->dataListService = $dataListService;
         $this->jstreeService = $jstreeService;
         $this->iconService = $iconService;
-        $this->classService = $classService;
     }
 
     /**

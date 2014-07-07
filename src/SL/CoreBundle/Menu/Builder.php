@@ -84,7 +84,7 @@ class Builder extends ContainerAware
         foreach($objects as $object) {
 
             //For Object without children
-            if($object->getChildren()->count() == 0) {
+            if($object->getchildrenObject()->count() == 0) {
                 $objectLink = $menu->addChild(
                     $object->getTechnicalName(), 
                     array(
@@ -131,7 +131,7 @@ class Builder extends ContainerAware
                     );
 
                 //Add parent Object link
-                foreach($object->getChildren() as $childObject) {
+                foreach($object->getchildrenObject() as $childObject) {
                     $objectLink = $objectDropDown->addChild(
                     $childObject->getTechnicalName(), 
                     array(
@@ -301,7 +301,7 @@ class Builder extends ContainerAware
         $objectItem = $this->addObjectItem($parent, $object); 
 
         //Get Children of Object
-        $childrenObject = $object->getChildren();
+        $childrenObject = $object->getchildrenObject();
 
         //Create Sub Object node
         $label = ($isDocument)?'sub_document':'sub_object'; 
