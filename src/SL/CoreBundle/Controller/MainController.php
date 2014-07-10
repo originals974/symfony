@@ -19,6 +19,29 @@ class MainController extends Controller
 {
 
     /**
+     * Test
+     */
+    public function testAction(Request $request)
+    {
+
+        $repo = $this->getDoctrine()->getEntityManager()->getRepository('SLCoreBundle:Object');
+        $this->getDoctrine()->getEntityManager()->clear(); 
+
+
+        $object = $repo->find(24);
+        $path = $repo->getPath($object);
+        
+        foreach($path as $object) {
+            var_dump($object->getDisplayName()); 
+        }
+
+        
+
+        return new Response(var_dump("Coucou")); 
+    }
+
+
+    /**
      * Init application
      */
     public function initAction(Request $request)

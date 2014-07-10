@@ -38,7 +38,7 @@ class EntityPropertyType extends PropertyType
                 'class' => 'SLCoreBundle:Object',
                 'property' => 'displayName',
                 'query_builder' => function(EntityRepository $er) use($object) {
-                                      return $er->findTargertObject($object);
+                                      return $er->findOtherObject($object);
                                     },
                 'label' =>  'object',
                 'attr' => array(

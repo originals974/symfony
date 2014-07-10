@@ -72,13 +72,8 @@ class Builder extends ContainerAware
 
         //Generate a item for each Object
         $objects = $em->getRepository('SLCoreBundle:Object')->findBy(
-            array(
-                'isEnabled' => true,
-                'isParent' => true,
-                ),
-            array(
-                'displayOrder' => 'asc',
-                )
+            array('isEnabled' => true),
+            array('displayOrder' => 'asc')
             );
 
         foreach($objects as $object) {
@@ -100,54 +95,6 @@ class Builder extends ContainerAware
                     'data-target' => '#',
                     )
                 );
-            }
-            //For Object with children
-            else{
-
-                //Create dropdown menu
-                $objectDropDown = $menu->addChild($object->getTechnicalName(), array(
-                    'dropdown' => true,
-                    'caret' => true,
-                    'label' => $object->getDisplayName(),
-                    'icon' => $icon->getObjectIcon($object),
-                    )
-                );
-
-                //Add parent Object link
-                $objectLink = $objectDropDown->addChild(
-                    $object->getTechnicalName(), 
-                    array(
-                        'route' => 'front_new', 
-                        'routeParameters' => array('id' => $object->getId()),
-                        'label' => $object->getDisplayName(),
-                        'icon' => $icon->getObjectIcon($object),
-                        )
-                    );
-
-                    $objectLink->setLinkAttributes(array(
-                        'data-toggle' => 'modal',
-                        'data-target' => '#',
-                        )
-                    );
-
-                //Add parent Object link
-                foreach($object->getchildrenObject() as $childObject) {
-                    $objectLink = $objectDropDown->addChild(
-                    $childObject->getTechnicalName(), 
-                    array(
-                        'route' => 'front_new', 
-                        'routeParameters' => array('id' => $childObject->getId()),
-                        'label' => $childObject->getDisplayName(),
-                        'icon' => $icon->getObjectIcon($childObject),
-                        )
-                    );
-
-                    $objectLink->setLinkAttributes(array(
-                        'data-toggle' => 'modal',
-                        'data-target' => '#',
-                        )
-                    );
-                }
             }
         }
 
@@ -300,39 +247,6 @@ class Builder extends ContainerAware
         //Create a node for Object
         $objectItem = $this->addObjectItem($parent, $object); 
 
-        //Get Children of Object
-        $childrenObject = $object->getchildrenObject();
-
-        //Create Sub Object node
-        $label = ($isDocument)?'sub_document':'sub_object'; 
-
-        $subObjectRoot = $objectItem->addChild('subObject', array(
-            'label' => $label,
-            )
-        );
-
-        $subObjectRoot->setAttributes(array(
-            'data-jstree' => '{"icon":"'.$icon->getRootSubObjectIcon().'"}',
-            )
-        );
-
-        //Create a node for each Objects' Children
-        foreach($childrenObject as $childObject) {
-
-            //Create a node for Object
-            $childObjectItem = $this->addObjectItem($subObjectRoot, $childObject); 
-
-            //Get Properties of child Object
-            $properties = $childObject->getProperties();
-
-            //Create a node for each Child Objects' Properties
-            foreach($properties as $property) {
-
-                //Create a node for Property
-                $this->addPropertyItem($childObjectItem, $childObject, $property); 
-            }
-        }
-        
         //Get Properties of Object
         $properties = $object->getProperties();
 

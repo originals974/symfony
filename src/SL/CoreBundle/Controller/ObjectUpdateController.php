@@ -78,10 +78,7 @@ class ObjectUpdateController extends Controller
 
                 $this->em->flush();
 
-                $html = $this->renderView('SLCoreBundle:Object:subObjectTable.html.twig', array(
-                    'object' => $object, 
-                    )
-                );
+                $html = null; 
                 $nodeStructure = $this->jstreeService->updateObjectNode($object);
             }
             else {
@@ -150,8 +147,11 @@ class ObjectUpdateController extends Controller
     {
         $form = $this->createEditCalculatedNameForm($object);
  
+        //Get all parent Object
+        $objects = $this->em->getRepository('SLCoreBundle:Object')->getPath($object); 
+
         return $this->render('SLCoreBundle:Object:objectNameDesigner.html.twig', array(
-            'object' => $object,
+            'objects' => $objects,
             'form'   => $form->createView(),
             )
         );
@@ -178,9 +178,12 @@ class ObjectUpdateController extends Controller
                 $this->em->flush();
             }
             else {
+                //Get all parent Object
+                $objects = $this->em->getRepository('SLCoreBundle:Object')->getPath($object); 
+
                 //Create form with errors
                 $html = $this->renderView('SLCoreBundle:Object:objectNameDesigner.html.twig', array(
-                    'object' => $object,
+                    'object' => $objects,
                     'form'   => $form->createView(),
                     )
                 );

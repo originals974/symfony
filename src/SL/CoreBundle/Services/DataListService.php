@@ -92,7 +92,7 @@ class DataListService
         }
         else {
             //Create form with errors
-            $html = $this->renderView('SLCoreBundle::save.html.twig', array(
+            $html = $this->templating->render('SLCoreBundle::save.html.twig', array(
                 'entity' => $dataList,
                 'form'   => $form->createView(),
                 )

@@ -149,18 +149,22 @@ class PropertyService
     /**
      * Create JsonResponse for Property creation  
      *
+     * @param Object $object Parent Object of new property
      * @param Property $property Created Property
-     * @param Form $form Creation Property form
+     * @param Form $formChoice PropertyFormChoice form
+     * @param Form $form Creation PropertyType form
      *
      * @return JsonResponse
      */
-    public function createJsonResponse(Property $property, Form $form) {
+    public function createJsonResponse(Object $object, Property $property, Form $formChoice, Form $form) {
 
         $isValid = $form->isValid(); 
 
+        $object->addProperty($property); 
+
         if($isValid) {
             $html = $this->templating->render('SLCoreBundle:Property:propertyTable.html.twig', array(
-                'object' => $property->getObject(), 
+                'object' => $object, 
                 )
             );
 

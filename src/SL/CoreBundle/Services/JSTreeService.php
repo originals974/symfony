@@ -42,12 +42,11 @@ class JSTreeService
      * Create new Object node
      *
      * @param Object $object New Object 
-     * @param Object $parentObject Parent Object of new Object
      * @param Boolean $isDocument True if new Object is a document
      *
      * @return Array $newNode Object node
      */
-    public function createNewObjectNode(Object $object, Object $parentObject=null, $isDocument)
+    public function createNewObjectNode(Object $object, $isDocument)
     {
         $newNode = array(
             'id' => $object->getTechnicalName(),
@@ -59,30 +58,15 @@ class JSTreeService
             'children' => array(), 
         );
 
-        if($parentObject == null) {
+        $property = $object->getProperties()->first(); 
 
-            if($isDocument) {
-                $text = 'sub_document'; 
-            }
-            else {
-                $text = 'sub_object'; 
-            }
-
-            $subObjectNode = array(
-                    'text' => $this->translator->trans(/** @Ignore */$text),
-                    'icon' => $this->icon->getRootSubObjectIcon(),
-                );
-            array_push($newNode['children'],$subObjectNode); 
+        $defaultPropertyNode = array(
+            'id' => $property->getTechnicalName(),
+            'text' => $property->getDisplayName(),
+            'icon' => $this->icon->getDefaultPropertyIcon(),
+        );
+        array_push($newNode['children'],$defaultPropertyNode); 
         
-            $property = $object->getProperties()->first(); 
-
-            $defaultPropertyNode = array(
-                'id' => $property->getTechnicalName(),
-                'text' => $property->getDisplayName(),
-                'icon' => $this->icon->getDefaultPropertyIcon(),
-            );
-            array_push($newNode['children'],$defaultPropertyNode); 
-        }
 
         return $newNode; 
     }

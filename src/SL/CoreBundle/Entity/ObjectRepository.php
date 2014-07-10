@@ -5,6 +5,7 @@ namespace SL\CoreBundle\Entity;
 //Symfony classes
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
 
 //Custom classes
 use SL\CoreBundle\Entity\Object;
@@ -13,7 +14,7 @@ use SL\CoreBundle\Entity\Object;
  * ObjectRepository
  *
  */
-class ObjectRepository extends EntityRepository
+class ObjectRepository extends NestedTreeRepository
 {
   /**
    * Select all Object with associated Property, subObject and their Property 
@@ -22,46 +23,13 @@ class ObjectRepository extends EntityRepository
    */
 	public function findFullAll(QueryBuilder $qb){
 
-    $subQuery = $this->getEntityManager()->createQuery("
-                    SELECT parentObject
-                    FROM SLCoreBundle:Object parentObject
-                    JOIN parentObject.childrenObject childObject
-                    WHERE childObject.id = o.id");
-                
-		$qb ->join('o.properties','p')
-        ->leftJoin('o.childrenObject','co')
-        ->leftJoin('co.properties', 'cop')
-        ->where($qb->expr()->not($qb->expr()->exists($subQuery->getDql())))
+		$qb ->leftjoin('o.properties','p')
   		  ->addOrderBy('o.displayOrder', 'ASC')
   		  ->addOrderBy('p.displayOrder', 'ASC')
-        ->addOrderBy('co.displayOrder', 'ASC')
-        ->addOrderBy('cop.displayOrder', 'ASC')
-        ->addSelect('o,p,co,cop');
+        ->addSelect('p');
 
     return $qb; 
 	}
-
-  /**
-   * Select Object with associated Property
-   *
-   * @param int $id Id of Object to select
-   *
-   * @return Object Object with its Property
-   */
-  public function findFullById($id){
-    
-    $qb = $this ->createQueryBuilder('o')
-                ->leftJoin('o.properties','p')
-                ->where('o.id = :id')
-                ->setParameter('id', $id)
-                ->addOrderBy('o.displayOrder', 'ASC')
-                ->addOrderBy('p.displayOrder', 'ASC')
-                ->addSelect('o,p');
-
-    return $qb->getQuery()
-              ->getSingleResult();
-  }
-
 
   /**
    * Select all Object with associated Property
@@ -72,7 +40,7 @@ class ObjectRepository extends EntityRepository
     
     $qb = $this->createQueryBuilder('o');
     $qb = $this ->findFullAll($qb)
-                ->andWhere('o.isDocument = false');
+                ->where('o.isDocument = false');
     
     return $qb->getQuery()
               ->getResult();
@@ -87,84 +55,83 @@ class ObjectRepository extends EntityRepository
     
     $qb = $this->createQueryBuilder('o');
     $qb = $this->findFullAll($qb)
-               ->andWhere('o.isDocument = true'); 
+               ->where('o.isDocument = true'); 
 
     return $qb->getQuery()
               ->getResult();
   }
 
   /**
+   * Select Object with associated Property
+   *
+   * @param int $id Id of Object to select
+   *
+   * @return Object Object with its Property
+   */
+  public function findFullById($id){
+    
+    $qb = $this->createQueryBuilder('o');
+    $qb = $this->findFullAll($qb)
+                ->where('o.id = :id')
+                ->setParameter('id', $id);
+
+    return $qb->getQuery()
+              ->getSingleResult();
+  }
+
+  /**
    * Select max Object display order
    *
-   * @param Object $parentObject Parent object of the object
+   * @param boolean $isDocument True if Object is a document
    *
    * @return Integer Max Object display order
    */
-	public function findMaxDisplayOrder(Object $parentObject=null)
+	public function findMaxDisplayOrder($isDocument)
   {
 	    $qb = $this  ->createQueryBuilder('o')
-	                 ->select('MAX(o.displayOrder)');
-
-      if($parentObject != null){
-        $qb ->join('o.parentObject', 'p')
-            ->where('p.id = :id') 
-            ->setParameter('id', $parentObject->getId());
-      }
-      else{
-        $qb ->where('o.isParent = true'); 
-      }
+	                 ->select('MAX(o.displayOrder)')
+                   ->where('o.isDocument = :isDocument')
+                   ->setParameter('isDocument', $isDocument);
 
 	    return $qb->getQuery()
 	              ->getSingleScalarResult();
 	}
 
   /**
-   * Select target Object
+   * Select other Object that aren't Document
    *
-   * @param Object $excludeObject Object to exclude of returned values. Its parent and children are excluded too.
+   * @param Object $currentObject Current Object
    *
-   * @return Collection A collection of target Object
+   * @return Collection A collection with all other Object
    */
-	public function findTargertObject(Object $excludeObject)
+	public function findOtherObject(Object $currentObject)
   {
-    $notIn = array($excludeObject->getId()); 
-
-    $qb = $this->createQueryBuilder('o');
-
-    //Select parent Object
-    $notInParent = $this->createQueryBuilder('o')
-                    ->select('po.id')
-                    ->leftJoin('o.parentObject', 'po')
-                    ->where('o.id = :id')
-                    ->setParameter('id', $excludeObject->getId())
-                    ->getQuery()
-                    ->getSingleScalarResult();
-
-    if($notInParent != null){
-      array_push($notIn, $notInParent);
-    }
-
-    //Select children Object
-    $notInChildren = $this->createQueryBuilder('o')
-                      ->select('co.id')
-                      ->leftJoin('o.childrenObject', 'co')
-                      ->where('o.id = :id')
-                      ->setParameter('id', $excludeObject->getId())
-                      ->getQuery()
-                      ->getResult();
-
-    foreach($notInChildren as $notInChild){
-      if($notInChild != null){
-        array_push($notIn, $notInChild['id']);
-      }
-    }
-
-    return  $this ->createQueryBuilder('o')
+    $qb = $this->createQueryBuilder('o')
               ->where('o.isEnabled = true')
               ->andWhere('o.isDocument = :isDocument')
               ->setParameter('isDocument', false)
-              ->andWhere($qb->expr()->not($qb->expr()->in('o.id', $notIn)))
+              ->andWhere('o.id <> :id')
+              ->setParameter('id', $currentObject->getId())
               ->orderBy('o.displayOrder', 'ASC');
 
+    return  $qb;
+
 	}
+
+   /**
+   * Select potentiel parent Object
+   *
+   * @return Collection A collection with potentiel parent Object
+   */
+  public function findParentObject()
+  {
+    $qb = $this->createQueryBuilder('o')
+              ->where('o.isEnabled = true')
+              //->andWhere('o.isDocument = :isDocument')
+              //->setParameter('isDocument',)
+              ->orderBy('o.displayOrder', 'ASC');
+
+    return  $qb;
+
+  }
 }

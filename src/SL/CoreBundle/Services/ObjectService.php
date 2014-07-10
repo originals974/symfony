@@ -67,21 +67,6 @@ class ObjectService
             return $integrityError;
         }
 
-        //Check if the Object have Object child
-        $parentObject = $this->em->getRepository('SLCoreBundle:Object')->findByParentObject($object);
-
-        if($parentObject != null){
-            $title = $this->translator->trans('delete.error.title');
-            $message = $this->translator->trans('delete.object.parent.error.message');
-
-            $integrityError = array(
-                'title' => $title,
-                'message' => $message,
-                );
-
-            return $integrityError;
-        }
-
         return $integrityError; 
     }
 
@@ -124,14 +109,13 @@ class ObjectService
      */
     public function createJsonResponse(Object $object, Form $form) {
 
-        $parentObject = $object->getParentObject(); 
         $isValid = $form->isValid(); 
 
         if($isValid) {
             $html = null; 
-            $nodeStructure = $this->jstreeService->createNewObjectNode($object, $parentObject, $object->isDocument());
+            $nodeStructure = $this->jstreeService->createNewObjectNode($object, $object->isDocument());
             $nodeProperties = array(
-                'parent' => ($parentObject == null)?'current.node':'first.child.node',
+                'parent' => 'current.node',
                 'select' => true,  
             );
         }

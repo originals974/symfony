@@ -1,4 +1,7 @@
 init:
+    pattern: /test
+    defaults: { _controller: SLCoreBundle:Main:test }
+init:
     pattern: /init
     defaults: { _controller: SLCoreBundle:Main:init }
 front_end:

@@ -3,6 +3,7 @@
 namespace SL\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use SL\CoreBundle\Validator\Constraints as SLCoreAssert;
@@ -10,8 +11,11 @@ use SL\CoreBundle\Validator\Constraints as SLCoreAssert;
 /**
  * Object
  *
+ * @Gedmo\Tree(type="nested")
  * @ORM\Table(name="object",uniqueConstraints={
- *     @ORM\UniqueConstraint(name="unique_index_object_technical_name", columns={"technical_name"})}))
+ *     @ORM\UniqueConstraint(name="unique_index_object_technical_name", columns={"technical_name"}),
+ *     @ORM\UniqueConstraint(name="unique_index_object_display_name", columns={"display_name"})
+ *  })
  * @ORM\Entity(repositoryClass="SL\CoreBundle\Entity\ObjectRepository")
  * @ORM\HasLifecycleCallbacks()
  * @UniqueEntity(fields="displayName")
@@ -40,42 +44,60 @@ class Object extends AbstractEntity
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="SL\CoreBundle\Entity\Property", mappedBy="object", cascade={"persist","remove"})
+     * @ORM\OneToMany(targetEntity="SL\CoreBundle\Entity\Property", mappedBy="object", cascade={"persist"})
      */
     private $properties;
 
     /**
-     * @ORM\ManyToOne(targetEntity="SL\CoreBundle\Entity\Object", inversedBy="childrenObject")
+     * @Gedmo\TreeLeft
+     * @ORM\Column(name="lft", type="integer")
      */
-    private $parentObject;
+    private $lft;
 
     /**
-     * @ORM\OneToMany(targetEntity="SL\CoreBundle\Entity\Object", mappedBy="parentObject")
+     * @Gedmo\TreeLevel
+     * @ORM\Column(name="lvl", type="integer")
      */
-    private $childrenObject;
+    private $lvl;
+
+    /**
+     * @Gedmo\TreeRight
+     * @ORM\Column(name="rgt", type="integer")
+     */
+    private $rgt;
+     /**
+     * @Gedmo\TreeRoot
+     * @ORM\Column(name="root", type="integer", nullable=true)
+     */
+    private $root;
+
+    /**
+     * @Gedmo\TreeParent
+     * @ORM\ManyToOne(targetEntity="Object", inversedBy="children")
+     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="CASCADE")
+     */
+    private $parent;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Object", mappedBy="parent")
+     * @ORM\OrderBy({"lft" = "ASC"})
+     */
+    private $children;
+
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="is_parent", type="boolean")
-     */
-    private $isParent;
-
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="is_document", type="boolean")
+     * @ORM\Column(name="isDocument", type="boolean")
      */
     private $isDocument;
 
     /**
      * Constructor
      */
-    public function __construct($parentObject, $isDocument, $defaultPropertyfieldType)
+    public function __construct($isDocument, $defaultPropertyfieldType)
     {
         $this->properties = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->childrenObject = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->setParentObject($parentObject);
         $this->setDocument($isDocument);
 
         if($defaultPropertyfieldType != null) {
@@ -170,56 +192,14 @@ class Object extends AbstractEntity
     }
 
     /**
-     * Add child Object
+     * Set Object parent 
      *
-     * @param \SL\CoreBundle\Entity\Object $child
+     * @param Object $parent
      * @return Object
      */
-    public function addChildrenObject(\SL\CoreBundle\Entity\Object $child)
+    public function setParent(Object $parent = null)
     {
-        $this->childrenObject[] = $child;
-
-        return $this;
-    }
-
-    /**
-     * Remove child Object
-     *
-     * @param \SL\CoreBundle\Entity\Object $child
-     */
-    public function removeChildrenObject(\SL\CoreBundle\Entity\Object $child)
-    {
-        $this->child->removeElement($child);
-    }
-
-    /**
-     * Get children Object Collection
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getChildrenObject()
-    {
-        return $this->childrenObject;
-    }
-
-    /**
-     * Set parent Object
-     *
-     * @param string $parent
-     * @return Object
-     */
-    public function setParentObject($parentObject)
-    {
-        if($parentObject != null) {
-            $this->setParent(false);
-        }
-        else{
-            $this->setParent(true);
-        }
-        
-        $this->parentObject = $parentObject;
-
-        return $this;
+        $this->parent = $parent;
     }
 
     /**
@@ -227,32 +207,9 @@ class Object extends AbstractEntity
      *
      * @return Object 
      */
-    public function getParentObject()
+    public function getParent()
     {
-        return $this->parentObject;
-    }
-
-    /**
-     * Set isParent
-     *
-     * @param boolean $isParent
-     * @return Object
-     */
-    public function setParent($isParent)
-    {
-        $this->isParent = $isParent;
-
-        return $this;
-    }
-
-    /**
-     * Get isParent
-     *
-     * @return boolean 
-     */
-    public function isParent()
-    {
-        return $this->isParent;
+        return $this->parent;
     }
 
     /**
@@ -283,8 +240,8 @@ class Object extends AbstractEntity
     */
     public function initObject()
     {
-        if(!$this->isParent()){
+        /*if(!$this->isParent()){
             $this->setCalculatedName($this->getParentObject()->getCalculatedName());
-        }   
+        }*/   
     }
 }

@@ -3,16 +3,13 @@ object:
     defaults: { _controller: SLCoreBundle:ObjectCRD:index }
 
 object_new:
-    pattern: /{id}/new/{isDocument}
-    defaults: { _controller: SLCoreBundle:ObjectCRD:new, id:0 }
-    requirements:
-        id: \d+
+    pattern: /new/{isDocument}
+    defaults: { _controller: SLCoreBundle:ObjectCRD:new }
 
 object_create:
-    pattern: /{id}/create/{isDocument}
-    defaults: { _controller: SLCoreBundle:ObjectCRD:create, id:0 }
+    pattern: /create/{isDocument}
+    defaults: { _controller: SLCoreBundle:ObjectCRD:create }
     requirements:
-        id: \d+
         _method: POST 
 
 object_edit:
@@ -55,27 +52,27 @@ object_update_icon:
         _method: PUT 
 
 object_update_checkbox:
-    pattern: /{id}/updateCheckbox
+    pattern: /{id}/update_checkbox
     defaults: { _controller: SLCoreBundle:ObjectUpdate:updateCheckbox }
     requirements:
         id: \d+
         _method: PUT 
 
 object_edit_calculated_name:
-    pattern: /{id}/editCalculatedName
+    pattern: /{id}/edit_calculated_name
     defaults: { _controller: SLCoreBundle:ObjectUpdate:editCalculatedName }
     requirements:
         id: \d+
 
 object_update_calculated_name:
-    pattern:  /{id}/updateCalculatedName
+    pattern:  /{id}/update_calculated_name
     defaults: { _controller: SLCoreBundle:ObjectUpdate:updateCalculatedName }
     requirements:
         id: \d+
         _method: PUT
 
 object_refresh_calculated_name:
-    pattern: /{id}/refreshCalculatedName
+    pattern: /{id}/refresh_calculated_name
     defaults: { _controller: SLCoreBundle:ObjectUpdate:refreshCalculatedName }
     requirements:
         id: \d+

@@ -23,6 +23,13 @@ class ObjectCalculatedNameType extends AbstractType
                     )
                 )
             )
+            ->add('updateExistingName' , 'checkbox',  array(
+                'label'        => 'object.update.calculate_name.existing_name.label',
+                'help_block'  => 'object.update.calculate_name.existing_name.help',
+                'required' => false,
+                'mapped' => false,
+                )
+            )
         ;
     }
     

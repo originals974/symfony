@@ -1,7 +1,7 @@
 imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
-    - { resource: elastica.yml }
+#    - { resource: elastica.yml }
 
 framework:
     #esi:             ~
@@ -145,10 +145,23 @@ doctrine:
                 connection:       default
                 mappings:
                     SLCoreBundle: ~
+                    gedmo_tree:
+                        type: annotation
+                        prefix: Gedmo\Tree\Entity
+                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Entity"
+                        alias: GedmoTree # this one is optional and will default to the name set for the mapping
+                        is_bundle: false
             database:
                 connection:       database
                 mappings:
                     SLDataBundle: ~
+
+#Stof_doctrine_extension_bundle
+stof_doctrine_extensions:
+    default_locale: fr
+    orm:
+        default:
+            tree: true
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -200,23 +213,23 @@ jms_di_extra:
         directories: ["%kernel.root_dir%/../src"]
 
 #FOSElastica
-# fos_elastica:
-#     clients:
-#         default: { host: localhost, port: 9200 }
-#     serializer:
-#         callback_class: FOS\ElasticaBundle\Serializer\Callback
-#         serializer: serializer
-#     indexes:
-#         slcore:
-#             client: default
-#             types:
-#                 Object1:
-#                     persistence:
-#                         driver: orm
-#                         model:  SL\DataBundle\Entity\Object1
-#                         provider: ~
-#                         listener: ~
-#                         finder: ~
+fos_elastica:
+    clients:
+        default: { host: localhost, port: 9200 }
+    serializer:
+        callback_class: FOS\ElasticaBundle\Serializer\Callback
+        serializer: serializer
+    indexes:
+        slcore:
+            client: default
+            types:
+                Object1:
+                    persistence:
+                        driver: orm
+                        model:  SL\DataBundle\Entity\Object1
+                        provider: ~
+                        listener: ~
+                        finder: ~
 
 #Shiva versionning
 shivas_versioning:

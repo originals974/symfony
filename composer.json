@@ -9,7 +9,7 @@
     "require": {
         "php": ">=5.3.3",
         "symfony/symfony": "2.5.*",
-        "doctrine/orm": "~2.2,>=2.2.3",
+        "doctrine/orm" : "=v2.4.2",
         "doctrine/doctrine-bundle": "~1.2",
         "twig/extensions": "~1.0",
         "symfony/assetic-bundle": "~2.3",
@@ -32,7 +32,7 @@
         "symfony/filesystem": "2.5.*@dev",
         "genemu/form-bundle": "2.2.*",
         "jschr/bootstrap-modal": "2.2.5",
-        "stof/doctrine-extensions-bundle": "~1.1@dev",
+        "stof/doctrine-extensions-bundle": "1.1.*@dev",
         "friendsofsymfony/elastica-bundle": "3.0.*@alpha",
         "jms/serializer-bundle": "0.13.*@dev",
         "shivas/versioning-bundle": "1.0.1",

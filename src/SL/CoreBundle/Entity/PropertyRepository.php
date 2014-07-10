@@ -96,28 +96,5 @@ class PropertyRepository extends EntityRepository
     return $qb->getQuery()
               ->getResult();
   	}
-
-  	/**
-	 * Select enabled parent Object Property by Object
-	 *
-	 * @param Object $object Object
-	 *
-	 * @return Collection  A collection of enabled parent Object Property
-	*/
-	public function findEnabledByParentObject(Object $object){
-		
-	    $qb = $this ->createQueryBuilder('pop')
-	    			->leftJoin('pop.object','po')
-	    			->leftJoin('pop.fieldType', 'ft')
-	                ->leftJoin('po.childrenObject','o')
-	                ->where('o.id = :id')
-	                ->setParameter('id', $object->getId())
-	                ->andWhere('pop.isEnabled = true')
-	                ->addSelect('ft')
-	                ->orderBy('pop.displayOrder', 'ASC'); 
-
-	    return $qb->getQuery()
-	              ->getResult();
-	}
 }
 

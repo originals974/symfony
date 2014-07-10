@@ -5,25 +5,29 @@
 {% endblock %}
 
 {% block modal_body %}
-	<div id="object_name_designer_button" class="btn-group">
-    {% if object.parentObject is not null %}
-      <div class="well">
-        {% for property in object.parentObject.properties %}
-          {% if property.isEnabled %}
-            <button title="{{ property.technicalName }}" type="button" class="btn btn-default">{{ property.displayName }}</button>
+	
+  <div class="panel-group" id="object_name_designer_accordion">
+    <div class="panel panel-default" id="object_name_designer_button">
+        {% for object in objects%}
+          {% if object.isEnabled %}
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#object_name_designer_accordion" href="#object_name_designer_object_{{ object.id }}">
+                      {{ object.displayName }}
+                    </a>
+                </h4>
+            </div>
+            <div id="object_name_designer_object_{{ object.id }}" class="panel-collapse collapse">
+                {% for property in object.properties %}
+                  {% if property.isEnabled %}
+                    <button title="{{ property.technicalName }}" type="button" class="btn btn-default">{{ property.displayName }}</button>
+                  {% endif %}
+                {% endfor %}
+            </div>
           {% endif %}
         {% endfor %}
-      </div>
-    {% endif %}
-
-    <div class="well">
-      {% for property in object.properties %}
-  			{% if property.isEnabled %}
-  				<button title="{{ property.technicalName }}" type="button" class="btn btn-default">{{ property.displayName }}</button>
-  			{% endif %}
-  		{% endfor %}
     </div>
-	</div>
+  </div>
 
 	{{ form(form) }}
 

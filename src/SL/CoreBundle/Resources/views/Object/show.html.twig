@@ -50,29 +50,4 @@
             </div>
         </div>
     </div>
-
-    {# SUBOJECTS INFORMATIONS #}
-    {% if object.isParent %}
-        <div class="panel panel-default">
-            <div class="panel-heading">
-
-                {% if object.isDocument %}
-                    {% set title = 'sub_document.index.title' %}
-                {% else %}
-                    {% set title = 'sub_object.index.title' %}
-                {% endif %}
-
-                <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
-                        {{ title|trans }}
-                    </a>
-                </h4>
-            </div>
-            <div id="collapseThree" class="panel-collapse collapse">
-                <div id="accordionSubObjectContent" class="panel-body">
-                    {% include "SLCoreBundle:Object:subObjectTable.html.twig" with {'object' : object} only %} 
-                </div>
-            </div>
-        </div>
-    {% endif %}
 </div>

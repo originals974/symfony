@@ -32,7 +32,7 @@ class FrontType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         //Get object properties
-        $parentObjectProperties = $this->em->getRepository('SLCoreBundle:Property')->findEnabledByParentObject($this->object);
+        //$parentObjectProperties = $this->em->getRepository('SLCoreBundle:Property')->findEnabledByParentObject($this->object);
         $objectProperties = $this->em->getRepository('SLCoreBundle:Property')->findEnabledByObject($this->object);
         
         if($parentObjectProperties == null) {

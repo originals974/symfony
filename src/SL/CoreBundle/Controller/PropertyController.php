@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 //Custom classes
 use SL\CoreBundle\Entity\Object;
@@ -117,6 +118,7 @@ class PropertyController extends Controller
      * @param Object $object Parent Object Property
      * @param String $formMode Property type to create (Default | Entity | List) 
      *
+     * @ParamConverter("object", options={"repository_method" = "findFullById"})
      */
     public function createAction(Request $request, Object $object, $formMode)
     {
@@ -124,6 +126,7 @@ class PropertyController extends Controller
         $property->setObject($object);
 
         $formArray = $this->createCreateForm($object, $property, $formMode);
+        $formChoice = $formArray['choiceForm'];
         $form = $formArray['mainForm'];
 
         $form->handleRequest($request);
@@ -150,10 +153,10 @@ class PropertyController extends Controller
                 $this->em->flush();
 
                 //Update database Object schema
-                $this->doctrineService->updateObjectSchema($object);
+                //$this->doctrineService->updateObjectSchema($object);
             }
 
-            $jsonResponse = $this->propertyService->createJsonResponse($property, $form); 
+            $jsonResponse = $this->propertyService->createJsonResponse($object, $property, $formChoice, $form); 
 
             $response = $jsonResponse;
         }
@@ -251,7 +254,7 @@ class PropertyController extends Controller
                 $this->em->flush();
                       
                 //Update database Object schema                
-                $this->doctrineService->updateObjectSchema($property->getObject());
+                //$this->doctrineService->updateObjectSchema($property->getObject());
 
                 $object = $this->em->getRepository('SLCoreBundle:Object')->findFullById($property->getObject()->getId()); 
 
@@ -375,7 +378,7 @@ class PropertyController extends Controller
             $this->em->flush();
 
             //Update database Object schema
-            $this->doctrineService->updateObjectSchema($property->getObject());
+            //$this->doctrineService->updateObjectSchema($property->getObject());
 
             $object = $this->em->getRepository('SLCoreBundle:Object')->findFullById($property->getObject()->getId()); 
 
@@ -466,7 +469,7 @@ class PropertyController extends Controller
             $this->em->flush();
 
             //Update database Object schema
-            $this->doctrineService->updateObjectSchema($property->getObject());
+            //$this->doctrineService->updateObjectSchema($property->getObject());
         }
         else {
             $response = $this->redirect($this->generateUrl('back_end'));
