@@ -28,6 +28,21 @@
     {% endembed %}
 {% endblock %}
 
+{% block sections %}
+	{{ parent() }}
+	<div class="row">
+        <!--Search section-->
+        <section class="well col-md-6">
+            {% block search_section %}{% endblock %}
+        </section>
+
+        <!--Tool section-->
+        <section class="well col-md-6">
+            {% block tool_section %}{% endblock %}
+        </section>
+    </div>
+{% endblock %}
+
 {% block footer %}
 	{{ parent() }}
 	{{ 'frontEnd'|trans }}

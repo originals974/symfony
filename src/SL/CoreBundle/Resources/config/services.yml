@@ -1,10 +1,11 @@
 parameters:
-    sl_core.doctrine.bundle: SL/DataBundle
+    sl_data.bundle: SL/DataBundle
+    symfony.config_path : %kernel.root_dir%/config/
 
 services:
     sl_core.doctrine:
         class: SL\CoreBundle\Services\DoctrineService
-        arguments: [@filesystem, @doctrine, @kernel, %sl_core.doctrine.bundle%]
+        arguments: [@filesystem, @doctrine, @kernel, %sl_data.bundle%]
 
     sl_core.js_tree:
         class: SL\CoreBundle\Services\JSTreeService
@@ -31,7 +32,7 @@ services:
 
     sl_core.elastica:
         class: SL\CoreBundle\Services\ElasticaService
-        arguments: [@doctrine.orm.entity_manager, @fos_elastica.index.slcore]
+        arguments: [@doctrine.orm.entity_manager, @fos_elastica.index.slcore, %sl_data.bundle%, %symfony.config_path%, @router]
 
     twig.text_extension:
         class: Twig_Extensions_Extension_Text

@@ -1,5 +1,4 @@
 <?php
-//TO COMPLETE
 namespace SL\CoreBundle\Entity;
 
 /**

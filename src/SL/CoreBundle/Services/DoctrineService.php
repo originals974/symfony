@@ -160,7 +160,7 @@ class DoctrineService
 
         //Mapped default fields
         $class->mapField(array('fieldName' => 'id', 'type' => 'integer', 'id' => true));
-        $class->mapField(array('fieldName' => 'objectTechnicalName', 'type' => 'string'));
+        $class->mapField(array('fieldName' => 'object_id', 'type' => 'integer'));
         $class->mapField(array('fieldName' => 'displayName', 'type' => 'string'));
         $class->setIdGeneratorType(ClassMetadataInfo::GENERATOR_TYPE_AUTO);
         

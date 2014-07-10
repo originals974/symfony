@@ -1,3 +1,6 @@
+init:
+    pattern: /init
+    defaults: { _controller: SLCoreBundle:Main:init }
 front_end:
     pattern: /front_end
     defaults: { _controller: SLCoreBundle:Main:indexFrontEnd }

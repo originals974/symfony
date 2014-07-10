@@ -1,6 +1,7 @@
 imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
+    - { resource: elastica.yml }
 
 framework:
     #esi:             ~
@@ -199,48 +200,23 @@ jms_di_extra:
         directories: ["%kernel.root_dir%/../src"]
 
 #FOSElastica
-fos_elastica:
-    clients:
-        default: { host: localhost, port: 9200 }
-    serializer:
-        callback_class: FOS\ElasticaBundle\Serializer\Callback
-        serializer: serializer
-    indexes:
-        slcore:
-            client: default
-            types:
-                # Cerfa:
-                #     mappings: ~
-                #     persistence:
-                #         driver: orm 
-                #         model:  SL\DataBundle\Entity\Cerfa
-                #         provider: ~
-                #         listener: ~
-                #         finder: ~
-                # Dispositif:
-                #     mappings: ~
-                #     persistence:
-                #         driver: orm
-                #         model:  SL\DataBundle\Entity\Dispositif
-                #         provider: ~
-                #         listener: ~
-                #         finder: ~
-                # Entreprise:
-                #     mappings: ~
-                #     persistence:
-                #         driver: orm
-                #         model:  SL\DataBundle\Entity\Entreprise
-                #         provider: ~
-                #         listener: ~
-                #         finder: ~
-                # Jeune:
-                #     mappings: ~
-                #     persistence:
-                #         driver: orm
-                #         model:  SL\DataBundle\Entity\Jeune
-                #         provider: ~
-                #         listener: ~
-                #         finder: ~
+# fos_elastica:
+#     clients:
+#         default: { host: localhost, port: 9200 }
+#     serializer:
+#         callback_class: FOS\ElasticaBundle\Serializer\Callback
+#         serializer: serializer
+#     indexes:
+#         slcore:
+#             client: default
+#             types:
+#                 Object1:
+#                     persistence:
+#                         driver: orm
+#                         model:  SL\DataBundle\Entity\Object1
+#                         provider: ~
+#                         listener: ~
+#                         finder: ~
 
 #Shiva versionning
 shivas_versioning:

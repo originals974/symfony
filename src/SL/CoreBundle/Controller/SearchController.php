@@ -4,6 +4,7 @@ namespace SL\CoreBundle\Controller;
 
 //Symfony classes
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -17,40 +18,25 @@ use SL\CoreBundle\Form\SearchType;
  */
 class SearchController extends Controller
 {
-    /**
-     * Show search page
-     */
-	public function indexAction()
-    {
-        //Variables initialisation
-        $search = new Search(); 
-
-        //Form creation
-        $form = $this->createSearchForm($search);
-
-        //View creation
-        return $this->render('SLCoreBundle:Search:index.html.twig', array(
-            'form'   => $form->createView(),
-            )
-        );
-    }
-
+   
     public function processAction(Request $request)
     {
-        //Variables initialisation
-        $search = new Search();
-        
-        //Form creation
-        $form = $this->createSearchForm($search);
+        $search = new Search(); 
 
-        //Associate return form data with entity object
+        $form = $this->createForm(new SearchType(), $search, array(
+            'action' => $this->generateUrl('search_process'),
+            )
+        );
+
         $form->handleRequest($request);
 
         if ($request->isXmlHttpRequest()) {
             
             //Ajax response construction
             $elasticaService = $this->get('sl_core.elastica');
-            $elasticaResultsSet = $elasticaService->elasticaRequest($search->getSearchField()); 
+
+            $objectType = $this->get('fos_elastica.index.slcore');
+            $elasticaResultsSet = $objectType->search($search->getSearchField());
 
             $elasticaResults  = $elasticaResultsSet->getResults();
 
@@ -58,9 +44,16 @@ class SearchController extends Controller
 
             foreach ($elasticaResults as $elasticaResult) {
                 $elasticaResultArray = $elasticaResult->getData();
-                $elasticaService->elasticSearchToBootstrapTree($elasticaResultArray);
+                $elasticaService->elasticSearchToJSTree($elasticaResultArray);
                 array_push($data, $elasticaResultArray);
             }
+
+            //Create the Json Response array
+            $data = array(  
+                'mode' => 'search',
+                'jsdata' => $data,
+                'isValid' => true,
+            );
 
             $response = new JsonResponse($data);
         }
@@ -71,24 +64,5 @@ class SearchController extends Controller
         }
 
         return $response; 
-    }
-
-    private function createSearchForm(Search $search) 
-    {
-        //Form creation        
-        $form = $this->createForm(new SearchType(), $search, array(
-            'action' => $this->generateUrl('search_process'),
-            )
-        );
-
-        //Submit button creation        
-        $form->add('submit', 'submit', array(
-                'label' => 'search',
-                'attr' => array('class'=>'btn btn-primary btn-sm'),
-                )
-            )
-        ;
-
-        return $form;
     }
 }

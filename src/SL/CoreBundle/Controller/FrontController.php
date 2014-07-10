@@ -103,7 +103,7 @@ class FrontController extends Controller
                 $displayName = $this->objectService->calculateDisplayName($entity, $object);
                 
                 $entity->setDisplayName($displayName); 
-                $entity->setObjectTechnicalName($object->getTechnicalName()); 
+                $entity->setObjectId($object->getId()); 
                 
                 //Save entity in database
                 $DatabaseEm = $this->getDoctrine()->getManager('database');
@@ -125,6 +125,7 @@ class FrontController extends Controller
 
             //Create the Json Response array
             $data = array(  
+                'mode' => 'create',
                 'html' => $html,
                 'isValid' => $isValid,
             );
@@ -164,6 +165,14 @@ class FrontController extends Controller
         );
 
         return $form;
+    }
+
+
+
+    public function showAction($entityId)
+    {
+
+        return new Response($entityId);
     }
 
     /**

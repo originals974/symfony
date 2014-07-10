@@ -127,7 +127,7 @@ class ObjectCRDController extends Controller
                 $this->em->flush();
 
                 //Update database Object schema
-                $this->doctrineService->updateObjectSchema($object); 
+                $this->doctrineService->updateObjectSchema($object);  
             }
  
             $jsonResponse = $this->objectService->createJsonResponse($object, $form);
@@ -185,7 +185,7 @@ class ObjectCRDController extends Controller
      *
      * @ParamConverter("object", options={"repository_method" = "findFullById"})
      */
-    public function showAction(Request $request, Object $object)
+    public function showAction(Request $request,Object $object)
     {
         if ($request->isXmlHttpRequest()) {
 

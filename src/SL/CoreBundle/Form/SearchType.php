@@ -15,11 +15,15 @@ class SearchType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('searchField' , 'search',  array(
-                'label' =>  'searchField',
-                'horizontal_input_wrapper_class' => 'col-lg-8',
+            ->add('searchField' , 'search')
+            ->add('submit', 'submit', array(
+                'label' => 'search',
+                'attr' => array(
+                    'class'=>'btn btn-primary btn-sm'
+                    )
+                )
             )
-        );
+        ;
     }
     
     /**
@@ -28,10 +32,11 @@ class SearchType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
+            'validation_groups' => false,
             'attr' => array(
                 'id' => 'sl_corebundle_search',
                 'method' => 'POST',
-                'class' => 'well form-inline', 
+                'class' => 'form-inline', 
                 'valid-data-target' => '#tree_view', 
                 'no-valid-data-target' => '#search_error',
                 ),

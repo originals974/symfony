@@ -26,11 +26,20 @@
                 data: $form.serializeArray(),
                 success: function(data) {
                 	if(data.isValid) {
-                        //Get the modal id  
-                        modalId = '#'+$($form).parent().parent().attr('id');
+                        if(data.mode == 'create') {
+                            //Get the modal id  
+                            modalId = '#'+$($form).parent().parent().attr('id');
 
-                        //Close the modal
-                        $(modalId).modal('hide'); 
+                            //Close the modal
+                            $(modalId).modal('hide'); 
+                        }
+                        else if(data.mode == 'search') {
+                            $('#jstree').jstree({ 'core' : {
+                                    'data' : data.jsdata
+                                    } 
+                                }
+                            );
+                        }
                     }
                     else {
 						$(noValidTarget).html(data.html);

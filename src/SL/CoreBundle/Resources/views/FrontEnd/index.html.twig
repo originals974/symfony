@@ -1,5 +1,24 @@
 {% extends 'SLCoreBundle:FrontEnd:frontEnd.html.twig' %}
 
-{% block body %}
-    {{ 'frontEnd.welcome.message'|trans }}
+{% block head_title %}
+    {{ parent() }} - {{ 'frontEnd.welcome'|trans }}
+{% endblock %}
+
+{% block search_section %}
+    {{ parent() }}
+
+    <div class="row">
+	    {{ form_start(form) }}
+
+	    	{{ form_errors(form) }}
+
+		    {{ form_widget(form.searchField) }}
+	        {{ form_widget(form.submit) }}
+		    
+		{{ form_end(form) }}
+	</div>
+
+	<div class="well row">
+		<div id="jstree"></div>
+	</div>
 {% endblock %}
