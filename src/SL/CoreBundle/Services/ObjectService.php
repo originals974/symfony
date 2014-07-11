@@ -145,4 +145,23 @@ class ObjectService
         return new JsonResponse($data); 
     }
 
+    /**
+     * Get hierarchy path of an Object  
+     *
+     * @param Object $object Object
+     *
+     * @return String $path Hierarchy path of Object
+     */
+    public function getObjectPath($object){
+        
+        //Get all parent Object
+        $objects = $this->em->getRepository('SLCoreBundle:Object')->getPath($object); 
+
+        $path=""; 
+        foreach($objects as $object){
+            $path = $path."/".$object->getDisplayName(); 
+        }
+
+        return $path; 
+    }
 }

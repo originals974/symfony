@@ -70,9 +70,3 @@ object_update_calculated_name:
     requirements:
         id: \d+
         _method: PUT
-
-object_refresh_calculated_name:
-    pattern: /{id}/refresh_calculated_name
-    defaults: { _controller: SLCoreBundle:ObjectUpdate:refreshCalculatedName }
-    requirements:
-        id: \d+

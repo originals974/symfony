@@ -124,6 +124,7 @@ class PropertyController extends Controller
     {
         $property = $this->propertyService->getPropertyObjectByFormMode($formMode); 
         $property->setObject($object);
+        $object->addProperty($property);
 
         $formArray = $this->createCreateForm($object, $property, $formMode);
         $formChoice = $formArray['choiceForm'];
@@ -153,7 +154,8 @@ class PropertyController extends Controller
                 $this->em->flush();
 
                 //Update database Object schema
-                //$this->doctrineService->updateObjectSchema($object);
+                $this->doctrineService->doctrineGenerateEntityFileByObject($object);  
+                $this->doctrineService->doctrineSchemaUpdateForce();
             }
 
             $jsonResponse = $this->propertyService->createJsonResponse($object, $property, $formChoice, $form); 
@@ -253,8 +255,9 @@ class PropertyController extends Controller
 
                 $this->em->flush();
                       
-                //Update database Object schema                
-                //$this->doctrineService->updateObjectSchema($property->getObject());
+                //Update database Object schema
+                $this->doctrineService->doctrineGenerateEntityFileByObject($property->getObject());  
+                $this->doctrineService->doctrineSchemaUpdateForce();
 
                 $object = $this->em->getRepository('SLCoreBundle:Object')->findFullById($property->getObject()->getId()); 
 
@@ -378,7 +381,8 @@ class PropertyController extends Controller
             $this->em->flush();
 
             //Update database Object schema
-            //$this->doctrineService->updateObjectSchema($property->getObject());
+            $this->doctrineService->doctrineGenerateEntityFileByObject($property->getObject());  
+            $this->doctrineService->doctrineSchemaUpdateForce();
 
             $object = $this->em->getRepository('SLCoreBundle:Object')->findFullById($property->getObject()->getId()); 
 
@@ -468,8 +472,11 @@ class PropertyController extends Controller
           
             $this->em->flush();
 
-            //Update database Object schema
-            //$this->doctrineService->updateObjectSchema($property->getObject());
+            if($name == 'isRequired') {
+                 //Update database Object schema
+                $this->doctrineService->doctrineGenerateEntityFileByObject($property->getObject());  
+                $this->doctrineService->doctrineSchemaUpdateForce();
+            }
         }
         else {
             $response = $this->redirect($this->generateUrl('back_end'));

@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 //Custom classes
 use SL\CoreBundle\Entity\Search;
 use SL\CoreBundle\Form\SearchType;
+use SL\CoreBundle\Entity\Technicien;
 
 /**
  * Front controller.
@@ -23,8 +24,7 @@ class MainController extends Controller
      */
     public function testAction(Request $request)
     {
-
-        $repo = $this->getDoctrine()->getEntityManager()->getRepository('SLCoreBundle:Object');
+        /*$repo = $this->getDoctrine()->getEntityManager()->getRepository('SLCoreBundle:Object');
         $this->getDoctrine()->getEntityManager()->clear(); 
 
 
@@ -33,11 +33,27 @@ class MainController extends Controller
         
         foreach($path as $object) {
             var_dump($object->getDisplayName()); 
+        }*/
+
+        $em = $this->getDoctrine()->getEntityManager();
+
+        /*$tech = new Technicien(); 
+        $tech->setSpe('Informatique'); 
+        $tech->setQualif('Niveau 2');
+        $tech->setName('Sam');*/
+
+        //$tech = $em->getRepository('SLCoreBundle:Employee')->find(1);
+
+        //$em->persist($tech);
+        //$em->flush();
+        $object = $em->getRepository('SLCoreBundle:Object')->find(51);
+        $children = $em->getRepository('SLCoreBundle:Object')->children($object, false); 
+
+        foreach($children as $object) {
+            var_dump($object->getDisplayName()); 
         }
 
-        
-
-        return new Response(var_dump("Coucou")); 
+        return new Response(var_dump('coucou')); 
     }
 
 

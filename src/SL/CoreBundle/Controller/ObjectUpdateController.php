@@ -30,15 +30,17 @@ class ObjectUpdateController extends Controller
      *     "em" = @DI\Inject("doctrine.orm.entity_manager"),
      *     "objectService" = @DI\Inject("sl_core.object"),
      *     "jstreeService" = @DI\Inject("sl_core.js_tree"),
-     *     "iconService" = @DI\Inject("sl_core.icon")
+     *     "iconService" = @DI\Inject("sl_core.icon"),
+     *     "doctrineService" = @DI\Inject("sl_core.doctrine")
      * })
      */
-    public function __construct($em, $objectService, $jstreeService, $iconService)
+    public function __construct($em, $objectService, $jstreeService, $iconService, $doctrineService)
     {
         $this->em = $em;
         $this->objectService = $objectService;
         $this->jstreeService = $jstreeService;
         $this->iconService = $iconService;
+        $this->doctrineService = $doctrineService;
     }
 
      /**
@@ -67,9 +69,14 @@ class ObjectUpdateController extends Controller
     */
     public function updateAction(Request $request, Object $object)
     {
-        $form = $this->createEditForm($object);
+        //Get initial parent of Object
+        $initParentId = ($object->getParent() != null)?$object->getParent()->getId():null; 
 
+        $form = $this->createEditForm($object);
         $form->handleRequest($request);
+
+        //Get new parent of Object
+        $newParentId = ($object->getParent() != null)?$object->getParent()->getId():null; 
 
         if ($request->isXmlHttpRequest()) {
 
@@ -80,6 +87,12 @@ class ObjectUpdateController extends Controller
 
                 $html = null; 
                 $nodeStructure = $this->jstreeService->updateObjectNode($object);
+
+                if($initParentId != $newParentId){
+                     //Update database Object schema
+                    $this->doctrineService->doctrineGenerateEntityFileByObject($object);  
+                    $this->doctrineService->doctrineSchemaUpdateForce();
+                }
             }
             else {
                 //Create form with errors
@@ -147,7 +160,7 @@ class ObjectUpdateController extends Controller
     {
         $form = $this->createEditCalculatedNameForm($object);
  
-        //Get all parent Object
+        //Get Object with parents
         $objects = $this->em->getRepository('SLCoreBundle:Object')->getPath($object); 
 
         return $this->render('SLCoreBundle:Object:objectNameDesigner.html.twig', array(
@@ -173,6 +186,10 @@ class ObjectUpdateController extends Controller
 
             $isValid = $form->isValid();
             if ($isValid) {
+
+                if($form->get('updateExistingName')->getData()) {
+                    //$this->refreshCalculatedName($object); 
+                }
 
                 $html = null; 
                 $this->em->flush();
@@ -229,31 +246,6 @@ class ObjectUpdateController extends Controller
         );
 
         return $form;
-    }
-
-    /**
-    * Refresh displayName of entity linked to Object
-    *
-    * @param Object $object Object 
-    *
-    */
-    public function refreshCalculatedNameAction(Object $object){
-
-        $databaseEm = $this->getDoctrine()->getManager('database');
-        
-        $entities = $databaseEm ->getRepository('SLDataBundle:'.$object->getTechnicalName())
-                                ->findAll(); 
-
-        foreach($entities as $entity) {
-
-            $displayName = $this->objectService->calculateDisplayName($entity, $object); 
-            $entity->setDisplayName($displayName); 
-
-        }
-
-        $databaseEm->flush();
-
-        return $this->redirect($this->generateUrl('back_end')); 
     }
 
      /**
@@ -313,5 +305,30 @@ class ObjectUpdateController extends Controller
         }   
 
         return $response;    
+    }
+
+    /**
+    * Refresh displayName of entity linked to Object
+    *
+    * @param Object $object Object 
+    *
+    */
+    public function refreshCalculatedName(Object $object){
+
+        $databaseEm = $this->getDoctrine()->getManager('database');
+        
+        $entities = $databaseEm ->getRepository('SLDataBundle:'.$object->getTechnicalName())
+                                ->findAll(); 
+
+        foreach($entities as $entity) {
+
+            $displayName = $this->objectService->calculateDisplayName($entity, $object); 
+            $entity->setDisplayName($displayName); 
+
+        }
+
+        $databaseEm->flush();
+
+        return true; 
     }
 }

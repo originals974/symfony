@@ -125,7 +125,8 @@ class ObjectCRDController extends Controller
                 $this->em->flush();
 
                 //Update database Object schema
-                //$this->doctrineService->updateObjectSchema($object);  
+                $this->doctrineService->doctrineGenerateEntityFileByObject($object);  
+                $this->doctrineService->doctrineSchemaUpdateForce();
             }
  
             $jsonResponse = $this->objectService->createJsonResponse($object, $form);
@@ -179,7 +180,10 @@ class ObjectCRDController extends Controller
     {
         if ($request->isXmlHttpRequest()) {
 
+            $path = $this->objectService->getObjectPath($object); 
+
             $response = $this->render('SLCoreBundle:Object:show.html.twig', array(
+                'path' => $path,
                 'object' => $object, 
                 )
             );
@@ -251,7 +255,16 @@ class ObjectCRDController extends Controller
             $this->em->clear(); 
 
             //Update database Object schema
-            //$this->doctrineService->deleteObjectSchema($object);
+             $this->doctrineService->removeDoctrineFiles($object);
+
+            //Get direct children of parent Object
+            $directChildren = $this->em->getRepository('SLCoreBundle:Object')->children($object->getParent(), true); 
+
+            foreach ($directChildren as $objectChild) {
+                $this->doctrineService->doctrineGenerateEntityFileByObject($objectChild);  
+            }
+            
+            $this->doctrineService->doctrineSchemaUpdateForce();
 
             $data = array(  
                 'form' => array(
@@ -274,7 +287,7 @@ class ObjectCRDController extends Controller
     }
 
     /**
-     * Delete Object Formt
+     * Delete Object Form
      *
      * @param Object $object Object to delete
      *

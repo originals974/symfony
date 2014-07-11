@@ -158,9 +158,7 @@ class PropertyService
      */
     public function createJsonResponse(Object $object, Property $property, Form $formChoice, Form $form) {
 
-        $isValid = $form->isValid(); 
-
-        $object->addProperty($property); 
+        $isValid = $form->isValid();  
 
         if($isValid) {
             $html = $this->templating->render('SLCoreBundle:Property:propertyTable.html.twig', array(
