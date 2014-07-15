@@ -114,9 +114,10 @@ class ElasticaService
     public function elasticSearchToJSTree(&$array) {
 
         $iconTable = $this->getIconTable(); 
-
-        //Convert elastica results array to bootstrap tree dataset
         $this->arrayFormat($array, $iconTable); 
+
+        $keyToKeep = array('icon', 'a_attr', 'text', 'children', 'href');
+        $this->array_unset_recursive($array, $keyToKeep); 
 
         return $array; 
     }
@@ -188,6 +189,22 @@ class ElasticaService
                     }
                 }
             } 
+        }
+    }
+
+    private function array_unset_recursive(&$array, $keyToKeep) {
+        
+        if (!is_array($keyToKeep)) {
+            $keyToKeep = array($keyToKeep);
+        }
+   
+        foreach ($array as $key => &$value) {
+            if (!in_array($key, $keyToKeep)) {
+                unset($array[$key]);
+            }
+            else if (is_array($value)) {
+                $this->array_unset_recursive($value, $keyToKeep);
+            }
         }
     }
 }
