@@ -173,15 +173,18 @@ class FrontController extends Controller
      *
      * @param Object $object The object definition
      * @param Mixed $entity The entity
-     *
-     * @ParamConverter("object", options={"repository_method" = "findFullById"})
      */
-    public function showAction(Request $request,Object $object, $entity)
+    public function showAction(Request $request,Object $object, $entity_id)
     {
         if ($request->isXmlHttpRequest()) {
 
+            $databaseEm = $this->getDoctrine()->getManager('database');
+            $entity = $databaseEm->getRepository('SLDataBundle:'.$object->getTechnicalName())->find($entity_id);
+
+            $objects = $this->em->getRepository('SLCoreBundle:Object')->getPath($object); 
+
             $response = $this->render('SLCoreBundle:Front:show.html.twig', array(
-                'object' => $object,
+                'objects' => $objects,
                 'entity' => $entity, 
                 )
             );

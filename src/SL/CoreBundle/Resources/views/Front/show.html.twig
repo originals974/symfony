@@ -1,0 +1,30 @@
+{% for object in objects%}
+
+	<h4>{{ object.displayName }}</h4>
+
+	<dl class="dl-horizontal">
+		{% for property in object.properties %}
+
+		    <dt>{{ property.displayName}}</dt>
+
+		    {% if property.fieldType.technicalName == 'date' %}
+		        <dd>{{ attribute(entity, property.technicalName)|date("d/m/Y") }}</dd>
+		    {% elseif  property.fieldType.technicalName == 'entity' %}
+
+		        {% set entityProperties = attribute(entity, property.technicalName) %}
+		        <dd>
+		        {% for entityProperty in entityProperties %}
+		            {{ entityProperty.displayName }}
+		            {% if not loop.last %}
+		                ,
+		            {% endif %}
+		        {% endfor %}
+		        </dd>
+		    {% else %}
+		        <dd>{{ attribute(entity, property.technicalName) }}</dd>
+		    {% endif %}
+
+		{% endfor %}
+	</dl>
+
+{% endfor %}
