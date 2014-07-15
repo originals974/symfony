@@ -3,11 +3,11 @@ object:
     defaults: { _controller: SLCoreBundle:ObjectCRD:index }
 
 object_new:
-    pattern: /new/{isDocument}
-    defaults: { _controller: SLCoreBundle:ObjectCRD:new }
+    pattern: /new/{isDocument}.{id}
+    defaults: { _controller: SLCoreBundle:ObjectCRD:new, id:0 }
 
 object_create:
-    pattern: /create/{isDocument}
+    pattern: /create/{isDocument}.{id}
     defaults: { _controller: SLCoreBundle:ObjectCRD:create }
     requirements:
         _method: POST 

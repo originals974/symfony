@@ -90,12 +90,12 @@ class Object extends AbstractEntity
      *
      * @ORM\Column(name="isDocument", type="boolean")
      */
-    private $isDocument;
+    private $isDocument = false;
 
     /**
      * Constructor
      */
-    public function __construct($isDocument, $defaultPropertyfieldType)
+    public function __construct($isDocument, $defaultPropertyfieldType = null)
     {
         $this->properties = new \Doctrine\Common\Collections\ArrayCollection();
         $this->setDocument($isDocument);

@@ -110,6 +110,9 @@
 								case 'current.node':
 								    parentNode = sel;
 								    break;
+								case 'parent.node':
+								    parentNode = ref.get_parent(sel);
+								    break;
 							} 
 
 						    //Create the new node attach to parent node

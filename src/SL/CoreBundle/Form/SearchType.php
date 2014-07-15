@@ -35,10 +35,7 @@ class SearchType extends AbstractType
             'validation_groups' => false,
             'attr' => array(
                 'id' => 'sl_corebundle_search',
-                'method' => 'POST',
-                'class' => 'form-inline', 
-                'valid-data-target' => '#tree_view', 
-                'no-valid-data-target' => '#search_error',
+                'class' => 'form-inline',
                 ),
             'show_legend' => false,
         ));

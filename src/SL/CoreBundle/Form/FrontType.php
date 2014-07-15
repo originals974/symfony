@@ -31,68 +31,31 @@ class FrontType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        //Get object properties
-        //$parentObjectProperties = $this->em->getRepository('SLCoreBundle:Property')->findEnabledByParentObject($this->object);
-        $objectProperties = $this->em->getRepository('SLCoreBundle:Property')->findEnabledByObject($this->object);
-        
-        if($parentObjectProperties == null) {
+        $objects = $this->em->getRepository('SLCoreBundle:Object')->getPath($this->object); 
+        $lastObject = array_pop($objects); 
+        array_unshift($objects, $lastObject); 
 
-            if($objectProperties != null) {
-
-                foreach ($objectProperties as $property) {
-
-                    $formFieldOptions = $this->defineFormFieldOptions($property); 
-
-                     $builder->add(
-                        $property->getTechnicalName(),
-                        $property->getFieldType()->getFormType(),  
-                        $formFieldOptions
-                    );
-                }
-
-            }
-        }
-        else {
+        foreach($objects as $object){
 
             //Create parent Tab in order to display parent Object fields
-            $parentTab = $builder->create('parentProperty', 'tab', array(
-            'label' => 'property.parent',
-            'icon' => 'pencil',
+            $tab = $builder->create($object->getTechnicalName().'Property', 'tab', array(
+            'label' => $object->getDisplayName(),
+            'icon' => $object->getIcon(),
             'inherit_data' => true,
             ));
 
-            foreach ($parentObjectProperties as $property) {
+            foreach ($object->getProperties() as $property) {
                 
                 $formFieldOptions = $this->defineFormFieldOptions($property); 
 
-                $parentTab->add(
+                $tab->add(
                     $property->getTechnicalName(), 
                     $property->getFieldType()->getFormType(),  
                     $formFieldOptions
                 );
             }
 
-            //Create children Tab in order to display Object field
-            $childrenTab = $builder->create('childProperty', 'tab', array(
-                'label' => 'property.child',
-                'icon' => 'pencil',
-                'inherit_data' => true,
-            ));
-
-            foreach ($objectProperties as $property) {
-
-                $formFieldOptions = $this->defineFormFieldOptions($property); 
-
-                 $childrenTab->add(
-                    $property->getTechnicalName(),
-                    $property->getFieldType()->getFormType(),  
-                    $formFieldOptions
-                );
-            }
-
-            $builder
-                ->add($parentTab)
-                ->add($childrenTab);
+            $builder->add($tab); 
         }
     }
     
@@ -114,12 +77,12 @@ class FrontType extends AbstractType
             );
 
         //Complet or override options array depending to property field type
-        switch ($property->getFieldType()->getTechnicalName()) {
+        switch ($property->getFieldType()->getFormType()) {
             case 'genemu_jquerydate':
                 $formFieldOptions['widget'] = 'single_text';
 
                 break;
-            case 'entity':
+            case 'collection':
                 $formFieldOptions['type'] = 'entity';
                 $formFieldOptions['allow_add'] = true;
                 $formFieldOptions['allow_delete'] = true;
@@ -154,7 +117,7 @@ class FrontType extends AbstractType
             
                 break;
             
-            case 'data_list':
+            case 'choice':
 
                 $choice = array(); 
                 $dataListValues = $this->em ->getRepository('SLCoreBundle:DataLIstValue')

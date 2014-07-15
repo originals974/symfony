@@ -14,10 +14,12 @@ use SL\CoreBundle\Entity\Object;
 class ObjectType extends AbstractType
 {
     private $method; 
+    private $disabledParentField; 
 
-    public function __construct($method = null)
+    public function __construct($disabledParentField = false, $method = null)
     {
         $this->method = $method; 
+        $this->disabledParentField = $disabledParentField; 
     }
 
     /**
@@ -37,6 +39,7 @@ class ObjectType extends AbstractType
                     )
                 )
                 ->add('parent', 'entity', array(
+                    'disabled' => $this->disabledParentField, 
                     'label' =>  'object.parent',
                     'required' => false,
                     'class' => 'SLCoreBundle:Object',

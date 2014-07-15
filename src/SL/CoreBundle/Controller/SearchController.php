@@ -18,49 +18,36 @@ use SL\CoreBundle\Form\SearchType;
  */
 class SearchController extends Controller
 {
-   
     public function processAction(Request $request)
     {
-        $search = new Search(); 
+        if ($request->isXmlHttpRequest()) {    
 
-        $form = $this->createForm(new SearchType(), $search, array(
-            'action' => $this->generateUrl('search_process'),
-            )
-        );
-
-        $form->handleRequest($request);
-
-        if ($request->isXmlHttpRequest()) {
-            
-            //Ajax response construction
-            $elasticaService = $this->get('sl_core.elastica');
-
-            $objectType = $this->get('fos_elastica.index.slcore');
-            $elasticaResultsSet = $objectType->search($search->getSearchField());
-
-            $elasticaResults  = $elasticaResultsSet->getResults();
+            $pattern = $request->query->get('pattern');
 
             $data = array(); 
 
-            foreach ($elasticaResults as $elasticaResult) {
-                $elasticaResultArray = $elasticaResult->getData();
-                $elasticaService->elasticSearchToJSTree($elasticaResultArray);
-                array_push($data, $elasticaResultArray);
-            }
+            if($pattern != "") {
+                //Ajax response construction
+                $elasticaService = $this->get('sl_core.elastica');
 
-            //Create the Json Response array
-            $data = array(  
-                'mode' => 'search',
-                'jsdata' => $data,
-                'isValid' => true,
-            );
+                $objectType = $this->get('fos_elastica.index.slcore');
+                $elasticaResultsSet = $objectType->search($pattern);
+
+                $elasticaResults = $elasticaResultsSet->getResults();
+
+                foreach ($elasticaResults as $elasticaResult) {
+                    $elasticaResultArray = $elasticaResult->getData();
+                    $elasticaService->elasticSearchToJSTree($elasticaResultArray);
+                    array_push($data, $elasticaResultArray);
+                }
+            }
 
             $response = new JsonResponse($data);
         }
         else {
 
             //Redirect to index page
-            $response = $this->redirect($this->generateUrl('search'));
+            $response = $this->redirect($this->generateUrl('front'));
         }
 
         return $response; 

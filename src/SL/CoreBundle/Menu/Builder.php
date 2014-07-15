@@ -78,24 +78,21 @@ class Builder extends ContainerAware
 
         foreach($objects as $object) {
 
-            //For Object without children
-            if($object->getchildrenObject()->count() == 0) {
-                $objectLink = $menu->addChild(
-                    $object->getTechnicalName(), 
-                    array(
-                        'route' => 'front_new', 
-                        'routeParameters' => array('id' => $object->getId()),
-                        'label' => $object->getDisplayName(),
-                        'icon' => $icon->getObjectIcon($object),
-                        )
-                    );
-
-                $objectLink->setLinkAttributes(array(
-                    'data-toggle' => 'modal',
-                    'data-target' => '#',
+            $objectLink = $menu->addChild(
+                $object->getTechnicalName(), 
+                array(
+                    'route' => 'front_new', 
+                    'routeParameters' => array('id' => $object->getId()),
+                    'label' => $object->getDisplayName(),
+                    'icon' => $icon->getObjectIcon($object),
                     )
                 );
-            }
+
+            $objectLink->setLinkAttributes(array(
+                'data-toggle' => 'modal',
+                'data-target' => '#',
+                )
+            );
         }
 
         return $menu;

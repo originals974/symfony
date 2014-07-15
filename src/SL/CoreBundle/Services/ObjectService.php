@@ -115,7 +115,7 @@ class ObjectService
             $html = null; 
             $nodeStructure = $this->jstreeService->createNewObjectNode($object, $object->isDocument());
             $nodeProperties = array(
-                'parent' => 'current.node',
+                'parent' => 'parent.node',
                 'select' => true,  
             );
         }

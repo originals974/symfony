@@ -6,6 +6,7 @@ namespace SL\CoreBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use JMS\DiExtraBundle\Annotation as DI;
 
 //Custom classes
@@ -167,13 +168,31 @@ class FrontController extends Controller
         return $form;
     }
 
-
-
-    public function showAction($entityId)
+    /**
+     * Show an entity
+     *
+     * @param Object $object The object definition
+     * @param Mixed $entity The entity
+     *
+     * @ParamConverter("object", options={"repository_method" = "findFullById"})
+     */
+    public function showAction(Request $request,Object $object, $entity)
     {
+        if ($request->isXmlHttpRequest()) {
 
-        return new Response($entityId);
+            $response = $this->render('SLCoreBundle:Front:show.html.twig', array(
+                'object' => $object,
+                'entity' => $entity, 
+                )
+            );
+        }
+        else {
+            $response = $this->redirect($this->generateUrl('front_end'));
+        }
+
+        return $response; 
     }
+
 
     /**
      * Displays a form to edit an existing entity.

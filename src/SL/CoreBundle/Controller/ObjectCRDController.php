@@ -74,13 +74,13 @@ class ObjectCRDController extends Controller
     * @param boolean $isDocument True if object is a document
     *
     */
-    public function newAction(Request $request, $isDocument)
+    public function newAction(Request $request, $isDocument, Object $parentObject = null)
     {
         if ($request->isXmlHttpRequest()) {
 
-            $object = new Object($isDocument, null);
+            $object = new Object($isDocument);
  
-            $form = $this->createCreateForm($object, $isDocument);
+            $form = $this->createCreateForm($object, $isDocument, $parentObject);
 
             $response = $this->render('SLCoreBundle::save.html.twig', array(
                 'entity' => $object,
@@ -101,13 +101,13 @@ class ObjectCRDController extends Controller
      * @param boolean $isDocument True if object is a document
      *
      */
-    public function createAction(Request $request,  $isDocument)
+    public function createAction(Request $request, $isDocument, Object $parentObject = null)
     {
         $defaultPropertyfieldType = $this->em->getRepository('SLCoreBundle:FieldType')->findOneByTechnicalName('text');
 
         $object = new Object($isDocument, $defaultPropertyfieldType);
 
-        $form = $this->createCreateForm($object, $isDocument);
+        $form = $this->createCreateForm($object, $isDocument, $parentObject);
 
         $form->handleRequest($request);
  
@@ -148,12 +148,20 @@ class ObjectCRDController extends Controller
     *
     * @return Form $form Create form
     */
-    private function createCreateForm(Object $object, $isDocument)
+    private function createCreateForm(Object $object, $isDocument, Object $parentObject = null)
     {
+        if($parentObject != null) {
+            $object->setParent($parentObject); 
+            $objectType = new ObjectType(true); 
+        }
+        else{
+            $objectType = new ObjectType(false); 
+        }
 
-        $form = $this->createForm(new ObjectType(), $object, array(
+        $form = $this->createForm($objectType, $object, array(
             'action' => $this->generateUrl('object_create', array(
-                'isDocument' => $isDocument
+                'isDocument' => $isDocument,
+                'id' =>  ($parentObject != null)?$parentObject->getId():0,
                 )
             ),
             'method' => 'POST',
@@ -297,7 +305,7 @@ class ObjectCRDController extends Controller
     {
         $method = 'DELETE'; 
 
-        $form = $this->createForm(new ObjectType($method), $object, array(
+        $form = $this->createForm(new ObjectType(false, $method), $object, array(
             'action' => $this->generateUrl('object_delete', array('id' => $object->getId())),
             'method' => $method,
             )

@@ -188,7 +188,7 @@ class ObjectUpdateController extends Controller
             if ($isValid) {
 
                 if($form->get('updateExistingName')->getData()) {
-                    //$this->refreshCalculatedName($object); 
+                    $this->refreshCalculatedName($object); 
                 }
 
                 $html = null; 

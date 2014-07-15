@@ -194,7 +194,7 @@ class DoctrineService
             $class->mapField(array('fieldName' => 'objectId', 'type' => 'integer'));
             $class->mapField(array('fieldName' => 'displayName', 'type' => 'string'));
             $class->setIdGeneratorType(ClassMetadataInfo::GENERATOR_TYPE_AUTO);
-            $class->setInheritanceType(ClassMetadataInfo::INHERITANCE_TYPE_JOINED);
+            $class->setInheritanceType(ClassMetadataInfo::INHERITANCE_TYPE_SINGLE_TABLE);
             $class->setDiscriminatorColumn(array(
                 'name' => 'discr',
                 'type' => 'string',

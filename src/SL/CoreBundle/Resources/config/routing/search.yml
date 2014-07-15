@@ -4,3 +4,5 @@ search:
 search_process:
     pattern:  /process
     defaults: { _controller: SLCoreBundle:Search:Process }
+    options:
+        expose: true

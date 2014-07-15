@@ -1,11 +1,50 @@
 <script type="text/javascript">    
 	$(document).ready(function () {
+        $('#jstree').jstree({
+            'core' : {
+                'data' : {
+                    'url' :  function (node) {
+                                    var $pattern = $('#sl_corebundle_search_searchField').val(); 
+                                    return Routing.generate('search_process', { pattern : $pattern});
+                    },
+                    'data' : function (data) {
+                        return data;
+                    }
+                }
+            }
+        });
+
+        $( "#sl_corebundle_search_submit" ).click(function() {
+            $('#jstree').jstree(true).refresh();
+        });
 
 		$(document).on('submit', 'form', function(event) {
-			$(this).find('button[type="submit"]').attr('disabled', true);
-            submitFormToAjaxFrontEnd($(this));
+			//$(this).find('button[type="submit"]').attr('disabled', true);
+
+            if($(this).attr('action') != "") {
+                submitFormToAjaxFrontEnd($(this));
+            }
             return false;
         });
+
+
+        $('#jstree')
+        .on('changed.jstree', function (e, data) {
+            
+            var $htmlTarget, i, j;
+
+            $htmlTarget = '#features'; 
+            $($htmlTarget).html(null);
+
+            for(i = 0, j = data.selected.length; i < j; i++) {
+                var $url = data.instance.get_node(data.selected[0]).a_attr['href']; 
+            }
+
+            if($url != null && $url != '#' ) {
+                $target = '#backEndSection'; 
+                sendToAjax('POST', $url, null, $htmlTarget);                                
+            }
+        })
 
 
 		/**
@@ -15,7 +54,7 @@
 	     */
         function submitFormToAjaxFrontEnd($form) {
 
-        	var validTarget, noValidTarget, modalId; 
+        	var validTarget, noValidTarget, modalId, ref; 
 
         	validTarget = '#'+$form.attr('valid-target'); 
         	noValidTarget = '#'+$form.attr('no-valid-target'); 
@@ -24,6 +63,7 @@
                 type: $form.attr('method'),
                 url: $form.attr('action'),
                 data: $form.serializeArray(),
+                dataType : "json",    
                 success: function(data) {
                 	if(data.isValid) {
                         if(data.mode == 'create') {
@@ -32,13 +72,6 @@
 
                             //Close the modal
                             $(modalId).modal('hide'); 
-                        }
-                        else if(data.mode == 'search') {
-                            $('#jstree').jstree({ 'core' : {
-                                    'data' : data.jsdata
-                                    } 
-                                }
-                            );
                         }
                     }
                     else {
@@ -49,6 +82,32 @@
                     alert('error');
                 }
             });
+        };
+
+
+
+        /**
+         * Submit data by using ajax
+         *
+         * @param String $method Ajax method used to send data
+         * @param String $url  Url where data are send
+         * @param JSonArray $data Data to send
+         * @param String $htmlTarget Html section to modify after success
+         *
+         */
+        function sendToAjax($method, $url, $data, $htmlTarget) {
+            $.ajax({
+                type: $method,
+                url: $url,
+                data: $data,
+                success: function(data) {
+                    
+                    $($htmlTarget).html(data);
+                },
+                error: function(data) {            
+                    alert('error');
+                }
+            }); 
         };
 	}); 
 </script>
