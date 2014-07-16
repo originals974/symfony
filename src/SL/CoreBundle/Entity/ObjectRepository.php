@@ -104,14 +104,14 @@ class ObjectRepository extends NestedTreeRepository
    *
    * @return Collection A collection with all other Object
    */
-	public function findOtherObject(Object $currentObject)
+	public function findOtherObject($currentObjectId)
   {
     $qb = $this->createQueryBuilder('o')
               ->where('o.isEnabled = true')
               ->andWhere('o.isDocument = :isDocument')
               ->setParameter('isDocument', false)
               ->andWhere('o.id <> :id')
-              ->setParameter('id', $currentObject->getId())
+              ->setParameter('id', $currentObjectId)
               ->orderBy('o.displayOrder', 'ASC');
 
     return  $qb;

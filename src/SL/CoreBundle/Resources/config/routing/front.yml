@@ -34,16 +34,16 @@ front_update:
         entity_id: \d+
         _method: PUT
 front_remove:
-    pattern: /{object_id}.{entity_id}/remove
+    pattern: /{id}.{entity_id}/remove
     defaults: { _controller: SLCoreBundle:Front:remove }
     requirements:
-        object_id: \d+
+        id: \d+
         entity_id: \d+
 front_delete:
-    pattern: /{object_id}.{entity_id}/delete
+    pattern: /{id}.{entity_id}/delete
     defaults: { _controller: SLCoreBundle:Front:delete }
     requirements:
-        object_id: \d+
+        id: \d+
         entity_id: \d+
         _method: DELETE
 front_tree_view:

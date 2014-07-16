@@ -11,7 +11,6 @@ use JMS\DiExtraBundle\Annotation as DI;
 //Custom classes
 use SL\CoreBundle\Entity\DataList;
 use SL\CoreBundle\Entity\DataListValue;
-use SL\CoreBundle\Form\DataListValueType;
 
 /**
  * DataListValue controller
@@ -120,19 +119,15 @@ class DataListValueController extends Controller
     *
     */
     private function createCreateForm(DataList $dataList, DataListValue $dataListValue)
-    {     
-        $form = $this->createForm(new DataListValueType(), $dataListValue, array(
+    {   
+        $form = $this->createForm('data_list_value', $dataListValue, array(
             'action' => $this->generateUrl('data_list_value_create', array(
                 'id' => $dataList->getId(),
                 )
             ),
             'method' => 'POST',
-            )
-        );
-   
-        $form->add('submit', 'submit', array(
-            'label' => 'create',
-            'attr' => array('class'=>'btn btn-primary btn-sm'),
+            'submit_label' => 'create',
+            'submit_color' => 'primary',
             )
         );
 
@@ -178,7 +173,7 @@ class DataListValueController extends Controller
                 $dataList = $this->em->getRepository('SLCoreBundle:DataList')->findFullById($dataListValue->getDataList()->getId()); 
 
                 $html = $this->renderView('SLCoreBundle:DataListValue:dataListValueTable.html.twig', array(
-                    'dataList' => $dataList(), 
+                    'dataList' => $dataList, 
                     )
                 );
 
@@ -226,17 +221,14 @@ class DataListValueController extends Controller
     */
     private function createEditForm(DataListValue $dataListValue)
     {
-        $form = $this->createForm(new DataListValueType(), $dataListValue, array(
+        $form = $this->createForm('data_list_value', $dataListValue, array(
             'action' => $this->generateUrl('data_list_value_update', array(
                 'id' => $dataListValue->getId(),
-                )),
+                )
+            ),
             'method' => 'PUT',
-            )
-        );
-
-        $form->add('submit', 'submit', array(
-            'label' => 'update',
-            'attr' => array('class'=>'btn btn-primary btn-sm'),
+            'submit_label' => 'update',
+            'submit_color' => 'primary',
             )
         );
 
@@ -316,19 +308,14 @@ class DataListValueController extends Controller
      */
     private function createDeleteForm(DataListValue $dataListValue)
     {
-        $method = 'DELETE'; 
-
-        $form = $this->createForm(new DataListValueType($method), $dataListValue, array(
+        $form = $this->createForm('data_list_value', $dataListValue, array(
             'action' => $this->generateUrl('data_list_value_delete', array(
                 'id' => $dataListValue->getId(),
-                )),
-            'method' => $method,
-            )
-        );
-
-        $form->add('submit', 'submit', array(
-            'label' => 'delete',
-            'attr' => array('class'=>'btn btn-danger btn-sm'),
+                )
+            ),
+            'method' => 'DELETE',
+            'submit_label' => 'delete',
+            'submit_color' => 'danger',
             )
         );
 

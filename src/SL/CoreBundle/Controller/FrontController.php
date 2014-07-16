@@ -12,6 +12,7 @@ use JMS\DiExtraBundle\Annotation as DI;
 //Custom classes
 use SL\CoreBundle\Entity\Object;
 use SL\CoreBundle\Form\FrontType;
+use SL\CoreBundle\Form\DeleteFrontType;
 
 /**
  * Front controller.
@@ -75,7 +76,7 @@ class FrontController extends Controller
 
         $form   = $this->createCreateForm($object, $entity);
 
-        return $this->render('SLCoreBundle::save.html.twig', array(
+        return $this->render('SLCoreBundle:Front:save.html.twig', array(
             'object' => $object,
             'form'   => $form->createView(),
             )
@@ -117,7 +118,7 @@ class FrontController extends Controller
             else {
 
                 //Create a form with field error 
-                $html = $this->renderView('SLCoreBundle::save.html.twig', array(
+                $html = $this->renderView('SLCoreBundle:Front:save.html.twig', array(
                     'object' => $object,
                     'form'   => $form->createView(),
                     )
@@ -153,15 +154,15 @@ class FrontController extends Controller
     {
         $entityClass = $this->doctrineService->getEntityClass($object->getTechnicalName());
 
-        $form = $this->createForm(new FrontType($this->em, $object, $entityClass), $entity, array(
-            'action' => $this->generateUrl('front_create', array('id' => $object->getId())),
+        $form = $this->createForm(new FrontType($this->em, $entityClass), $entity, array(
+            'action' => $this->generateUrl('front_create', array(
+                'id' => $object->getId(),
+                )
+            ),
             'method' => 'POST',
-            )
-        );
-  
-        $form->add('submit', 'submit', array(
-            'label' => 'create',
-            'attr' => array('class'=>'btn btn-primary btn-sm'),
+            'submit_label' => 'create',
+            'submit_color' => 'primary',
+            'object' => $object,
             )
         );
 
@@ -184,6 +185,7 @@ class FrontController extends Controller
             $objects = $this->em->getRepository('SLCoreBundle:Object')->getPath($object); 
 
             $response = $this->render('SLCoreBundle:Front:show.html.twig', array(
+                'object' => $object, 
                 'objects' => $objects,
                 'entity' => $entity, 
                 )
@@ -196,6 +198,94 @@ class FrontController extends Controller
         return $response; 
     }
 
+ /**
+    * Display form to remove an entity.
+    *
+    * @param Object $object Object to remove
+    *
+    */
+    public function removeAction(Object $object, $entity_id)
+    {
+        $databaseEm = $this->getDoctrine()->getManager('database');
+        $entity = $databaseEm->getRepository('SLDataBundle:'.$object->getTechnicalName())->find($entity_id);
+  
+        $form = $this->createDeleteForm($object, $entity);
+
+        return $this->render('SLCoreBundle::save.html.twig', array(
+            'entity' => $object,
+            'form'   => $form->createView(),
+            )
+        );
+    }
+
+    /**
+     * Delete form action.
+     *
+     * @param Object $object Object to delete
+     *
+     */
+    public function deleteAction(Request $request, Object $object, $entity_id)
+    {
+        $databaseEm = $this->getDoctrine()->getManager('database');
+        $entity = $databaseEm->getRepository('SLDataBundle:'.$object->getTechnicalName())->find($entity_id);
+
+        $form = $this->createDeleteForm($object, $entity);
+
+        //Associate return form data with entity
+        $form->handleRequest($request);
+
+        if ($request->isXmlHttpRequest()) {
+
+            //Delete entity from database
+            $databaseEm->remove($entity);
+
+            //Create the Json Response array
+            $html = "";
+            $data = array(
+                'formAction' => 'delete',  
+                'html' => $html,
+                'isValid' => true,
+                'entityType' => $object->getTechnicalName(),
+                'entityId' => $entity->getId(),
+            );
+
+            $databaseEm->flush();
+
+            $response = new JsonResponse($data);
+        }
+        else {
+            $response = $this->redirect($this->generateUrl('front_end', array('object_id' => $object->getId())));
+        }   
+
+        return $response;    
+    }
+
+    /**
+     * Delete Property Form
+     *
+     * @param Property $property Property to delete
+     *
+     * @return Form $form Delete form
+     */
+    private function createDeleteForm(Object $object, $entity)
+    {
+        $entityClass = $this->doctrineService->getEntityClass($object->getTechnicalName());
+
+        $form = $this->createForm(new FrontType($this->em, $entityClass), $entity, array(
+            'action' => $this->generateUrl('front_delete', array(
+                'id' => $object->getId(),
+                'entity_id' => $entity->getId(),
+                )
+            ),
+            'method' => 'DELETE',
+            'submit_label' => 'delete',
+            'submit_color' => 'danger',
+            'object' => $object,
+            )
+        );
+
+        return $form;
+    }
 
     /**
      * Displays a form to edit an existing entity.
@@ -336,76 +426,8 @@ class FrontController extends Controller
         return $form;
     }*/
 
-     /**
-     * Displays a form to remove an existing entity.
-     *
-     * @ParamConverter("object", options={"mapping": {"object_id": "id"}})
-     */
-    /*public function removeAction(Object $object, $entity_id)
-    {
-        //Variable initialisation
-        $databaseEm = $this->getDoctrine()->getManager('database');
-        
-        //Get entity to delete
-        $entity = $databaseEm->getRepository('SLDataBundle:'.$object->getTechnicalName())->find($entity_id);
 
-        //Form creation   
-        $form = $this->createDeleteForm($object, $entity);
-
-        //View creation 
-        return $this->render('SLCoreBundle:Front:save.html.twig', array(
-            'action' => 'delete',
-            'form'   => $form->createView(),
-            )
-        );
-    }*/
-
-    /**
-     * Deletes an entity.
-     *
-     * @ParamConverter("object", options={"mapping": {"object_id": "id"}})
-     */
-    /*public function deleteAction(Request $request, Object $object, $entity_id)
-    {
-        //Variable initialisation
-        $databaseEm = $this->getDoctrine()->getManager('database');
-
-        //Get entity to delete
-        $entity = $databaseEm->getRepository('SLDataBundle:'.$object->getTechnicalName())->find($entity_id);
-
-        //Form creation  
-        $form = $this->createDeleteForm($object, $entity);
-
-        //Associate return form data with entity
-        $form->handleRequest($request);
-
-        if ($request->isXmlHttpRequest()) {
-
-            //Delete entity from database
-            $databaseEm = $this->getDoctrine()->getManager('database');
-            $databaseEm->remove($entity);
-
-            //Create the Json Response array
-            $html = "";
-            $data = array(
-                'formAction' => 'delete',  
-                'html' => $html,
-                'isValid' => true,
-                'entityType' => $object->getTechnicalName(),
-                'entityId' => $entity->getId(),
-            );
-
-            $databaseEm->flush();
-
-            $response = new JsonResponse($data);
-        }
-        else {
-            $response = $this->redirect($this->generateUrl('front', array('object_id' => $object->getId())));
-        }   
-
-        return $response;    
-    }*/
-
+    
     /**
      * Creates a form to delete an entity by id.
      *

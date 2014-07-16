@@ -34,6 +34,13 @@ class ListPropertyType extends PropertyType
                     ) 
                 )
             )
+            ->add('submit', 'submit', array(
+                'label' => $options['submit_label'],
+                'attr' => array(
+                    'class'=>'btn btn-'.$options['submit_color'].' btn-sm'
+                    ),
+                )
+            )
         ;
     }
 

@@ -12,17 +12,15 @@ use Doctrine\ORM\EntityManager;
 class FrontType extends AbstractType
 {
     protected $em;
-    protected $object;
     protected $entityClass;
 
     /**
      * Constructor
      */
-    public function __construct (EntityManager $em, Object $object, $entityClass)
+    public function __construct (EntityManager $em, $entityClass)
     {
         $this->em = $em; 
-        $this->object = $object;
-        $this->entityClass = $entityClass;
+        $this->entityClass = $entityClass; 
     }
 
     /**
@@ -31,32 +29,42 @@ class FrontType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $objects = $this->em->getRepository('SLCoreBundle:Object')->getPath($this->object); 
-        $lastObject = array_pop($objects); 
-        array_unshift($objects, $lastObject); 
+        if($options['method'] != 'DELETE'){
+            $objects = $this->em->getRepository('SLCoreBundle:Object')->getPath($options['object']); 
+            $lastObject = array_pop($objects); 
+            array_unshift($objects, $lastObject); 
 
-        foreach($objects as $object){
+            foreach($objects as $object){
 
-            //Create parent Tab in order to display parent Object fields
-            $tab = $builder->create($object->getTechnicalName().'Property', 'tab', array(
-            'label' => $object->getDisplayName(),
-            'icon' => $object->getIcon(),
-            'inherit_data' => true,
-            ));
+                //Create parent Tab in order to display parent Object fields
+                $tab = $builder->create($object->getTechnicalName().'Property', 'tab', array(
+                'label' => $object->getDisplayName(),
+                'icon' => $object->getIcon(),
+                'inherit_data' => true,
+                ));
 
-            foreach ($object->getProperties() as $property) {
-                
-                $formFieldOptions = $this->defineFormFieldOptions($property); 
+                foreach ($object->getProperties() as $property) {
+                    
+                    $formFieldOptions = $this->defineFormFieldOptions($property); 
 
-                $tab->add(
-                    $property->getTechnicalName(), 
-                    $property->getFieldType()->getFormType(),  
-                    $formFieldOptions
-                );
+                    $tab->add(
+                        $property->getTechnicalName(), 
+                        $property->getFieldType()->getFormType(),  
+                        $formFieldOptions
+                    );
+                }
+
+                $builder->add($tab); 
             }
-
-            $builder->add($tab); 
         }
+
+        $builder->add('submit', 'submit', array(
+            'label' => $options['submit_label'],
+            'attr' => array(
+                'class'=>'btn btn-'.$options['submit_color'].' btn-sm'
+                ),
+            )
+        );
     }
     
 
@@ -156,7 +164,15 @@ class FrontType extends AbstractType
                 'no-valid-target' => 'ajax-modal',
                 ),
             'show_legend' => false,
-        ));
+            )
+        );
+
+        $resolver->setRequired(array(
+            'submit_label',
+            'submit_color',
+            'object',
+            )
+        );
     }
 
     /**
@@ -164,6 +180,6 @@ class FrontType extends AbstractType
      */
     public function getName()
     {
-        return 'sl_corebundle_'.$this->object->getTechnicalName();
+        return 'front';
     }
 }

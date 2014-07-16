@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class PropertyFormChoiceType extends AbstractType
+class PropertyChoiceType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -16,7 +16,7 @@ class PropertyFormChoiceType extends AbstractType
     {
         $builder
             ->add('formMode', 'choice', array(
-                'label'        => 'property.formChoice',
+                'label'        => 'property.choice',
                 'expanded'     => true,
                 'choices'      => array(
                     'default' => 'default', 
@@ -46,6 +46,6 @@ class PropertyFormChoiceType extends AbstractType
      */
     public function getName()
     {
-        return 'property_form_choice';
+        return 'property_choice';
     }
 }

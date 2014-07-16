@@ -13,8 +13,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 //Custom classes
 use SL\CoreBundle\Entity\Object;
 use SL\CoreBundle\Entity\Property;
-use SL\CoreBundle\Form\PropertyType;
-use SL\CoreBundle\Form\PropertyFormChoiceType;
 
 /**
  * Property controller
@@ -183,10 +181,10 @@ class PropertyController extends Controller
     {   
         $form = array(); 
 
-        $choiceForm = $this->createForm(new PropertyFormChoiceType(), null, array(
+        $choiceForm = $this->createForm('property_choice', null, array(
             'action' => $this->generateUrl('property_choice_form', array(
-            'id' => $object->getId(),
-            )
+                'id' => $object->getId(),
+                )
             ),
             'method' => 'POST',
             )
@@ -197,20 +195,18 @@ class PropertyController extends Controller
         $form['choiceForm'] = $choiceForm; 
 
         //Select formType depending to formMode
-        $formType = $this->propertyService->selectFormType($formMode, $object); 
+        $formService = $this->propertyService->selectFormService($formMode); 
 
-        $mainForm = $this->createForm($formType, $property, array(
+        $mainForm = $this->createForm($formService, $property, array(
             'action' => $this->generateUrl('property_create', array(
                     'id' => $object->getId(),
                     'formMode' => $formMode,
                 )
             ),
             'method' => 'POST',
-        ));
-
-        $mainForm->add('submit', 'submit', array(
-            'label' => 'create',
-            'attr' => array('class'=>'btn btn-primary btn-sm'),
+            'object_id' => $object->getId(),
+            'submit_label' => 'create',
+            'submit_color' => 'primary',
             )
         );
 
@@ -311,18 +307,17 @@ class PropertyController extends Controller
     {
         //Select FormType depending to FieldType
         $formMode = $this->propertyService->getFormModeByProperty($property); 
-        $formType = $this->propertyService->selectFormType($formMode, $property->getObject()); 
+        $formService = $this->propertyService->selectFormService($formMode); 
 
-        $form = $this->createForm($formType, $property, array(
+        $form = $this->createForm($formService, $property, array(
             'action' => $this->generateUrl('property_update', array(
                 'id' => $property->getId(),
-                )),
+                )
+            ),
             'method' => 'PUT',
-        ));
-   
-        $form->add('submit', 'submit', array(
-            'label' => 'update',
-            'attr' => array('class'=>'btn btn-primary btn-sm'),
+            'object_id' => $property->getObject()->getId(),
+            'submit_label' => 'update',
+            'submit_color' => 'primary',
             )
         );
 
@@ -421,19 +416,15 @@ class PropertyController extends Controller
      */
     private function createDeleteForm(Property $property)
     {
-        $method = 'DELETE'; 
-
-        $form = $this->createForm(new PropertyType($method), $property, array(
+        $form = $this->createForm('property', $property, array(
             'action' => $this->generateUrl('property_delete', array(
                 'id' => $property->getId(),
-                )),
-            'method' => $method,
-            )
-        );
-
-        $form->add('submit', 'submit', array(
-            'label' => 'delete',
-            'attr' => array('class'=>'btn btn-danger btn-sm'),
+                )
+            ),
+            'method' => 'DELETE',
+            'object_id' => $property->getObject()->getId(),
+            'submit_label' => 'delete',
+            'submit_color' => 'danger',
             )
         );
 

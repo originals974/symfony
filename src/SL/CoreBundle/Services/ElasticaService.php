@@ -152,7 +152,6 @@ class ElasticaService
                     if($key == 'display_name') {
                        
                         $array['text'] = $value;
-                        //unset($array[$key]);
                     }
                     //Add href attribute
                     elseif($key == 'object_id') {
@@ -163,7 +162,6 @@ class ElasticaService
                                 )
                             )
                         );
-                        //unset($array[$key]);
                     }
                     //Children creation 
                     elseif(is_array($array[$key]) && strpos($key, '_entity_property') !==false ) {
@@ -176,12 +174,7 @@ class ElasticaService
                             array_push($array['children'], $subArray); 
                             $this->arrayFormat($array['children'], $iconTable);
                         }
-                        //unset($array[$key]);
                     }
-                    //Remove key
-                    /*elseif($key != 'id' && $key != 'icon' && $key != 'a_attr' && $key != 'text' && $key != 'children' && $key != 'object_id') {
-                        unset($array[$key]);
-                    }*/
 
                     //Add icon key
                     if(!array_key_exists('icon', $array)) {

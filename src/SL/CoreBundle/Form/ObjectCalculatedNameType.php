@@ -30,6 +30,11 @@ class ObjectCalculatedNameType extends AbstractType
                 'mapped' => false,
                 )
             )
+            ->add('submit', 'submit', array(
+                'label' => 'update',
+                'attr' => array('class'=>'btn btn-primary btn-sm'),
+                )
+            )
         ;
     }
     
@@ -40,6 +45,7 @@ class ObjectCalculatedNameType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'SL\CoreBundle\Entity\Object',
+            'method' => 'PUT',
             'attr' => array(
                 'class' => 'form-horizontal',
                 ),

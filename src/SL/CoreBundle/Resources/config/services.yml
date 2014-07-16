@@ -39,9 +39,45 @@ services:
         tags:
             - name: twig.extension
 
+
+    #Form
+    sl_core.form.type.data.list:
+        class: SL\CoreBundle\Form\DataListType
+        tags:
+            - { name: form.type, alias: data_list }
+    sl_core.form.type.data.list.value:
+        class: SL\CoreBundle\Form\DataListValueType
+        tags:
+            - { name: form.type, alias: data_list_value }
+    sl_core.form.type.object:
+        class: SL\CoreBundle\Form\ObjectType
+        tags:
+            - { name: form.type, alias: object }
+    sl_core.form.type.object.calculated.name:
+        class: SL\CoreBundle\Form\ObjectCalculatedNameType
+        tags:
+            - { name: form.type, alias: object_calculated_name }
+    sl_core.form.type.property.choice:
+        class: SL\CoreBundle\Form\PropertyChoiceType
+        tags:
+            - { name: form.type, alias: property_choice }
+    sl_core.form.type.property:
+        class: SL\CoreBundle\Form\PropertyType
+        tags:
+            - { name: form.type, alias: property }
+    sl_core.form.type.entity.property:
+        class: SL\CoreBundle\Form\EntityPropertyType
+        tags:
+            - { name: form.type, alias: entity_property }
+    sl_core.form.type.list.property:
+        class: SL\CoreBundle\Form\ListPropertyType
+        tags:
+            - { name: form.type, alias: list_property }
+
     #Validator
     validator.unique.calculated_name_pattern:
         class: SL\CoreBundle\Validator\Constraints\CalculatedNamePatternValidator
         arguments: [@doctrine.orm.entity_manager]
         tags:
             - { name: validator.constraint_validator, alias: calculated_name_pattern }
+

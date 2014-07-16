@@ -12,7 +12,6 @@ use JMS\DiExtraBundle\Annotation as DI;
 
 //Custom classes
 use SL\CoreBundle\Entity\DataList;
-use SL\CoreBundle\Form\DataListType;
 use SL\CoreBundle\Services\DataListService;
 use SL\CoreBundle\Services\JSTreeService;
 use SL\CoreBundle\Services\IconService;
@@ -134,16 +133,12 @@ class DataListController extends Controller
     * @return Form $form Create form
     */
     private function createCreateForm(DataList $dataList)
-    {       
-        $form = $this->createForm(new DataListType(), $dataList, array(
+    {   
+        $form = $this->createForm('data_list', $dataList, array(
             'action' => $this->generateUrl('data_list_create'),
             'method' => 'POST',
-            )
-        );
-     
-        $form->add('submit', 'submit', array(
-            'label' => 'create',
-            'attr' => array('class'=>'btn btn-primary btn-sm'),
+            'submit_label' => 'create',
+            'submit_color' => 'primary',
             )
         );
 
@@ -234,15 +229,14 @@ class DataListController extends Controller
     */
     private function createEditForm(DataList $dataList)
     {     
-        $form = $this->createForm(new DataListType(), $dataList, array(
-            'action' => $this->generateUrl('data_list_update', array('id' => $dataList->getId())),
+        $form = $this->createForm('data_list', $dataList, array(
+            'action' => $this->generateUrl('data_list_update', array(
+                'id' => $dataList->getId(),
+                )
+            ),
             'method' => 'PUT',
-            )
-        );
-  
-        $form->add('submit', 'submit', array(
-            'label' => 'update',
-            'attr' => array('class'=>'btn btn-primary btn-sm'),
+            'submit_label' => 'update',
+            'submit_color' => 'primary',
             )
         );
 
@@ -355,17 +349,14 @@ class DataListController extends Controller
      */
     private function createDeleteForm(DataList $dataList)
     {
-        $method = 'DELETE'; 
-
-        $form = $this->createForm(new DataListType($method), $dataList, array(
-            'action' => $this->generateUrl('data_list_delete', array('id' => $dataList->getId())),
-            'method' => $method,
-            )
-        );
-
-        $form->add('submit', 'submit', array(
-            'label' => 'delete',
-            'attr' => array('class'=>'btn btn-danger btn-sm'),
+        $form = $this->createForm('data_list', $dataList, array(
+            'action' => $this->generateUrl('data_list_delete', array(
+                'id' => $dataList->getId(),
+                )
+            ),
+            'method' => 'DELETE',
+            'submit_label' => 'delete',
+            'submit_color' => 'danger',
             )
         );
 

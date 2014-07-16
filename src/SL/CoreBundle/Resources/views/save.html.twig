@@ -4,12 +4,8 @@
 {% set delete_message = form.vars.full_name ~ '.' ~ form.vars.method|lower ~ '.message' %}
 
 {% block modal_title %}
-	{% if object is defined %}
-		<h2>{{ object.displayName }}|<small>{{ form.vars.method|lower|trans}}</small></h2>
-	{% else %}
-		{% set title = form.vars.full_name ~ '.' ~ form.vars.method|lower ~ '.title' %}
-		{{ title|lower|trans}}
-	{% endif %}
+	{% set title = form.vars.full_name ~ '.' ~ form.vars.method|lower ~ '.title' %}
+	{{ title|lower|trans}}
 {% endblock %}
 
 {% block modal_body %}

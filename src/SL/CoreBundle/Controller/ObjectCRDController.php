@@ -11,7 +11,6 @@ use JMS\DiExtraBundle\Annotation as DI;
 
 //Custom classes
 use SL\CoreBundle\Entity\Object;
-use SL\CoreBundle\Form\ObjectType;
 
 /**
  * Object Create Read Delete controller
@@ -152,25 +151,22 @@ class ObjectCRDController extends Controller
     {
         if($parentObject != null) {
             $object->setParent($parentObject); 
-            $objectType = new ObjectType(true); 
+            $disabledParentField = true; 
         }
         else{
-            $objectType = new ObjectType(false); 
+            $disabledParentField = false; 
         }
 
-        $form = $this->createForm($objectType, $object, array(
+        $form = $this->createForm('object', $object, array(
             'action' => $this->generateUrl('object_create', array(
                 'isDocument' => $isDocument,
                 'id' =>  ($parentObject != null)?$parentObject->getId():0,
                 )
             ),
             'method' => 'POST',
-            )
-        );
-     
-        $form->add('submit', 'submit', array(
-            'label' => 'form.submit.create',
-            'attr' => array('class'=>'btn btn-primary btn-sm'),
+            'submit_label' => 'form.submit.create',
+            'submit_color' => 'primary',
+            'disabled_parent_field' => $disabledParentField,
             )
         );
 
@@ -303,17 +299,12 @@ class ObjectCRDController extends Controller
      */
     private function createDeleteForm(Object $object)
     {
-        $method = 'DELETE'; 
-
-        $form = $this->createForm(new ObjectType(false, $method), $object, array(
+        $form = $this->createForm('object', $object, array(
             'action' => $this->generateUrl('object_delete', array('id' => $object->getId())),
-            'method' => $method,
-            )
-        );
-
-        $form->add('submit', 'submit', array(
-            'label' => 'delete',
-            'attr' => array('class'=>'btn btn-danger btn-sm'),
+            'method' => 'DELETE',
+            'submit_label' => 'delete',
+            'submit_color' => 'danger',
+            'disabled_parent_field' => false,
             )
         );
 

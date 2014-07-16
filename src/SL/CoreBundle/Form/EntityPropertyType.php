@@ -11,20 +11,13 @@ use SL\CoreBundle\Entity\Object;
 
 class EntityPropertyType extends PropertyType
 {
-    private $object; 
-
-    public function __construct(Object $object)
-    {
-        $this->object = $object; 
-    }
-
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $object = $this->object;
+        $objectId = $options['object_id'];
 
         $builder
             ->add('displayName' , 'text',  array(
@@ -37,8 +30,8 @@ class EntityPropertyType extends PropertyType
             ->add('targetObject', 'entity', array(
                 'class' => 'SLCoreBundle:Object',
                 'property' => 'displayName',
-                'query_builder' => function(EntityRepository $er) use($object) {
-                                      return $er->findOtherObject($object);
+                'query_builder' => function(EntityRepository $er) use($objectId) {
+                                      return $er->findOtherObject($objectId);
                                     },
                 'label' =>  'object',
                 'attr' => array(
@@ -49,6 +42,13 @@ class EntityPropertyType extends PropertyType
             ->add('isMultiple' , 'checkbox', array(
                 'label' =>  'isMultiple',
                 'required' => false,
+                )
+            )
+           ->add('submit', 'submit', array(
+                'label' => $options['submit_label'],
+                'attr' => array(
+                    'class'=>'btn btn-'.$options['submit_color'].' btn-sm'
+                    ),
                 )
             )
         ;

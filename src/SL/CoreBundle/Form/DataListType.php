@@ -8,20 +8,13 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class DataListType extends AbstractType
 {
-    private $method; 
-
-    public function __construct($method = null)
-    {
-        $this->method = $method; 
-    }
-
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if($this->method != 'DELETE'){
+        if($options['method'] != 'DELETE'){
 
             $builder
                 ->add('displayName' , 'text',  array(
@@ -33,6 +26,14 @@ class DataListType extends AbstractType
                 )
             ;
         }
+
+        $builder->add('submit', 'submit', array(
+            'label' => $options['submit_label'],
+            'attr' => array(
+                'class'=>'btn btn-'.$options['submit_color'].' btn-sm'
+                ),
+            )
+        );
     }
     
     /**
@@ -46,7 +47,14 @@ class DataListType extends AbstractType
                 'class' => 'form-horizontal', 
                 ),
             'show_legend' => false,
-        ));
+            )
+        );
+
+        $resolver->setRequired(array(
+            'submit_label',
+            'submit_color',
+            )
+        );
     }
 
     /**

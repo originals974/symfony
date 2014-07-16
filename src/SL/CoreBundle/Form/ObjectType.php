@@ -13,22 +13,13 @@ use SL\CoreBundle\Entity\Object;
 
 class ObjectType extends AbstractType
 {
-    private $method; 
-    private $disabledParentField; 
-
-    public function __construct($disabledParentField = false, $method = null)
-    {
-        $this->method = $method; 
-        $this->disabledParentField = $disabledParentField; 
-    }
-
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if($this->method != 'DELETE'){
+        if($options['method'] != 'DELETE'){
 
             $builder
                 ->add('displayName' , 'text',  array(
@@ -39,7 +30,7 @@ class ObjectType extends AbstractType
                     )
                 )
                 ->add('parent', 'entity', array(
-                    'disabled' => $this->disabledParentField, 
+                    'disabled' => $options['disabled_parent_field'], 
                     'label' =>  'object.parent',
                     'required' => false,
                     'class' => 'SLCoreBundle:Object',
@@ -54,6 +45,14 @@ class ObjectType extends AbstractType
                 )
             ;
         }
+
+        $builder->add('submit', 'submit', array(
+            'label' => $options['submit_label'],
+            'attr' => array(
+                'class'=>'btn btn-'.$options['submit_color'].' btn-sm'
+                ),
+            )
+        );
     }
     
     /**
@@ -68,7 +67,15 @@ class ObjectType extends AbstractType
                 'valid-target' => 'accordionSubObjectContent',  
                 ),
             'show_legend' => false,
-        ));
+            )
+        );
+
+        $resolver->setRequired(array(
+            'submit_label',
+            'submit_color',
+            'disabled_parent_field',
+            )
+        );
     }
 
     /**

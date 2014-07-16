@@ -10,9 +10,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\TwigBundle\Debug\TimedTwigEngine;  
 
 //Custom classes
-use SL\CoreBundle\Form\PropertyType;
-use SL\CoreBundle\Form\EntityPropertyType;
-use SL\CoreBundle\Form\ListPropertyType;
 use SL\CoreBundle\Entity\Object;
 use SL\CoreBundle\Entity\Property;
 use SL\CoreBundle\Entity\EntityProperty;
@@ -53,20 +50,20 @@ class PropertyService
      *
      * @return Mixed formType The form type
      */
-    public function selectFormType($formMode, Object $object) 
+    public function selectFormService($formMode) 
     {
         switch($formMode) {
             case 'entity' : 
-                $formType = new EntityPropertyType($object);
+                $formService = 'entity_property';
                 break; 
             case 'data_list' : 
-                $formType = new ListPropertyType();
+                $formService = 'list_property';
                 break; 
             default:
-                $formType = new PropertyType();
+                $formService = 'property';
         }
 
-        return $formType ; 
+        return $formService ; 
     }
 
     /**

@@ -11,8 +11,6 @@ use JMS\DiExtraBundle\Annotation as DI;
 
 //Custom classes
 use SL\CoreBundle\Entity\Object;
-use SL\CoreBundle\Form\ObjectType;
-use SL\CoreBundle\Form\ObjectCalculatedNameType;
 
 /**
  * Object Update controller
@@ -134,15 +132,12 @@ class ObjectUpdateController extends Controller
     */
     private function createEditForm(Object $object)
     {    
-        $form = $this->createForm(new ObjectType(), $object, array(
+        $form = $this->createForm('object', $object, array(
             'action' => $this->generateUrl('object_update', array('id' => $object->getId())),
             'method' => 'PUT',
-            )
-        );
-     
-        $form->add('submit', 'submit', array(
-            'label' => 'update',
-            'attr' => array('class'=>'btn btn-primary btn-sm'),
+            'submit_label' => 'update',
+            'submit_color' => 'primary',
+            'disabled_parent_field' => false,
             )
         );
 
@@ -233,15 +228,11 @@ class ObjectUpdateController extends Controller
     */
     private function createEditCalculatedNameForm(Object $object)
     {      
-        $form = $this->createForm(new ObjectCalculatedNameType(), $object, array(
-            'action' => $this->generateUrl('object_update_calculated_name', array('id' => $object->getId())),
-            'method' => 'PUT',
-            )
-        );
-     
-        $form->add('submit', 'submit', array(
-            'label' => 'update',
-            'attr' => array('class'=>'btn btn-primary btn-sm'),
+        $form = $this->createForm('object_calculated_name', $object, array(
+            'action' => $this->generateUrl('object_update_calculated_name', array(
+                'id' => $object->getId(),
+                )
+            ),
             )
         );
 
