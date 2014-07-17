@@ -81,77 +81,61 @@
 	     */
         function submitFormToAjax2($form) {
 
-        	var validTarget, ref, sel, parent_node, new_node, modalId, parentNode; 
-
+        	var method, validTarget, modalId, jsTree, selectedNode, newNode; 
+        	
+        	method = $form.find('input[name="_method"]').attr('value'); 
+        	if(method == null) {
+        		method = $form.attr('method');	
+        	}
         	validTarget = '#'+$form.attr('valid-target'); 
 
             $.ajax({
-                type: $form.attr('method'),
-                url: $form.attr('action'),
-                data: $form.serializeArray(),
+                type : method,
+                url : $form.attr('action'),
+                data : $form.serializeArray(),
+                dataType : "json",    
                 success: function(data) {
 
-                	if(data.form.isValid) {
+                	if(data.isValid) {
 
                 		//Get the modal id  
 		            	modalId = '#'+$($form).parent().parent().attr('id');
 
-		            	//Get selected node
-                		ref = $('#jstree').jstree(true);
-                		sel = ref.get_selected(); 
-                		ref.open_node(sel); 
+		            	//Process JsTree data
+            			if(data.content.js_tree != null) {
 
-                		if(data.form.action == 'post') {
-                			//Select parent node
-                			switch(data.node.nodeProperties.parent) {
-								case 'first.child.node':
-								    parentNode = ref.get_children_dom(sel).first();
-								    break;
-								case 'current.node':
-								    parentNode = sel;
-								    break;
-								case 'parent.node':
-								    parentNode = ref.get_parent(sel);
-								    break;
-							} 
+            				//Get selected node
+            				jsTree = $('#jstree').jstree(true);
+            				selectedNode = jsTree.get_selected();  
 
-						    //Create the new node attach to parent node
-							new_node = ref.create_node(parentNode,data.node.nodeStructure);	
+            				if(method.toUpperCase() == 'POST') {
 
-							//Select the new node
-							if(data.node.nodeProperties.select){
-						    	ref.deselect_node(sel, true);
-						    	ref.select_node(new_node);
+								newNode = jsTree.create_node(selectedNode,data.content.js_tree);
+
+								//Select New Node
+								jsTree.open_node(selectedNode); 
+								jsTree.deselect_node(selectedNode);
+								jsTree.select_node(newNode); 
 							}
-							else {
-								ref.open_node(parentNode); 
-							}
-						}
-						else if(data.form.action == 'put') {
+							else if(method.toUpperCase() == 'PUT') {
+			            		jsTree.rename_node(selectedNode, data.content.js_tree);
+			            	}
+			            	else if(method.toUpperCase() == 'DELETE') {
+			            		jsTree.delete_node(selectedNode); 
+			            	}
+            			}
 
-							//Rename node
-							if(data.node != null) {
-		            			ref.rename_node(data.node.nodeStructure.id, data.node.nodeStructure.text);
-							}
-		            	}
-		            	else if(data.form.action == 'delete') {
-
-		            		//Delete selected node
-		            		ref.delete_node(data.node.nodeStructure.id); 
-		            	}
-
-		            	//Close the modal
-		            	$(modalId).modal('hide'); 
-
-		            	//Update Screen
-		            	if(data.html != null) {
-		            		$(validTarget).html(data.html);
-		            	}
-		            	
-		            	$('button[role="iconpicker"]').iconpicker();
+            			//Process html data
+            			if(data.content.html != null) {
+            				$(validTarget).html(data.content.html);
+            				$('button[role="iconpicker"]').iconpicker();
+            			}
+                		
+                		//Close the modal
+                        $(modalId).modal('hide'); 
 		            }
 		            else {
-						$('#ajax-modal').html(data.html);
+						$('#ajax-modal').html(data.content.html);
 		            }
                 },
                 error: function(data) {
@@ -212,6 +196,9 @@
 	     *
 	     */
 		function sendToAjax($method, $url, $data, $htmlTarget) {
+        	
+			var jsTree, selectedNode; 
+
         	$.ajax({
 		        type: $method,
 		        url: $url,
@@ -226,10 +213,11 @@
 
 		        	if(data.icon != null) {
 		        		//Get JSTree
-					    ref = $('#jstree').jstree(true);
+					    jsTree = $('#jstree').jstree(true);
+					    selectedNode = jsTree.get_selected();  
 
 					    //Change JSTree icon    	
-					    ref.set_icon(data.id, data.icon); 
+					    jsTree.set_icon(selectedNode, data.icon); 
 		        	}
 		        },
 		        error: function(data) {	           

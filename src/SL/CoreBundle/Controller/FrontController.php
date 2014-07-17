@@ -112,13 +112,13 @@ class FrontController extends Controller
                 $DatabaseEm->persist($entity);
                 $DatabaseEm->flush();
 
-                $html = null; 
+                $content = null; 
 
             }
             else {
 
                 //Create a form with field error 
-                $html = $this->renderView('SLCoreBundle:Front:save.html.twig', array(
+                $content = $this->renderView('SLCoreBundle:Front:save.html.twig', array(
                     'object' => $object,
                     'form'   => $form->createView(),
                     )
@@ -127,9 +127,8 @@ class FrontController extends Controller
 
             //Create the Json Response array
             $data = array(  
-                'mode' => 'create',
-                'html' => $html,
                 'isValid' => $isValid,
+                'content' => $content,
             );
 
             $response = new JsonResponse($data);
@@ -170,6 +169,102 @@ class FrontController extends Controller
     }
 
     /**
+     * Displays a form to edit an existing entity.
+     */
+    public function editAction(Object $object, $entity_id)
+    {
+        $databaseEm = $this->getDoctrine()->getManager('database');
+        $entity = $databaseEm->getRepository('SLDataBundle:'.$object->getTechnicalName())->find($entity_id);
+
+        $form = $this->createEditForm($object, $entity);
+
+        return $this->render('SLCoreBundle:Front:save.html.twig', array(
+            'object' => $object,
+            'form'   => $form->createView(),
+            )
+        );
+    }
+
+    /**
+     * Edits an existing entity.
+     */
+    public function updateAction(Request $request, Object $object, $entity_id)
+    {
+
+        $databaseEm = $this->getDoctrine()->getManager('database');
+        $entity = $databaseEm->getRepository('SLDataBundle:'.$object->getTechnicalName())->find($entity_id);
+
+        $form = $this->createEditForm($object, $entity);
+        $form->handleRequest($request);
+
+        if ($request->isXmlHttpRequest()) {
+
+            $isValid = $form->isValid();
+            if ($isValid) {
+
+                //Calculate displayName value
+                $displayName = $this->objectService->calculateDisplayName($entity, $object);
+                $entity->setDisplayName($displayName); 
+                $databaseEm->flush();
+
+                $content = $displayName; 
+            }
+            else {
+                 //Create a form with field error 
+                $content = $this->renderView('SLCoreBundle:Front:save.html.twig', array(
+                    'object' => $object,
+                    'form'   => $form->createView(),
+                    )
+                ); 
+            }
+
+            //Create the Json Response array
+            $data = array(  
+                'isValid' => $isValid,
+                'content' => $content,
+            );
+
+            $response = new JsonResponse($data);
+        }
+
+        else {
+
+            $response = $this->redirect($this->generateUrl('front_end'));
+        }
+
+        return $response; 
+    }
+
+
+    /**
+    * Creates a form to edit an entity.
+    *
+    * @param Object $object The object definition
+    * @param Mixed $entity The entity 
+    *
+    * @return \Symfony\Component\Form\Form The form
+    */
+    private function createEditForm(Object $object, $entity)
+    {
+        $entityClass = $this->doctrineService->getEntityClass($object->getTechnicalName());
+
+        $form = $this->createForm(new FrontType($this->em, $entityClass), $entity, array(
+            'action' => $this->generateUrl('front_update', array(
+                'id' => $object->getId(),
+                'entity_id' => $entity->getId(),
+                )
+            ),
+            'method' => 'PUT',
+            'submit_label' => 'update',
+            'submit_color' => 'primary',
+            'object' => $object,
+            )
+        );
+        
+        return $form;
+    }
+
+    /**
      * Show an entity
      *
      * @param Object $object The object definition
@@ -198,7 +293,7 @@ class FrontController extends Controller
         return $response; 
     }
 
- /**
+    /**
     * Display form to remove an entity.
     *
     * @param Object $object Object to remove
@@ -229,27 +324,16 @@ class FrontController extends Controller
         $databaseEm = $this->getDoctrine()->getManager('database');
         $entity = $databaseEm->getRepository('SLDataBundle:'.$object->getTechnicalName())->find($entity_id);
 
-        $form = $this->createDeleteForm($object, $entity);
-
-        //Associate return form data with entity
-        $form->handleRequest($request);
-
         if ($request->isXmlHttpRequest()) {
 
-            //Delete entity from database
             $databaseEm->remove($entity);
+            $databaseEm->flush();
 
             //Create the Json Response array
-            $html = "";
-            $data = array(
-                'formAction' => 'delete',  
-                'html' => $html,
+            $data = array(  
                 'isValid' => true,
-                'entityType' => $object->getTechnicalName(),
-                'entityId' => $entity->getId(),
+                'content' => null,
             );
-
-            $databaseEm->flush();
 
             $response = new JsonResponse($data);
         }
@@ -287,30 +371,7 @@ class FrontController extends Controller
         return $form;
     }
 
-    /**
-     * Displays a form to edit an existing entity.
-     *
-     * @ParamConverter("object", options={"mapping": {"object_id": "id"}})
-     */
-    /*public function editAction(Object $object, $entity_id)
-    {
-        //Variables initialisation
-        $databaseEm = $this->getDoctrine()->getManager('database');
-        
-        //Get entity to modify
-        $entity = $databaseEm->getRepository('SLDataBundle:'.$object->getTechnicalName())->find($entity_id);
-
-        //Form creation
-        $form = $this->createEditForm($object, $entity);
-
-        //View creation
-        return $this->render('SLCoreBundle:Front:save.html.twig', array(
-            'action' => 'edit',
-            'form'   => $form->createView(),
-            )
-        );
-    }*/
-
+    
     /**
      * Edits an existing entity.
      *
@@ -424,52 +485,5 @@ class FrontController extends Controller
         );
 
         return $form;
-    }*/
-
-
-    
-    /**
-     * Creates a form to delete an entity by id.
-     *
-     * @param Object $object The object definition
-     * @param Mixed $entity The entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    /*private function createDeleteForm(Object $object, $entity)
-    {
-        //Variable initialisation
-        $doctrineService = $this->get('sl_core.doctrine');
-        $entityClass = $doctrineService->getEntityClass($object->getTechnicalName());
-
-        //Form creation 
-        $form = $this->createForm(new DeleteFrontType($object, $entityClass), $entity, array(
-            'action' => $this->generateUrl('front_delete', array(
-                'object_id' => $object->getId(), 
-                'entity_id' => $entity->getId(),
-                )
-            ),
-            'method' => 'DELETE',
-            'attr' => array(
-                'class' => 'form-horizontal', 
-                'valid-data-target' => '#'.$object->getTechnicalName().'_table_body', 
-                'no-valid-data-target' => '#ajax-modal',
-                ),
-            )
-        );
-
-        //Submit button creation    
-        $form->add('submit', 'submit', array(
-            'label' => 'delete',
-            'attr' => array('class'=>'btn btn-danger btn-sm'),
-            )
-        );
-
-        return $form;
-    }*/
-
-    /*public function treeViewAction() 
-    {
-        return $this->render('SLCoreBundle:Front:treeView.html.twig');
     }*/
 }

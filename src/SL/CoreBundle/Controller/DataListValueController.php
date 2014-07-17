@@ -21,22 +21,19 @@ class DataListValueController extends Controller
     private $em;
     private $jstreeService;
     private $iconService;
-    private $dataListValueService;
 
     /**
      * @DI\InjectParams({
      *     "em" = @DI\Inject("doctrine.orm.entity_manager"),
      *     "jstreeService" = @DI\Inject("sl_core.js_tree"),
      *     "iconService" = @DI\Inject("sl_core.icon"),
-     *     "dataListValueService" = @DI\Inject("sl_core.data_list_value")
      * })
      */
-    public function __construct($em, $jstreeService, $iconService, $dataListValueService)
+    public function __construct($em, $jstreeService, $iconService)
     {
         $this->em = $em;
         $this->jstreeService = $jstreeService;
         $this->iconService = $iconService;
-        $this->dataListValueService = $dataListValueService;
     }
 
     /**
@@ -96,11 +93,30 @@ class DataListValueController extends Controller
 
                 //Dont delete this flush : Persist data after Doctrine evenement
                 $this->em->flush();
-            }  
-            
-            $jsonResponse = $this->dataListValueService->createJsonResponse($dataListValue, $form); 
 
-            $response = $jsonResponse;
+                $html = $this->renderView('SLCoreBundle:DataListValue:dataListValueTable.html.twig', array(
+                    'dataList' => $dataListValue->getDataList(), 
+                    )
+                );
+            }
+            else{
+
+                $html = $this->renderView('SLCoreBundle::save.html.twig', array(
+                    'entity' => $dataListValue,
+                    'form'   => $form->createView(),
+                    )
+                ); 
+            }
+            
+            $arrayResponse = array(
+                'isValid' => $isValid,
+                'content' => array(
+                    'html' => $html,
+                    'js_tree' => null,
+                    ),
+                );
+ 
+            $response = new JsonResponse($arrayResponse); 
         }
         else {
             $response = $this->redirect($this->generateUrl('back_end'));
@@ -176,9 +192,6 @@ class DataListValueController extends Controller
                     'dataList' => $dataList, 
                     )
                 );
-
-                //Create DataListValue node in menu tree
-                $nodeStructure = $this->jstreeService->updateDataListValueNode($dataListValue);
             }
             else {
                 $html = $this->renderView('SLCoreBundle::save.html.twig', array(
@@ -186,28 +199,23 @@ class DataListValueController extends Controller
                     'form'   => $form->createView(),
                     )
                 );
-                $nodeStructure = null;
             }
 
-            $data = array(  
-                'form' => array(
-                    'action' => strtolower($form->getConfig()->getMethod()),
-                    'isValid' => $isValid,
-                    ), 
-                'html' => $html,
-                'node' => array(
-                    'nodeStructure' => $nodeStructure,
-                    'nodeProperties' => null,
-                ),
-            );    
-
-            $response = new JsonResponse($data);
+            $arrayResponse = array(
+                'isValid' => $isValid,
+                'content' => array(
+                    'html' => $html,
+                    'js_tree' => null,
+                    ),
+                );
+ 
+            $response = new JsonResponse($arrayResponse); 
         }
         else {
             $response = $this->redirect($this->generateUrl('back_end'));
         }
 
-        return $response; 
+        return $response;
     }
 
 
@@ -262,12 +270,6 @@ class DataListValueController extends Controller
     {
         if ($request->isXmlHttpRequest()) {
 
-            $nodeStructure = array(
-                'id' => $dataListValue->getTechnicalName(),
-            );
-
-            $form = $this->createDeleteForm($dataListValue);
-
             $this->em->remove($dataListValue);
             $this->em->flush();
 
@@ -278,24 +280,21 @@ class DataListValueController extends Controller
                 )
             );
 
-            $data = array(  
-                'form' => array(
-                    'action' => strtolower($form->getConfig()->getMethod()),
-                    'isValid' => true,
+            $arrayResponse = array(
+                'isValid' => true,
+                'content' => array(
+                    'html' => $html,
+                    'js_tree' => null,
                     ),
-                'html' => $html,
-                'node' => array(
-                    'nodeStructure' => $nodeStructure,
-                    'nodeProperties' => null,
-                ),
-            );
-            $response = new JsonResponse($data);
+                );
+ 
+            $response = new JsonResponse($arrayResponse); 
         }
         else {
             $response = $this->redirect($this->generateUrl('back_end'));
-        }   
+        }
 
-        return $response;    
+        return $response; 
     }
 
 
@@ -337,11 +336,7 @@ class DataListValueController extends Controller
             $dataListValue->setIcon($icon); 
             $this->em->flush();
 
-            $data = array(  
-                'id' => $dataListValue->getTechnicalName(),
-                'icon' => $this->iconService->getDataListValueIcon($dataListValue),
-            );
-            $response = new JsonResponse($data);
+            $response = new JsonResponse(null);
         }
         else {
             $response = $this->redirect($this->generateUrl('back_end'));

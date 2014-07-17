@@ -112,7 +112,8 @@ class ObjectCRDController extends Controller
  
         if ($request->isXmlHttpRequest()) {
             
-            if ($form->isValid()) {
+            $isValid = $form->isValid();
+            if ($isValid) {
 
                 //Define Object display order
                 $object->setDisplayOrder($this->em->getRepository('SLCoreBundle:Object')->findMaxDisplayOrder($isDocument) + 1); 
@@ -126,11 +127,29 @@ class ObjectCRDController extends Controller
                 //Update database Object schema
                 $this->doctrineService->doctrineGenerateEntityFileByObject($object);  
                 $this->doctrineService->doctrineSchemaUpdateForce();
+
+                $html = null; 
+                $jsTree = $this->jstreeService->createNewObjectNode($object, $object->isDocument());
+            
+            }
+            else {
+                $jsTree = null; 
+                $html = $this-->renderView('SLCoreBundle::save.html.twig', array(
+                    'entity' => $object,
+                    'form'   => $form->createView(),
+                    )
+                ); 
             }
  
-            $jsonResponse = $this->objectService->createJsonResponse($object, $form);
-
-            $response = $jsonResponse;
+            $arrayResponse = array(
+                'isValid' => $isValid,
+                'content' => array(
+                    'html' => $html,
+                    'js_tree' => $jsTree,
+                    ),
+                );
+ 
+            $response = new JsonResponse($arrayResponse); 
         }
         else {
             $response = $this->redirect($this->generateUrl('back_end'));
@@ -242,12 +261,6 @@ class ObjectCRDController extends Controller
     {
         if ($request->isXmlHttpRequest()) {
 
-            $nodeStructure = array(
-                'id' => $object->getTechnicalName(),
-            );
-
-            $form = $this->createDeleteForm($object);
-
             //Remove all Property of Object
             foreach ($object->getProperties() as $property) {
                 $this->em->remove($property); 
@@ -270,24 +283,21 @@ class ObjectCRDController extends Controller
             
             $this->doctrineService->doctrineSchemaUpdateForce();
 
-            $data = array(  
-                'form' => array(
-                    'action' => strtolower($form->getConfig()->getMethod()),
-                    'isValid' => true,
+            $arrayResponse = array(
+                'isValid' => true,
+                'content' => array(
+                    'html' => null,
+                    'js_tree' => 'delete',
                     ),
-                'html' => null,
-                'node' => array(
-                    'nodeStructure' => $nodeStructure,
-                    'nodeProperties' => null,
-                ),
-            );
-            $response = new JsonResponse($data);
+                );
+ 
+            $response = new JsonResponse($arrayResponse); 
         }
         else {
             $response = $this->redirect($this->generateUrl('back_end'));
-        }   
+        }
 
-        return $response;    
+        return $response;   
     }
 
     /**

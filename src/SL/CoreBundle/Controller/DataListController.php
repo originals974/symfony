@@ -69,7 +69,7 @@ class DataListController extends Controller
 
             $dataList = new DataList();
 
-            $form   = $this->createCreateForm($dataList);
+            $form = $this->createCreateForm($dataList);
 
             $response = $this->render('SLCoreBundle::save.html.twig', array(
                 'entity' => $dataList,
@@ -85,11 +85,11 @@ class DataListController extends Controller
     }
 
     /**
-     * Create Form action
+     * Create DataList after form submit
      *
      */
     public function createAction(Request $request)
-    {
+    { 
         $dataList = new DataList();
 
         $form = $this->createCreateForm($dataList);
@@ -111,11 +111,28 @@ class DataListController extends Controller
 
                 //Dont delete this flush : Persist data after Doctrine evenement
                 $this->em->flush();
-            }  
-            
-            $jsonResponse = $this->dataListService->createJsonResponse($dataList, $form); 
 
-            $response = $jsonResponse;
+                $html = null;
+                $jsTree = $this->jstreeService->createNewDataListNode($dataList); 
+            } 
+            else {
+                $jsTree = null; 
+                $html = $this->renderView('SLCoreBundle::save.html.twig', array(
+                    'entity' => $dataList,
+                    'form'   => $form->createView(),
+                    )
+                );
+            } 
+
+            $arrayResponse = array(
+                'isValid' => $isValid,
+                'content' => array(
+                    'html' => $html,
+                    'js_tree' => $jsTree,
+                    ),
+                );
+ 
+            $response = new JsonResponse($arrayResponse); 
         }
         else {
             $response = $this->redirect($this->generateUrl('back_end'));
@@ -152,15 +169,23 @@ class DataListController extends Controller
     * @param DataList $dataList DataList to edit
     *
     */
-    public function editAction(DataList $dataList)
+    public function editAction(Request $request, DataList $dataList)
     {
-        $form = $this->createEditForm($dataList);
- 
-        return $this->render('SLCoreBundle::save.html.twig', array(
-            'entity' => $dataList,
-            'form'   => $form->createView(),
-            )
-        );
+        if ($request->isXmlHttpRequest()) {
+
+            $form = $this->createEditForm($dataList);
+     
+            $response = $this->render('SLCoreBundle::save.html.twig', array(
+                'entity' => $dataList,
+                'form'   => $form->createView(),
+                )
+            );
+        }
+        else{
+            $response = $this->redirect($this->generateUrl('back_end'));
+        }
+
+        return $response;
     }
 
     /**
@@ -183,35 +208,27 @@ class DataListController extends Controller
 
                 $this->em->flush();
 
-                $html = $this->renderView('SLCoreBundle:DataList:show.html.twig', array(
-                    'dataList' => $dataList, 
-                    )
-                );
-                $nodeStructure = $this->jstreeService->updateDataListNode($dataList);
+                $html = null; 
+                $jsTree = $dataList->getDisplayName();
             }
             else {
-                //Create form with errors
-                $html = $this->renderView('SLCoreBundle:DataList:save.html.twig', array(
+                $jsTree = null; 
+                $html = $this->renderView('SLCoreBundle::save.html.twig', array(
                     'action' => 'update',
                     'form'   => $form->createView(),
                     )
                 );
-                $nodeStructure = null;
             }
 
-            $data = array(  
-                'form' => array(
-                    'action' => strtolower($form->getConfig()->getMethod()),
-                    'isValid' => $isValid,
-                    ), 
-                'html' => $html,
-                'node' => array(
-                    'nodeStructure' => $nodeStructure,
-                    'nodeProperties' => null,
-                ),
-            );
-
-            $response = new JsonResponse($data);
+            $arrayResponse = array(
+                'isValid' => $isValid,
+                'content' => array(
+                    'html' => $html,
+                    'js_tree' => $jsTree,
+                    ),
+                );
+ 
+            $response = new JsonResponse($arrayResponse); 
         }
         else {
             $response = $this->redirect($this->generateUrl('back_end'));
@@ -272,31 +289,37 @@ class DataListController extends Controller
     * @param DataList $dataList DataList to remove
     *
     */
-    public function removeAction(DataList $dataList)
+    public function removeAction(Request $request, DataList $dataList)
     {
-        //DataList integrity control before delete
-        $integrityError = $this->dataListService->integrityControlBeforeDelete($dataList); 
-        if($integrityError == null) {
-              
-            $form = $this->createDeleteForm($dataList);
+        if ($request->isXmlHttpRequest()) {
 
-            $response = $this->render('SLCoreBundle::save.html.twig', array(
-                'entity' => $dataList,
-                'form'   => $form->createView(),
-                )
-            );
+            //DataList integrity control before delete
+            $integrityError = $this->dataListService->integrityControlBeforeDelete($dataList); 
+            if($integrityError == null) {
+                  
+                $form = $this->createDeleteForm($dataList);
+
+                $response = $this->render('SLCoreBundle::save.html.twig', array(
+                    'entity' => $dataList,
+                    'form'   => $form->createView(),
+                    )
+                );
+            }
+            else {
+
+                //Create error modal window
+                $response = $this->render('SLCoreBundle::errorModal.html.twig', array(
+                    'title' => $integrityError['title'],
+                    'message'   => $integrityError['message'],
+                    )
+                );
+            }
         }
         else {
-
-            //Create error modal window
-            $response = $this->render('SLCoreBundle::errorModal.html.twig', array(
-                'title' => $integrityError['title'],
-                'message'   => $integrityError['message'],
-                )
-            );
+            $response = $this->redirect($this->generateUrl('back_end'));
         }
 
-        return $response;
+        return $response; 
     }
 
     /**
@@ -309,35 +332,24 @@ class DataListController extends Controller
     {
         if ($request->isXmlHttpRequest()) {
 
-            $nodeStructure = array(
-                'id' => $dataList->getTechnicalName(),
-            );
-   
-            $form = $this->createDeleteForm($dataList);
-
             $this->em->remove($dataList);
-
-            $data = array(  
-                'form' => array(
-                    'action' => strtolower($form->getConfig()->getMethod()),
-                    'isValid' => true,
-                    ),
-                'html' => null,
-                'node' => array(
-                    'nodeStructure' => $nodeStructure,
-                    'nodeProperties' => null,
-                ),
-            );
-            $response = new JsonResponse($data);
-
             $this->em->flush();
-           
+
+            $arrayResponse = array(
+                'isValid' => true,
+                'content' => array(
+                    'html' => null,
+                    'js_tree' => 'delete',
+                    ),
+                );
+
+            $response = new JsonResponse($arrayResponse); 
         }
         else {
             $response = $this->redirect($this->generateUrl('back_end'));
-        }   
+        }
 
-        return $response;    
+        return $response; 
     }
 
     /**

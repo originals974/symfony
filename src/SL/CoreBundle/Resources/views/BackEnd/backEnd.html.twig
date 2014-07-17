@@ -32,11 +32,5 @@
 {% block javascripts %}
     {{ parent() }}
 
-     <!--Assetic JS-->
-    {% javascripts '@bootstrap_iconpicker_js' '@bootstrap_switch_js' '@insert_at_caret_js' %}
-        <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
-
-
     {% include 'SLCoreBundle:BackEnd:backEnd.js.html.twig' only %} 
 {% endblock %}

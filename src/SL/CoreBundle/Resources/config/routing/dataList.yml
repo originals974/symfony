@@ -10,6 +10,7 @@ data_list_create:
     pattern: /create
     defaults: { _controller: SLCoreBundle:DataList:create }
     requirements:
+        id: \d+
         _method: POST
 
 data_list_edit:

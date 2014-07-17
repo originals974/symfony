@@ -23,24 +23,18 @@ class PropertyService
 {
     private $em;
     private $translator;
-    private $jstreeService;
-    private $templating;
 
     /**
      * Constructor
      *
      * @param EntityManager $em
      * @param Translator $translator
-     * @param JSTreeService $jstreeService
-     * @param TimedTwigEngine $templating
      *
      */
-    public function __construct(EntityManager $em, Translator $translator, JSTreeService $jstreeService, TimedTwigEngine $templating)
+    public function __construct(EntityManager $em, Translator $translator)
     {
         $this->em = $em;
         $this->translator = $translator;
-        $this->jstreeService = $jstreeService;
-        $this->templating = $templating;
     }
 
    /**
@@ -141,60 +135,5 @@ class PropertyService
         }
 
         return $integrityError; 
-    }
-
-    /**
-     * Create JsonResponse for Property creation  
-     *
-     * @param Object $object Parent Object of new property
-     * @param Property $property Created Property
-     * @param Form $formChoice PropertyFormChoice form
-     * @param Form $form Creation PropertyType form
-     *
-     * @return JsonResponse
-     */
-    public function createJsonResponse(Object $object, Property $property, Form $formChoice, Form $form) {
-
-        $isValid = $form->isValid();  
-
-        if($isValid) {
-            $html = $this->templating->render('SLCoreBundle:Property:propertyTable.html.twig', array(
-                'object' => $object, 
-                )
-            );
-
-            //Create the Property node in menu tree 
-            $nodeStructure = $this->jstreeService->createNewPropertyNode($property);
-            $nodeProperties = array(
-                'parent' => 'current.node',
-                'select' => false,  
-            );
-        }
-        else {
-            //Create form with errors 
-            $html = $this->templating->render('SLCoreBundle::save.html.twig', array(
-                'entity' => $property,
-                'formChoice' => $formChoice->createView(),
-                'form'   => $form->createView(),
-                )
-            ); 
-
-            $nodeStructure = null; 
-            $nodeProperties = null; 
-        }
-
-        $data = array(  
-            'form' => array(
-                'action' => strtolower($form->getConfig()->getMethod()),
-                'isValid' => $isValid,
-                ),
-            'html' => $html,
-            'node' => array(
-                'nodeStructure' => $nodeStructure,
-                'nodeProperties' => $nodeProperties,
-            ),
-        );
-
-        return new JsonResponse($data); 
     }
 }

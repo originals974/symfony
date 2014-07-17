@@ -154,11 +154,30 @@ class PropertyController extends Controller
                 //Update database Object schema
                 $this->doctrineService->doctrineGenerateEntityFileByObject($object);  
                 $this->doctrineService->doctrineSchemaUpdateForce();
+
+                $html = $this->renderView('SLCoreBundle:Property:propertyTable.html.twig', array(
+                    'object' => $object, 
+                    )
+                );
             }
-
-            $jsonResponse = $this->propertyService->createJsonResponse($object, $property, $formChoice, $form); 
-
-            $response = $jsonResponse;
+            else {
+                $html = $this->renderView('SLCoreBundle::save.html.twig', array(
+                    'entity' => $property,
+                    'formChoice' => $formChoice->createView(),
+                    'form'   => $form->createView(),
+                    )
+                ); 
+            }
+            
+            $arrayResponse = array(
+                'isValid' => $isValid,
+                'content' => array(
+                    'html' => $html,
+                    'js_tree' => null,
+                    ),
+                );
+ 
+            $response = new JsonResponse($arrayResponse); 
         }
         else {
             $response = $this->redirect($this->generateUrl('back_end'));
@@ -261,8 +280,6 @@ class PropertyController extends Controller
                     'object' => $object, 
                     )
                 );
-
-                $nodeStructure = $this->jstreeService->updatePropertyNode($property);
             }
             else {
                 //Create form with errors
@@ -274,18 +291,15 @@ class PropertyController extends Controller
                 $nodeStructure = null;
             }
 
-            $data = array(  
-                'form' => array(
-                    'action' => strtolower($form->getConfig()->getMethod()),
-                    'isValid' => $isValid,
-                    ), 
-                'html' => $html,
-                'node' => array(
-                    'nodeStructure' => $nodeStructure,
-                    'nodeProperties' => null,
-                ),
-            );    
-            $response = new JsonResponse($data);
+            $arrayResponse = array(
+                'isValid' => $isValid,
+                'content' => array(
+                    'html' => $html,
+                    'js_tree' => null,
+                    ),
+                );
+ 
+            $response = new JsonResponse($arrayResponse); 
         }
         else {
             $response = $this->redirect($this->generateUrl('back_end'));
@@ -366,12 +380,6 @@ class PropertyController extends Controller
     {
         if ($request->isXmlHttpRequest()) {
 
-            $nodeStructure = array(
-                'id' => $property->getTechnicalName(),
-            );
-
-            $form = $this->createDeleteForm($property);
-
             $this->em->remove($property);
             $this->em->flush();
 
@@ -386,24 +394,21 @@ class PropertyController extends Controller
                 )
             );
 
-            $data = array( 
-                'form' => array(
-                    'action' => strtolower($form->getConfig()->getMethod()),
-                    'isValid' => true,
+            $arrayResponse = array(
+                'isValid' => true,
+                'content' => array(
+                    'html' => $html,
+                    'js_tree' => null,
                     ),
-                'html' => $html,
-                'node' => array(
-                    'nodeStructure' => $nodeStructure,
-                    'nodeProperties' => null,
-                ),
-            );
-            $response = new JsonResponse($data);
+                );
+ 
+            $response = new JsonResponse($arrayResponse); 
         }
         else {
             $response = $this->redirect($this->generateUrl('back_end'));
-        }   
+        }
 
-        return $response;    
+        return $response; 
     }
 
 
@@ -447,17 +452,10 @@ class PropertyController extends Controller
             switch ($name) {
                 case 'isEnabled':
                     $property->setEnabled($value);
-                    $response = new JsonResponse(
-                        array(
-                            'id' => $property->getTechnicalName(),
-                            'icon' => $this->iconService->getPropertyIcon($property),
-                            )
-                        );
                     break;
                 
                 case 'isRequired':
                     $property->setRequired($value);
-                    $response = new Response();
                     break;
             }
           
@@ -468,6 +466,8 @@ class PropertyController extends Controller
                 $this->doctrineService->doctrineGenerateEntityFileByObject($property->getObject());  
                 $this->doctrineService->doctrineSchemaUpdateForce();
             }
+
+            $response = new Response();
         }
         else {
             $response = $this->redirect($this->generateUrl('back_end'));

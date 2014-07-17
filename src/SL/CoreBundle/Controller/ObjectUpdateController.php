@@ -84,7 +84,7 @@ class ObjectUpdateController extends Controller
                 $this->em->flush();
 
                 $html = null; 
-                $nodeStructure = $this->jstreeService->updateObjectNode($object);
+                $jsTree = $object->getDisplayName();
 
                 if($initParentId != $newParentId){
                      //Update database Object schema
@@ -93,28 +93,24 @@ class ObjectUpdateController extends Controller
                 }
             }
             else {
+                $jsTree = null;
                 //Create form with errors
                 $html = $this->renderView('SLCoreBundle::save.html.twig', array(
                     'entity' => $object,
                     'form'   => $form->createView(),
                     )
                 );
-                $nodeStructure = null;
             }
             
-            $data = array(  
-                'form' => array(
-                    'action' => strtolower($form->getConfig()->getMethod()),
-                    'isValid' => $isValid,
-                    ), 
-                'html' => $html,
-                'node' => array(
-                    'nodeStructure' => $nodeStructure,
-                    'nodeProperties' => null,
-                ),
-            );
-
-            $response = new JsonResponse($data);
+            $arrayResponse = array(
+                'isValid' => $isValid,
+                'content' => array(
+                    'html' => $html,
+                    'js_tree' => $jsTree,
+                    ),
+                );
+ 
+            $response = new JsonResponse($arrayResponse); 
         }
         else {
             $response = $this->redirect($this->generateUrl('back_end'));
@@ -186,8 +182,9 @@ class ObjectUpdateController extends Controller
                     $this->refreshCalculatedName($object); 
                 }
 
-                $html = null; 
                 $this->em->flush();
+
+                $html = null; 
             }
             else {
                 //Get all parent Object
@@ -201,16 +198,15 @@ class ObjectUpdateController extends Controller
                 );
             }
             
-            $data = array(  
-                'form' => array(
-                    'action' => strtolower($form->getConfig()->getMethod()),
-                    'isValid' => $isValid,
-                    ), 
-                'html' => $html,
-                'node' => null,
-            );
-
-            $response = new JsonResponse($data);
+            $arrayResponse = array(
+                'isValid' => $isValid,
+                'content' => array(
+                    'html' => $html,
+                    'js_tree' => null,
+                    ),
+                );
+ 
+            $response = new JsonResponse($arrayResponse); 
         }
         else {
             $response = $this->redirect($this->generateUrl('back_end'));
@@ -256,11 +252,10 @@ class ObjectUpdateController extends Controller
                 $this->em->flush();
             }
 
-            $data = array(  
-                'id' => $object->getTechnicalName(),
+            $response = new JsonResponse(array(
                 'icon' => $this->iconService->getObjectIcon($object),
+                )
             );
-            $response = new JsonResponse($data);
         }
         else {
             $response = $this->redirect($this->generateUrl('back_end'));
@@ -284,12 +279,10 @@ class ObjectUpdateController extends Controller
             $object->setEnabled($value);     
             $this->em->flush();
 
-            $response = new JsonResponse(
-                array(
-                    'id' => $object->getTechnicalName(),
-                    'icon' => $this->iconService->getObjectIcon($object),
-                    )
-                );
+            $response = new JsonResponse(array(
+                'icon' => $this->iconService->getObjectIcon($object),
+                )
+            );
         }
         else {
             $response = $this->redirect($this->generateUrl('back_end'));

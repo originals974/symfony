@@ -2,22 +2,17 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>{% block head_title %}{{ 'main_application.name'|trans }}{% endblock %}</title>
+        {# Title section #}
+        <title>
+            {% block head_title %}
+                {{ 'application.name'|trans }}
+            {% endblock %}
+        </title>
         
         {# CSS section #}
         {% block stylesheets %}
-            <!--JQuery CSS Library-->
-            <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
-
-            <!--Bootstrap CSS Library-->
-            <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-            <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-
-            <!--FontAwesome CSS Library-->
-            <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css" rel="stylesheet">
-
             <!--Assetic CSS-->
-            {% stylesheets '@bootstrap_modal_css' 'bundles/slcore/css/*' 'bundles/slcore/css/jstree/style.min.css' filter='cssrewrite' %}
+            {% stylesheets '@jquery_ui_css' '@bootstrap_css' '@bootstrap_theme_css' '@fontawesome_css' '@bootstrap_modal_css'  '@js_tree_css' '@bootstrap_switch_css' '@bootstrap_icon_picker_css' '@custom_css' %}
                 <link rel="stylesheet" href="{{ asset_url }}" />
             {% endstylesheets %}
 
@@ -28,11 +23,6 @@
 
     <body class="page-container">
         <div id="section">
-            <!--Preloader-->
-            <!--<div id="preloader">
-                <div id="status">&nbsp;</div>
-            </div>-->
-
             <!--Header section-->
             <header class="row"> 
                 {% block header %}{% endblock %}
@@ -66,15 +56,8 @@
 
             <!--Javascript section-->
             {% block javascripts %}
-                <!--JQuery JS Library-->
-                <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
-                <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
-
-                <!--Bootstrap JS Library-->
-                <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-
                 <!--Assetic JS-->
-                {% javascripts '@mopabootstrap_js' '@bootstrap_modal_js' '@custom_js' '@bootstrap_treeview_js' '@tree_js' '@fos_js_routting_js' %}
+                {% javascripts '@jquery_js' '@jquery_ui_js' '@bootstrap_js' '@mopabootstrap_collection_js' '@bootstrap_modal_js' '@bootstrap_switch_js' '@bootstrap_icon_picker_js' '@js_tree_js' '@fos_js_routting_js' '@insert_at_caret_js' '@custom_js' %}
                     <script src="{{ asset_url }}"></script>
                 {% endjavascripts %}
 

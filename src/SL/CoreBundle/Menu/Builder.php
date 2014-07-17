@@ -205,25 +205,6 @@ class Builder extends ContainerAware
                 'data-jstree' => '{"icon":"'.$icon->getDataListIcon($dataList).'"}'
                 )
             );
-
-            //Get DataListValue of DataList
-            $dataListValues = $dataList->getDataListValues();
-
-            //Create a node for each DataListValue
-            foreach($dataListValues as $dataListValue) {
-
-                //Create a node for DataListValue
-                $dataListValueItem = $dataListItem->addChild($dataListValue->getTechnicalName(), array(
-                    'label' => $dataListValue->getDisplayName(),
-                    )
-                );
-
-                $dataListValueItem->setAttributes(array(
-                    'id' => $dataListValue->getTechnicalName(),
-                    'data-jstree' => '{"icon":"'.$icon->getDataListValueIcon($dataListValue).'"}',
-                    )
-                ); 
-            }
         }
 
         return $menu;
@@ -243,14 +224,6 @@ class Builder extends ContainerAware
 
         //Create a node for Object
         $objectItem = $this->addObjectItem($parent, $object); 
-
-        //Get Properties of Object
-        $properties = $object->getProperties();
-
-        //Create a node for each Objects' Properties
-        foreach($properties as $property) {
-            $this->addPropertyItem($objectItem, $object, $property); 
-        }
     }
 
     /**
@@ -282,38 +255,5 @@ class Builder extends ContainerAware
         );
 
         return $objectItem; 
-    }
-
-    /**
-    * Create an Property Node
-    *
-    * @param $parent Parent Node
-    * @param Object $object The parent Object of the Property
-    * @param Property $property The Property to add in tree menu
-    *
-    * @return $objectItem The added node
-    */
-    private function addPropertyItem(&$parent, Object $object, Property $property)
-    {
-        //Variable initialisation
-        $icon = $this->container->get('sl_core.icon');
-
-        //Create a node for Property
-        $propertyItem = $parent->addChild($property->getTechnicalName(), array(
-                    'label' => $property->getDisplayName(),
-                    )
-                );
-
-        //Choose icon
-        $icon = '{"icon":"'.$icon->getPropertyIcon($property).'"}';
-
-        //Set node icon 
-        $propertyItem->setAttributes(array(
-            'id' => $property->getTechnicalName(), 
-            'data-jstree' => $icon,
-            )
-        ); 
-
-        return $propertyItem;
     }
 }

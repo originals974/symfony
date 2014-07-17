@@ -2,6 +2,8 @@
 	$(document).ready(function () {
         $('#jstree').jstree({
             'core' : {
+                "check_callback" : true,
+                "multiple" : false,
                 'data' : {
                     'url' :  function (node) {
                                     var $pattern = $('#sl_corebundle_search_searchField').val(); 
@@ -33,7 +35,7 @@
             
             var $htmlTarget, i, j;
 
-            $htmlTarget = '#features'; 
+            $htmlTarget = '#features_panel_body'; 
             $($htmlTarget).html(null);
 
             for(i = 0, j = data.selected.length; i < j; i++) {
@@ -54,28 +56,47 @@
 	     */
         function submitFormToAjaxFrontEnd($form) {
 
-        	var validTarget, noValidTarget, modalId, ref; 
+        	var validTarget, noValidTarget, method, modalId, jsTree, selectedNode, reSelectedNode; 
 
         	validTarget = '#'+$form.attr('valid-target'); 
         	noValidTarget = '#'+$form.attr('no-valid-target'); 
 
+            method = $form.find('input[name="_method"]').attr('value'); 
+            if(method == null) {
+                method = $form.attr('method');  
+            }
+
             $.ajax({
-                type: $form.attr('method'),
+                type: method,
                 url: $form.attr('action'),
                 data: $form.serializeArray(),
                 dataType : "json",    
                 success: function(data) {
                 	if(data.isValid) {
-                        if(data.mode == 'create') {
-                            //Get the modal id  
-                            modalId = '#'+$($form).parent().parent().attr('id');
 
-                            //Close the modal
-                            $(modalId).modal('hide'); 
+                         //Get the modal id  
+                        modalId = '#'+$($form).parent().parent().attr('id');
+
+                        //Get selected node
+                        jsTree = $('#jstree').jstree(true);
+                        selectedNode = jsTree.get_selected();  
+                        reSelectedNode = jsTree.get_node(selectedNode);  
+
+                        if(method.toUpperCase() == 'PUT') {
+                            jsTree.rename_node(selectedNode, data.content);
+                            jsTree.deselect_node(selectedNode);
+                            jsTree.select_node(reSelectedNode);
                         }
+                        else if(method.toUpperCase() == 'DELETE') {
+                            //Delete selected node
+                            jsTree.delete_node(selectedNode);
+                        }
+
+                        //Close the modal
+                        $(modalId).modal('hide'); 
                     }
                     else {
-						$(noValidTarget).html(data.html);
+						$(noValidTarget).html(data.content);
 		            }
                 },
                 error: function(data) {
@@ -83,8 +104,6 @@
                 }
             });
         };
-
-
 
         /**
          * Submit data by using ajax

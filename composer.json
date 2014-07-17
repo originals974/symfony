@@ -38,7 +38,12 @@
         "shivas/versioning-bundle": "1.0.1",
         "friendsofsymfony/jsrouting-bundle": "@stable",
         "willdurand/js-translation-bundle": "@stable",
-        "doctrine/doctrine-fixtures-bundle": "2.2.*@dev"
+        "doctrine/doctrine-fixtures-bundle": "2.2.*@dev",
+        "components/jquery": "2.1.*",
+        "components/jqueryui": "dev-master",
+        "fortawesome/font-awesome": "4.1.*",
+        "vakata/jstree": "dev-master",
+        "components/bootstrap-switch": "dev-master"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"
@@ -64,6 +69,9 @@
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::removeSymfonyStandardFiles",
             "Mopa\\Bundle\\BootstrapBundle\\Composer\\ScriptHandler::postInstallSymlinkTwitterBootstrap"
+        ],
+        "post-dump-autoload": [
+            "ComponentInstaller\\Installer::postAutoloadDump"
         ]
     },
     "config": {

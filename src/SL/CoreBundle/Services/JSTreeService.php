@@ -55,18 +55,7 @@ class JSTreeService
             'a_attr' => array(
                 'href' => $this->router->generate('object_show', array('id' => $object->getId())),
             ),
-            'children' => array(), 
         );
-
-        $property = $object->getProperties()->first(); 
-
-        $defaultPropertyNode = array(
-            'id' => $property->getTechnicalName(),
-            'text' => $property->getDisplayName(),
-            'icon' => $this->icon->getDefaultPropertyIcon(),
-        );
-        array_push($newNode['children'],$defaultPropertyNode); 
-        
 
         return $newNode; 
     }
@@ -104,96 +93,9 @@ class JSTreeService
             'icon' => $this->icon->getDataListIcon($dataList),
             'a_attr' => array(
                 'href' => $this->router->generate('data_list_show', array('id' => $dataList->getId())),
-            ),
-        );
+                ),
+            );
 
         return $newNode; 
     }
-
-    /**
-     * Create new DataListValue node
-     *
-     * @param DataListValue $dataListValue New DataListValue
-     *
-     * @return Array $newNode DataListValue node
-     */
-    public function createNewDataListValueNode(DataListValue $dataListValue)
-    {
-        $newNode = array(
-            'id' => $dataListValue->getTechnicalName(),
-            'text' => $dataListValue->getDisplayName(),
-            'icon' => 'fa '.$dataListValue->getIcon(),
-        ); 
-
-        return $newNode; 
-    }
-
-    /**
-     * Update Object node
-     *
-     * @param Object $object Updated Object 
-     *
-     * @return Array $updatedNode Object node
-     */
-    public function updateObjectNode(Object $object) 
-    {
-        $updatedNode = array(
-            'id' => $object->getTechnicalName(),
-            'text' => $object->getDisplayName(),
-        ); 
-
-        return $updatedNode;
-    }
-
-    /**
-     * Update Property node
-     *
-     * @param Property $property Updated Property 
-     *
-     * @return Array $updatedNode Property node
-     */
-    public function updatePropertyNode(Property $property) 
-    {
-        $updatedNode = array(
-            'id' => $property->getTechnicalName(),
-            'text' => $property->getDisplayName(),
-        ); 
-
-        return $updatedNode;
-    }
-
-    /**
-     * Update DataList node
-     *
-     * @param DataList $dataList Updated DataList 
-     *
-     * @return Array $updatedNode DataList node
-     */
-    public function updateDataListNode(DataList $dataList) 
-    {
-        $updatedNode = array(
-            'id' => $dataList->getTechnicalName(),
-            'text' => $dataList->getDisplayName(),
-        ); 
-
-        return $updatedNode;
-    }
-
-    /**
-     * Update DataListValue node
-     *
-     * @param DataListValue $dataListValue Updated DataListValue 
-     *
-     * @return Array $updatedNode DataListValue node
-     */
-    public function updateDataListValueNode(DataListValue $dataListValue) 
-    {
-        $updatedNode = array(
-            'id' => $dataListValue->getTechnicalName(),
-            'text' => $dataListValue->getDisplayName(),
-        ); 
-
-        return $updatedNode;
-    }
-
 }

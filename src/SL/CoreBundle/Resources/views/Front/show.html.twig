@@ -1,36 +1,52 @@
-<div class="btn-group">   
-    <a class="btn btn-danger btn-xs" data-toggle="modal" href="{{ path('front_remove', { 'id' : object.id, 'entity_id': entity.id }) }}" data-target="#">
-        <span class="fa fa-times"></span>  
-    </a>
-</div>
+<div class="panel panel-default">
+    <div class="panel-body">
+		<ul class="list-inline">
+		    <li>
+				<span class="fa {{ object.icon() }} fa-5x"></span> 
+			</li>
+			<li>
+				<h1>{{ entity.displayName() }}</h1>
+			</li>
+		</ul>
+		<hr>
+		<div class="btn-group">   
+			<a class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('front_edit', { 'id' : object.id, 'entity_id': entity.id }) }}" data-target="#">
+		        <span class="fa fa-pencil"></span>  
+		    </a>
+		    <a class="btn btn-danger btn-xs" data-toggle="modal" href="{{ path('front_remove', { 'id' : object.id, 'entity_id': entity.id }) }}" data-target="#">
+		        <span class="fa fa-times"></span>  
+		    </a>
+		</div>
 
-{% for object in objects%}
+		{% for object in objects%}
 
-	<h4>{{ object.displayName }}</h4>
+			<h4>{{ object.displayName }}</h4>
 
-	<dl class="dl-horizontal">
-		{% for property in object.properties %}
+			<dl class="dl-horizontal">
+				{% for property in object.properties %}
 
-		    <dt>{{ property.displayName}}</dt>
+				    <dt>{{ property.displayName}}</dt>
 
-		    {% if property.fieldType.technicalName == 'date' %}
-		        <dd>{{ attribute(entity, property.technicalName)|date("d/m/Y") }}</dd>
-		    {% elseif  property.fieldType.technicalName == 'entity' %}
+				    {% if property.fieldType.technicalName == 'date' %}
+				        <dd>{{ attribute(entity, property.technicalName)|date("d/m/Y") }}</dd>
+				    {% elseif  property.fieldType.technicalName == 'entity' %}
 
-		        {% set entityProperties = attribute(entity, property.technicalName) %}
-		        <dd>
-		        {% for entityProperty in entityProperties %}
-		            {{ entityProperty.displayName }}
-		            {% if not loop.last %}
-		                ,
-		            {% endif %}
-		        {% endfor %}
-		        </dd>
-		    {% else %}
-		        <dd>{{ attribute(entity, property.technicalName) }}</dd>
-		    {% endif %}
+				        {% set entityProperties = attribute(entity, property.technicalName) %}
+				        <dd>
+				        {% for entityProperty in entityProperties %}
+				            {{ entityProperty.displayName }}
+				            {% if not loop.last %}
+				                ,
+				            {% endif %}
+				        {% endfor %}
+				        </dd>
+				    {% else %}
+				        <dd>{{ attribute(entity, property.technicalName) }}</dd>
+				    {% endif %}
+
+				{% endfor %}
+			</dl>
 
 		{% endfor %}
-	</dl>
-
-{% endfor %}
+	</div>
+</div>

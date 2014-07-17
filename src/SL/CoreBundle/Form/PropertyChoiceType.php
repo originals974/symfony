@@ -36,6 +36,7 @@ class PropertyChoiceType extends AbstractType
         $resolver->setDefaults(array(
             'attr' => array(
                 'class' => 'form-horizontal', 
+                'valid-target' => '', 
                 ),
             'show_legend' => false,
         ));

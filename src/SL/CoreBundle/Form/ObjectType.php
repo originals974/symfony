@@ -64,7 +64,7 @@ class ObjectType extends AbstractType
             'data_class' => 'SL\CoreBundle\Entity\Object',
             'attr' => array(
                 'class' => 'form-horizontal',
-                'valid-target' => 'accordionSubObjectContent',  
+                'valid-target' => '',  
                 ),
             'show_legend' => false,
             )

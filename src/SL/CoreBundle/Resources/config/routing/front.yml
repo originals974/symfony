@@ -21,16 +21,16 @@ front_show:
         id: \d+ 
         entity_id: \d+ 
 front_edit:
-    pattern: /{object_id}.{entity_id}/edit
+    pattern: /{id}.{entity_id}/edit
     defaults: { _controller: SLCoreBundle:Front:edit }
     requirements:
-        object_id: \d+
+        id: \d+
         entity_id: \d+
 front_update:
-    pattern: /{object_id}.{entity_id}/update
+    pattern: /{id}.{entity_id}/update
     defaults: { _controller: SLCoreBundle:Front:update }
     requirements:
-        object_id: \d+
+        id: \d+
         entity_id: \d+
         _method: PUT
 front_remove:
@@ -46,6 +46,3 @@ front_delete:
         id: \d+
         entity_id: \d+
         _method: DELETE
-front_tree_view:
-    pattern: /tree_view
-    defaults: { _controller: SLCoreBundle:Front:treeView }

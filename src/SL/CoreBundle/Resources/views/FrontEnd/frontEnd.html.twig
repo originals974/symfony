@@ -21,7 +21,7 @@
 	{{ parent() }}
 	{% embed '@MopaBootstrap/Navbar/navbar.html.twig' with {fixedTop: false, staticTop: false, inverse: false}  %}
         {% block menu %}
-        	<div class="col-md-3">
+        	<div class="col-lg-4">
             	{{ mopa_bootstrap_menu('SLCoreBundle:Builder:lateralFrontEndMenu') }}
             </div>
         {% endblock %}
@@ -32,15 +32,22 @@
 	{{ parent() }}
 	<div class="row">
         <!--Search section-->
-        <section class="well col-md-6">
-            {% block search_section %}{% endblock %}
+        <section class="col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h1 class="panel-title">
+                        {% block search_panel_title %}{% endblock %}
+                    </h1>
+                </div>
+                <div class="panel-body">
+                    {% block search_panel_body %}{% endblock %}
+                </div>
+            </div>
         </section>
 
         <!--Tool section-->
-        <section class="well col-md-6">
-            {% block features_section %}
-            	<div id="features"> </div>
-            {% endblock %}
+        <section class="col-lg-6">
+            <div id="features_panel_body"> </div>
         </section>
     </div>
 {% endblock %}

@@ -1,11 +1,11 @@
 {% extends 'SLCoreBundle:FrontEnd:frontEnd.html.twig' %}
 
 {% block head_title %}
-    {{ parent() }} - {{ 'frontEnd.welcome'|trans }}
+    {{ parent() }} - {{ 'front_end.title'|trans }}
 {% endblock %}
 
-{% block search_section %}
-    {{ parent() }}
+{% block search_panel_title %}
+	{{ parent() }}
 
     <div class="row">
 	    {{ form_start(form) }}
@@ -17,7 +17,9 @@
 		    
 		{{ form_end(form) }}
 	</div>
+{% endblock %}
 
+{% block search_panel_body %}
 	<div class="row">
 		<div id="jstree"></div>
 	</div>

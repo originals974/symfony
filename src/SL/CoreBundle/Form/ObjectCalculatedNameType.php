@@ -48,6 +48,7 @@ class ObjectCalculatedNameType extends AbstractType
             'method' => 'PUT',
             'attr' => array(
                 'class' => 'form-horizontal',
+                'valid-target' => '', 
                 ),
             'show_legend' => false,
         ));
