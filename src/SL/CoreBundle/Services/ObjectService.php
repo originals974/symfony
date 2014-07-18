@@ -8,6 +8,7 @@ use Symfony\Component\Translation\Translator;
 use Symfony\Component\Form\Form; 
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\TwigBundle\Debug\TimedTwigEngine;  
+use Symfony\Bridge\Doctrine\RegistryInterface;
 
 //Custom classes
 use SL\CoreBundle\Entity\Object;
@@ -19,19 +20,23 @@ use SL\CoreBundle\Services\JSTreeService;
  */
 class ObjectService
 {
+    private $registry; 
     private $em;
+    private $databaseEm;
     private $translator;
 
     /**
      * Constructor
      *
-     * @param EntityManager $em
+     * @param RegistryInterface $registry
      * @param Translator $translator
      *
      */
-    public function __construct(EntityManager $em, Translator $translator)
+    public function __construct(RegistryInterface $registry, Translator $translator)
     {
-        $this->em = $em;
+        $this->registry = $registry;
+        $this->em = $registry->getManager();
+        $this->databaseEm = $registry->getManager('database');
         $this->translator = $translator;
     }
 
@@ -91,6 +96,29 @@ class ObjectService
         $displayName = implode($patternArray);
 
         return $displayName; 
+    }
+
+    /**
+    * Refresh displayName of entity linked to Object
+    *
+    * @param Object $object Object 
+    *
+    */
+    public function refreshCalculatedName(Object $object){
+
+        $entities = $this->databaseEm ->getRepository('SLDataBundle:'.$object->getTechnicalName())
+                                ->findAll(); 
+
+        foreach($entities as $entity) {
+
+            $displayName = $this->calculateDisplayName($entity, $object); 
+            $entity->setDisplayName($displayName); 
+
+        }
+
+        $this->databaseEm->flush();
+
+        return true; 
     }
 
     /**

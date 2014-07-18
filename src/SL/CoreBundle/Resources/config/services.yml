@@ -16,7 +16,7 @@ services:
 
     sl_core.object:
         class: SL\CoreBundle\Services\ObjectService
-        arguments: [@doctrine.orm.entity_manager, @translator]
+        arguments: [@doctrine, @translator]
 
     sl_core.property:
         class: SL\CoreBundle\Services\PropertyService
@@ -28,7 +28,7 @@ services:
 
     sl_core.elastica:
         class: SL\CoreBundle\Services\ElasticaService
-        arguments: [@doctrine.orm.entity_manager, @fos_elastica.index.slcore, @router, %sl_data.bundle%, %symfony.config_path%]
+        arguments: [@doctrine.orm.entity_manager, @router, %sl_data.bundle%, %symfony.config_path%]
 
     twig.text_extension:
         class: Twig_Extensions_Extension_Text

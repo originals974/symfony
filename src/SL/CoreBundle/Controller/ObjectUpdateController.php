@@ -185,7 +185,7 @@ class ObjectUpdateController extends Controller
             if ($isValid) {
 
                 if($form->get('updateExistingName')->getData()) {
-                    $this->refreshCalculatedName($object); 
+                    $this->objectService->refreshCalculatedName($object); 
                 }
 
                 $this->em->flush();
@@ -295,30 +295,5 @@ class ObjectUpdateController extends Controller
         }   
 
         return $response;    
-    }
-
-    /**
-    * Refresh displayName of entity linked to Object
-    *
-    * @param Object $object Object 
-    *
-    */
-    public function refreshCalculatedName(Object $object){
-
-        $databaseEm = $this->getDoctrine()->getManager('database');
-        
-        $entities = $databaseEm ->getRepository('SLDataBundle:'.$object->getTechnicalName())
-                                ->findAll(); 
-
-        foreach($entities as $entity) {
-
-            $displayName = $this->objectService->calculateDisplayName($entity, $object); 
-            $entity->setDisplayName($displayName); 
-
-        }
-
-        $databaseEm->flush();
-
-        return true; 
     }
 }
