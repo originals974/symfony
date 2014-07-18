@@ -6,11 +6,14 @@ namespace SL\CoreBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
 
 //Custom classes
 use SL\CoreBundle\Entity\DataList;
 use SL\CoreBundle\Entity\DataListValue;
+use SL\CoreBundle\Services\JSTreeService;
+use SL\CoreBundle\Services\IconService;
 
 /**
  * DataListValue controller
@@ -29,7 +32,7 @@ class DataListValueController extends Controller
      *     "iconService" = @DI\Inject("sl_core.icon"),
      * })
      */
-    public function __construct($em, $jstreeService, $iconService)
+    public function __construct(EntityManager $em, JSTreeService $jstreeService, IconService $iconService)
     {
         $this->em = $em;
         $this->jstreeService = $jstreeService;

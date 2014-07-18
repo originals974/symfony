@@ -7,10 +7,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
 
 //Custom classes
 use SL\CoreBundle\Entity\Object;
+use SL\CoreBundle\Services\ObjectService;
+use SL\CoreBundle\Services\JSTreeService;
+use SL\CoreBundle\Services\IconService;
+use SL\CoreBundle\Services\DoctrineService;
 
 /**
  * Object Update controller
@@ -22,6 +27,7 @@ class ObjectUpdateController extends Controller
     private $objectService;
     private $jstreeService;
     private $iconService;
+    private $doctrineService; 
 
     /**
      * @DI\InjectParams({
@@ -32,7 +38,7 @@ class ObjectUpdateController extends Controller
      *     "doctrineService" = @DI\Inject("sl_core.doctrine")
      * })
      */
-    public function __construct($em, $objectService, $jstreeService, $iconService, $doctrineService)
+    public function __construct(EntityManager $em, ObjectService $objectService, JSTreeService $jstreeService, IconService $iconService, DoctrineService $doctrineService)
     {
         $this->em = $em;
         $this->objectService = $objectService;

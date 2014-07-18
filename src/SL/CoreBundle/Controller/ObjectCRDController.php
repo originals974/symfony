@@ -7,10 +7,16 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
 
 //Custom classes
 use SL\CoreBundle\Entity\Object;
+use SL\CoreBundle\Services\ObjectService;
+use SL\CoreBundle\Services\PropertyService;
+use SL\CoreBundle\Services\JSTreeService;
+use SL\CoreBundle\Services\IconService;
+use SL\CoreBundle\Services\DoctrineService;
 
 /**
  * Object Create Read Delete controller
@@ -35,7 +41,7 @@ class ObjectCRDController extends Controller
      *     "doctrineService" = @DI\Inject("sl_core.doctrine")
      * })
      */
-    public function __construct($em, $objectService, $propertyService, $jstreeService, $iconService, $doctrineService)
+    public function __construct(EntityManager $em, ObjectService $objectService, PropertyService $propertyService, JSTreeService $jstreeService, IconService $iconService, DoctrineService $doctrineService)
     {
         $this->em = $em;
         $this->objectService = $objectService;

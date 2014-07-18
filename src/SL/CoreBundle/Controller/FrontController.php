@@ -7,13 +7,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
 
 //Custom classes
 use SL\CoreBundle\Entity\Object;
 use SL\CoreBundle\Form\FrontType;
-use SL\CoreBundle\Form\DeleteFrontType;
-
+use SL\CoreBundle\Services\DoctrineService;
+use SL\CoreBundle\Services\ObjectService;
 /**
  * Front controller.
  *
@@ -22,6 +23,7 @@ class FrontController extends Controller
 {
     private $em;
     private $doctrineService;
+    private $objectService;
 
     /**
      * @DI\InjectParams({
@@ -30,38 +32,12 @@ class FrontController extends Controller
      *     "objectService" = @DI\Inject("sl_core.object")
      * })
      */
-    public function __construct($em, $doctrineService, $objectService)
+    public function __construct(EntityManager $em, DoctrineService $doctrineService, ObjectService $objectService)
     {
         $this->em = $em;
         $this->doctrineService = $doctrineService;
         $this->objectService = $objectService;
     }
-
-
-    /**
-     * Lists all entities
-     */
-	/*public function indexAction(Object $object)
-    {
-        //Entity managers initialisation
-        $databaseEm = $this->getDoctrine()->getManager('database');
-
-        //Get properties of the object
-        $properties = $this->em->getRepository('SLCoreBundle:Property')->findBy(
-            array(
-                'object' => $object,
-            )
-        );
-
-        $entities = $databaseEm->getRepository('SLDataBundle:'.$object->getTechnicalName())->findAll();
-
-        //View creation
-        return $this->render('SLCoreBundle:Front:index.html.twig', array(
-        	'object' => $object,
-            'properties' => $properties,
-            'entities' => $entities,
-        ));
-    }*/
 
     /**
     * Display form to create entity
@@ -370,120 +346,4 @@ class FrontController extends Controller
 
         return $form;
     }
-
-    
-    /**
-     * Edits an existing entity.
-     *
-     * @ParamConverter("object", options={"mapping": {"object_id": "id"}})
-     */
-    /*public function updateAction(Request $request, Object $object, $entity_id)
-    {
-        //Variables initialisation
-        $databaseEm = $this->getDoctrine()->getManager('database');
-        
-        //Get entity to modify
-        $entity = $databaseEm->getRepository('SLDataBundle:'.$object->getTechnicalName())->find($entity_id);
-
-        //Form creation  
-        $form = $this->createEditForm($object, $entity);
-
-        //Associate return form data with entity
-        $form->handleRequest($request);
-
-        if ($request->isXmlHttpRequest()) {
-
-            //Form validation and Ajax response construction
-            $isValid = $form->isValid();
-            if ($isValid) {
-
-                //Save entity in database
-                $entity = $this->setDisplayName($entity);
-                $databaseEm->flush();
-
-                //Get properties of the object
-                $em = $this->getDoctrine()->getManager();
-                $properties = $em->getRepository('SLCoreBundle:Property')->findBy(array(
-                    'object' => $object,
-                    )
-                );
-
-                //Create a html row for entity table 
-                $html = $this->renderView('SLCoreBundle:Front:entityTableRow.html.twig', array(
-                    'object' => $object,
-                    'properties' => $properties,
-                    'entity' => $entity,
-                    )
-                );
-            }
-            else {
-                //Create a form with field error 
-                $html = $this->renderView('SLCoreBundle:Front:save.html.twig', array(
-                    'action' => 'update',
-                    'form'   => $form->createView(),
-                    )
-                );
-            }
-
-            //Create the Json Response array
-            $data = array(
-                'formAction' => 'update',  
-                'html' => $html,
-                'isValid' => $isValid,
-                'entityType' => $object->getTechnicalName(),
-                'entityId' => $entity->getId(),
-                );
-
-            $response = new JsonResponse($data);
-        }
-
-        else {
-            //Redirect to index page
-            $response = $this->redirect($this->generateUrl('front', array('object_id' => $object->getId())));
-        }
-
-        return $response; 
-    }*/
-
-
-    /**
-    * Creates a form to edit an entity.
-    *
-    * @param Object $object The object definition
-    * @param Mixed $entity The entity 
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    /*private function createEditForm(Object $object, $entity)
-    {
-        //Variable initialisation
-        $em = $this->getDoctrine()->getManager();
-        $doctrineService = $this->get('sl_core.doctrine');
-        $entityClass = $doctrineService->getEntityClass($object->getTechnicalName());
-
-        //Form creation  
-        $form = $this->createForm(new FrontType($em, $object, $entityClass), $entity, array(
-            'action' => $this->generateUrl('front_update', array(
-                'object_id' => $object->getId(), 
-                'entity_id' => $entity->getId(),
-                )
-            ),
-            'method' => 'PUT',
-            'attr' => array(
-                'class' => 'form-horizontal', 
-                'valid-data-target' => '#'.$object->getTechnicalName().'_table_body', 
-                'no-valid-data-target' => '#ajax-modal',
-                ),
-            )
-        );
-
-        //Submit button creation  
-        $form->add('submit', 'submit', array(
-            'label' => 'update',
-            'attr' => array('class'=>'btn btn-primary btn-sm'),
-            )
-        );
-
-        return $form;
-    }*/
 }

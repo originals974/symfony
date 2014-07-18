@@ -8,11 +8,16 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use JMS\DiExtraBundle\Annotation as DI;
+use Doctrine\ORM\EntityManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 //Custom classes
 use SL\CoreBundle\Entity\Object;
 use SL\CoreBundle\Entity\Property;
+use SL\CoreBundle\Services\PropertyService;
+use SL\CoreBundle\Services\JSTreeService;
+use SL\CoreBundle\Services\IconService;
+use SL\CoreBundle\Services\DoctrineService;
 
 /**
  * Property controller
@@ -35,7 +40,7 @@ class PropertyController extends Controller
      *     "doctrineService" = @DI\Inject("sl_core.doctrine")
      * })
      */
-    public function __construct($em, $propertyService, $jstreeService, $iconService, $doctrineService)
+    public function __construct(EntityManager $em, PropertyService $propertyService, JSTreeService $jstreeService, IconService $iconService, DoctrineService $doctrineService)
     {
         $this->em = $em;
         $this->propertyService = $propertyService;

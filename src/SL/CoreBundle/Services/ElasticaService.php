@@ -4,7 +4,7 @@ namespace SL\CoreBundle\Services;
 
 //Symfony classes
 use Doctrine\ORM\EntityManager;
-use FOS\ElasticaBundle\Elastica\Index;
+use Symfony\Component\Routing\Router;
 use Symfony\Component\Yaml\Dumper;
 
 //Custom classes
@@ -17,7 +17,6 @@ use SL\CoreBundle\Entity\Object;
 class ElasticaService
 {
     private $em;
-    private $elasticaIndex;
     private $bundlePath;
     private $configPath; 
     private $router; 
@@ -26,19 +25,17 @@ class ElasticaService
      * Constructor
      *
      * @param EntityManager $em
-     * @param Index $elasticaIndex
+     * @param $router
      * @param String $bundlePath
      * @param String $configPath   
-     * @param $router
      *
      */
-    public function __construct(EntityManager $em, Index $elasticaIndex, $bundlePath, $configPath, $router)
+    public function __construct(EntityManager $em, Router $router, $bundlePath, $configPath)
     {
         $this->em = $em; 
-        $this->elasticaIndex = $elasticaIndex;
-        $this->bundlePath = str_replace("/","\\",$bundlePath);
-        $this->configPath = $configPath; 
         $this->router = $router; 
+        $this->bundlePath = str_replace("/","\\",$bundlePath);
+        $this->configPath = $configPath;
     }
 
     public function updateElasticaConfigFile($start, $end){
