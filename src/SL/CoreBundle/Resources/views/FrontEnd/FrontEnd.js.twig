@@ -1,22 +1,30 @@
 <script type="text/javascript">    
 	$(document).ready(function () {
-        $('#jstree').jstree({
-            'core' : {
-                "check_callback" : true,
-                "multiple" : false,
-                'data' : {
-                    'url' :  function (node) {
-                                    var $pattern = $('#sl_corebundle_search_searchField').val(); 
-                                    return Routing.generate('search_process', { pattern : $pattern});
-                    },
-                    'data' : function (data) {
-                        return data;
+
+        function initJsTree() {
+            $('#jstree').jstree({
+                'core' : {
+                    "check_callback" : true,
+                    "multiple" : false,
+                    'data' : {
+                        'url' :  function (node) {
+                                        var $pattern = $('#sl_corebundle_search_searchField').val(); 
+                                        return Routing.generate('search_process', { pattern : $pattern});
+                        },
+                        'data' : function (data) {
+                            return data;
+                        }
                     }
                 }
-            }
-        });
+            });
+        };
 
         $( "#sl_corebundle_search_submit" ).click(function() {
+            
+            if($.jstree.reference('#jstree') != "") {
+                initJsTree();
+            }
+            
             $('#jstree').jstree(true).refresh();
         });
 
