@@ -35,7 +35,6 @@ class FrontType extends AbstractType
             array_unshift($objects, $lastObject); 
 
             foreach($objects as $object){
-
                 //Create parent Tab in order to display parent Object fields
                 $tab = $builder->create($object->getTechnicalName().'Property', 'tab', array(
                 'label' => $object->getDisplayName(),
@@ -159,7 +158,6 @@ class FrontType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => $this->entityClass,
             'attr' => array(
-                'class' => 'form-horizontal',
                 'valid-target' => '',  
                 'no-valid-target' => 'ajax-modal',
                 ),

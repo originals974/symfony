@@ -21,6 +21,8 @@ class ObjectType extends AbstractType
     {
         if($options['method'] != 'DELETE'){
 
+            $object = $options['object']; 
+
             $builder
                 ->add('displayName' , 'text',  array(
                     'label' =>  'displayName',
@@ -35,8 +37,8 @@ class ObjectType extends AbstractType
                     'required' => false,
                     'class' => 'SLCoreBundle:Object',
                     'property' => 'displayName',
-                    'query_builder' => function(EntityRepository $er){
-                                          return $er->findParentObject();
+                    'query_builder' => function(EntityRepository $er) use ($object){
+                                          return $er->findParentObject($object);
                                         },
                     'attr' => array(
                             'class'       => 'col-lg-4'
@@ -63,7 +65,6 @@ class ObjectType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'SL\CoreBundle\Entity\Object',
             'attr' => array(
-                'class' => 'form-horizontal',
                 'valid-target' => '',  
                 ),
             'show_legend' => false,
@@ -74,6 +75,7 @@ class ObjectType extends AbstractType
             'submit_label',
             'submit_color',
             'disabled_parent_field',
+            'object'
             )
         );
     }

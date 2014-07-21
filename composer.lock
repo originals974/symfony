@@ -107,12 +107,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/components/jqueryui.git",
-                "reference": "5cca34e6de6a3c4f98d335eac4c65d8a48d1296e"
+                "reference": "fd092d7721db56ea6785c5a1697f96c5615dd8c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/components/jqueryui/zipball/5cca34e6de6a3c4f98d335eac4c65d8a48d1296e",
-                "reference": "5cca34e6de6a3c4f98d335eac4c65d8a48d1296e",
+                "url": "https://api.github.com/repos/components/jqueryui/zipball/fd092d7721db56ea6785c5a1697f96c5615dd8c7",
+                "reference": "fd092d7721db56ea6785c5a1697f96c5615dd8c7",
                 "shasum": ""
             },
             "require": {
@@ -180,7 +180,7 @@
                 }
             ],
             "description": "jQuery UI is a curated set of user interface interactions, effects, widgets, and themes built on top of the jQuery JavaScript Library. Whether you're building highly interactive web applications or you just need to add a date picker to a form control, jQuery UI is the perfect choice.",
-            "time": "2014-07-04 08:14:52"
+            "time": "2014-07-19 12:16:06"
         },
         {
             "name": "coresphere/console-bundle",
@@ -2031,12 +2031,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/KnpLabs/KnpMenu.git",
-                "reference": "532a4ad323be54da77179022474e873d307e524c"
+                "reference": "ca591b2fd7021c2608c22cfe5ad54eec66c1acee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/KnpMenu/zipball/532a4ad323be54da77179022474e873d307e524c",
-                "reference": "532a4ad323be54da77179022474e873d307e524c",
+                "url": "https://api.github.com/repos/KnpLabs/KnpMenu/zipball/ca591b2fd7021c2608c22cfe5ad54eec66c1acee",
+                "reference": "ca591b2fd7021c2608c22cfe5ad54eec66c1acee",
                 "shasum": ""
             },
             "require": {
@@ -2087,7 +2087,7 @@
                 "menu",
                 "tree"
             ],
-            "time": "2014-06-20 09:37:12"
+            "time": "2014-07-18 10:01:56"
         },
         {
             "name": "knplabs/knp-menu-bundle",
@@ -2150,12 +2150,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/KnpLabs/KnpPaginatorBundle.git",
-                "reference": "67eb0e1c8f0d7cc88a2c807bf9dac3bbf5644769"
+                "reference": "d35547a771a03923d19d55ea335cd2801ad72dc2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/KnpPaginatorBundle/zipball/67eb0e1c8f0d7cc88a2c807bf9dac3bbf5644769",
-                "reference": "67eb0e1c8f0d7cc88a2c807bf9dac3bbf5644769",
+                "url": "https://api.github.com/repos/KnpLabs/KnpPaginatorBundle/zipball/d35547a771a03923d19d55ea335cd2801ad72dc2",
+                "reference": "d35547a771a03923d19d55ea335cd2801ad72dc2",
                 "shasum": ""
             },
             "require": {
@@ -2200,7 +2200,7 @@
                 "pagination",
                 "paginator"
             ],
-            "time": "2014-07-08 22:31:25"
+            "time": "2014-07-18 12:20:39"
         },
         {
             "name": "kriswallsmith/assetic",
@@ -3169,17 +3169,16 @@
         },
         {
             "name": "symfony/monolog-bundle",
-            "version": "v2.6.0",
-            "target-dir": "Symfony/Bundle/MonologBundle",
+            "version": "v2.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/MonologBundle.git",
-                "reference": "e1d4aa99c7440b11e9dfbfef7ed63084401dbc6a"
+                "reference": "227bbeefe30f2d95e3fe5fbd1ccda414287a957a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/MonologBundle/zipball/e1d4aa99c7440b11e9dfbfef7ed63084401dbc6a",
-                "reference": "e1d4aa99c7440b11e9dfbfef7ed63084401dbc6a",
+                "url": "https://api.github.com/repos/symfony/MonologBundle/zipball/227bbeefe30f2d95e3fe5fbd1ccda414287a957a",
+                "reference": "227bbeefe30f2d95e3fe5fbd1ccda414287a957a",
                 "shasum": ""
             },
             "require": {
@@ -3201,8 +3200,8 @@
                 }
             },
             "autoload": {
-                "psr-0": {
-                    "Symfony\\Bundle\\MonologBundle": ""
+                "psr-4": {
+                    "Symfony\\Bundle\\MonologBundle\\": ""
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -3211,14 +3210,12 @@
             ],
             "authors": [
                 {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com",
-                    "homepage": "http://fabien.potencier.org",
-                    "role": "Lead Developer"
-                },
-                {
                     "name": "Symfony Community",
                     "homepage": "http://symfony.com/contributors"
+                },
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
                 }
             ],
             "description": "Symfony MonologBundle",
@@ -3227,7 +3224,7 @@
                 "log",
                 "logging"
             ],
-            "time": "2014-06-04 16:49:13"
+            "time": "2014-07-21 00:36:06"
         },
         {
             "name": "symfony/swiftmailer-bundle",
@@ -3408,12 +3405,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twbs/bootstrap.git",
-                "reference": "dd22f599998cc07c18b6643a856d5acda6c5c122"
+                "reference": "a035ee59ae73510ebdb1064e59b4b16f1da9fc66"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/dd22f599998cc07c18b6643a856d5acda6c5c122",
-                "reference": "dd22f599998cc07c18b6643a856d5acda6c5c122",
+                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/a035ee59ae73510ebdb1064e59b4b16f1da9fc66",
+                "reference": "a035ee59ae73510ebdb1064e59b4b16f1da9fc66",
                 "shasum": ""
             },
             "replace": {
@@ -3451,7 +3448,7 @@
                 "responsive",
                 "web"
             ],
-            "time": "2014-07-15 18:09:50"
+            "time": "2014-07-20 05:11:07"
         },
         {
             "name": "twig/extensions",
@@ -3564,12 +3561,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/vakata/jstree.git",
-                "reference": "5a68714028159c1b119e4c334f2f9de75d07397a"
+                "reference": "94f8f564bd01290d04ac1ec8e2e4b51b14fb15dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vakata/jstree/zipball/5a68714028159c1b119e4c334f2f9de75d07397a",
-                "reference": "5a68714028159c1b119e4c334f2f9de75d07397a",
+                "url": "https://api.github.com/repos/vakata/jstree/zipball/94f8f564bd01290d04ac1ec8e2e4b51b14fb15dc",
+                "reference": "94f8f564bd01290d04ac1ec8e2e4b51b14fb15dc",
                 "shasum": ""
             },
             "require": {
@@ -3611,7 +3608,7 @@
             ],
             "description": "jsTree is jquery plugin, that provides interactive trees.",
             "homepage": "http://jstree.com",
-            "time": "2014-07-11 08:53:36"
+            "time": "2014-07-16 07:23:14"
         },
         {
             "name": "willdurand/js-translation-bundle",
@@ -3788,6 +3785,7 @@
         "vakata/jstree": 20,
         "components/bootstrap-switch": 20
     },
+    "prefer-stable": false,
     "platform": {
         "php": ">=5.3.3"
     },

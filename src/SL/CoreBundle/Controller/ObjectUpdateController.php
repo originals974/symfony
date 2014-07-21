@@ -140,6 +140,7 @@ class ObjectUpdateController extends Controller
             'submit_label' => 'update',
             'submit_color' => 'primary',
             'disabled_parent_field' => false,
+            'object' => $object
             )
         );
 
@@ -258,10 +259,7 @@ class ObjectUpdateController extends Controller
                 $this->em->flush();
             }
 
-            $response = new JsonResponse(array(
-                'icon' => $this->iconService->getObjectIcon($object),
-                )
-            );
+            $response = new JsonResponse(null);
         }
         else {
             $response = $this->redirect($this->generateUrl('back_end'));

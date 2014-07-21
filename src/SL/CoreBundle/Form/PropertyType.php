@@ -61,8 +61,7 @@ class PropertyType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'SL\CoreBundle\Entity\Property',
             'attr' => array(
-                'class' => 'form-horizontal', 
-                'valid-target' => 'accordionPropertyContent', 
+                'valid-target' => 'property_content', 
                 ),
             'show_legend' => false,
             )

@@ -44,8 +44,7 @@ class DataListValueType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'SL\CoreBundle\Entity\DataListValue',
             'attr' => array(
-                'class' => 'form-horizontal',
-                'valid-target' => 'accordionDataListValueContent', 
+                'valid-target' => 'data_list_value_content', 
                 ),
             'show_legend' => false,
             )

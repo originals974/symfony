@@ -47,7 +47,6 @@ class Builder extends ContainerAware
 
         //Menu item
         $menu->addChild('backEnd', array('route' => 'back_end'));
-        $menu->addChild('search', array('route' => 'search'));
 
         return $menu;
     }

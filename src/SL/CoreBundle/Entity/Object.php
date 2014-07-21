@@ -200,6 +200,12 @@ class Object extends AbstractEntity
     public function setParent(Object $parent = null)
     {
         $this->parent = $parent;
+
+        if($parent != null){
+            if($this->getCalculatedName() == null){
+                $this->setCalculatedName($parent->getCalculatedName());
+            }
+        }
     }
 
     /**

@@ -28,30 +28,6 @@
     {% endembed %}
 {% endblock %}
 
-{% block sections %}
-	{{ parent() }}
-	<div class="row">
-        <!--Search section-->
-        <section class="col-lg-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h1 class="panel-title">
-                        {% block search_panel_title %}{% endblock %}
-                    </h1>
-                </div>
-                <div class="panel-body">
-                    {% block search_panel_body %}{% endblock %}
-                </div>
-            </div>
-        </section>
-
-        <!--Tool section-->
-        <section class="col-lg-6">
-            <div id="features_panel_body"> </div>
-        </section>
-    </div>
-{% endblock %}
-
 {% block footer %}
 	{{ parent() }}
 	{{ 'frontEnd'|trans }}

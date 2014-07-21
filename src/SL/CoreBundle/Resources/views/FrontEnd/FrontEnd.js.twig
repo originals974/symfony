@@ -29,9 +29,8 @@
         });
 
 		$(document).on('submit', 'form', function(event) {
-			//$(this).find('button[type="submit"]').attr('disabled', true);
-
             if($(this).attr('action') != "") {
+                $(this).find('button[type="submit"]').attr('disabled', true);
                 submitFormToAjaxFrontEnd($(this));
             }
             return false;

@@ -157,9 +157,17 @@
 
         //When select an icon by using iconpicker button
         $(document).on("change", 'button[role="iconpicker"]', function(event){
-		   	var $button; 
+		   	var $button, jsTree, selectedNode; 
 
 		   	$button = $(this); 
+
+			jsTree = $('#jstree').jstree(true);
+			selectedNode = String(jsTree.get_selected());  
+
+			if(selectedNode.search("Object") != -1) {	
+				jsTree.set_icon(selectedNode, 'fa '+event.icon); 
+			}    
+
 		    sendToAjax('PUT', $button.attr('ajax-action'), {icon : event.icon}, null);
 		});
 
@@ -209,15 +217,6 @@
 		        		$($htmlTarget).html(data);
 		            	$('button[role="iconpicker"]').iconpicker();
 		            	$('input[skin="bootstrap-switch"]').bootstrapSwitch();
-		        	}
-
-		        	if(data.icon != null) {
-		        		//Get JSTree
-					    jsTree = $('#jstree').jstree(true);
-					    selectedNode = jsTree.get_selected();  
-
-					    //Change JSTree icon    	
-					    jsTree.set_icon(selectedNode, data.icon); 
 		        	}
 		        },
 		        error: function(data) {	           

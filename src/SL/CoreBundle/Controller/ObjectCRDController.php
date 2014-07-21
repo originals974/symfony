@@ -85,7 +85,7 @@ class ObjectCRDController extends Controller
 
             $object = new Object($isDocument);
  
-            $form = $this->createCreateForm($object, $isDocument, $parentObject);
+            $form = $this->createCreateForm($object, $parentObject);
 
             $response = $this->render('SLCoreBundle::save.html.twig', array(
                 'entity' => $object,
@@ -112,7 +112,7 @@ class ObjectCRDController extends Controller
 
         $object = new Object($isDocument, $defaultPropertyfieldType);
 
-        $form = $this->createCreateForm($object, $isDocument, $parentObject);
+        $form = $this->createCreateForm($object, $parentObject);
 
         $form->handleRequest($request);
  
@@ -168,11 +168,10 @@ class ObjectCRDController extends Controller
     * Create Object form
     *
     * @param Object $object Object to create
-    * @param boolean $isDocument True if Object is a document
     *
     * @return Form $form Create form
     */
-    private function createCreateForm(Object $object, $isDocument, Object $parentObject = null)
+    private function createCreateForm(Object $object, Object $parentObject = null)
     {
         if($parentObject != null) {
             $object->setParent($parentObject); 
@@ -184,7 +183,7 @@ class ObjectCRDController extends Controller
 
         $form = $this->createForm('object', $object, array(
             'action' => $this->generateUrl('object_create', array(
-                'isDocument' => $isDocument,
+                'isDocument' => $object->isDocument(),
                 'id' =>  ($parentObject != null)?$parentObject->getId():0,
                 )
             ),
@@ -192,6 +191,7 @@ class ObjectCRDController extends Controller
             'submit_label' => 'form.submit.create',
             'submit_color' => 'primary',
             'disabled_parent_field' => $disabledParentField,
+            'object' => $object
             )
         );
 
@@ -209,10 +209,7 @@ class ObjectCRDController extends Controller
     {
         if ($request->isXmlHttpRequest()) {
 
-            $path = $this->objectService->getObjectPath($object); 
-
             $response = $this->render('SLCoreBundle:Object:show.html.twig', array(
-                'path' => $path,
                 'object' => $object, 
                 )
             );
@@ -321,6 +318,7 @@ class ObjectCRDController extends Controller
             'submit_label' => 'delete',
             'submit_color' => 'danger',
             'disabled_parent_field' => false,
+            'object' => $object
             )
         );
 

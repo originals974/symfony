@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 //Custom classes
 use SL\CoreBundle\Entity\DataList;
@@ -71,11 +72,13 @@ class DataListValueController extends Controller
      *
      * @param DataList $dataList Parent DataList of DataListValue
      *
+     * @ParamConverter("dataList", options={"repository_method" = "findFullById"})
      */
     public function createAction(Request $request, DataList $dataList)
     {
         $dataListValue = new DataListValue();
         $dataListValue->setDataList($dataList);
+        $dataList->addDataListValue($dataListValue); 
 
         $form = $this->createCreateForm($dataList, $dataListValue);
 
@@ -98,7 +101,7 @@ class DataListValueController extends Controller
                 $this->em->flush();
 
                 $html = $this->renderView('SLCoreBundle:DataListValue:dataListValueTable.html.twig', array(
-                    'dataList' => $dataListValue->getDataList(), 
+                    'dataList' => $dataList, 
                     )
                 );
             }

@@ -4,23 +4,43 @@
     {{ parent() }} - {{ 'front_end.title'|trans }}
 {% endblock %}
 
-{% block search_panel_title %}
+{% block sections %}
 	{{ parent() }}
 
-    <div class="row">
-	    {{ form_start(form) }}
-
-	    	{{ form_errors(form) }}
-
-		    {{ form_widget(form.searchField) }}
-	        {{ form_widget(form.submit) }}
-		    
-		{{ form_end(form) }}
-	</div>
-{% endblock %}
-
-{% block search_panel_body %}
 	<div class="row">
-		<div id="jstree"></div>
+        <!--Search section-->
+        <section class="col-lg-6">
+			{% set panelClass = 'panel panel-default' %}
+
+			{% embed 'SLCoreBundle::sectionSkeleton.html.twig' with {
+			    'panelClass':panelClass,
+			    'form':form
+			    } only
+			%}
+
+			    {% block section_heading %}
+				    {{ form_start(form) }}
+
+				    	{{ form_errors(form) }}
+
+					    {{ form_widget(form.searchField) }}
+				        {{ form_widget(form.submit) }}
+					    
+					{{ form_end(form) }}
+			    {% endblock %}
+
+			    {% block section_body %}
+			      	<div class="row">
+						<div id="jstree"></div>
+					</div>
+			    {% endblock %}
+
+			{% endembed %}
+		</section>
+
+		<!--Tool section-->
+        <section class="col-lg-6">
+            <div id="features_panel_body"> </div>
+        </section>
 	</div>
 {% endblock %}

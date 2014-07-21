@@ -15,10 +15,16 @@ class SearchType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('searchField' , 'search')
+            ->add('searchField' , 'search', array(
+                 'widget_addon_prepend' => array(
+                    'icon' => 'search'
+                    ),
+                )
+            )
             ->add('submit', 'submit', array(
                 'label' => 'search',
                 'attr' => array(
+                    'enabled' =>false,
                     'class'=>'btn btn-primary btn-sm'
                     )
                 )

@@ -47,7 +47,6 @@ class ObjectCalculatedNameType extends AbstractType
             'data_class' => 'SL\CoreBundle\Entity\Object',
             'method' => 'PUT',
             'attr' => array(
-                'class' => 'form-horizontal',
                 'valid-target' => '', 
                 ),
             'show_legend' => false,

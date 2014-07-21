@@ -123,13 +123,18 @@ class ObjectRepository extends NestedTreeRepository
    *
    * @return Collection A collection with potentiel parent Object
    */
-  public function findParentObject()
+  public function findParentObject($object)
   {
     $qb = $this->createQueryBuilder('o')
-              ->where('o.isEnabled = true')
-              //->andWhere('o.isDocument = :isDocument')
-              //->setParameter('isDocument',)
+              //->where('o.isEnabled = true')
+              ->where('o.isDocument = :isDocument')
+              ->setParameter('isDocument',$object->isDocument())
               ->orderBy('o.displayOrder', 'ASC');
+
+    if($object->getId()){
+      $qb->andWhere('o.id <> :objectId')
+         ->setParameter('objectId',$object->getId());
+    }
 
     return  $qb;
 

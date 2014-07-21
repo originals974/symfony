@@ -1,50 +1,55 @@
-{% if object.isDocument %}
-    {% set isDocument = 1 %}
-{% else %}
-    {% set isDocument = 0 %}
-{% endif %}
+{# PROPERTIES INFORMATIONS #}
+{% set panelClass = 'panel panel-default' %}
 
-<ul class="list-inline">
-    <li>
-        <div class="btn-group"> 
-            <input skin="bootstrap-switch" type="checkbox" name="isEnabled" value="isEnabled" {% if object.isEnabled %}checked{% endif %} ajax-action={{ path('object_update_checkbox', { 'id': object.id }) }}>
-        </div>
-    </li>
-    <li>
-        <div class="btn-group"> 
-            <button title="{{ 'object.choose.icon'|trans }}" class="btn btn-default btn-xs" role="iconpicker" data-iconset="fontawesome" data-icon="{{ object.icon }}" data-rows="6" data-cols="6" data-placement="bottom" ajax-action={{ path('object_update_icon', { 'id': object.id }) }}>
-            </button>
-            <a title="{{ 'object.add'|trans }}" class="btn btn-default btn-xs" data-toggle="modal" data-target="#" href="{{ path('object_new', { 'isDocument': isDocument, 'id' : object.id }) }}">
-                <span class="fa fa-plus"></span>  
-            </a>  
-            <a class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('object_edit', { 'id': object.id }) }}" data-target="#">
-                <span class="fa fa-pencil"></span>  
-            </a>
-            <a class="btn btn-danger btn-xs" data-toggle="modal" href="{{ path('object_remove', { 'id': object.id }) }}" data-target="#">
-                <span class="fa fa-times"></span>  
-            </a>
-            <a class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('object_edit_calculated_name', { 'id': object.id }) }}" data-target="#">
-                <span class="fa fa-barcode"></span>  
-            </a>
-        </div>
-    </li>
-</ul>
+{% embed 'SLCoreBundle::sectionSkeleton.html.twig' with {
+    'panelClass':panelClass,
+    'object':object
+    } only
+%}
 
-<div class="panel-group" id="accordion">
+    {% if object.isDocument %}
+        {% set isDocument = 1 %}
+    {% else %}
+        {% set isDocument = 0 %}
+    {% endif %}
 
-    {# PROPERTIES INFORMATIONS #}
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <div class="panel-title">
-                <a data-toggle="collapse" data-parent="#accordion" href="#propertyPanel">
-                    <h4>{{ object.displayName }} | <small>{{ path }}</small></h4>
-                </a>
-            </div>
+
+    {% block section_heading %}
+        <ul class="list-inline">
+            <li>
+                <input skin="bootstrap-switch" type="checkbox" name="isEnabled" value="isEnabled" {% if object.isEnabled %}checked{% endif %} ajax-action={{ path('object_update_checkbox', { 'id': object.id }) }}>              
+            </li>
+            <li>
+                <div class="btn-group"> 
+                    <button title="{{ 'object.choose.icon'|trans }}" class="btn btn-default btn-xs" role="iconpicker" data-iconset="fontawesome" data-icon="{{ object.icon }}" data-rows="6" data-cols="6" data-placement="bottom" ajax-action={{ path('object_update_icon', { 'id': object.id }) }}>
+                    </button>
+                    <a title="{{ 'object.add'|trans }}" class="btn btn-default btn-xs" data-toggle="modal" data-target="#" href="{{ path('object_new', { 'isDocument': isDocument, 'id' : object.id }) }}">
+                        <span class="fa fa-plus"></span>  
+                    </a>  
+                    <a class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('object_edit', { 'id': object.id }) }}" data-target="#">
+                        <span class="fa fa-pencil"></span>  
+                    </a>
+                    <a class="btn btn-danger btn-xs" data-toggle="modal" href="{{ path('object_remove', { 'id': object.id }) }}" data-target="#">
+                        <span class="fa fa-times"></span>  
+                    </a>
+                    <a class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('object_edit_calculated_name', { 'id': object.id }) }}" data-target="#">
+                        <span class="fa fa-barcode"></span>  
+                    </a>
+                </div>
+            </li>
+           
+        </ul>
+    {% endblock %}
+
+    {% block section_body %}
+
+        <div id="property_content">
+            {% include "SLCoreBundle:Property:propertyTable.html.twig" with {'object' : object} only %} 
         </div>
-        <div id="propertyPanel" class="panel-collapse collapse in">
-            <div id="accordionPropertyContent" class="panel-body">
-                {% include "SLCoreBundle:Property:propertyTable.html.twig" with {'object' : object} only %} 
-            </div>
-        </div>
-    </div>
-</div>
+    {% endblock %}
+
+{% endembed %}
+
+
+
+

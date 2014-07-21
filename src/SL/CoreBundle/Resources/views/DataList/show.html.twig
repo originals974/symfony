@@ -1,30 +1,37 @@
-<div class="well btn-group">  
-    <input skin="bootstrap-switch" type="checkbox" name="isEnabled" value="isEnabled" {% if dataList.isEnabled %}checked{% endif %} ajax-action={{ path('data_list_update_checkbox', { 'id': dataList.id }) }}>            
-</div>
-<div class=" well btn-group">  
-    <a title="{{ 'datalist.update'|trans }}" class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('data_list_edit', { 'id': dataList.id }) }}" data-target="#">
-        <span class="fa fa-pencil"></span>  
-    </a>
-    <a title="{{ 'datalist.delete'|trans }}" class="btn btn-danger btn-xs" data-toggle="modal" href="{{ path('data_list_remove', { 'id': dataList.id }) }}" data-target="#">
-        <span class="fa fa-times"></span>  
-    </a>
-</div>
-<div class="panel-group" id="accordion">
+{% set panelClass = 'panel panel-default' %}
 
-    {# DATALISTVALUE INFORMATIONS #}
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4 class="panel-title">
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-                  {{ 'DataListValue.index.title'|trans }}
-                </a>
-            </h4>
+{% embed 'SLCoreBundle::sectionSkeleton.html.twig' with {
+    'panelClass':panelClass,
+    'dataList' : dataList
+    } only
+%}
+
+    {% block section_heading %}
+        <ul class="list-inline">
+            <li>
+                <input skin="bootstrap-switch" type="checkbox" name="isEnabled" value="isEnabled" {% if dataList.isEnabled %}checked{% endif %} ajax-action={{ path('data_list_update_checkbox', { 'id': dataList.id }) }}>  
+            </li>
+            <li>
+                <div class="btn-group">  
+                    <a title="{{ 'datalist.update'|trans }}" class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('data_list_edit', { 'id': dataList.id }) }}" data-target="#">
+                        <span class="fa fa-pencil"></span>  
+                    </a>
+                    <a title="{{ 'datalist.delete'|trans }}" class="btn btn-danger btn-xs" data-toggle="modal" href="{{ path('data_list_remove', { 'id': dataList.id }) }}" data-target="#">
+                        <span class="fa fa-times"></span>  
+                    </a>
+                </div>
+            </li>
+        </ul>
+    {% endblock %}
+
+    {% block section_body %}
+        <div id="data_list_value_content">
+            {% include "SLCoreBundle:DataListValue:dataListValueTable.html.twig" with {'dataList' : dataList} only %}
         </div>
-        <div id="collapseTwo" class="panel-collapse collapse in">
-            <div id="accordionDataListValueContent" class="panel-body">
-                {% include "SLCoreBundle:DataListValue:dataListValueTable.html.twig" with {'dataList' : dataList} only %} 
-            </div>
-        </div>
-    </div>
-</div>
+    {% endblock %}
+
+{% endembed %}
+
+
+
 

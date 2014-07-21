@@ -133,9 +133,14 @@ class ObjectService
         //Get all parent Object
         $objects = $this->em->getRepository('SLCoreBundle:Object')->getPath($object); 
 
-        $path=""; 
-        foreach($objects as $object){
-            $path = $path."/".$object->getDisplayName(); 
+        $path = "";
+        foreach($objects as $key=>$object){
+            if($key == 0) {
+                $path = $object->getDisplayName();
+            }
+            else {
+                $path = $path." -> ".$object->getDisplayName(); 
+            }
         }
 
         return $path; 

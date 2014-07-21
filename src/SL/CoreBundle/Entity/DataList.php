@@ -34,10 +34,10 @@ class DataList extends AbstractEntity
     /**
      * Add dataListValue
      *
-     * @param \SL\CoreBundle\Entity\DataListValue $dataListValues
+     * @param \SL\CoreBundle\Entity\DataListValue $dataListValue
      * @return DataList
      */
-    public function addDataListValues(\SL\CoreBundle\Entity\DataListValue $dataListValue)
+    public function addDataListValue(\SL\CoreBundle\Entity\DataListValue $dataListValue)
     {
         $this->dataListValues[] = $dataListValue;
 
@@ -47,9 +47,9 @@ class DataList extends AbstractEntity
     /**
      * Remove dataListValue
      *
-     * @param \SL\CoreBundle\Entity\DataListValue $dataListValues
+     * @param \SL\CoreBundle\Entity\DataListValue $dataListValue
      */
-    public function removeDataListValues(\SL\CoreBundle\Entity\DataListValue $dataListValue)
+    public function removeDataListValue(\SL\CoreBundle\Entity\DataListValue $dataListValue)
     {
         $this->dataListValues->removeElement($dataListValue);
     }
