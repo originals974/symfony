@@ -95,11 +95,17 @@ class Object extends AbstractEntity
     /**
      * Constructor
      */
-    public function __construct($isDocument, $defaultPropertyfieldType = null)
+    public function __construct($isDocument, $defaultPropertyfieldType = null, Object $parent = null)
     {
         $this->properties = new \Doctrine\Common\Collections\ArrayCollection();
         $this->setDocument($isDocument);
 
+        //Associate created object with its parent
+        if($parent != null) {
+            $this->setParent($parent);
+        }
+        
+        //Create default property "name"
         if($defaultPropertyfieldType != null) {
             $property = new Property(); 
             $property->setDisplayName('Nom');
@@ -109,6 +115,13 @@ class Object extends AbstractEntity
 
             $property->setObject($this);
             $this->addProperty($property);
+
+            $this->setCalculatedName($property->getTechnicalName()); 
+        }
+
+        //Define calculated name
+        if($parent != null){
+            $this->setCalculatedName($parent->getCalculatedName());
         }
     }
 
@@ -200,12 +213,6 @@ class Object extends AbstractEntity
     public function setParent(Object $parent = null)
     {
         $this->parent = $parent;
-
-        if($parent != null){
-            if($this->getCalculatedName() == null){
-                $this->setCalculatedName($parent->getCalculatedName());
-            }
-        }
     }
 
     /**

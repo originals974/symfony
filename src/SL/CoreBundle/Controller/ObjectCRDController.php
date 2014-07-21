@@ -83,9 +83,9 @@ class ObjectCRDController extends Controller
     {
         if ($request->isXmlHttpRequest()) {
 
-            $object = new Object($isDocument);
+            $object = new Object($isDocument, null, $parentObject);
  
-            $form = $this->createCreateForm($object, $parentObject);
+            $form = $this->createCreateForm($object);
 
             $response = $this->render('SLCoreBundle::save.html.twig', array(
                 'entity' => $object,
@@ -110,9 +110,9 @@ class ObjectCRDController extends Controller
     {
         $defaultPropertyfieldType = $this->em->getRepository('SLCoreBundle:FieldType')->findOneByTechnicalName('text');
 
-        $object = new Object($isDocument, $defaultPropertyfieldType);
+        $object = new Object($isDocument, $defaultPropertyfieldType, $parentObject);
 
-        $form = $this->createCreateForm($object, $parentObject);
+        $form = $this->createCreateForm($object);
 
         $form->handleRequest($request);
  
@@ -171,10 +171,10 @@ class ObjectCRDController extends Controller
     *
     * @return Form $form Create form
     */
-    private function createCreateForm(Object $object, Object $parentObject = null)
+    private function createCreateForm(Object $object)
     {
-        if($parentObject != null) {
-            $object->setParent($parentObject); 
+        $parentObject = $object->getParent();
+        if($object->getParent() != null) {
             $disabledParentField = true; 
         }
         else{
@@ -184,7 +184,7 @@ class ObjectCRDController extends Controller
         $form = $this->createForm('object', $object, array(
             'action' => $this->generateUrl('object_create', array(
                 'isDocument' => $object->isDocument(),
-                'id' =>  ($parentObject != null)?$parentObject->getId():0,
+                'id' =>  ( $parentObject != null)?$parentObject->getId():0,
                 )
             ),
             'method' => 'POST',

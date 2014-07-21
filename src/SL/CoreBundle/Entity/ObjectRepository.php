@@ -36,7 +36,7 @@ class ObjectRepository extends NestedTreeRepository
    *
    * @return Collection A collection of Objects
    */
-  public function findFullAllObject(){
+  /*public function findFullAllObject(){
     
     $qb = $this->createQueryBuilder('o');
     $qb = $this ->findFullAll($qb)
@@ -44,19 +44,41 @@ class ObjectRepository extends NestedTreeRepository
     
     return $qb->getQuery()
               ->getResult();
+  }*/
+  public function findRootObjects(){
+    
+    $qb = $this->createQueryBuilder('o');
+    $qb = $this ->findFullAll($qb)
+                ->where('o.isDocument = false')
+                ->andWhere('o.lvl = 0');
+    
+    return $qb->getQuery()
+              ->getResult();
   }
+
+
 
   /**
    * Select all Document with associated Propertiy
    *
    * @return Collection A collection of Document
    */
-  public function findFullAllDocument(){
+  /*public function findFullAllDocument(){
     
     $qb = $this->createQueryBuilder('o');
     $qb = $this->findFullAll($qb)
                ->where('o.isDocument = true'); 
 
+    return $qb->getQuery()
+              ->getResult();
+  }*/
+  public function findRootDocuments(){
+    
+    $qb = $this->createQueryBuilder('o');
+    $qb = $this ->findFullAll($qb)
+                ->where('o.isDocument = true')
+                ->andWhere('o.lvl = 0');
+    
     return $qb->getQuery()
               ->getResult();
   }

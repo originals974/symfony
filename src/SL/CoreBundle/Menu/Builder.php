@@ -140,13 +140,10 @@ class Builder extends ContainerAware
         );
 
         //Select all Objects and associated Properties
-        $documents = $em->getRepository('SLCoreBundle:Object')->findFullAllDocument();
+        $documents = $em->getRepository('SLCoreBundle:Object')->findRootDocuments();
 
-        //Create a node for each Document node
-        foreach($documents as $document) {
+        $this->addChildrenObjects($documentRoot, $documents);
 
-            $this->addObjectAndSubObjectsItems($documentRoot, $document, 1); 
-        }
 
          /************OBJECTS*************/
         //Create Object node
@@ -164,13 +161,9 @@ class Builder extends ContainerAware
         );
         
         //Select all Objects and associated Properties
-        $objects = $em->getRepository('SLCoreBundle:Object')->findFullAllObject();
+        $objects = $em->getRepository('SLCoreBundle:Object')->findRootObjects();
 
-        //Create a node for each Object node
-        foreach($objects as $object) {
-
-            $this->addObjectAndSubObjectsItems($objectRoot, $object, 0); 
-        }
+        $this->addChildrenObjects($objectRoot, $objects);
 
          /************DATA LIST*************/
         //Create a node for DataLists
@@ -210,22 +203,6 @@ class Builder extends ContainerAware
     }
 
     /**
-    * Create Object and subObjects items
-    *
-    * @param $parent Parent Node
-    * @param Object $object The Object and its subObjects to add in tree menu
-    *
-    */
-    private function addObjectAndSubObjectsItems(&$parent, Object $object, $isDocument)
-    {
-        //Variable initialisation
-        $icon = $this->container->get('sl_core.icon');
-
-        //Create a node for Object
-        $objectItem = $this->addObjectItem($parent, $object); 
-    }
-
-    /**
     * Create an Object Node
     *
     * @param $parent Parent Node
@@ -233,26 +210,35 @@ class Builder extends ContainerAware
     *
     * @return $objectItem The added node
     */
-    private function addObjectItem(&$parent, Object $object)
+    private function addChildrenObjects(&$parent,  $objects)
     {
         //Variable initialisation
         $icon = $this->container->get('sl_core.icon');
+        $em = $this->container->get('Doctrine')->getManager();
 
-        //Create a node for Object
-        $objectItem = $parent->addChild($object->getTechnicalName(), array(
-                    'route' => 'object_show', 
-                    'routeParameters' => array(
-                        'id' => $object->getId(),
-                        ),
-                    'label' => $object->getDisplayName(),
-                    )
-                );
-        $objectItem->setAttributes(array(
-            'id' => $object->getTechnicalName(), 
-            'data-jstree' => '{"icon":"'.$icon->getObjectIcon($object).'"}'
-            )
-        );
+        foreach ($objects as $object) {
+            
+            //Create a node for Object
+            $objectItem = $parent->addChild($object->getTechnicalName(), array(
+                        'route' => 'object_show', 
+                        'routeParameters' => array(
+                            'id' => $object->getId(),
+                            ),
+                        'label' => $object->getDisplayName(),
+                        )
+                    );
+            $objectItem->setAttributes(array(
+                'id' => $object->getTechnicalName(), 
+                'data-jstree' => '{"icon":"'.$icon->getObjectIcon($object).'"}'
+                )
+            );
 
-        return $objectItem; 
+            $objects = $em->getRepository('SLCoreBundle:Object')->children($object, true, 'displayOrder'); 
+
+            $this->addChildrenObjects($objectItem, $objects); 
+
+        }
+
+        return true; 
     }
 }
