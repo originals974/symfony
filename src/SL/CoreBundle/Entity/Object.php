@@ -83,7 +83,6 @@ class Object extends AbstractEntity
      */
     private $children;
 
-
     /**
      * @var boolean
      *
@@ -93,6 +92,9 @@ class Object extends AbstractEntity
 
     /**
      * Constructor
+     * @param boolean $isDocument True if object is a document
+     * @param FieldType $fieldType Fieldtype of default property
+     * @param Object $parentObject Parent object of new object
      */
     public function __construct($isDocument, FieldType  $fieldType = null, Object $parent = null)
     {

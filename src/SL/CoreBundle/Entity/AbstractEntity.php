@@ -43,20 +43,12 @@ abstract class AbstractEntity
     private $displayOrder;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="string", length=255, nullable=true)
-     */
-    private $description;
-
-    /**
      * @var boolean
      *
      * @ORM\Column(name="is_enabled", type="boolean")
      */
     private $isEnabled = true;
     
-
     /**
      * Get id
      *
@@ -70,7 +62,6 @@ abstract class AbstractEntity
     /**
      * Set technicalName
      *
-     * @param string $entityType
      * @return AbstractEntity
      */
     public function setTechnicalName()
@@ -137,29 +128,6 @@ abstract class AbstractEntity
     }
 
     /**
-     * Set description
-     *
-     * @param string $description
-     * @return AbstractEntity
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string 
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
      * Set isEnabled
      *
      * @param boolean $isEnabled
@@ -184,9 +152,9 @@ abstract class AbstractEntity
 
 
     /**
-     * Get short name of a entity class
+     * Get short name of current class
      *
-     * @return String $classShortName Short name of the class
+     * @return String $classShortName Short name of current class
      */
     public function getClassShortName() 
     {

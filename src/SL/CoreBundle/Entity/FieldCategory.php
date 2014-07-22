@@ -9,7 +9,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * FieldCategory
  *
  * @ORM\Table(name="field_category",uniqueConstraints={
- *     @ORM\UniqueConstraint(name="unique_index_field_category_technical_name", columns={"technical_name"})}))
+ *     @ORM\UniqueConstraint(name="unique_index_field_category_technical_name", columns={"technical_name"}),
+ *     @ORM\UniqueConstraint(name="unique_index_field_category_display_name", columns={"display_name"})
+ * })
  * @ORM\Entity
  * @UniqueEntity(fields="displayName")
  */
@@ -62,10 +64,5 @@ class FieldCategory extends AbstractEntity
     public function getFieldTypes()
     {
         return $this->fieldTypes;
-    }
-
-    public function __toString() 
-    {
-        return $this->displayName;
     }
 }

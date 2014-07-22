@@ -10,7 +10,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @ORM\InheritanceType("JOINED")
  * @ORM\Table(name="property",uniqueConstraints={
- *     @ORM\UniqueConstraint(name="unique_index_property_object_id_technical_name", columns={"object_id", "technical_name"})})
+ *     @ORM\UniqueConstraint(name="unique_index_property_object_id_technical_name", columns={"object_id", "technical_name"}),
+ *     @ORM\UniqueConstraint(name="unique_index_property_display_name", columns={"object_id", "display_name"})
+ * })
  * @ORM\Entity(repositoryClass="SL\CoreBundle\Entity\PropertyRepository")
  * @ORM\HasLifecycleCallbacks()
  * @UniqueEntity(fields={"object", "displayName"}, repositoryMethod="findByObjectAndDisplayName")

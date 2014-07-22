@@ -2,7 +2,7 @@
 namespace SL\CoreBundle\Entity;
 
 /**
- * Object
+ * Search
  *
  */
 class Search
