@@ -6,13 +6,19 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 use SL\CoreBundle\Entity\AbstractEntity; 
 
 class DoctrineListener
-{
+{   
+    /**
+     * Function executed after entity persist and flush
+     *
+     * @param LifecycleEventArgs $args
+     */
     public function postPersist(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
         $em = $args->getEntityManager();
 
         if ($entity instanceof AbstractEntity) {
+            //Init technical name of new entity
         	$entity->setTechnicalName(); 
         	
         }

@@ -36,7 +36,7 @@ sl_core_font:
 #Search
 sl_core_search:
     resource: "@SLCoreBundle/Resources/config/routing/search.yml"
-    prefix: /search
+    prefix: /front_end/search
 
 #Authentification
 login:

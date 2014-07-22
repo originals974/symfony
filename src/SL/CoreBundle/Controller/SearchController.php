@@ -54,7 +54,7 @@ class SearchController extends Controller
                 $elasticaResults = $elasticaResultsSet->getResults();
 
                 foreach ($elasticaResults as $elasticaResult) {
-                    $elasticaResultArray = $elasticaResult->getData();
+                    $elasticaResultArray = $elasticaResult->getData(); 
                     $this->elasticaService->elasticSearchToJSTree($elasticaResultArray);
                     array_push($data, $elasticaResultArray);
                 }

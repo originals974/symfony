@@ -35,13 +35,13 @@ services:
         tags:
             - name: twig.extension
 
-    #Doctrine
+    #Doctrine Listener
     sl_core.listener:
         class: SL\CoreBundle\Listener\DoctrineListener
         tags:
             - { name: doctrine.event_listener, event: postPersist }
 
-    #Form
+    #Form Service
     sl_core.form.type.data.list:
         class: SL\CoreBundle\Form\DataListType
         tags:
@@ -75,7 +75,7 @@ services:
         tags:
             - { name: form.type, alias: list_property }
 
-    #Validator
+    #Custom form validator service
     validator.unique.calculated_name_pattern:
         class: SL\CoreBundle\Validator\Constraints\CalculatedNamePatternValidator
         arguments: [@doctrine.orm.entity_manager]

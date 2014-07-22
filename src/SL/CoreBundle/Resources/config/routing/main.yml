@@ -1,4 +1,4 @@
-init:
+test:
     pattern: /test
     defaults: { _controller: SLCoreBundle:Main:test }
 init:

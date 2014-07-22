@@ -5,6 +5,7 @@ namespace SL\CoreBundle\Menu;
 //Symfony classes
 use Knp\Menu\FactoryInterface;
 use Symfony\Component\DependencyInjection\ContainerAware;
+use Knp\Menu\MenuItem; 
 
 //Custom classes
 use SL\CoreBundle\Entity\Object;
@@ -15,7 +16,7 @@ class Builder extends ContainerAware
     /**
     * Create BackEnd Menu
     *
-    * @return $menu The BackEnd menu
+    * @return $menu
     */    
     public function backMenu(FactoryInterface $factory, array $options)
     {
@@ -35,7 +36,7 @@ class Builder extends ContainerAware
     /**
     * Create FrontEnd Menu
     *
-    * @return $menu The FrontEnd menu
+    * @return $menu 
     */    
     public function mainFrontMenu(FactoryInterface $factory, array $options)
     {
@@ -52,13 +53,12 @@ class Builder extends ContainerAware
     }
 
     /**
-    * Create lateral FrontEnd Menu
+    * Create object FrontEnd Menu
     *
-    * @return $menu lateral FrontEnd menu
+    * @return $menu
     */    
     public function newObjectFrontMenu(FactoryInterface $factory, array $options)
     {
-        //Variables initialisation
         $em = $this->container->get('Doctrine')->getManager();
 
         //Menu configuration
@@ -78,9 +78,9 @@ class Builder extends ContainerAware
 
 
     /**
-    * Create lateral FrontEnd Menu
+    * Create document FrontEnd Menu
     *
-    * @return $menu lateral FrontEnd menu
+    * @return $menu
     */    
     public function newDocumentFrontMenu(FactoryInterface $factory, array $options)
     {
@@ -97,13 +97,20 @@ class Builder extends ContainerAware
         $documents = $em->getRepository('SLCoreBundle:Object')->findAllActiveDocuments();
 
         $menu = $this->addFrontChildrenObjectItems($menu, $documents);
-
+ 
         return $menu;
     }
 
-    private function addFrontChildrenObjectItems($menu,  $objects)
+    /**
+    * Add children item to menu for front end part
+    *
+    * @param MenuItem $menu
+    * @param Array $objects
+    *
+    * @return MenuItem $menu
+    */
+    private function addFrontChildrenObjectItems(MenuItem $menu, array $objects)
     {
-        //Variable initialisation
         $icon = $this->container->get('sl_core.icon');
         $em = $this->container->get('Doctrine')->getManager();
 
@@ -126,18 +133,14 @@ class Builder extends ContainerAware
             );
         }
 
-
         return $menu; 
     }
 
     /**
     * Create BackEnd Tree Menu
-    *
-    * @return $menu The BackEnd Tree Menu
     */
     public function lateralBackEndMenu(FactoryInterface $factory, array $options)
     {
-        //Variables initialisation
         $em = $this->container->get('Doctrine')->getManager();
         $icon = $this->container->get('sl_core.icon');
 
@@ -171,7 +174,7 @@ class Builder extends ContainerAware
             )
         );
 
-        //Select all Objects and associated Properties
+        //Select all root documents
         $documents = $em->getRepository('SLCoreBundle:Object')->findRootDocuments();
 
         $this->addBackChildrenObjectItems($documentRoot, $documents);
@@ -192,13 +195,13 @@ class Builder extends ContainerAware
             )
         );
         
-        //Select all Objects and associated Properties
+        //Select all root objects
         $objects = $em->getRepository('SLCoreBundle:Object')->findRootObjects();
 
         $this->addBackChildrenObjectItems($objectRoot, $objects);
 
          /************DATA LIST*************/
-        //Create a node for DataLists
+        //Create node for DataLists
         $dataListRoot = $server->addChild('dataList', array(
             'route' => 'data_list',
             'label' => 'list', 
@@ -209,13 +212,12 @@ class Builder extends ContainerAware
             )
         );    
 
-        //Select all DataLists
+        //Select all datalists
         $dataLists = $em->getRepository('SLCoreBundle:DataList')->findFullAll();
 
-        //Create a node for each DataList
+        //Create a node for each datalist
         foreach($dataLists as $dataList) {
 
-            //Create a node for DataList
             $dataListItem = $dataListRoot->addChild($dataList->getTechnicalName(), array(
                         'route' => 'data_list_show', 
                         'routeParameters' => array(
@@ -234,23 +236,21 @@ class Builder extends ContainerAware
         return $menu;
     }
 
-    /**
-    * Create an Object Node
+   /**
+    * Add children item to menu for back end part
     *
-    * @param $parent Parent Node
-    * @param Object $object The Object to add in tree menu
+    * @param MenuItem $parent
+    * @param Array $objects
     *
-    * @return $objectItem The added node
+    * @return boolean true
     */
-    private function addBackChildrenObjectItems(&$parent,  $objects)
+    private function addBackChildrenObjectItems(&$parent, array $objects)
     {
-        //Variable initialisation
         $icon = $this->container->get('sl_core.icon');
         $em = $this->container->get('Doctrine')->getManager();
 
         foreach ($objects as $object) {
             
-            //Create a node for Object
             $objectItem = $parent->addChild($object->getTechnicalName(), array(
                         'route' => 'object_show', 
                         'routeParameters' => array(

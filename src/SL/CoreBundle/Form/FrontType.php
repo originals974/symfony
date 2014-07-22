@@ -16,6 +16,9 @@ class FrontType extends AbstractType
 
     /**
      * Constructor
+     *
+     * @param EntityManager $em
+     * @param String $entityClass
      */
     public function __construct (EntityManager $em, $entityClass)
     {
@@ -35,7 +38,7 @@ class FrontType extends AbstractType
             array_unshift($objects, $lastObject); 
 
             foreach($objects as $object){
-                //Create parent Tab in order to display parent Object fields
+                //Create one tab per object
                 $tab = $builder->create($object->getTechnicalName().'Property', 'tab', array(
                 'label' => $object->getDisplayName(),
                 'icon' => $object->getIcon(),
@@ -83,7 +86,7 @@ class FrontType extends AbstractType
             'horizontal_input_wrapper_class' => 'col-lg-6',
             );
 
-        //Complet or override options array depending to property field type
+        //Complete or override options array depending to property field type
         switch ($property->getFieldType()->getFormType()) {
             case 'genemu_jquerydate':
                 $formFieldOptions['widget'] = 'single_text';

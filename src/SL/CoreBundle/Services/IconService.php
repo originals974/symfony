@@ -51,19 +51,6 @@ class IconService
     }
 
     /**
-     * Get only Object icon name
-     *
-     * @param Object $object Object
-     *
-     * @return String Only icon name
-     */
-    /*public function getPacthObjectIcon(Object $object)
-    {
-        $option = (!$object->isEnabled())?'text-danger':null; 
-        return str_replace("icon-", "", $this->getObjectIcon($object)); 
-    }*/
-
-    /**
      * Get root Object icon
      *
      * @param String $option Option of icon

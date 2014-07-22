@@ -31,8 +31,6 @@ data_list_show:
     defaults: { _controller: SLCoreBundle:DataList:show }
     requirements:
         id: \d+
-    options:
-        expose: true
 
 data_list_remove:
     pattern: /{id}/remove

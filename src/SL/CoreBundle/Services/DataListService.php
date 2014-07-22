@@ -35,9 +35,9 @@ class DataListService
     }
 
    /**
-     * Verify integrity of a DataList before delete
+     * Verify integrity of datalist before delete
      *
-     * @param DataList $dataList DataList to delete
+     * @param DataList $dataList Datalist to delete
      *
      * @return Array $integrityError Title and error message
      */
@@ -45,7 +45,7 @@ class DataListService
     {
         $integrityError = null;
 
-        //Check if DataList is not a Property of an Object
+        //Check if Datalist is not a property of an object
         $property = $this->em->getRepository('SLCoreBundle:ListProperty')->findByDataList($dataList);
 
         if($property != null){

@@ -27,24 +27,32 @@ class DoctrineService
     private $bundleName;
     private $bundle; 
 
+    /**
+     * Constructor
+     *
+     * @param Filesystem $filesystem
+     * @param RegistryInterface $registry
+     * @param HttpKernelInterface $kernel
+     * @param String $bundlePath
+     */
     public function __construct(Filesystem $filesystem, RegistryInterface $registry, HttpKernelInterface $kernel, $bundlePath)
     {
         $this->filesystem = $filesystem;
         $this->registry = $registry;
         $this->kernel = $kernel; 
-        $this->databaseEm = $registry->getManager('database');
         $this->em = $registry->getManager(); 
+        $this->databaseEm = $registry->getManager('database');
         $this->bundlePath = $bundlePath;
         $this->bundleName = str_replace('/', '', $this->bundlePath);
         $this->bundle = $this->kernel->getBundle($this->bundleName); 
     }
 
     /**
-     * Create Entity file and update database schema for an Object
+     * Create mapping and entity file for object
      *
      * @param Object $object Object
      *
-     * @return Array $mapping Mapping array of Object
+     * @return Array $mapping Mapping array for object
      */
     public function doctrineGenerateEntityFileByObject(Object $object)
     {
@@ -54,13 +62,10 @@ class DoctrineService
         return $mapping;
     }
 
-    /*
-    * Remove entity class file
+    /**
+    * Remove entity file for object
     *
-    * @param string $entityName Entity name
-    *
-    * @return string SQL requests
-    *
+    * @param Object $object Object
     */
     public function removeDoctrineFiles(Object $object)
     {
@@ -88,9 +93,8 @@ class DoctrineService
     }
 
     /**
-     * Create database mapping array for Object
+     * Create mapping for object
      *
-     * @param Array $mapping Mapping array
      * @param Object $object Object
      */
     public function doctrineGenerateMappingByObject(Object $object) 
@@ -98,8 +102,8 @@ class DoctrineService
         $mapping = array(); 
 
         //Get property fields of the object
-        $object = $this->em->getRepository('SLCoreBundle:Object')
-                               ->findFullById($object->getId());
+        /*$object = $this->em->getRepository('SLCoreBundle:Object')
+                               ->findFullById($object->getId());*/
 
         //Create a mapping array
         foreach ($object->getProperties() as $property) {  
@@ -131,10 +135,10 @@ class DoctrineService
     }
 
     /**
-     * Create database mapping array for Object
+     * Create entity file for object
      *
-     * @param Array $mapping Mapping array
-     * @param Object $object Object
+     * @param Object $object
+     * @param array $mapping
      */
     public function doctrineGenerateEntityFileByMapping(Object $object, array $mapping = array())
     {
@@ -155,7 +159,7 @@ class DoctrineService
     /**
      * Initialize EntityGenerator
      *
-     * @param Object $object Object
+     * @param Object $object
      */
     private function initEntityGenerator(Object $object) {
 
@@ -176,13 +180,14 @@ class DoctrineService
         }
 
         return $entityGenerator;
-
     }
 
     /**
-     * Initialize EntityGenerator
+     * Initialize ClassMetadataInfo
      *
-     * @param Object $object Object
+     * @param Object $object
+     * @param string $entityClass
+     * @param array $mapping
      */
     private function initClassMetadataInfo(Object $object, $entityClass, array $mapping = array()) {
 
@@ -220,9 +225,9 @@ class DoctrineService
      /**
      * Get namespace of an entity
      *
-     * @param string $entityName The entity
+     * @param String $entityName
      *
-     * @return string $entityClass The namespace of the entity
+     * @return String $entityClass
      */
     public function getEntityClass($entityName)
     {
@@ -233,9 +238,9 @@ class DoctrineService
     /**
      * Get path of an entity file
      *
-     * @param string $entityName The entity
+     * @param String $entityName
      *
-     * @return string $entityClass The path of the entity file
+     * @return String $entityPath
      */
     private function getEntityPath($entityName)
     {

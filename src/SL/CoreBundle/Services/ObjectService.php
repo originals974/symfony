@@ -41,7 +41,7 @@ class ObjectService
     }
 
    /**
-     * Verify integrity of an Object before delete
+     * Verify integrity of an object before delete
      *
      * @param Object $object Object to delete
      *
@@ -51,7 +51,7 @@ class ObjectService
     {
         $integrityError = null;
 
-        //Check if the Object is link to another
+        //Check if object is link to another
         $targetObject = $this->em->getRepository('SLCoreBundle:EntityProperty')->findByTargetObject($object);
 
         if($targetObject != null){
@@ -71,10 +71,10 @@ class ObjectService
 
     /**
      * Calculate displayName attribute of a new entity 
-     * by using calculatedName attribute of Object
+     * by using calculatedName attribute of object
      *
-     * @param Mixed $entity Entity
-     * @param Object $object Object
+     * @param Mixed $entity
+     * @param Object $object
      *
      * @return String $displayName DisplayName of new entity
      */
@@ -98,6 +98,11 @@ class ObjectService
         return $displayName; 
     }
 
+     /**
+     * Init calculated name for a new object
+     *
+     * @param Object $object Object
+     */
     public function initCalculatedName(Object $object){
 
         if($object->getParent() != null){
@@ -112,9 +117,9 @@ class ObjectService
     }
 
     /**
-    * Refresh displayName of entity linked to Object
+    * Refresh displayName of entity linked to object
     *
-    * @param Object $object Object 
+    * @param Object $object 
     *
     */
     public function refreshCalculatedName(Object $object){
@@ -135,15 +140,14 @@ class ObjectService
     }
 
     /**
-     * Get hierarchy path of an Object  
+     * Get hierarchy path of an object  
      *
-     * @param Object $object Object
+     * @param Object $object
      *
-     * @return String $path Hierarchy path of Object
+     * @return String $path Hierarchy path of object
      */
     public function getObjectPath($object){
         
-        //Get all parent Object
         $objects = $this->em->getRepository('SLCoreBundle:Object')->getPath($object); 
 
         $path = "";

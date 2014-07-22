@@ -39,10 +39,10 @@ class JSTreeService
     }
 
     /**
-     * Create new Object node
+     * Create new object node
      *
-     * @param Object $object New Object 
-     * @param Boolean $isDocument True if new Object is a document
+     * @param Object $object New object 
+     * @param Boolean $isDocument True if new object is a document
      *
      * @return Array $newNode Object node
      */
@@ -61,25 +61,7 @@ class JSTreeService
     }
 
     /**
-     * Create new Property node
-     *
-     * @param Property $property New Property
-     *
-     * @return Array $newNode Property node
-     */
-    public function createNewPropertyNode(Property $property)
-    {
-        $newNode = array(
-            'id' => $property->getTechnicalName(),
-            'text' => $property->getDisplayName(),
-            'icon' => $this->icon->getPropertyIcon($property),
-        ); 
-
-        return $newNode; 
-    }
-
-    /**
-     * Create new DataList node
+     * Create new dataList node
      *
      * @param DataList $dataList New DataList
      *

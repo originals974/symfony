@@ -61,7 +61,7 @@ class PropertyService
     }
 
     /**
-     * Select the Property object
+     * Select property entity class
      *
      * @param String $formMode Default|Entity|List
      *
@@ -84,9 +84,9 @@ class PropertyService
     }
 
     /**
-     * Find the formMode for a Property
+     * Find the formMode for a property
      *
-     * @param Property $property Property
+     * @param Property $property
      *
      * @return String $formMode Default|Entity|List
      */
@@ -107,7 +107,7 @@ class PropertyService
     }
 
     /**
-     * Verify integrity of an Property before delete
+     * Verify integrity of a property before delete
      *
      * @param Property $property Property to delete
      *
@@ -117,7 +117,7 @@ class PropertyService
     {
         $integrityError = null;
 
-        //Check if Property is used in Object calculatedName pattern
+        //Check if property is used in Object calculatedName pattern
         $calculatedNamePattern = $property->getObject()->getCalculatedName(); 
 
         if(strpos(strtolower($calculatedNamePattern), strtolower($property->getTechnicalName())) !== false) {

@@ -25,10 +25,9 @@ class ElasticaService
      * Constructor
      *
      * @param EntityManager $em
-     * @param $router
+     * @param Router $router
      * @param String $bundlePath
      * @param String $configPath   
-     *
      */
     public function __construct(EntityManager $em, Router $router, $bundlePath, $configPath)
     {
@@ -38,6 +37,14 @@ class ElasticaService
         $this->configPath = $configPath;
     }
 
+    /**
+     * Update app/config/elastica.yml file
+     *
+     * @param Int $start Object id start
+     * @param Int $end Object id end
+     *
+     * @return String $elasticaYamlConfig
+     */
     public function updateElasticaConfigFile($start, $end){
 
         $dumper = new Dumper();
@@ -67,6 +74,11 @@ class ElasticaService
         return $elasticaYamlConfig;
     }
 
+    /**
+     * Get elastica default config 
+     *
+     * @return array $elasticaArrayConfig
+     */
     private function getElasticaDefaultConfigArray() {
 
         $elasticaArrayConfig = array(
@@ -93,6 +105,13 @@ class ElasticaService
         return $elasticaArrayConfig; 
     }
 
+    /**
+     * Get elastica type config 
+     *
+     * @param String $objectName
+     *
+     * @return array $elasticaArrayConfig
+     */
     private function getElasticaTypeConfigArray($objectName) {
 
         $typeArray = array(
@@ -108,6 +127,13 @@ class ElasticaService
         return $typeArray; 
     }
 
+    /**
+     * Convert elastica result array to data for JSTree 
+     *
+     * @param array $array
+     *
+     * @return array $array
+     */
     public function elasticSearchToJSTree(&$array) {
 
         $iconTable = $this->getIconTable(); 
@@ -119,21 +145,32 @@ class ElasticaService
         return $array; 
     }
 
+    /**
+     * Create an icon association array
+     *
+     * @return array $iconTable
+     */
     private function getIconTable(){
 
         $iconTable = array(); 
 
-        //Get all application objects
         $objects = $this->em->getRepository('SLCoreBundle:Object')->findAll();
 
         foreach($objects as $object) {
-            //Create Icon table
             $iconTable[$object->getId()] = 'fa '.$object->getIcon(); 
         }
 
         return $iconTable; 
     }
 
+    /**
+     * Convert elastica result array to data for JSTree 
+     *
+     * @param array $array
+     * @param array $iconTable
+     *
+     * @return array $array
+     */
     private function arrayFormat(&$array, $iconTable)
     {
         if(is_array($array)){
@@ -182,6 +219,12 @@ class ElasticaService
         }
     }
 
+    /**
+     * Remove data from array
+     *
+     * @param array $array
+     * @param array $keyToKeep Array keys to keep
+     */
     private function array_unset_recursive(&$array, $keyToKeep) {
         
         if (!is_array($keyToKeep)) {

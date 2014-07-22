@@ -1,5 +1,5 @@
 <?php
-//TO COMPLETE
+
 namespace SL\CoreBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
