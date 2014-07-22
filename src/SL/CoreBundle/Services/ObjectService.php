@@ -98,6 +98,19 @@ class ObjectService
         return $displayName; 
     }
 
+    public function initCalculatedName(Object $object){
+
+        if($object->getParent() != null){
+            $object->setCalculatedName($object->getParent()->getCalculatedName());
+        }
+        else{
+            $defaultProperty = $object->getProperties()->first(); 
+            $object->setCalculatedName('%'.$defaultProperty->getTechnicalName().'%');
+        }
+        
+        $this->em->flush(); 
+    }
+
     /**
     * Refresh displayName of entity linked to Object
     *

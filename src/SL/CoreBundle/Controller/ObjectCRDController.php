@@ -11,6 +11,7 @@ use JMS\DiExtraBundle\Annotation as DI;
 
 //Custom classes
 use SL\CoreBundle\Entity\Object;
+use SL\CoreBundle\Entity\Property;
 use SL\CoreBundle\Services\ObjectService;
 use SL\CoreBundle\Services\PropertyService;
 use SL\CoreBundle\Services\JSTreeService;
@@ -107,9 +108,14 @@ class ObjectCRDController extends Controller
      */
     public function createAction(Request $request, $isDocument, Object $parentObject = null)
     {
-        $defaultPropertyfieldType = $this->em->getRepository('SLCoreBundle:FieldType')->findOneByTechnicalName('text');
-
-        $object = new Object($isDocument, $defaultPropertyfieldType, $parentObject);
+        if($parentObject == null) {
+            $fieldType = $this->em->getRepository('SLCoreBundle:FieldType')->findOneByTechnicalName('text');
+        }
+        else{
+            $fieldType = null; 
+        }
+            
+        $object = new Object($isDocument, $fieldType, $parentObject);
 
         $form = $this->createCreateForm($object);
 
@@ -122,6 +128,8 @@ class ObjectCRDController extends Controller
 
                 $this->em->persist($object);
                 $this->em->flush();
+
+                $this->objectService->initCalculatedName($object); 
 
                 //Update database Object schema
                 $this->doctrineService->doctrineGenerateEntityFileByObject($object);  

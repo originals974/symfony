@@ -14,7 +14,9 @@ class DoctrineListener
 
         if ($entity instanceof AbstractEntity) {
         	$entity->setTechnicalName(); 
-        	$em->flush(); 
+        	
         }
+        
+        $em->flush(); 
     }
 }

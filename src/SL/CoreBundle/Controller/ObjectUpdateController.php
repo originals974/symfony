@@ -194,7 +194,7 @@ class ObjectUpdateController extends Controller
 
                 //Create form with errors
                 $html = $this->renderView('SLCoreBundle:Object:objectNameDesigner.html.twig', array(
-                    'object' => $objects,
+                    'objects' => $objects,
                     'form'   => $form->createView(),
                     )
                 );
