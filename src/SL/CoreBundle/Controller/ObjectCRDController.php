@@ -52,10 +52,9 @@ class ObjectCRDController extends Controller
     }
 
     /**
-     * Display object main screen
+     * Display create screen
      *
      * @param boolean $isDocument True if object is a document
-     *
      */
     public function indexAction(Request $request, $isDocument)
     {   
@@ -74,10 +73,10 @@ class ObjectCRDController extends Controller
     }
 
     /**
-    * Display form to create Object
+    * Display form to create object entity
     *
     * @param boolean $isDocument True if object is a document
-    *
+    * @param Object $parentObject Parent object of new object
     */
     public function newAction(Request $request, $isDocument, Object $parentObject = null)
     {
@@ -101,13 +100,14 @@ class ObjectCRDController extends Controller
     }
 
     /**
-     * Create Form action
+     * Create object entity
      *
      * @param boolean $isDocument True if object is a document
-     *
+     * @param Object $parentObject Parent object of new object
      */
     public function createAction(Request $request, $isDocument, Object $parentObject = null)
     {
+        //Get text fieldtype if necessary
         if($parentObject == null) {
             $fieldType = $this->em->getRepository('SLCoreBundle:FieldType')->findOneByTechnicalName('text');
         }
@@ -131,7 +131,7 @@ class ObjectCRDController extends Controller
 
                 $this->objectService->initCalculatedName($object); 
 
-                //Update database Object schema
+                //Update database schema
                 $this->doctrineService->doctrineGenerateEntityFileByObject($object);  
                 $this->doctrineService->doctrineSchemaUpdateForce();
 
@@ -166,15 +166,17 @@ class ObjectCRDController extends Controller
     }
 
     /**
-    * Create Object form
+    * Create object form
     *
-    * @param Object $object Object to create
+    * @param Object $object
     *
-    * @return Form $form Create form
+    * @return Form $form
     */
     private function createCreateForm(Object $object)
     {
         $parentObject = $object->getParent();
+
+        //Disable parent combobox if object has a parent object
         if($object->getParent() != null) {
             $disabledParentField = true; 
         }
@@ -200,7 +202,7 @@ class ObjectCRDController extends Controller
     }
 
      /**
-     * Show an Object
+     * Show object entity
      *
      * @param Object $object Object to show
      */
@@ -221,10 +223,9 @@ class ObjectCRDController extends Controller
     }
 
     /**
-    * Display form to remove Object.
+    * Display form to remove object entity
     *
-    * @param Object $object Object to remove
-    *
+    * @param Object $object
     */
     public function removeAction(Object $object)
     {
@@ -254,7 +255,7 @@ class ObjectCRDController extends Controller
     }
 
     /**
-     * Delete form action.
+     * Delete object entity
      *
      * @param Object $object Object to delete
      *
@@ -263,17 +264,18 @@ class ObjectCRDController extends Controller
     {
         if ($request->isXmlHttpRequest()) {
 
-            //Remove all Property of Object
+            //Remove all properties of deleted object
             foreach ($object->getProperties() as $property) {
                 $this->em->remove($property); 
             }
 
             $this->em->flush(); 
 
+            //Remove object from tree and attach its children to its parent
             $this->em->getRepository('SLCoreBundle:Object')->removeFromTree($object);
             $this->em->clear(); 
 
-            //Update database Object schema
+            //Update database schema
              $this->doctrineService->removeDoctrineFiles($object);
 
             //Get direct children of parent Object
@@ -303,11 +305,11 @@ class ObjectCRDController extends Controller
     }
 
     /**
-     * Delete Object Form
+     * Delete object Form
      *
-     * @param Object $object Object to delete
+     * @param Object $object
      *
-     * @return Form $form Delete form
+     * @return Form $form
      */
     private function createDeleteForm(Object $object)
     {

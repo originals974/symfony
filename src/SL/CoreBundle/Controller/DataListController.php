@@ -43,8 +43,7 @@ class DataListController extends Controller
     }
 
     /**
-     * Display DataList main screen
-     *
+     * Display datalist create screen
      */
     public function indexAction(Request $request)
     {   
@@ -59,8 +58,7 @@ class DataListController extends Controller
     }
 
     /**
-    * Display form to create DataList.
-    *
+    * Display form to create datalist entity
     */
     public function newAction(Request $request)
     {
@@ -84,15 +82,13 @@ class DataListController extends Controller
     }
 
     /**
-     * Create DataList after form submit
-     *
+     * Create datalist entity
      */
     public function createAction(Request $request)
     { 
         $dataList = new DataList();
 
         $form = $this->createCreateForm($dataList);
-
         $form->handleRequest($request);
 
         if ($request->isXmlHttpRequest()) {
@@ -100,7 +96,6 @@ class DataListController extends Controller
             $isValid = $form->isValid();
             if ($isValid) {
 
-                //Save DataList in database
                 $this->em->persist($dataList);
                 $this->em->flush();
 
@@ -133,13 +128,12 @@ class DataListController extends Controller
         return $response; 
     }
 
-
     /**
-    * Create DataList form
+    * Create datalist form
     *
-    * @param DataList $dataList DataList to create
+    * @param DataList $dataList
     *
-    * @return Form $form Create form
+    * @return Form $form
     */
     private function createCreateForm(DataList $dataList)
     {   
@@ -154,12 +148,10 @@ class DataListController extends Controller
         return $form;
     }
 
-   
     /**
-    * Display form to edit DataList
+    * Display form to edit datalist entity
     *
-    * @param DataList $dataList DataList to edit
-    *
+    * @param DataList $dataList 
     */
     public function editAction(Request $request, DataList $dataList)
     {
@@ -181,14 +173,13 @@ class DataListController extends Controller
     }
 
     /**
-    * Update form action
+    * Update datalist entity
     *
-    * @param DataList $dataList DataList to edit
+    * @param DataList $dataList Datalist to update
     */
     public function updateAction(Request $request, DataList $dataList)
     {
         $form = $this->createEditForm($dataList);
-
         $form->handleRequest($request);
 
         if ($request->isXmlHttpRequest()) {
@@ -228,11 +219,11 @@ class DataListController extends Controller
     }
 
     /**
-    * Update DataList form
+    * Update datalist form
     *
-    * @param DataList $dataList DataList to update
+    * @param DataList $dataList
     *
-    * @return Form $form Update form
+    * @return Form $form
     */
     private function createEditForm(DataList $dataList)
     {     
@@ -251,9 +242,9 @@ class DataListController extends Controller
     }
 
      /**
-     * Show a DataList
+     * Show datalist entity
      *
-     * @param DataList $dataList DataList to show
+     * @param DataList $dataList Datalist to show
      */
     public function showAction(Request $request, DataList $dataList)
     {
@@ -272,10 +263,9 @@ class DataListController extends Controller
     }
 
     /**
-    * Display form to remove DataList.
+    * Display form to remove datalist entity
     *
-    * @param DataList $dataList DataList to remove
-    *
+    * @param DataList $dataList
     */
     public function removeAction(Request $request, DataList $dataList)
     {
@@ -295,7 +285,6 @@ class DataListController extends Controller
             }
             else {
 
-                //Create error modal window
                 $response = $this->render('SLCoreBundle::errorModal.html.twig', array(
                     'title' => $integrityError['title'],
                     'message'   => $integrityError['message'],
@@ -311,9 +300,9 @@ class DataListController extends Controller
     }
 
     /**
-     * Delete form action.
+     * Delete datalist entity
      *
-     * @param DataList $dataList DataList to delete
+     * @param DataList $dataList Datalist to delete
      *
      */
     public function deleteAction(Request $request, DataList $dataList)
@@ -341,11 +330,11 @@ class DataListController extends Controller
     }
 
     /**
-     * Delete DataList Form
+     * Delete datalist form
      *
-     * @param DataList $dataList DataList to delete
+     * @param DataList $dataList
      *
-     * @return Form $form Delete form
+     * @return Form $form
      */
     private function createDeleteForm(DataList $dataList)
     {
@@ -364,10 +353,9 @@ class DataListController extends Controller
     }
 
     /**
-     * Update DataList checkbox.
+     * Update datalist checkbox
      *
-     * @param DataList $dataList DataList to update
-     *
+     * @param DataList $dataList Datalist to update
      */
     public function updateCheckboxAction(Request $request, DataList $dataList)
     {
@@ -379,13 +367,7 @@ class DataListController extends Controller
  
             $this->em->flush();
 
-            $response = new JsonResponse(
-                array(
-                    'id' => $dataList->getTechnicalName(),
-                    'icon' => $this->iconService->getDataListIcon($dataList),
-                    )
-                )
-            ;
+            $response = new JsonResponse(null);
         }
         else {
             $response = $this->redirect($this->generateUrl('back_end'));

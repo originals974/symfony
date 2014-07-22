@@ -49,10 +49,9 @@ class PropertyController extends Controller
     }
 
     /**
-     * Display form to create Property
+     * Display form to create property entity
      *
-     * @param Object $object Parent Object Property
-     *
+     * @param Object $object Parent object of new property
      */
     public function newAction(Request $request, Object $object)
     {
@@ -80,19 +79,17 @@ class PropertyController extends Controller
 
     
     /**
-     * Display form to choose Property type (default, entity, list) 
+     * Display form to choose property type (default, entity, list) 
      *
-     * @param Object $object Parent Object Property
-     *
+     * @param Object $object Parent object of new property
      */
     public function choiceFormAction(Request $request, Object $object)
     {
         if ($request->isXmlHttpRequest()) {
 
-            //Get property type select by user 
             $formMode = $request->request->get('formMode'); 
 
-            //Create Property object
+            //Create property 
             $property = $this->propertyService->getPropertyObjectByFormMode($formMode); 
             $property->setObject($object); 
 
@@ -115,16 +112,16 @@ class PropertyController extends Controller
     }
 
     /**
-     * Create Form action
+     * Create property entity
      *
-     * @param Object $object Parent Object Property
+     * @param Object $object Parent object of new property
      * @param String $formMode Property type to create (Default | Entity | List) 
      */
     public function createAction(Request $request, Object $object, $formMode)
     {
         $property = $this->propertyService->getPropertyObjectByFormMode($formMode); 
         $property->setObject($object);
-        $object->addProperty($property);
+        //$object->addProperty($property);
 
         $formArray = $this->createCreateForm($object, $property, $formMode);
         $formChoice = $formArray['choiceForm'];
@@ -142,11 +139,10 @@ class PropertyController extends Controller
                     $property->setFieldType($fieldType); 
                 }
 
-                //Save Property in database
                 $this->em->persist($property);
                 $this->em->flush();
 
-                //Update database Object schema
+                //Update database schema
                 $this->doctrineService->doctrineGenerateEntityFileByObject($object);  
                 $this->doctrineService->doctrineSchemaUpdateForce();
 
@@ -182,14 +178,13 @@ class PropertyController extends Controller
     }
 
     /**
-    * Create Property form
+    * Create property form
     *
-    * @param Object $object Parent Object Property
-    * @param Property $property Property to create
+    * @param Object $object Parent object of new property
+    * @param Property $property 
     * @param String $formMode Depending of the property type to create (Default | Entity | List) 
     *
-    * @return Array $form Array of Form
-    *
+    * @return Array $form Array of form
     */
     private function createCreateForm(Object $object, Property $property, $formMode)
     {   
@@ -230,10 +225,9 @@ class PropertyController extends Controller
     }
 
     /**
-     * Display form to edit Property
+     * Display form to edit property entity
      *
-     * @param Property $property Property to update
-     *
+     * @param Property $property
      */
     public function editAction(Property $property)
     {
@@ -247,10 +241,9 @@ class PropertyController extends Controller
     }
 
     /**
-     * Update form action
+     * Update property entity
      *
      * @param Property $property Property to update
-     *
      */
     public function updateAction(Request $request, Property $property)
     {
@@ -265,7 +258,7 @@ class PropertyController extends Controller
 
                 $this->em->flush();
                       
-                //Update database Object schema
+                //Update database schema
                 $this->doctrineService->doctrineGenerateEntityFileByObject($property->getObject());  
                 $this->doctrineService->doctrineSchemaUpdateForce();
 
@@ -277,13 +270,11 @@ class PropertyController extends Controller
                 );
             }
             else {
-                //Create form with errors
                 $html = $this->renderView('SLCoreBundle::save.html.twig', array(
                     'entity' => $property,
                     'form'   => $form->createView(),
                     )
                 );
-                $nodeStructure = null;
             }
 
             $arrayResponse = array(
@@ -305,16 +296,15 @@ class PropertyController extends Controller
 
 
     /**
-    * Update Property form
+    * Update property form
     *
-    * @param Property $property Property to update
+    * @param Property $property
     *
-    * @return Form $form Update form
-    *
+    * @return Form $form
     */
     private function createEditForm(Property $property)
     {
-        //Select FormType depending to FieldType
+        //Select formtype depending to fieldtype
         $formMode = $this->propertyService->getFormModeByProperty($property); 
         $formService = $this->propertyService->selectFormService($formMode); 
 
@@ -334,10 +324,9 @@ class PropertyController extends Controller
     }
 
     /**
-     * Display form to remove Property
+     * Display form to remove property entity
      *
-     * @param Property $property Property to delete
-     *
+     * @param Property $property
      */
     public function removeAction(Property $property)
     {
@@ -354,8 +343,6 @@ class PropertyController extends Controller
             );
         }
         else {
-
-            //Create error modal window
             $response = $this->render('SLCoreBundle::errorModal.html.twig', array(
                 'title' => $integrityError['title'],
                 'message'   => $integrityError['message'],
@@ -367,7 +354,7 @@ class PropertyController extends Controller
     }
 
     /**
-     * Delete form action.
+     * Delete property entity
      *
      * @param Property $property Property to delete
      */
@@ -378,7 +365,7 @@ class PropertyController extends Controller
             $this->em->remove($property);
             $this->em->flush();
 
-            //Update database Object schema
+            //Update database schema
             $this->doctrineService->doctrineGenerateEntityFileByObject($property->getObject());  
             $this->doctrineService->doctrineSchemaUpdateForce();
 
@@ -408,11 +395,11 @@ class PropertyController extends Controller
 
 
     /**
-     * Delete Property Form
+     * Delete property form
      *
-     * @param Property $property Property to delete
+     * @param Property $property
      *
-     * @return Form $form Delete form
+     * @return Form $form
      */
     private function createDeleteForm(Property $property)
     {
@@ -432,7 +419,7 @@ class PropertyController extends Controller
     }
 
     /**
-     * Update Property checkbox.
+     * Update property checkbox
      *
      * @param Property $property Property to update
      *
@@ -457,7 +444,7 @@ class PropertyController extends Controller
             $this->em->flush();
 
             if($name == 'isRequired') {
-                 //Update database Object schema
+                 //Update database schema
                 $this->doctrineService->doctrineGenerateEntityFileByObject($property->getObject());  
                 $this->doctrineService->doctrineSchemaUpdateForce();
             }

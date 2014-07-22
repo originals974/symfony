@@ -40,10 +40,9 @@ class DataListValueController extends Controller
     }
 
     /**
-     * Display form to create DataListValue.
+     * Display form to create datalistvalue entity
      *
-     * @param DataList $dataList Parent DataList of new DataListValue
-     *
+     * @param DataList $dataList Parent datalist
      */
     public function newAction(Request $request, DataList $dataList)
     {
@@ -67,15 +66,14 @@ class DataListValueController extends Controller
     }
 
     /**
-     * Create Form action
+     * Create datalistvalue entity
      *
-     * @param DataList $dataList Parent DataList of DataListValue
+     * @param DataList $dataList Parent datalist 
      */
     public function createAction(Request $request, DataList $dataList)
     {
         $dataListValue = new DataListValue();
-        $dataListValue->setDataList($dataList);
-        $dataList->addDataListValue($dataListValue); 
+        $dataListValue->setDataList($dataList); 
 
         $form = $this->createCreateForm($dataList, $dataListValue);
 
@@ -86,7 +84,6 @@ class DataListValueController extends Controller
             $isValid = $form->isValid();
             if ($isValid) {
 
-                //Save DataListValue in database
                 $this->em->persist($dataListValue);
                 $this->em->flush();
 
@@ -122,13 +119,12 @@ class DataListValueController extends Controller
     }
 
     /**
-    * Create DataListValue form
+    * Create datalistvalue form
     *
-    * @param DataList $dataList Parent DataList of DataListValue
-    * @param DataListValue $dataListValue DataListValue to create
+    * @param DataList $dataList Parent datalist
+    * @param DataListValue $dataListValue
     *
-    * @return Form $form Create form
-    *
+    * @return Form $form
     */
     private function createCreateForm(DataList $dataList, DataListValue $dataListValue)
     {   
@@ -147,10 +143,9 @@ class DataListValueController extends Controller
     }
 
     /**
-     * Display form to edit DataListValue
+     * Display form to edit datalistvalue entity
      *
-     * @param DataListValue $dataListValue DataListValue to update
-     *
+     * @param DataListValue $dataListValue
      */
     public function editAction(DataListValue $dataListValue)
     {
@@ -164,10 +159,9 @@ class DataListValueController extends Controller
     }
 
     /**
-     * Update form action
+     * Update datalistvalue entity
      *
-     * @param DataListValue $dataListValue DataListValue to update
-     *
+     * @param DataListValue $dataListValue Datalistvalue to update
      */
     public function updateAction(Request $request, DataListValue $dataListValue)
     {
@@ -182,10 +176,8 @@ class DataListValueController extends Controller
 
                 $this->em->flush();
                 
-                $dataList = $this->em->getRepository('SLCoreBundle:DataList')->findFullById($dataListValue->getDataList()->getId()); 
-
                 $html = $this->renderView('SLCoreBundle:DataListValue:dataListValueTable.html.twig', array(
-                    'dataList' => $dataList, 
+                    'dataList' => $dataListValue->getDataList(), 
                     )
                 );
             }
@@ -216,12 +208,11 @@ class DataListValueController extends Controller
 
 
     /**
-    * Update DataListValue form
+    * Update datalistvalue form
     *
-    * @param DataListValue $dataListValue DataListValue to update
+    * @param DataListValue $dataListValue
     *
-    * @return Form $form Update form
-    *
+    * @return Form $form
     */
     private function createEditForm(DataListValue $dataListValue)
     {
@@ -240,10 +231,9 @@ class DataListValueController extends Controller
     }
 
     /**
-     * Display form to remove DataListValue
+     * Display form to remove datalistvalue entity
      *
-     * @param DataListValue $dataListValue DataListValue to delete
-     *
+     * @param DataListValue $dataListValue
      */
     public function removeAction(DataListValue $dataListValue)
     {
@@ -257,10 +247,9 @@ class DataListValueController extends Controller
     }
 
     /**
-     * Delete form action.
+     * Delete datalistvalue entity
      *
-     * @param DataListValue $dataListValue DataListValue to delete
-     *
+     * @param DataListValue $dataListValue Datalistvalue to delete
      */
     public function deleteAction(Request $request, DataListValue $dataListValue)
     {
@@ -269,10 +258,8 @@ class DataListValueController extends Controller
             $this->em->remove($dataListValue);
             $this->em->flush();
 
-            $dataList = $this->em->getRepository('SLCoreBundle:DataList')->findFullById($dataListValue->getDataList()->getId()); 
-
             $html = $this->renderView('SLCoreBundle:DataListValue:dataListValueTable.html.twig', array(
-                'dataList' => $dataList, 
+                'dataList' => $dataListValue->getDataList(), 
                 )
             );
 
@@ -295,11 +282,11 @@ class DataListValueController extends Controller
 
 
     /**
-     * Delete DataListValue Form
+     * Delete datalistvalue Form
      *
-     * @param DataListValue $dataListValue DataListValue to delete
+     * @param DataListValue $dataListValue
      *
-     * @return Form $form Delete form
+     * @return Form $form
      */
     private function createDeleteForm(DataListValue $dataListValue)
     {
@@ -318,10 +305,9 @@ class DataListValueController extends Controller
     }
 
     /**
-     * Update DataListValue icon.
+     * Update Datalistvalue icon
      *
-     * @param DataListValue $dataListValue DataListValue to update
-     *
+     * @param DataListValue $dataListValue Datalistvalue to update
      */
     public function updateIconAction(Request $request, DataListValue $dataListValue)
     {
@@ -342,10 +328,9 @@ class DataListValueController extends Controller
     }
 
     /**
-     * Update DataListValue checkbox.
+     * Update Datalistvalue checkbox
      *
-     * @param DataListValue $dataListValue DataListValue to update
-     *
+     * @param DataListValue $dataListValue Datalistvalue to update
      */
     public function updateCheckboxAction(Request $request, DataListValue $dataListValue)
     {
@@ -356,12 +341,7 @@ class DataListValueController extends Controller
             $dataListValue->setEnabled($value);      
             $this->em->flush();
 
-            $response = new JsonResponse(
-                array(
-                    'id' => $dataListValue->getTechnicalName(),
-                    'icon' => $this->iconService->getDataListValueIcon($dataListValue),
-                    )
-                );
+            $response = new JsonResponse(null);
         }
         else {
             $response = $this->redirect($this->generateUrl('back_end'));

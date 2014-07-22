@@ -179,7 +179,7 @@
 
         //When change state of switch button ON/OFF
         $(document).on('switchChange.bootstrapSwitch', 'input[skin="bootstrap-switch"]', function(event, state) {
-        	$bootstrapSwitch = $(this); 
+        	var $bootstrapSwitch = $(this); 
 		    sendToAjax('PUT', $bootstrapSwitch.attr('ajax-action'), {value : state}, null);
 		});
 

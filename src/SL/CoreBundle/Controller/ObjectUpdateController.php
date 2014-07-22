@@ -47,10 +47,9 @@ class ObjectUpdateController extends Controller
     }
 
      /**
-    * Display form to edit Object
+    * Display form to edit object entity
     *
-    * @param Object $object Object to edit
-    *
+    * @param Object $object
     */
     public function editAction(Object $object)
     {
@@ -64,7 +63,7 @@ class ObjectUpdateController extends Controller
     }
 
     /**
-    * Update form action
+    * Update object entity
     *
     * @param Object $object Object to update
     */
@@ -90,14 +89,13 @@ class ObjectUpdateController extends Controller
                 $jsTree = $object->getDisplayName();
 
                 if($initParentId != $newParentId){
-                     //Update database Object schema
+                     //Update database schema
                     $this->doctrineService->doctrineGenerateEntityFileByObject($object);  
                     $this->doctrineService->doctrineSchemaUpdateForce();
                 }
             }
             else {
                 $jsTree = null;
-                //Create form with errors
                 $html = $this->renderView('SLCoreBundle::save.html.twig', array(
                     'entity' => $object,
                     'form'   => $form->createView(),
@@ -123,11 +121,11 @@ class ObjectUpdateController extends Controller
     }
 
     /**
-    * Update Object form
+    * Update object form
     *
-    * @param Object $object Object to update
+    * @param Object $object
     *
-    * @return Form $form Update form
+    * @return Form $form
     */
     private function createEditForm(Object $object)
     {    
@@ -145,15 +143,14 @@ class ObjectUpdateController extends Controller
     }
 
     /**
-    * Display form to edit calculated name of an Object
+    * Display form to edit calculated name
     *
-    * @param Object $object Object to update
+    * @param Object $object
     */
     public function editCalculatedNameAction(Object $object)
     {
         $form = $this->createEditCalculatedNameForm($object);
  
-        //Get Object with parents
         $objects = $this->em->getRepository('SLCoreBundle:Object')->getPath($object); 
 
         return $this->render('SLCoreBundle:Object:objectNameDesigner.html.twig', array(
@@ -164,10 +161,9 @@ class ObjectUpdateController extends Controller
     }
 
     /**
-    * Edit calculated name form action.
+    * Update object entity
     *
     * @param Object $object Object to update
-    *
     */
     public function updateCalculatedNameAction(Request $request, Object $object)
     {
@@ -181,6 +177,7 @@ class ObjectUpdateController extends Controller
             if ($isValid) {
 
                 if($form->get('updateExistingName')->getData()) {
+                    //Refresh display name of existing data
                     $this->objectService->refreshCalculatedName($object); 
                 }
 
@@ -189,10 +186,7 @@ class ObjectUpdateController extends Controller
                 $html = null; 
             }
             else {
-                //Get all parent Object
                 $objects = $this->em->getRepository('SLCoreBundle:Object')->getPath($object); 
-
-                //Create form with errors
                 $html = $this->renderView('SLCoreBundle:Object:objectNameDesigner.html.twig', array(
                     'objects' => $objects,
                     'form'   => $form->createView(),
@@ -220,9 +214,9 @@ class ObjectUpdateController extends Controller
     /**
     * Update Calculated name form 
     *
-    * @param Object $object Object to update
+    * @param Object $object
     *
-    * @return Form $form Update calculated name form
+    * @return Form $form
     */
     private function createEditCalculatedNameForm(Object $object)
     {      
@@ -238,10 +232,9 @@ class ObjectUpdateController extends Controller
     }
 
      /**
-     * Update Object icon.
+     * Update object icon
      *
      * @param Object $object Object to update
-     *
      */
     public function updateIconAction(Request $request, Object $object)
     {
@@ -264,7 +257,7 @@ class ObjectUpdateController extends Controller
     }
 
     /**
-     * Update Object checkbox.
+     * Update object checkbox
      *
      * @param Object $object Object to update
      *
@@ -278,10 +271,7 @@ class ObjectUpdateController extends Controller
             $object->setEnabled($value);     
             $this->em->flush();
 
-            $response = new JsonResponse(array(
-                'icon' => $this->iconService->getObjectIcon($object),
-                )
-            );
+            $response = new JsonResponse(null);
         }
         else {
             $response = $this->redirect($this->generateUrl('back_end'));

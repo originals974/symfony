@@ -10,7 +10,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 //Custom classes
 use SL\CoreBundle\Entity\Search;
 use SL\CoreBundle\Form\SearchType;
-use SL\CoreBundle\Entity\Technicien;
 
 /**
  * Front controller.
@@ -18,7 +17,6 @@ use SL\CoreBundle\Entity\Technicien;
  */
 class MainController extends Controller
 {
-
     /**
      * Test
      */
@@ -27,12 +25,12 @@ class MainController extends Controller
         return new Response(var_dump('coucou')); 
     }
 
-
     /**
-     * Init application
+     * Init application cutom file
      */
     public function initAction(Request $request)
     {
+        //Update app/config/elastica.yml file
         $this->get('sl_core.elastica')->updateElasticaConfigFile(1,1000); 
 
         return new Response(); 

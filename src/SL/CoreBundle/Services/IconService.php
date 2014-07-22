@@ -47,8 +47,7 @@ class IconService
      */
     public function getObjectIcon(Object $object)
     {
-        $option = (!$object->isEnabled())?'text-danger':null; 
-        return 'fa '.$object->getIcon().' '.$option; 
+        return 'fa '.$object->getIcon(); 
     }
 
     /**
@@ -108,9 +107,8 @@ class IconService
      * @return String icon
      */
     public function getDataListIcon(DataList $dataList)
-    {
-        $option = (!$dataList->isEnabled())?'text-danger':null; 
-        return 'fa fa-list '.$option; 
+    { 
+        return 'fa fa-list'; 
     }
 
     /**
@@ -122,8 +120,7 @@ class IconService
      */
     public function getDataListValueIcon(DataListValue $dataListValue)
     {
-        $option = (!$dataListValue->isEnabled())?'text-danger':null; 
-        return 'fa '.$dataListValue->getIcon().' '.$option; 
+        return 'fa '.$dataListValue->getIcon(); 
     }
 
     /**
@@ -147,16 +144,14 @@ class IconService
      */
     public function getPropertyIcon(Property $property=null)
     {
-        $option = (!$property->isEnabled())?'text-danger':null; 
-
         if($property->getFieldType()->getTechnicalName() == 'entity' ){
-            $icon = $this->getRootObjectIcon($option);
+            $icon = $this->getRootObjectIcon();
         }
         else if($property->getFieldType()->getTechnicalName() == 'data_list' ){
-            $icon = $this->getRootDataListIcon($option);
+            $icon = $this->getRootDataListIcon();
         }
         else{
-            $icon = $this->getDefaultPropertyIcon($option);
+            $icon = $this->getDefaultPropertyIcon();
         }
 
         return $icon; 

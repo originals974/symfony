@@ -1,5 +1,5 @@
 <?php
-//TO COMPLETE
+
 namespace SL\CoreBundle\Controller;
 
 //Symfony classes
@@ -21,20 +21,23 @@ use SL\CoreBundle\Services\ObjectService;
  */
 class FrontController extends Controller
 {
+    private $registry; 
     private $em;
+    private $databaseEm;
     private $doctrineService;
     private $objectService;
 
     /**
      * @DI\InjectParams({
-     *     "em" = @DI\Inject("doctrine.orm.entity_manager"),
+     *     "em" = @DI\Inject("doctrine"),
      *     "doctrineService" = @DI\Inject("sl_core.doctrine"),
      *     "objectService" = @DI\Inject("sl_core.object")
      * })
      */
-    public function __construct(EntityManager $em, DoctrineService $doctrineService, ObjectService $objectService)
-    {
-        $this->em = $em;
+    public function __construct(RegistryInterface $registry, DoctrineService $doctrineService, ObjectService $objectService)
+    { 
+        $this->em = $registry->getManager();
+        $this->databaseEm = $registry->getManager('database');
         $this->doctrineService = $doctrineService;
         $this->objectService = $objectService;
     }
@@ -42,8 +45,7 @@ class FrontController extends Controller
     /**
     * Display form to create entity
     *
-    * @param Object $object Object type to create
-    *
+    * @param Object $object Object type of new entity
     */
     public function newAction(Object $object)
     {
@@ -60,8 +62,9 @@ class FrontController extends Controller
     }
 
     /**
-     * Creates a new entity.
+     * Create entity
      *
+     * @param Object $object Object type of new entity
      */
     public function createAction(Request $request, Object $object)
     {
@@ -77,16 +80,14 @@ class FrontController extends Controller
             $isValid = $form->isValid();
             if ($isValid) {
 
-                //Calculate displayName value
+                //Calculate displayName
                 $displayName = $this->objectService->calculateDisplayName($entity, $object);
-                
                 $entity->setDisplayName($displayName); 
+
                 $entity->setObjectId($object->getId()); 
                 
-                //Save entity in database
-                $DatabaseEm = $this->getDoctrine()->getManager('database');
-                $DatabaseEm->persist($entity);
-                $DatabaseEm->flush();
+                $this->databaseEm->persist($entity);
+                $this->databaseEm->flush();
 
                 $content = null; 
 
@@ -116,14 +117,13 @@ class FrontController extends Controller
         return $response; 
     }
 
-
     /**
-    * Creates a form to create an entity.
+    * Creates entity form
     *
-    * @param Object $object The object definition
-    * @param Mixed $entity The entity
+    * @param Object $object Object type of new entity
+    * @param Mixed $entity
     *
-    * @return \Symfony\Component\Form\Form The form
+    * @return Form $form
     */
     private function createCreateForm(Object $object, $entity)
     {
@@ -145,12 +145,14 @@ class FrontController extends Controller
     }
 
     /**
-     * Displays a form to edit an existing entity.
+     * Display form to edit entity
+     *
+     * @param Object $object Object type of update entity
+     * @param Int $entity_id
      */
     public function editAction(Object $object, $entity_id)
     {
-        $databaseEm = $this->getDoctrine()->getManager('database');
-        $entity = $databaseEm->getRepository('SLDataBundle:'.$object->getTechnicalName())->find($entity_id);
+        $entity = $this->databaseEm->getRepository('SLDataBundle:'.$object->getTechnicalName())->find($entity_id);
 
         $form = $this->createEditForm($object, $entity);
 
@@ -162,13 +164,14 @@ class FrontController extends Controller
     }
 
     /**
-     * Edits an existing entity.
+     * Update entity
+     *
+     * @param Object $object Object type of update entity
+     * @param Int $entity_id Id of update entity
      */
     public function updateAction(Request $request, Object $object, $entity_id)
     {
-
-        $databaseEm = $this->getDoctrine()->getManager('database');
-        $entity = $databaseEm->getRepository('SLDataBundle:'.$object->getTechnicalName())->find($entity_id);
+        $entity = $this->databaseEm->getRepository('SLDataBundle:'.$object->getTechnicalName())->find($entity_id);
 
         $form = $this->createEditForm($object, $entity);
         $form->handleRequest($request);
@@ -181,7 +184,8 @@ class FrontController extends Controller
                 //Calculate displayName value
                 $displayName = $this->objectService->calculateDisplayName($entity, $object);
                 $entity->setDisplayName($displayName); 
-                $databaseEm->flush();
+
+                $this->databaseEm->flush();
 
                 $content = $displayName; 
             }
@@ -213,12 +217,12 @@ class FrontController extends Controller
 
 
     /**
-    * Creates a form to edit an entity.
+    * Update entity form
     *
-    * @param Object $object The object definition
-    * @param Mixed $entity The entity 
+    * @param Object $object Object type of update entity
+    * @param Mixed $entity
     *
-    * @return \Symfony\Component\Form\Form The form
+    * @return Form $form
     */
     private function createEditForm(Object $object, $entity)
     {
@@ -241,17 +245,16 @@ class FrontController extends Controller
     }
 
     /**
-     * Show an entity
+     * Show entity
      *
-     * @param Object $object The object definition
-     * @param Mixed $entity The entity
+     * @param Object $object  Object type of show entity
+     * @param Int $entity_id Id of entity to show
      */
     public function showAction(Request $request,Object $object, $entity_id)
     {
         if ($request->isXmlHttpRequest()) {
 
-            $databaseEm = $this->getDoctrine()->getManager('database');
-            $entity = $databaseEm->getRepository('SLDataBundle:'.$object->getTechnicalName())->find($entity_id);
+            $entity = $this->databaseEm->getRepository('SLDataBundle:'.$object->getTechnicalName())->find($entity_id);
 
             $path = $this->objectService->getObjectPath($object); 
 
@@ -273,15 +276,14 @@ class FrontController extends Controller
     }
 
     /**
-    * Display form to remove an entity.
+    * Display form to remove entity
     *
-    * @param Object $object Object to remove
-    *
+    * @param Object $object  Object type of remove entity
+    * @param Int $entity_id
     */
     public function removeAction(Object $object, $entity_id)
     {
-        $databaseEm = $this->getDoctrine()->getManager('database');
-        $entity = $databaseEm->getRepository('SLDataBundle:'.$object->getTechnicalName())->find($entity_id);
+        $entity = $this->databaseEm->getRepository('SLDataBundle:'.$object->getTechnicalName())->find($entity_id);
   
         $form = $this->createDeleteForm($object, $entity);
 
@@ -293,20 +295,19 @@ class FrontController extends Controller
     }
 
     /**
-     * Delete form action.
+     * Delete entity
      *
-     * @param Object $object Object to delete
-     *
+     * @param Object $object  Object type of remove entity
+     * @param Int $entity_id Id of entity to delete
      */
     public function deleteAction(Request $request, Object $object, $entity_id)
     {
-        $databaseEm = $this->getDoctrine()->getManager('database');
-        $entity = $databaseEm->getRepository('SLDataBundle:'.$object->getTechnicalName())->find($entity_id);
+        $entity = $this->databaseEm->getRepository('SLDataBundle:'.$object->getTechnicalName())->find($entity_id);
 
         if ($request->isXmlHttpRequest()) {
 
-            $databaseEm->remove($entity);
-            $databaseEm->flush();
+            $this->databaseEm->remove($entity);
+            $this->databaseEm->flush();
 
             //Create the Json Response array
             $data = array(  
@@ -324,9 +325,10 @@ class FrontController extends Controller
     }
 
     /**
-     * Delete Property Form
+     * Delete entity form
      *
-     * @param Property $property Property to delete
+     * @param Object $object  Object type of remove entity
+     * @param Mixed $entity
      *
      * @return Form $form Delete form
      */
