@@ -35,6 +35,11 @@ services:
         tags:
             - name: twig.extension
 
+    #Doctrine
+    sl_core.listener:
+        class: SL\CoreBundle\Listener\DoctrineListener
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }
 
     #Form
     sl_core.form.type.data.list:

@@ -3561,12 +3561,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/vakata/jstree.git",
-                "reference": "94f8f564bd01290d04ac1ec8e2e4b51b14fb15dc"
+                "reference": "65a7f419700ab7a75756e99d6dd02fa916a17442"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vakata/jstree/zipball/94f8f564bd01290d04ac1ec8e2e4b51b14fb15dc",
-                "reference": "94f8f564bd01290d04ac1ec8e2e4b51b14fb15dc",
+                "url": "https://api.github.com/repos/vakata/jstree/zipball/65a7f419700ab7a75756e99d6dd02fa916a17442",
+                "reference": "65a7f419700ab7a75756e99d6dd02fa916a17442",
                 "shasum": ""
             },
             "require": {
@@ -3608,7 +3608,7 @@
             ],
             "description": "jsTree is jquery plugin, that provides interactive trees.",
             "homepage": "http://jstree.com",
-            "time": "2014-07-16 07:23:14"
+            "time": "2014-07-21 05:42:54"
         },
         {
             "name": "willdurand/js-translation-bundle",

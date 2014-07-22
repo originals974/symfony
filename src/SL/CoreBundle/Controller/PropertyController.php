@@ -9,7 +9,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use JMS\DiExtraBundle\Annotation as DI;
 use Doctrine\ORM\EntityManager;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 //Custom classes
 use SL\CoreBundle\Entity\Object;
@@ -120,8 +119,6 @@ class PropertyController extends Controller
      *
      * @param Object $object Parent Object Property
      * @param String $formMode Property type to create (Default | Entity | List) 
-     *
-     * @ParamConverter("object", options={"repository_method" = "findFullById"})
      */
     public function createAction(Request $request, Object $object, $formMode)
     {
@@ -145,15 +142,8 @@ class PropertyController extends Controller
                     $property->setFieldType($fieldType); 
                 }
 
-                //Define Property display position
-                $maxDiplayOrder = $this->em->getRepository('SLCoreBundle:Property')->findMaxDisplayOrder($object);
-                $property->setDisplayOrder($maxDiplayOrder + 1);
-
                 //Save Property in database
                 $this->em->persist($property);
-                $this->em->flush();
-
-                //Dont delete this flush : Persist data after Doctrine evenement
                 $this->em->flush();
 
                 //Update database Object schema

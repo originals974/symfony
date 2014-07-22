@@ -6,7 +6,6 @@ namespace SL\CoreBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
 
@@ -121,13 +120,7 @@ class ObjectCRDController extends Controller
             $isValid = $form->isValid();
             if ($isValid) {
 
-                //Define Object display order
-                $object->setDisplayOrder($this->em->getRepository('SLCoreBundle:Object')->findMaxDisplayOrder($isDocument) + 1); 
-
                 $this->em->persist($object);
-                $this->em->flush();
-
-                //Dont delete this flush : Persist data after Doctrine evenement
                 $this->em->flush();
 
                 //Update database Object schema
@@ -202,8 +195,6 @@ class ObjectCRDController extends Controller
      * Show an Object
      *
      * @param Object $object Object to show
-     *
-     * @ParamConverter("object", options={"repository_method" = "findFullById"})
      */
     public function showAction(Request $request,Object $object)
     {

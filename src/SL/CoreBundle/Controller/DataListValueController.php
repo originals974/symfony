@@ -8,7 +8,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 //Custom classes
 use SL\CoreBundle\Entity\DataList;
@@ -71,8 +70,6 @@ class DataListValueController extends Controller
      * Create Form action
      *
      * @param DataList $dataList Parent DataList of DataListValue
-     *
-     * @ParamConverter("dataList", options={"repository_method" = "findFullById"})
      */
     public function createAction(Request $request, DataList $dataList)
     {
@@ -89,15 +86,8 @@ class DataListValueController extends Controller
             $isValid = $form->isValid();
             if ($isValid) {
 
-                //Define DataListValue display position
-                $maxDiplayOrder = $this->em->getRepository('SLCoreBundle:DataListValue')->findMaxDisplayOrder($dataList);
-                $dataListValue->setDisplayOrder($maxDiplayOrder + 1);
-
                 //Save DataListValue in database
                 $this->em->persist($dataListValue);
-                $this->em->flush();
-
-                //Dont delete this flush : Persist data after Doctrine evenement
                 $this->em->flush();
 
                 $html = $this->renderView('SLCoreBundle:DataListValue:dataListValueTable.html.twig', array(

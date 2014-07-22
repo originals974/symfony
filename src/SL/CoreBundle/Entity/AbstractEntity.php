@@ -8,7 +8,6 @@ use Doctrine\ORM\Mapping as ORM;
  * AbstractEntity
  *
  * @ORM\MappedSuperclass
- * @ORM\HasLifecycleCallbacks() 
  *
  */
 abstract class AbstractEntity
@@ -39,7 +38,7 @@ abstract class AbstractEntity
     /**
      * @var integer
      *
-     * @ORM\Column(name="display_order", type="integer")
+     * @ORM\Column(name="display_order", type="integer", nullable=true)
      */
     private $displayOrder;
 
@@ -193,13 +192,5 @@ abstract class AbstractEntity
     {
         $classShortName = ucfirst(basename(strtr(get_class($this), "\\", "/")));
         return $classShortName;
-    }
-
-    /**
-    * @ORM\PostPersist
-    */
-    public function initAbstractEntity()
-    {
-        $this->setTechnicalName();
     }
 }

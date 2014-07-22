@@ -6,7 +6,6 @@ namespace SL\CoreBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
 
@@ -90,7 +89,6 @@ class DataListController extends Controller
      */
     public function createAction(Request $request)
     { 
-        var_dump("passage"); 
         $dataList = new DataList();
 
         $form = $this->createCreateForm($dataList);
@@ -102,15 +100,8 @@ class DataListController extends Controller
             $isValid = $form->isValid();
             if ($isValid) {
 
-                //Define DataList display position
-                $maxDiplayOrder = $this->em->getRepository('SLCoreBundle:DataList')->findMaxDisplayOrder();
-                $dataList->setDisplayOrder($maxDiplayOrder + 1); 
-
                 //Save DataList in database
                 $this->em->persist($dataList);
-                $this->em->flush();
-
-                //Dont delete this flush : Persist data after Doctrine evenement
                 $this->em->flush();
 
                 $html = null;
@@ -193,8 +184,6 @@ class DataListController extends Controller
     * Update form action
     *
     * @param DataList $dataList DataList to edit
-    *
-    * @ParamConverter("dataList", options={"repository_method" = "findFullById"})
     */
     public function updateAction(Request $request, DataList $dataList)
     {
@@ -265,8 +254,6 @@ class DataListController extends Controller
      * Show a DataList
      *
      * @param DataList $dataList DataList to show
-     *
-     * @ParamConverter("dataList", options={"repository_method" = "findFullById"})
      */
     public function showAction(Request $request, DataList $dataList)
     {

@@ -10,7 +10,7 @@
 	            <a class="navbar-brand" href="#">{{ 'main_application.name'|trans }}</a>
 	        {% endblock %}
 	        {% block menu %}
-	            {{ mopa_bootstrap_menu('SLCoreBundle:Builder:frontMenu') }}
+	            {{ mopa_bootstrap_menu('SLCoreBundle:Builder:mainFrontMenu') }}
 	        {% endblock %}
 	    {% endembed %}
 	{% endblock %}
@@ -19,13 +19,45 @@
 
 {% block nav %}
 	{{ parent() }}
-	{% embed '@MopaBootstrap/Navbar/navbar.html.twig' with {fixedTop: false, staticTop: false, inverse: false}  %}
+{# 	{% embed '@MopaBootstrap/Navbar/navbar.html.twig' with {fixedTop: false, staticTop: false, inverse: false}  %}
         {% block menu %}
         	<div class="col-lg-4">
-            	{{ mopa_bootstrap_menu('SLCoreBundle:Builder:lateralFrontEndMenu') }}
+            	{{ mopa_bootstrap_menu('SLCoreBundle:Builder:newObjectFrontMenu') }}
+            	{{ mopa_bootstrap_menu('SLCoreBundle:Builder:newDocumentFrontMenu') }}
             </div>
         {% endblock %}
-    {% endembed %}
+    {% endembed %} #}
+
+    <div class="panel-group" id="accordion">
+	  	<div class="panel panel-default">
+	    	<div class="panel-heading">
+	      		<h4 class="panel-title">
+	        		<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+	          			{{ 'menu.document.new'|trans }}
+	        		</a>
+	      		</h4>
+	    	</div>
+	    	<div id="collapseOne" class="panel-collapse collapse in">
+	      		<div class="panel-body">
+	        		 {{ mopa_bootstrap_menu('SLCoreBundle:Builder:newDocumentFrontMenu') }}
+	      		</div>
+	    	</div>
+	  	</div>
+	  	<div class="panel panel-default">
+	    	<div class="panel-heading">
+	      		<h4 class="panel-title">
+	        		<a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+	          			{{ 'menu.object.new'|trans }}
+	        		</a>
+	      		</h4>
+	    	</div>
+		    <div id="collapseTwo" class="panel-collapse collapse">
+		      	<div class="panel-body">
+		        	{{ mopa_bootstrap_menu('SLCoreBundle:Builder:newObjectFrontMenu') }}
+		      	</div>
+		    </div>
+		 </div>
+	</div>
 {% endblock %}
 
 {% block footer %}

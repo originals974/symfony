@@ -17,7 +17,6 @@ use SL\CoreBundle\Validator\Constraints as SLCoreAssert;
  *     @ORM\UniqueConstraint(name="unique_index_object_display_name", columns={"display_name"})
  *  })
  * @ORM\Entity(repositoryClass="SL\CoreBundle\Entity\ObjectRepository")
- * @ORM\HasLifecycleCallbacks()
  * @UniqueEntity(fields="displayName")
  */
 class Object extends AbstractEntity
@@ -246,15 +245,5 @@ class Object extends AbstractEntity
     public function isDocument()
     {
         return $this->isDocument;
-    }
-
-    /**
-    * @ORM\PostPersist
-    */
-    public function initObject()
-    {
-        /*if(!$this->isParent()){
-            $this->setCalculatedName($this->getParentObject()->getCalculatedName());
-        }*/   
     }
 }

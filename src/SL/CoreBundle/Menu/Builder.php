@@ -37,7 +37,7 @@ class Builder extends ContainerAware
     *
     * @return $menu The FrontEnd menu
     */    
-    public function frontMenu(FactoryInterface $factory, array $options)
+    public function mainFrontMenu(FactoryInterface $factory, array $options)
     {
         //Menu configuration
         $menu = $factory->createItem('root', array(
@@ -56,10 +56,9 @@ class Builder extends ContainerAware
     *
     * @return $menu lateral FrontEnd menu
     */    
-    public function lateralFrontEndMenu(FactoryInterface $factory, array $options)
+    public function newObjectFrontMenu(FactoryInterface $factory, array $options)
     {
         //Variables initialisation
-        $icon = $this->container->get('sl_core.icon');
         $em = $this->container->get('Doctrine')->getManager();
 
         //Menu configuration
@@ -67,13 +66,46 @@ class Builder extends ContainerAware
             'subnavbar' => true,
             'pills' => true,
             'stacked' => true, 
-        ));
+            )
+        );
 
-        //Generate a item for each Object
-        $objects = $em->getRepository('SLCoreBundle:Object')->findBy(
-            array('isEnabled' => true),
-            array('displayOrder' => 'asc')
-            );
+        $objects = $em->getRepository('SLCoreBundle:Object')->findAllActiveObjects();
+
+        $menu = $this->addFrontChildrenObjectItems($menu, $objects);
+
+        return $menu;
+    }
+
+
+    /**
+    * Create lateral FrontEnd Menu
+    *
+    * @return $menu lateral FrontEnd menu
+    */    
+    public function newDocumentFrontMenu(FactoryInterface $factory, array $options)
+    {
+        $em = $this->container->get('Doctrine')->getManager();
+
+        //Menu configuration
+        $menu = $factory->createItem('root', array(
+            'subnavbar' => true,
+            'pills' => true,
+            'stacked' => true, 
+            )
+        );
+
+        $documents = $em->getRepository('SLCoreBundle:Object')->findAllActiveDocuments();
+
+        $menu = $this->addFrontChildrenObjectItems($menu, $documents);
+
+        return $menu;
+    }
+
+    private function addFrontChildrenObjectItems($menu,  $objects)
+    {
+        //Variable initialisation
+        $icon = $this->container->get('sl_core.icon');
+        $em = $this->container->get('Doctrine')->getManager();
 
         foreach($objects as $object) {
 
@@ -94,9 +126,9 @@ class Builder extends ContainerAware
             );
         }
 
-        return $menu;
-    }
 
+        return $menu; 
+    }
 
     /**
     * Create BackEnd Tree Menu
@@ -142,7 +174,7 @@ class Builder extends ContainerAware
         //Select all Objects and associated Properties
         $documents = $em->getRepository('SLCoreBundle:Object')->findRootDocuments();
 
-        $this->addChildrenObjects($documentRoot, $documents);
+        $this->addBackChildrenObjectItems($documentRoot, $documents);
 
 
          /************OBJECTS*************/
@@ -163,7 +195,7 @@ class Builder extends ContainerAware
         //Select all Objects and associated Properties
         $objects = $em->getRepository('SLCoreBundle:Object')->findRootObjects();
 
-        $this->addChildrenObjects($objectRoot, $objects);
+        $this->addBackChildrenObjectItems($objectRoot, $objects);
 
          /************DATA LIST*************/
         //Create a node for DataLists
@@ -210,7 +242,7 @@ class Builder extends ContainerAware
     *
     * @return $objectItem The added node
     */
-    private function addChildrenObjects(&$parent,  $objects)
+    private function addBackChildrenObjectItems(&$parent,  $objects)
     {
         //Variable initialisation
         $icon = $this->container->get('sl_core.icon');
@@ -235,7 +267,7 @@ class Builder extends ContainerAware
 
             $objects = $em->getRepository('SLCoreBundle:Object')->children($object, true, 'displayOrder'); 
 
-            $this->addChildrenObjects($objectItem, $objects); 
+            $this->addBackChildrenObjectItems($objectItem, $objects); 
 
         }
 

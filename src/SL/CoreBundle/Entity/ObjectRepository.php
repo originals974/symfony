@@ -24,6 +24,7 @@ class ObjectRepository extends NestedTreeRepository
 	public function findFullAll(QueryBuilder $qb){
 
 		$qb ->leftjoin('o.properties','p')
+        ->addOrderBy('o.lvl', 'ASC')
   		  ->addOrderBy('o.displayOrder', 'ASC')
   		  ->addOrderBy('p.displayOrder', 'ASC')
         ->addSelect('p');
@@ -36,15 +37,18 @@ class ObjectRepository extends NestedTreeRepository
    *
    * @return Collection A collection of Objects
    */
-  /*public function findFullAllObject(){
+  public function findAllActiveObjects(){
     
     $qb = $this->createQueryBuilder('o');
     $qb = $this ->findFullAll($qb)
-                ->where('o.isDocument = false');
+                ->where('o.isDocument = false')
+                ->andWhere('o.isEnabled = true');
     
     return $qb->getQuery()
               ->getResult();
-  }*/
+  }
+
+
   public function findRootObjects(){
     
     $qb = $this->createQueryBuilder('o');
@@ -63,15 +67,18 @@ class ObjectRepository extends NestedTreeRepository
    *
    * @return Collection A collection of Document
    */
-  /*public function findFullAllDocument(){
+  public function findAllActiveDocuments(){
     
     $qb = $this->createQueryBuilder('o');
     $qb = $this->findFullAll($qb)
-               ->where('o.isDocument = true'); 
+               ->where('o.isDocument = true')
+               ->andWhere('o.isEnabled = true'); 
 
     return $qb->getQuery()
               ->getResult();
-  }*/
+  }
+
+
   public function findRootDocuments(){
     
     $qb = $this->createQueryBuilder('o');

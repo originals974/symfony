@@ -24,35 +24,6 @@ class MainController extends Controller
      */
     public function testAction(Request $request)
     {
-        /*$repo = $this->getDoctrine()->getEntityManager()->getRepository('SLCoreBundle:Object');
-        $this->getDoctrine()->getEntityManager()->clear(); 
-
-
-        $object = $repo->find(24);
-        $path = $repo->getPath($object);
-        
-        foreach($path as $object) {
-            var_dump($object->getDisplayName()); 
-        }*/
-
-        $em = $this->getDoctrine()->getEntityManager();
-
-        /*$tech = new Technicien(); 
-        $tech->setSpe('Informatique'); 
-        $tech->setQualif('Niveau 2');
-        $tech->setName('Sam');*/
-
-        //$tech = $em->getRepository('SLCoreBundle:Employee')->find(1);
-
-        //$em->persist($tech);
-        //$em->flush();
-        $object = $em->getRepository('SLCoreBundle:Object')->find(51);
-        $children = $em->getRepository('SLCoreBundle:Object')->children($object, false); 
-
-        foreach($children as $object) {
-            var_dump($object->getDisplayName()); 
-        }
-
         return new Response(var_dump('coucou')); 
     }
 

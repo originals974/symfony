@@ -6,7 +6,6 @@ namespace SL\CoreBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
 
@@ -68,8 +67,6 @@ class ObjectUpdateController extends Controller
     * Update form action
     *
     * @param Object $object Object to update
-    *
-    * @ParamConverter("object", options={"repository_method" = "findFullById"})
     */
     public function updateAction(Request $request, Object $object)
     {
@@ -151,8 +148,6 @@ class ObjectUpdateController extends Controller
     * Display form to edit calculated name of an Object
     *
     * @param Object $object Object to update
-    *
-    * @ParamConverter("object", options={"repository_method" = "findFullById"})
     */
     public function editCalculatedNameAction(Object $object)
     {
