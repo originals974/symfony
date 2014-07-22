@@ -17,9 +17,9 @@ use SL\CoreBundle\Entity\Object;
 class ObjectRepository extends NestedTreeRepository
 {
   /**
-   * Select all Object with associated Property, subObject and their Property 
+   * Select all objects and properties 
    *
-   * @return Collection A collection of Object
+   * @param QueryBuilder $qb
    */
 	public function findFullAll(QueryBuilder $qb){
 
@@ -33,9 +33,7 @@ class ObjectRepository extends NestedTreeRepository
 	}
 
   /**
-   * Select all Object with associated Property
-   *
-   * @return Collection A collection of Objects
+   * Select all active objects and properties 
    */
   public function findAllActiveObjects(){
     
@@ -48,7 +46,9 @@ class ObjectRepository extends NestedTreeRepository
               ->getResult();
   }
 
-
+  /**
+   * Select all root objects and properties 
+   */
   public function findRootObjects(){
     
     $qb = $this->createQueryBuilder('o');
@@ -60,12 +60,8 @@ class ObjectRepository extends NestedTreeRepository
               ->getResult();
   }
 
-
-
   /**
-   * Select all Document with associated Propertiy
-   *
-   * @return Collection A collection of Document
+   * Select all active documents and properties 
    */
   public function findAllActiveDocuments(){
     
@@ -78,7 +74,9 @@ class ObjectRepository extends NestedTreeRepository
               ->getResult();
   }
 
-
+  /**
+   * Select all root documents and properties 
+   */
   public function findRootDocuments(){
     
     $qb = $this->createQueryBuilder('o');
@@ -91,47 +89,25 @@ class ObjectRepository extends NestedTreeRepository
   }
 
   /**
-   * Select Object with associated Property
+   * Select object and properties by object id
    *
-   * @param int $id Id of Object to select
-   *
-   * @return Object Object with its Property
+   * @param int $objectId
    */
-  public function findFullById($id){
+  public function findFullById($objectId){
     
     $qb = $this->createQueryBuilder('o');
     $qb = $this->findFullAll($qb)
                 ->where('o.id = :id')
-                ->setParameter('id', $id);
+                ->setParameter('id', $objectId);
 
     return $qb->getQuery()
               ->getSingleResult();
   }
 
   /**
-   * Select max Object display order
+   * Select other object that aren't document
    *
-   * @param boolean $isDocument True if Object is a document
-   *
-   * @return Integer Max Object display order
-   */
-	public function findMaxDisplayOrder($isDocument)
-  {
-	    $qb = $this  ->createQueryBuilder('o')
-	                 ->select('MAX(o.displayOrder)')
-                   ->where('o.isDocument = :isDocument')
-                   ->setParameter('isDocument', $isDocument);
-
-	    return $qb->getQuery()
-	              ->getSingleScalarResult();
-	}
-
-  /**
-   * Select other Object that aren't Document
-   *
-   * @param Object $currentObject Current Object
-   *
-   * @return Collection A collection with all other Object
+   * @param Object $currentObject
    */
 	public function findOtherObject($currentObjectId)
   {
@@ -148,9 +124,9 @@ class ObjectRepository extends NestedTreeRepository
 	}
 
    /**
-   * Select potentiel parent Object
+   * Select potential parent object
    *
-   * @return Collection A collection with potentiel parent Object
+   * @param Object $object Child object
    */
   public function findParentObject($object)
   {

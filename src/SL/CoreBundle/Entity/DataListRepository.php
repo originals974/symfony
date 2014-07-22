@@ -11,9 +11,7 @@ use Doctrine\ORM\EntityRepository;
 class DataListRepository extends EntityRepository
 {
 	/**
-     * Find all DataList with associated DataListValue
-     *
-     * @return Collection A collection of DataList and DataListValue
+     * Find all datalist and datalistvalue
      */ 
 	public function findFullAll()
 	{
@@ -29,18 +27,16 @@ class DataListRepository extends EntityRepository
 	}
 
 	/**
-     * Find DataList with associated DataListValue
+     * Find all datalist and datalistvalue by datalist id
      *
-     * @param int $id Id of DataList to select
-     *
-     * @return DataList DataList and DataListValue
+     * @param int $dataListId
      */ 
-	public function findFullById($id)
+	public function findFullById($dataListId)
 	{
 		$qb = $this	->createQueryBuilder('dl')
 				   	->leftJoin('dl.dataListValues','dlv')
 				   	->where('dl.id = :id')
-           			->setParameter('id', $id)
+           			->setParameter('id', $dataListId)
 				   	->addOrderBy('dl.displayOrder', 'ASC')
 				   	->addOrderBy('dlv.displayOrder', 'ASC')
 	               	->addSelect('dl,dlv');
@@ -50,30 +46,13 @@ class DataListRepository extends EntityRepository
 
 	}
 
-	/**
-   	* Select the max DataList display order
-   	*
-   	* @return Integer Max DataList display order 
-   	*/
-	public function findMaxDisplayOrder()
-  	{
-	    $qb = $this ->createQueryBuilder('dl')
-	               	->select('MAX(dl.displayOrder)');
-
-	    return $qb 	->getQuery()
-	              	->getSingleScalarResult();
-	}
-
    /**
-   * Select enabled DataList
-   *
-   * @return Collection A collection of enabled DataList
+   * Select enabled datalist
    */
 	public function findEnabledDataList()
    {
         return  $this ->createQueryBuilder('dl')
             		  ->where('dl.isEnabled = true')
                       ->orderBy('dl.displayOrder', 'ASC');
-
 	}
 }

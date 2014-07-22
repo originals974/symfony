@@ -19,8 +19,6 @@ class PropertyRepository extends EntityRepository
      * Generic join and select
      *
      * @param QueryBuilder $qb 
-     *
-     * @return QueryBuilder $qb 
      */
 	public function baseJoin(QueryBuilder $qb)
 	{
@@ -34,32 +32,12 @@ class PropertyRepository extends EntityRepository
 	}
 
 	/**
-	 * Select max Property display order of an Object
-	 *
-	 * @param Object $object Parent Object 
-	 *
-	 * @return Integer Max Property display order of an Object 
-	*/
-	public function findMaxDisplayOrder(Object $object)
-  	{
-	    $qb = $this ->createQueryBuilder('p')
-	               	->select('MAX(p.displayOrder)')
-	               	->where('p.object = :object')
-	               	->setParameter('object', $object);
-
-	    return $qb 	->getQuery()
-	              	->getSingleScalarResult();
-	}
-
-	/**
-	 * Select a Property by Object
+	 * Select a property by object
 	 *
 	 * @param Array $criteria Associated array with : 
 	 *	- Integer object An object id
 	 *	- String displayName The display name of Property
-	 *
-	 * @return Collection  A collection of selected Property
-	*/
+	 */
 	public function findByObjectAndDisplayName($criteria)
 	{
 		$qb = $this	->getEntityManager()
@@ -76,12 +54,10 @@ class PropertyRepository extends EntityRepository
 	}
 
 	/**
-	 * Select enabled Property by Object
+	 * Select enabled property by object
 	 *
-	 * @param Object $object Object
-	 *
-	 * @return Collection  A collection of enabled selected Property
-	*/
+	 * @param Object $object 
+	 */
 	public function findEnabledByObject(Object $object){
     
     $qb = $this ->createQueryBuilder('p')

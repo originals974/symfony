@@ -15,30 +15,10 @@ use SL\CoreBundle\Entity\DataList;
 class DataListValueRepository extends EntityRepository
 {
 	/**
-   	* Select max DataListValue display order for a DataList
-   	*
-   	* @param DataList $dataList Parent DataList 
-   	*
-   	* @return Integer Max DataListValue display order
-   	*/
-	public function findMaxDisplayOrder(DataList $dataList)
-  	{
-	    $qb = $this->createQueryBuilder('dlv')
-	               ->select('MAX(dlv.displayOrder)')
-	               ->where('dlv.dataList = :dataList')
-	               ->setParameter('dataList', $dataList);
-
-	    return $qb->getQuery()
-	              ->getSingleScalarResult();
-	}
-
-	/**
-	 * Select enabled DataListValue for a DataList
+	 * Select enabled datalistvalue for a datalist
 	 *
-	 * @param DataList $dataList DataList
-	 *
-	 * @return Collection  A collection of enabled DataListValue of DataList
-	*/
+	 * @param DataList $dataList
+	 */
 	public function findEnabledByDataList(DataList $dataList){
 		
 	    $qb = $this ->createQueryBuilder('dlv')
