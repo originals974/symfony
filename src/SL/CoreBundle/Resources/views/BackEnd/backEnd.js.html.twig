@@ -6,16 +6,9 @@
         $.fn.bootstrapSwitch.defaults.onColor = "success"; 
         $.fn.bootstrapSwitch.defaults.offColor = "danger"; 
 
-
-		/*$('ul.tree').toggle(300);
-
-	    $('span.tree-toggler').click(function () {
-	        $(this).parent().children('ul.tree').toggle(300);
-	    });*/
-
+        //JsTree on change event
 		$('#jstree')
 		.on('changed.jstree', function (e, data) {
-			//$('body').modalmanager('loading');
 			$htmlTarget = '#backEndSection'; 
 			$($htmlTarget).html(null);
 
@@ -27,28 +20,10 @@
 
 		    if($url != null && $url != '#' ) {
 		    	$target = '#backEndSection'; 
-		    	sendToAjax('POST', $url, null, $htmlTarget);		    			    	
+		    	sendToAjaxBackEnd('POST', $url, null, $htmlTarget);		    			    	
 		    }
 		})
-		/*.on('dnd_start.vakata', function (e, data) {
-			//console.log(data);
-		    
-
-			var i, j;
-		    for(i = 0, j = data.selected.length; i < j; i++) {
-		    	console.log(data);
-		    	alert("move"); 
-		    	//alert(data.instance.get_node(data.selected[i]).a_attr['href']);
-		    }
-		 })*/
-		/*.on('move_node.jstree', function (e, data) {
-			var i, j;
-		    for(i = 0, j = data.selected.length; i < j; i++) {
-		    	console.log(data);
-		    	alert("move"); 
-		    	//alert(data.instance.get_node(data.selected[i]).a_attr['href']);
-		    }
-		  })*/
+		//JsTree configuration init
 		.jstree({
 			"core" : {
 			    "check_callback" : true,
@@ -67,9 +42,10 @@
     		"plugins" : [ "state", "dnd" ],
 		});
 
+		//When submit a form
 		$(document).on('submit', 'form', function(event) {
 			$(this).find('button[type="submit"]').attr('disabled', true);
-            submitFormToAjax2($(this));
+            submitFormToAjaxBackEnd($(this));
             return false;
         });
 
@@ -79,7 +55,7 @@
 	     *
 	     * @param $form Submitted form
 	     */
-        function submitFormToAjax2($form) {
+        function submitFormToAjaxBackEnd($form) {
 
         	var method, validTarget, modalId, jsTree, selectedNode, newNode; 
         	
@@ -98,7 +74,7 @@
 
                 	if(data.isValid) {
 
-                		//Get the modal id  
+                		//Get modal id  
 		            	modalId = '#'+$($form).parent().parent().attr('id');
 
 		            	//Process JsTree data
@@ -144,7 +120,7 @@
             });
         };
 
-        //When choose Property type to create
+        //When choose property type in property choice form
         $(document).on("change", 'form[name="property_choice"]', function(event){
 		    var $data, $form, $htmlTarget; 
 
@@ -152,7 +128,7 @@
 		    $form = $(this); 
 		    $htmlTarget = "#ajax-modal"; 
 
-		    sendToAjax($form.attr('method'), $form.attr('action'), $data, $htmlTarget);
+		    sendToAjaxBackEnd($form.attr('method'), $form.attr('action'), $data, $htmlTarget);
 		});
 
         //When select an icon by using iconpicker button
@@ -164,26 +140,27 @@
 			jsTree = $('#jstree').jstree(true);
 			selectedNode = String(jsTree.get_selected());  
 
+			//Update icon for object node
 			if(selectedNode.search("Object") != -1) {	
 				jsTree.set_icon(selectedNode, 'fa '+event.icon); 
 			}    
 
-		    sendToAjax('PUT', $button.attr('ajax-action'), {icon : event.icon}, null);
+		    sendToAjaxBackEnd('PUT', $button.attr('ajax-action'), {icon : event.icon}, null);
 		});
 
         //When change the state of a checkbox
         $(document).on("change", 'input[type="checkbox"]', function(event){
 		    $checkbox = $(this); 
-		    sendToAjax('PUT', $checkbox.attr('ajax-action'), {name : $checkbox.attr("name"), value : $checkbox.is(':checked')}, null);
+		    sendToAjaxBackEnd('PUT', $checkbox.attr('ajax-action'), {name : $checkbox.attr("name"), value : $checkbox.is(':checked')}, null);
 		});
 
         //When change state of switch button ON/OFF
         $(document).on('switchChange.bootstrapSwitch', 'input[skin="bootstrap-switch"]', function(event, state) {
         	var $bootstrapSwitch = $(this); 
-		    sendToAjax('PUT', $bootstrapSwitch.attr('ajax-action'), {value : state}, null);
+		    sendToAjaxBackEnd('PUT', $bootstrapSwitch.attr('ajax-action'), {value : state}, null);
 		});
 
-        //When define calculated name of an object 
+        //When click on a button of calculated name form
         $(document).on('click', '#object_name_designer_button button', function(event) {
         	
         	var $button, $input, $initialValue; 
@@ -203,7 +180,7 @@
 	     * @param String $htmlTarget Html section to modify after success
 	     *
 	     */
-		function sendToAjax($method, $url, $data, $htmlTarget) {
+		function sendToAjaxBackEnd($method, $url, $data, $htmlTarget) {
         	
 			var jsTree, selectedNode; 
 

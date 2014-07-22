@@ -1,6 +1,7 @@
 <script type="text/javascript">    
 	$(document).ready(function () {
 
+        //JsTree init configuration
         function initJsTree() {
             $('#jstree').jstree({
                 'core' : {
@@ -19,24 +20,7 @@
             });
         };
 
-        $( "#sl_corebundle_search_submit" ).click(function() {
-            
-            if($.jstree.reference('#jstree') != "") {
-                initJsTree();
-            }
-            
-            $('#jstree').jstree(true).refresh();
-        });
-
-		$(document).on('submit', 'form', function(event) {
-            if($(this).attr('action') != "") {
-                $(this).find('button[type="submit"]').attr('disabled', true);
-                submitFormToAjaxFrontEnd($(this));
-            }
-            return false;
-        });
-
-
+        //JsTree on change event
         $('#jstree')
         .on('changed.jstree', function (e, data) {
             
@@ -51,10 +35,29 @@
 
             if($url != null && $url != '#' ) {
                 $target = '#backEndSection'; 
-                sendToAjax('POST', $url, null, $htmlTarget);                                
+                sendToAjaxFrontEnd('POST', $url, null, $htmlTarget);                                
             }
         })
 
+
+        //When click on search button
+        $( "#sl_corebundle_search_submit" ).click(function() {
+            
+            if($.jstree.reference('#jstree') != "") {
+                initJsTree();
+            }
+            
+            $('#jstree').jstree(true).refresh();
+        });
+
+        //When submit a form
+		$(document).on('submit', 'form', function(event) {
+            if($(this).attr('action') != "") {
+                $(this).find('button[type="submit"]').attr('disabled', true);
+                submitFormToAjaxFrontEnd($(this));
+            }
+            return false;
+        });
 
 		/**
 	     * Process submitted form by using ajax
@@ -121,13 +124,12 @@
          * @param String $htmlTarget Html section to modify after success
          *
          */
-        function sendToAjax($method, $url, $data, $htmlTarget) {
+        function sendToAjaxFrontEnd($method, $url, $data, $htmlTarget) {
             $.ajax({
                 type: $method,
                 url: $url,
                 data: $data,
                 success: function(data) {
-                    
                     $($htmlTarget).html(data);
                 },
                 error: function(data) {            
