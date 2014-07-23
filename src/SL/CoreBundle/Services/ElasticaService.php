@@ -128,116 +128,43 @@ class ElasticaService
     }
 
     /**
-     * Convert elastica result array to data for JSTree 
+     * Convert Doctrine Collection to JSTree data
      *
-     * @param array $array
-     *
-     * @return array $array
-     */
-    public function elasticSearchToJSTree(&$array) {
-
-        $iconTable = $this->getIconTable(); 
-        $this->arrayFormat($array, $iconTable); 
-
-        $keyToKeep = array('icon', 'a_attr', 'text', 'children', 'href');
-        $this->array_unset_recursive($array, $keyToKeep); 
-
-        return $array; 
-    }
-
-    /**
-     * Create an icon association array
-     *
-     * @return array $iconTable
-     */
-    private function getIconTable(){
-
-        $iconTable = array(); 
-
-        $objects = $this->em->getRepository('SLCoreBundle:Object')->findAll();
-
-        foreach($objects as $object) {
-            $iconTable[$object->getId()] = 'fa '.$object->getIcon(); 
-        }
-
-        return $iconTable; 
-    }
-
-    /**
-     * Convert elastica result array to data for JSTree 
-     *
-     * @param array $array
-     * @param array $iconTable
+     * @param array $data Result array
+     * @param DoctrineCollection $entities
      *
      * @return array $array
      */
-    private function arrayFormat(&$array, $iconTable)
-    {
-        if(is_array($array)){
+    public function EntitiesToJSTreeData(array &$data, $entities) {
 
-            foreach($array as $key=>&$value){ 
+        foreach($entities as $entity){
+            $object = $this->em->getRepository('SLCoreBundle:Object')->find($entity->getObjectId());
 
-                if(is_numeric($key)){
-                    $this->arrayFormat($value, $iconTable);
+            $node = array(); 
+            $node['text'] = $entity->getDisplayName(); 
+            $node['icon'] = 'fa '.$object->getIcon();
+            $node['a_attr'] = array(
+                'href' => $this->router->generate('front_show', array(
+                    'id' => $entity->getObjectId(),
+                    'entity_id' => $entity->getId(),
+                    )
+                )
+            );
+
+            $entityProperties = $this->em->getRepository('SLCoreBundle:Property')
+                                   ->findEntityPropertyByObject($object);
+
+            foreach($entityProperties as $entityProperty){
+
+                $collection = $entity->{"get".$entityProperty->getTechnicalName()}();
+
+                if($collection != null) {
+                    $node['children'] = array();  
+                    $this->EntitiesToJSTreeData($node['children'], $collection); 
                 }
-                else { 
-
-                    //Rename display_name key
-                    if($key == 'display_name') {
-                       
-                        $array['text'] = $value;
-                    }
-                    //Add href attribute
-                    elseif($key == 'object_id') {
-                        $array['a_attr'] = array(
-                            'href' => $this->router->generate('front_show', array(
-                                'id' => $array['object_id'],
-                                'entity_id' => $array['id'],
-                                )
-                            )
-                        );
-                    }
-                    //Children creation 
-                    elseif(is_array($array[$key]) && strpos($key, '_entity_property') !==false ) {
-
-                        if(!array_key_exists('children', $array)) {
-                            $array['children'] = array();  
-                        }
-
-                        foreach($value as &$subArray) {
-                            array_push($array['children'], $subArray); 
-                            $this->arrayFormat($array['children'], $iconTable);
-                        }
-                    }
-
-                    //Add icon key
-                    if(!array_key_exists('icon', $array)) {
-                        $array['icon'] = $iconTable[$array['object_id']]; 
-                    }
-                }
-            } 
-        }
-    }
-
-    /**
-     * Remove data from array
-     *
-     * @param array $array
-     * @param array $keyToKeep Array keys to keep
-     */
-    private function array_unset_recursive(&$array, $keyToKeep) {
-        
-        if (!is_array($keyToKeep)) {
-            $keyToKeep = array($keyToKeep);
-        }
-   
-        foreach ($array as $key => &$value) {
-            if (!in_array($key, $keyToKeep)) {
-                unset($array[$key]);
             }
-            else if (is_array($value)) {
-                $this->array_unset_recursive($value, $keyToKeep);
-            }
+
+            array_push($data, $node);
         }
     }
 }

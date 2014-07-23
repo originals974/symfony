@@ -1,8 +1,9 @@
 {% extends "SLCoreBundle::modalContent.html.twig" %}
 
 {% block modal_title %}
-	{% set title = form.vars.full_name ~ '.' ~ form.vars.method|lower ~ '.title' %}
-	{{ title|lower|trans}}
+	<h2>{{ form.vars.full_name|trans }} | <small>{{ form.vars.method|lower|trans}}</small></h2>
+	{#{% set title = form.vars.full_name ~ '.' ~ form.vars.method|lower ~ '.title' %}
+	{{ title|lower|trans}}#}
 {% endblock %}
 
 {% block modal_body %}

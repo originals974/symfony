@@ -1,10 +1,17 @@
 {# Global #}
 {{ 'technical_name.help'|trans }}
 {{ 'many'|trans }}
+{{ 'create'|trans }}
 {{ 'one'|trans }}
 {{ 'post'|trans }}
 {{ 'put'|trans }}
 {{ 'delete'|trans }}
+{{ 'object'|trans }}
+{{ 'data_list'|trans }}
+{{ 'data_list_value'|trans }}
+{{ 'property'|trans }}
+{{ 'entity_property'|trans }}
+{{ 'list_property'|trans }}
 
 {# Server #}
 {{ 'server.index.title'|trans }}
@@ -13,39 +20,25 @@
 {# Document #}
 {{ 'document.index.title'|trans }}
 {{ 'document.index.description'|trans }}
-{{ 'document.post.title'|trans }}
+{{ 'document.delete.message'|trans({'%displayName%': 'displayName'}) }}
 
 {# Object #}
 {{ 'object.index.title'|trans }}
 {{ 'object.index.description'|trans }}
-{{ 'object.post.title'|trans }}
-{{ 'object.put.title'|trans }}
-{{ 'object.delete.title'|trans }}
 {{ 'object.update.calculate_name.existing_name.help'|trans }}
+{{ 'object.delete.message'|trans({'%displayName%': 'displayName'}) }}
 
 {# Property #}
-{{ 'property.post.title'|trans }}
-{{ 'property.put.title'|trans }}
-{{ 'property.delete.title'|trans }}
-{{ 'entity_property.post.title'|trans }}
-{{ 'entity_property.put.title'|trans }}
-{{ 'entity_property.delete.title'|trans }}
-{{ 'list_property.post.title'|trans }}
-{{ 'list_property.put.title'|trans }}
-{{ 'list_property.delete.title'|trans }}
 {{ 'property.delete.message'|trans({'%displayName%': 'displayName'}) }}
 
 {# DataList #}
 {{ 'data_list.index.title'|trans }}
 {{ 'data_list.index.description'|trans }}
-{{ 'data_list.post.title'|trans }}
-{{ 'data_list.put.title'|trans }}
-{{ 'data_list.delete.title'|trans }}
 {{ 'data_list.delete.message'|trans({'%displayName%': 'displayName'}) }}
 
 {# DataListValue #}
 {{ 'data_list.index.title'|trans }}
-{{ 'data_list_value.post.title'|trans }}
-{{ 'data_list_value.put.title'|trans }}
-{{ 'data_list_value.delete.title'|trans }}
 {{ 'data_list_value.delete.message'|trans({'%displayName%': 'displayName'}) }}
+
+{# Front #}
+{{ 'front.delete.message'|trans({'%displayName%': 'displayName'}) }}

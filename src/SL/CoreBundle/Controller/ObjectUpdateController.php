@@ -129,7 +129,9 @@ class ObjectUpdateController extends Controller
     */
     private function createEditForm(Object $object)
     {    
-        $form = $this->createForm('object', $object, array(
+        $formType = ($object->isDocument())?'document':'object';
+        
+        $form = $this->createForm($formType, $object, array(
             'action' => $this->generateUrl('object_update', array('id' => $object->getId())),
             'method' => 'PUT',
             'submit_label' => 'update',

@@ -101,10 +101,6 @@ class DoctrineService
     {
         $mapping = array(); 
 
-        //Get property fields of the object
-        /*$object = $this->em->getRepository('SLCoreBundle:Object')
-                               ->findFullById($object->getId());*/
-
         //Create a mapping array
         foreach ($object->getProperties() as $property) {  
 
@@ -199,7 +195,7 @@ class DoctrineService
             $class->mapField(array('fieldName' => 'objectId', 'type' => 'integer'));
             $class->mapField(array('fieldName' => 'displayName', 'type' => 'string'));
             $class->setIdGeneratorType(ClassMetadataInfo::GENERATOR_TYPE_AUTO);
-            $class->setInheritanceType(ClassMetadataInfo::INHERITANCE_TYPE_SINGLE_TABLE);
+            $class->setInheritanceType(ClassMetadataInfo::INHERITANCE_TYPE_JOINED);
             $class->setDiscriminatorColumn(array(
                 'name' => 'discr',
                 'type' => 'string',

@@ -16,12 +16,12 @@ class PropertyChoiceType extends AbstractType
     {
         $builder
             ->add('formMode', 'choice', array(
-                'label'        => 'property.choice',
+                'label_render' => false,
                 'expanded'     => true,
                 'choices'      => array(
-                    'default' => 'default', 
-                    'entity' => 'entity',
-                    'data_list' => 'data_list',
+                    'default' => 'property', 
+                    'entity' => 'entity_property',
+                    'data_list' => 'list_property',
                     ),
                 'widget_type'  => 'inline',
             )

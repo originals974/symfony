@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2014-07-16T12:40:35Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+  <file date="2014-07-22T14:01:14Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -9,18 +9,8 @@
       <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
         <source></source>
         <target></target>
-        <jms:reference-file line="100">CoreBundle/Form/FrontType.php</jms:reference-file>
-        <jms:reference-file line="117">CoreBundle/Form/FrontType.php</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="8bb09ed25a3905b7cc5ffd56052c8d049d3242d3" resname="DataListValue.index.title">
-        <source>DataListValue.index.title</source>
-        <target>Liste de valeurs</target>
-        <jms:reference-file line="19">views/DataList/show.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="326b426f9ac7a96ed6baf62f8838565416d27df8" resname="actions">
-        <source>actions</source>
-        <target>Actions</target>
-        <jms:reference-file line="21">views/Front/_index.html.twig</jms:reference-file>
+        <jms:reference-file line="102">CoreBundle/Form/FrontType.php</jms:reference-file>
+        <jms:reference-file line="119">CoreBundle/Form/FrontType.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="38881670f3326f65a92d44dd702673cb44d4b199" resname="backEnd">
         <source>backEnd</source>
@@ -42,6 +32,11 @@
         <target>Fermer</target>
         <jms:reference-file line="12">Resources/views/errorModal.html.twig</jms:reference-file>
       </trans-unit>
+      <trans-unit id="9b7c68a918b17eb053809b198d7c9abfc142f30a" resname="create">
+        <source>create</source>
+        <target>Ajouter</target>
+        <jms:reference-file line="4">Resources/views/toTranslate.html.twig</jms:reference-file>
+      </trans-unit>
       <trans-unit id="a677a2de25317e848b8d138ff9dc670b59c19840" resname="dataListValue.create.description">
         <source>dataListValue.create.description</source>
         <target>Créer la première valeur de la liste</target>
@@ -50,66 +45,41 @@
       <trans-unit id="87e631beb9cd3c89fd77dff8e912dd92d29f97dc" resname="data_list">
         <source>data_list</source>
         <target>Liste</target>
-        <jms:reference-file line="24">CoreBundle/Form/PropertyChoiceType.php</jms:reference-file>
+        <jms:reference-file line="10">Resources/views/toTranslate.html.twig</jms:reference-file>
         <jms:reference-file line="31">CoreBundle/Form/ListPropertyType.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="261890ffe5b5dd2ce1b5ab220acc8c6662933660" resname="data_list.delete.message">
         <source>data_list.delete.message</source>
         <target>Etes-vous sûre de vouloir supprimer la liste "%displayName%" ?</target>
-        <jms:reference-file line="44">Resources/views/toTranslate.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="d3080fae5e2ed6faf00fcd46233b3bb5bfb1c390" resname="data_list.delete.title">
-        <source>data_list.delete.title</source>
-        <target>Supprimer la liste</target>
-        <jms:reference-file line="43">Resources/views/toTranslate.html.twig</jms:reference-file>
+        <jms:reference-file line="37">Resources/views/toTranslate.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="f02adcc855db74648b02be3a519f891a17ac1313" resname="data_list.index.description">
         <source>data_list.index.description</source>
         <target>Description des listes.</target>
-        <jms:reference-file line="40">Resources/views/toTranslate.html.twig</jms:reference-file>
+        <jms:reference-file line="36">Resources/views/toTranslate.html.twig</jms:reference-file>
         <jms:reference-file line="18">views/DataList/index.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="69389cb5a91b42a1d9c2907d37091e738ce4add7" resname="data_list.index.title">
         <source>data_list.index.title</source>
         <target>Les listes</target>
-        <jms:reference-file line="39">Resources/views/toTranslate.html.twig</jms:reference-file>
-        <jms:reference-file line="47">Resources/views/toTranslate.html.twig</jms:reference-file>
+        <jms:reference-file line="35">Resources/views/toTranslate.html.twig</jms:reference-file>
+        <jms:reference-file line="40">Resources/views/toTranslate.html.twig</jms:reference-file>
         <jms:reference-file line="14">views/DataList/index.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="d4f5c43a909a4ab26fe432881ddf2fee5a9f1a96" resname="data_list.post.title">
-        <source>data_list.post.title</source>
-        <target>Créer une liste</target>
-        <jms:reference-file line="41">Resources/views/toTranslate.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="62286a5754d303d43d1693176e3c64fd26b3815a" resname="data_list.put.title">
-        <source>data_list.put.title</source>
-        <target>Modifier la liste</target>
-        <jms:reference-file line="42">Resources/views/toTranslate.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="85b75e5979a4204e9f034fc119be2edf5e846f59" resname="data_list.relation.description">
         <source>data_list.relation.description</source>
         <target>L'objet "%current_object%" est lié à la liste "%linked_list%"</target>
         <jms:reference-file line="62">views/Property/propertyTable.html.twig</jms:reference-file>
       </trans-unit>
+      <trans-unit id="21fe4e938e172d09bcbac1be084bdc5ab658f75d" resname="data_list_value">
+        <source>data_list_value</source>
+        <target>Item</target>
+        <jms:reference-file line="11">Resources/views/toTranslate.html.twig</jms:reference-file>
+      </trans-unit>
       <trans-unit id="e98e4cfe9f5778fd48acf71c330f5adbd960a758" resname="data_list_value.delete.message">
         <source>data_list_value.delete.message</source>
-        <target>Etes-vous sûre de vouloir supprimer la valeur de liste "%displayName%" ?</target>
-        <jms:reference-file line="51">Resources/views/toTranslate.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="38ace5501822c62e621fe475d09092d674678145" resname="data_list_value.delete.title">
-        <source>data_list_value.delete.title</source>
-        <target>Supprimer la valeur de liste</target>
-        <jms:reference-file line="50">Resources/views/toTranslate.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="66ba4fd50df6525f6fc78a76c341587dcf71d589" resname="data_list_value.post.title">
-        <source>data_list_value.post.title</source>
-        <target>Créer une valeur de liste</target>
-        <jms:reference-file line="48">Resources/views/toTranslate.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="d9b1ca3beb541d9d01e29b10383913b638422ca6" resname="data_list_value.put.title">
-        <source>data_list_value.put.title</source>
-        <target>Modifier la valeur de liste</target>
-        <jms:reference-file line="49">Resources/views/toTranslate.html.twig</jms:reference-file>
+        <target>Etes-vous sûre de vouloir supprimer l'item "%displayName%" ?</target>
+        <jms:reference-file line="41">Resources/views/toTranslate.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="4f1a4dd59de8ebf0c6c6ee4018a5b64b23ee041f" resname="datalist.add">
         <source>datalist.add</source>
@@ -119,12 +89,12 @@
       <trans-unit id="05ca79c6e33863a830c4a45801e2110f94092594" resname="datalist.delete">
         <source>datalist.delete</source>
         <target>Supprimer une liste</target>
-        <jms:reference-file line="8">views/DataList/show.html.twig</jms:reference-file>
+        <jms:reference-file line="19">views/DataList/show.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="820b99b84d5ac719109295bde5d55856a1b4dd6c" resname="datalist.update">
         <source>datalist.update</source>
         <target>Modifier une liste</target>
-        <jms:reference-file line="5">views/DataList/show.html.twig</jms:reference-file>
+        <jms:reference-file line="16">views/DataList/show.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="c3afcb1e85411d8e683effd39440e3924f09f083" resname="datalistvalue.add">
         <source>datalistvalue.add</source>
@@ -152,47 +122,41 @@
         <target>Modifier une valeur</target>
         <jms:reference-file line="37">views/DataListValue/dataListValueTable.html.twig</jms:reference-file>
       </trans-unit>
-      <trans-unit id="7505d64a54e061b7acd54ccd58b49dc43500b635" resname="default">
-        <source>default</source>
-        <target>Simple</target>
-        <jms:reference-file line="22">CoreBundle/Form/PropertyChoiceType.php</jms:reference-file>
-      </trans-unit>
       <trans-unit id="9485989ff514b5106b7738850fd73c23e8c1e3f7" resname="delete">
         <source>delete</source>
         <target>Supprimer</target>
-        <jms:reference-file line="7">Resources/views/toTranslate.html.twig</jms:reference-file>
+        <jms:reference-file line="8">Resources/views/toTranslate.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="f196292178e2ac07d4f4e634d5a3613393da28cb" resname="delete.dataList.reference.error.message">
         <source>delete.dataList.reference.error.message</source>
         <target>Cette liste est définie en tant que propriété d'un objet ou d'un document.</target>
-        <jms:reference-file line="59">CoreBundle/Services/DataListService.php</jms:reference-file>
+        <jms:reference-file line="53">CoreBundle/Services/DataListService.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="86d059f7476d99616a1b30569e3aeda3df8fd4af" resname="delete.error.title">
         <source>delete.error.title</source>
         <target>Suppression impossible</target>
-        <jms:reference-file line="58">CoreBundle/Services/DataListService.php</jms:reference-file>
-        <jms:reference-file line="59">CoreBundle/Services/ObjectService.php</jms:reference-file>
-        <jms:reference-file line="131">CoreBundle/Services/PropertyService.php</jms:reference-file>
+        <jms:reference-file line="52">CoreBundle/Services/DataListService.php</jms:reference-file>
+        <jms:reference-file line="58">CoreBundle/Services/ObjectService.php</jms:reference-file>
+        <jms:reference-file line="125">CoreBundle/Services/PropertyService.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="c6e2d0c04d9ffda5de41c59f33c3b1ebe17d0ac2" resname="delete.object.reference.error.message">
         <source>delete.object.reference.error.message</source>
         <target>Cet objet est défini en tant que propriété d'un autre objet ou document.</target>
-        <jms:reference-file line="60">CoreBundle/Services/ObjectService.php</jms:reference-file>
+        <jms:reference-file line="59">CoreBundle/Services/ObjectService.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="30503239bd87a070dc371b00ae75b385c26a4c69" resname="delete.property.calculatedName.error.message">
         <source>delete.property.calculatedName.error.message</source>
         <target>Cette propriété est utilisée afin de définir le nom calculé de l'objet.</target>
-        <jms:reference-file line="132">CoreBundle/Services/PropertyService.php</jms:reference-file>
+        <jms:reference-file line="126">CoreBundle/Services/PropertyService.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="226e8ab97c399ef7e520a8c77ae9ce3fd60b449f" resname="displayName">
         <source>displayName</source>
         <target>Nom</target>
         <jms:reference-file line="20">views/Property/propertyTable.html.twig</jms:reference-file>
         <jms:reference-file line="19">views/DataListValue/dataListValueTable.html.twig</jms:reference-file>
-        <jms:reference-file line="17">views/Front/_index.html.twig</jms:reference-file>
         <jms:reference-file line="21">CoreBundle/Form/DataListType.php</jms:reference-file>
         <jms:reference-file line="21">CoreBundle/Form/DataListValueType.php</jms:reference-file>
-        <jms:reference-file line="26">CoreBundle/Form/ObjectType.php</jms:reference-file>
+        <jms:reference-file line="28">CoreBundle/Form/ObjectType.php</jms:reference-file>
         <jms:reference-file line="22">CoreBundle/Form/PropertyType.php</jms:reference-file>
         <jms:reference-file line="19">CoreBundle/Form/ListPropertyType.php</jms:reference-file>
         <jms:reference-file line="24">CoreBundle/Form/EntityPropertyType.php</jms:reference-file>
@@ -200,48 +164,39 @@
       <trans-unit id="4f8278c89ad16da05fec4fdfc61fe44798b92720" resname="document">
         <source>document</source>
         <target>Document</target>
-        <jms:reference-file line="135">CoreBundle/Menu/Builder.php</jms:reference-file>
+        <jms:reference-file line="169">CoreBundle/Menu/Builder.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="d4c4bb02872c60d5f79193c2d4d27a3289feaaa0" resname="document.delete.message">
+        <source>document.delete.message</source>
+        <target>Etes-vous sûre de vouloir supprimer le document "%displayName%" ?</target>
+        <jms:reference-file line="23">Resources/views/toTranslate.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="02f9c02aaf7725b7b9ee3318e8094a1c714ed320" resname="document.index.description">
         <source>document.index.description</source>
         <target>Description de la notion de document</target>
-        <jms:reference-file line="15">Resources/views/toTranslate.html.twig</jms:reference-file>
+        <jms:reference-file line="22">Resources/views/toTranslate.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="d72338a465dc834dbbfbb8a33c6fd41549fe65ab" resname="document.index.title">
         <source>document.index.title</source>
         <target>Les documents</target>
-        <jms:reference-file line="14">Resources/views/toTranslate.html.twig</jms:reference-file>
+        <jms:reference-file line="21">Resources/views/toTranslate.html.twig</jms:reference-file>
       </trans-unit>
-      <trans-unit id="604901136fc8e125a43580c56274adb315dcc9a1" resname="document.post.title">
-        <source>document.post.title</source>
-        <target>Créer un document</target>
-        <jms:reference-file line="16">Resources/views/toTranslate.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="e711631380ef1b422ae392db3ca08b8e061aea4e" resname="entity">
-        <source>entity</source>
-        <target>Objet</target>
+      <trans-unit id="bb5233df461e75b283c970d88877a8d98511de2c" resname="entity_property">
+        <source>entity_property</source>
+        <target>Liste d'objet</target>
+        <jms:reference-file line="13">Resources/views/toTranslate.html.twig</jms:reference-file>
         <jms:reference-file line="23">CoreBundle/Form/PropertyChoiceType.php</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="1678b923758b6214c9b5b5ec37aa18926126ce28" resname="entity_property.delete.title">
-        <source>entity_property.delete.title</source>
-        <target>Supprimer la propriété objet</target>
-        <jms:reference-file line="32">Resources/views/toTranslate.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="bf04bc99062c934936e8890f596042b00fa32fa9" resname="entity_property.post.title">
-        <source>entity_property.post.title</source>
-        <target>Créer une propriété objet</target>
-        <jms:reference-file line="30">Resources/views/toTranslate.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="8dd10b29139dd0b0c365a79342f97e8e776a1ba3" resname="entity_property.put.title">
-        <source>entity_property.put.title</source>
-        <target>Modifier la propriété objet</target>
-        <jms:reference-file line="31">Resources/views/toTranslate.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="1b4d1ebe7fded6042de92a7fea3685fc9c688b97" resname="fieldType">
         <source>fieldType</source>
         <target>Type de champ</target>
         <jms:reference-file line="21">views/Property/propertyTable.html.twig</jms:reference-file>
         <jms:reference-file line="38">CoreBundle/Form/PropertyType.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="59033f88c2402e50ee6022f2edd41f5059beb2c1" resname="front.delete.message">
+        <source>front.delete.message</source>
+        <target>Etes-vous sûre de vouloir supprimer "%displayName%" ?</target>
+        <jms:reference-file line="44">Resources/views/toTranslate.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="269781c7a623077b8f978983460ed49f6bf8da9b" resname="frontEnd">
         <source>frontEnd</source>
@@ -272,22 +227,13 @@
       <trans-unit id="38b62be4bddaa5661c7d6b8e36e28159314df5c7" resname="list">
         <source>list</source>
         <target> Liste</target>
-        <jms:reference-file line="180">CoreBundle/Menu/Builder.php</jms:reference-file>
+        <jms:reference-file line="207">CoreBundle/Menu/Builder.php</jms:reference-file>
       </trans-unit>
-      <trans-unit id="37cd5fdfb622cf369f5f94a938d2763fe0577c65" resname="list_property.delete.title">
-        <source>list_property.delete.title</source>
-        <target>Supprimer la propriété liste déroulante</target>
-        <jms:reference-file line="35">Resources/views/toTranslate.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="a75ff427bd0a6169adbebc9c1252f85ec3d0e798" resname="list_property.post.title">
-        <source>list_property.post.title</source>
-        <target>Créer une propriété liste déroulante</target>
-        <jms:reference-file line="33">Resources/views/toTranslate.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="4d90f04839d2be9d3dfb351df1bdec10ed691641" resname="list_property.put.title">
-        <source>list_property.put.title</source>
-        <target>Modifier la propriété liste déroulante</target>
-        <jms:reference-file line="34">Resources/views/toTranslate.html.twig</jms:reference-file>
+      <trans-unit id="aae3af5ad9a575b815e3ca8cb51cd602bdb80d85" resname="list_property">
+        <source>list_property</source>
+        <target>Liste déroulante</target>
+        <jms:reference-file line="14">Resources/views/toTranslate.html.twig</jms:reference-file>
+        <jms:reference-file line="24">CoreBundle/Form/PropertyChoiceType.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="3ef008cb431503d0febfe75bae4d782304e8e8dc" resname="main_application.name">
         <source>main_application.name</source>
@@ -300,37 +246,48 @@
         <target>plusieurs</target>
         <jms:reference-file line="3">Resources/views/toTranslate.html.twig</jms:reference-file>
       </trans-unit>
+      <trans-unit id="c722c4862c0a8e4cf1d229ac9617a45385c316d2" resname="menu.document.new">
+        <source>menu.document.new</source>
+        <target>Nouveau document</target>
+        <jms:reference-file line="28">views/FrontEnd/frontEnd.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="5b1fec7d60bcba1b4a5f30c10ca373f837f91f64" resname="menu.object.new">
+        <source>menu.object.new</source>
+        <target>Nouvel objet</target>
+        <jms:reference-file line="42">views/FrontEnd/frontEnd.html.twig</jms:reference-file>
+      </trans-unit>
       <trans-unit id="1615307cc4523f183e777df67f168c86908e8007" resname="object">
         <source>object</source>
         <target>  Objet</target>
-        <jms:reference-file line="159">CoreBundle/Menu/Builder.php</jms:reference-file>
+        <jms:reference-file line="9">Resources/views/toTranslate.html.twig</jms:reference-file>
+        <jms:reference-file line="190">CoreBundle/Menu/Builder.php</jms:reference-file>
         <jms:reference-file line="36">CoreBundle/Form/EntityPropertyType.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="d85c8fde52d117fcf0ff64609047a9399a14e565" resname="object.add">
         <source>object.add</source>
         <target>Ajouter un objet/document</target>
-        <jms:reference-file line="17">views/Object/show.html.twig</jms:reference-file>
+        <jms:reference-file line="26">views/Object/show.html.twig</jms:reference-file>
         <jms:reference-file line="19">views/Object/index.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="842c947e4b3a68231a0ead124293a9309445850f" resname="object.choose.icon">
         <source>object.choose.icon</source>
         <target>Changer l'icône d'un objet/document</target>
-        <jms:reference-file line="15">views/Object/show.html.twig</jms:reference-file>
+        <jms:reference-file line="24">views/Object/show.html.twig</jms:reference-file>
       </trans-unit>
-      <trans-unit id="a95d888ba367bf79abbb53808d158cedbd129a54" resname="object.delete.title">
-        <source>object.delete.title</source>
-        <target>Supprimer l'objet/le document</target>
-        <jms:reference-file line="23">Resources/views/toTranslate.html.twig</jms:reference-file>
+      <trans-unit id="a79fc368a09db555055b731bf2a675d41c5fd08a" resname="object.delete.message">
+        <source>object.delete.message</source>
+        <target>Etes-vous sûre de vouloir supprimer l'objet "%displayName%" ?</target>
+        <jms:reference-file line="29">Resources/views/toTranslate.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="27fdf13f61b33d35eeda8b17d2a8101b558c6f87" resname="object.index.description">
         <source>object.index.description</source>
         <target>Description concernant les objets</target>
-        <jms:reference-file line="20">Resources/views/toTranslate.html.twig</jms:reference-file>
+        <jms:reference-file line="27">Resources/views/toTranslate.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="f25b9ce1f81eb82487f1d9514ccdf1f3f11d37ae" resname="object.index.title">
         <source>object.index.title</source>
         <target>Les objets</target>
-        <jms:reference-file line="19">Resources/views/toTranslate.html.twig</jms:reference-file>
+        <jms:reference-file line="26">Resources/views/toTranslate.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="3a8371d2236ce6cadff008db29e98fd48909e4b0" resname="object.name.designer">
         <source>object.name.designer</source>
@@ -340,48 +297,39 @@
       <trans-unit id="8983a7c476d1e3390a3c97ccf9801df097861457" resname="object.parent">
         <source>object.parent</source>
         <target>Parent</target>
-        <jms:reference-file line="34">CoreBundle/Form/ObjectType.php</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="4f83d45549c3b7e6b9ba47fa6174ed3c8892a785" resname="object.post.title">
-        <source>object.post.title</source>
-        <target>Créer un objet/document</target>
-        <jms:reference-file line="21">Resources/views/toTranslate.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="7cdc8e0e9026f9444d28d5b7bf555e0174a857e2" resname="object.put.title">
-        <source>object.put.title</source>
-        <target>Modifier l'objet</target>
-        <jms:reference-file line="22">Resources/views/toTranslate.html.twig</jms:reference-file>
+        <jms:reference-file line="36">CoreBundle/Form/ObjectType.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="44947ed40c194b2985947032a3c95a9107585081" resname="object.update.calculate_name.existing_name.help">
         <source>object.update.calculate_name.existing_name.help</source>
         <target>Permet de mettre à jour le nom des objets déjà créés</target>
-        <jms:reference-file line="24">Resources/views/toTranslate.html.twig</jms:reference-file>
+        <jms:reference-file line="28">Resources/views/toTranslate.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="5a57e6a1d9cb23f75120ca5f1447ded37fbe2b36" resname="object.update.calculate_name.existing_name.label">
         <source>object.update.calculate_name.existing_name.label</source>
         <target>Forcer la mise à jour</target>
-        <jms:reference-file line="27">CoreBundle/Form/ObjectCalculatedNameType.php</jms:reference-file>
+        <jms:reference-file line="26">CoreBundle/Form/ObjectCalculatedNameType.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="fe05bcdcdc4928012781a5f1a2a77cbb5398e106" resname="one">
         <source>one</source>
         <target>un</target>
-        <jms:reference-file line="4">Resources/views/toTranslate.html.twig</jms:reference-file>
+        <jms:reference-file line="5">Resources/views/toTranslate.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="9b466094ec991a03cb95c489c19c4d75635f0ae5" resname="post">
         <source>post</source>
-        <target>Créer</target>
-        <jms:reference-file line="5">Resources/views/toTranslate.html.twig</jms:reference-file>
+        <target>Ajouter</target>
+        <jms:reference-file line="6">Resources/views/toTranslate.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="269fe3733d17108a2c6f28ff0aaeaf65f4705adc" resname="property">
+        <source>property</source>
+        <target>Propriété</target>
+        <jms:reference-file line="12">Resources/views/toTranslate.html.twig</jms:reference-file>
+        <jms:reference-file line="22">CoreBundle/Form/PropertyChoiceType.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="b763c4f2d5851af34d5eccb73007ac9d0e82dd88" resname="property.add">
         <source>property.add</source>
         <target>Ajouter une propriété</target>
         <jms:reference-file line="5">views/Property/propertyTable.html.twig</jms:reference-file>
         <jms:reference-file line="14">views/Property/propertyTable.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="06f586ef5e7b86b4dccbc68754a326a2a494e341" resname="property.choice">
-        <source>property.choice</source>
-        <target state="new">property.choice</target>
-        <jms:reference-file line="19">CoreBundle/Form/PropertyChoiceType.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="cb529b6b8930e7828352cd4ee2c6128bdd825975" resname="property.create.description">
         <source>property.create.description</source>
@@ -396,12 +344,7 @@
       <trans-unit id="6c2203ad794b07641a5f0e495ab643df6beedf4a" resname="property.delete.message">
         <source>property.delete.message</source>
         <target>Etes-vous sûre de vouloir supprimer la propriété "%displayName%" ?</target>
-        <jms:reference-file line="36">Resources/views/toTranslate.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="68b418501455ebdfb7ba160b468a7d4c62710bb6" resname="property.delete.title">
-        <source>property.delete.title</source>
-        <target>Supprimer la propriété</target>
-        <jms:reference-file line="29">Resources/views/toTranslate.html.twig</jms:reference-file>
+        <jms:reference-file line="32">Resources/views/toTranslate.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="5bd154ecc991906ec538e02571e60e3b8ed18a54" resname="property.enable.disable">
         <source>property.enable.disable</source>
@@ -412,16 +355,6 @@
         <source>property.make.require</source>
         <target>Saisie obligatoire/facultative</target>
         <jms:reference-file line="37">views/Property/propertyTable.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="ca1fa50921b5b3058ee5571b07c073bb412851cb" resname="property.post.title">
-        <source>property.post.title</source>
-        <target>Créer une propriété</target>
-        <jms:reference-file line="27">Resources/views/toTranslate.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="f304fb5e10f1a81404b3d5bc442d5a86e4d912da" resname="property.put.title">
-        <source>property.put.title</source>
-        <target>Modifier la propriété</target>
-        <jms:reference-file line="28">Resources/views/toTranslate.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="b4e2207288ff9aa8841f62e3b76b877191a6366f" resname="property.relation.description">
         <source>property.relation.description</source>
@@ -436,7 +369,7 @@
       <trans-unit id="132aeadf736728a3f874cd17615dda27830e8cbd" resname="put">
         <source>put</source>
         <target>Modifier</target>
-        <jms:reference-file line="6">Resources/views/toTranslate.html.twig</jms:reference-file>
+        <jms:reference-file line="7">Resources/views/toTranslate.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="2d5badbd08164337ad2dcfead2e34faf2fa9e576" resname="relation">
         <source>relation</source>
@@ -446,24 +379,24 @@
       <trans-unit id="3559d7accf00360971961ca18989adc0614089c0" resname="search">
         <source>search</source>
         <target>Rechercher</target>
-        <jms:reference-file line="20">CoreBundle/Form/SearchType.php</jms:reference-file>
+        <jms:reference-file line="25">CoreBundle/Form/SearchType.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="3de4f901fffb30ac720b0e7eb654b4faa2dd03fa" resname="server">
         <source>server</source>
         <target>Serveur</target>
-        <jms:reference-file line="120">CoreBundle/Menu/Builder.php</jms:reference-file>
+        <jms:reference-file line="154">CoreBundle/Menu/Builder.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="37f590630de5477133bfaae5e4553d90bf6a37e0" resname="server.index.description">
         <source>server.index.description</source>
         <target>Description concernant le serveur d'application</target>
         <jms:reference-file line="13">views/Server/index.html.twig</jms:reference-file>
-        <jms:reference-file line="11">Resources/views/toTranslate.html.twig</jms:reference-file>
+        <jms:reference-file line="18">Resources/views/toTranslate.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="2179d64d1e98f6f1cf97d4443e5c24bf60e49448" resname="server.index.title">
         <source>server.index.title</source>
         <target>Le serveur d'application</target>
         <jms:reference-file line="9">views/Server/index.html.twig</jms:reference-file>
-        <jms:reference-file line="10">Resources/views/toTranslate.html.twig</jms:reference-file>
+        <jms:reference-file line="17">Resources/views/toTranslate.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="210911297cd02eda511fe0cd22029a9471a0b3a3" resname="technical_name.help">
         <source>technical_name.help</source>
@@ -472,8 +405,8 @@
       </trans-unit>
       <trans-unit id="0a25ba5991316bdda4a9b3abcee2106016df28a0" resname="update">
         <source>update</source>
-        <target>Mettre à jour</target>
-        <jms:reference-file line="34">CoreBundle/Form/ObjectCalculatedNameType.php</jms:reference-file>
+        <target>Modifier</target>
+        <jms:reference-file line="33">CoreBundle/Form/ObjectCalculatedNameType.php</jms:reference-file>
       </trans-unit>
     </body>
   </file>

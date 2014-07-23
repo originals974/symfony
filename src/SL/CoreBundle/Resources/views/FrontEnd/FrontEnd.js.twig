@@ -87,19 +87,18 @@
                          //Get the modal id  
                         modalId = '#'+$($form).parent().parent().attr('id');
 
-                        //Get selected node
-                        jsTree = $('#jstree').jstree(true);
-                        selectedNode = jsTree.get_selected();  
-                        reSelectedNode = jsTree.get_node(selectedNode);  
+                        jsTree = $('#jstree').jstree(true);  
 
                         if(method.toUpperCase() == 'PUT') {
+                            selectedNode = jsTree.get_selected();  
+                            reSelectedNode = jsTree.get_node(selectedNode);
+
                             jsTree.rename_node(selectedNode, data.content);
                             jsTree.deselect_node(selectedNode);
                             jsTree.select_node(reSelectedNode);
                         }
                         else if(method.toUpperCase() == 'DELETE') {
-                            //Delete selected node
-                            jsTree.delete_node(selectedNode);
+                            jsTree.delete_node(jsTree.get_selected());
                         }
 
                         //Close the modal

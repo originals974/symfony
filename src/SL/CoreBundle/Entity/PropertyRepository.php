@@ -60,17 +60,35 @@ class PropertyRepository extends EntityRepository
 	 */
 	public function findEnabledByObject(Object $object){
     
-    $qb = $this ->createQueryBuilder('p')
-                ->leftJoin('p.fieldType', 'ft')
-                ->leftJoin('p.object', 'o')
-                ->where('o.id = :id')
-                ->setParameter('id', $object->getId())
-                ->andWhere('p.isEnabled = true')
-                ->addSelect('ft')
-                ->orderBy('p.displayOrder', 'ASC');
+	    $qb = $this ->createQueryBuilder('p')
+	                ->leftJoin('p.fieldType', 'ft')
+	                ->leftJoin('p.object', 'o')
+	                ->where('o.id = :id')
+	                ->setParameter('id', $object->getId())
+	                ->andWhere('p.isEnabled = true')
+	                ->addSelect('ft')
+	                ->orderBy('p.displayOrder', 'ASC');
 
-    return $qb->getQuery()
-              ->getResult();
+	    return $qb->getQuery()
+	              ->getResult();
   	}
+
+  	public function findEntityPropertyByObject(Object $object){
+
+  		/*$query = $em->createQuery("SELECT p 
+  			FROM SL\CoreBundle\Property p 
+  			WHERE p INSTANCE OF SL\CoreBundle\EntityProperty AND p.object ");
+		
+		return $query->getResult();*/
+
+		$qb = $this ->createQueryBuilder('p')
+					->join('p.object', 'o')
+					->where('p INSTANCE OF SLCoreBundle:EntityProperty')
+					->andWhere('o.id = :id')
+					->setParameter('id', $object->getId());
+
+		return $qb->getQuery()
+	              ->getResult();
+	}
 }
 

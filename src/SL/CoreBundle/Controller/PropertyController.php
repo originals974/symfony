@@ -121,7 +121,6 @@ class PropertyController extends Controller
     {
         $property = $this->propertyService->getPropertyObjectByFormMode($formMode); 
         $property->setObject($object);
-        //$object->addProperty($property);
 
         $formArray = $this->createCreateForm($object, $property, $formMode);
         $formChoice = $formArray['choiceForm'];
@@ -444,7 +443,7 @@ class PropertyController extends Controller
             $this->em->flush();
 
             if($name == 'isRequired') {
-                 //Update database schema
+                //Update database schema
                 $this->doctrineService->doctrineGenerateEntityFileByObject($property->getObject());  
                 $this->doctrineService->doctrineSchemaUpdateForce();
             }

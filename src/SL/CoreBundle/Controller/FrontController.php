@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Doctrine\ORM\EntityManager;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 
 //Custom classes
@@ -21,7 +22,6 @@ use SL\CoreBundle\Services\ObjectService;
  */
 class FrontController extends Controller
 {
-    private $registry; 
     private $em;
     private $databaseEm;
     private $doctrineService;
@@ -29,7 +29,7 @@ class FrontController extends Controller
 
     /**
      * @DI\InjectParams({
-     *     "em" = @DI\Inject("doctrine"),
+     *     "registry" = @DI\Inject("doctrine"),
      *     "doctrineService" = @DI\Inject("sl_core.doctrine"),
      *     "objectService" = @DI\Inject("sl_core.object")
      * })
@@ -85,7 +85,7 @@ class FrontController extends Controller
                 $entity->setDisplayName($displayName); 
 
                 $entity->setObjectId($object->getId()); 
-                
+               
                 $this->databaseEm->persist($entity);
                 $this->databaseEm->flush();
 
@@ -184,6 +184,8 @@ class FrontController extends Controller
                 //Calculate displayName value
                 $displayName = $this->objectService->calculateDisplayName($entity, $object);
                 $entity->setDisplayName($displayName); 
+
+                 //var_dump($entity->getEntityProperty27());
 
                 $this->databaseEm->flush();
 
@@ -287,8 +289,9 @@ class FrontController extends Controller
   
         $form = $this->createDeleteForm($object, $entity);
 
-        return $this->render('SLCoreBundle::save.html.twig', array(
-            'entity' => $object,
+        return $this->render('SLCoreBundle:Front:save.html.twig', array(
+            'entity' => $entity,
+            'object' => $object,
             'form'   => $form->createView(),
             )
         );

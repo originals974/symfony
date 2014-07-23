@@ -49,17 +49,15 @@ class SearchController extends Controller
 
             if($pattern != "") {
 
-                $elasticaResultsSet = $this->type->search($pattern);
+                $type = $this->get("fos_elastica.finder.slcore.Object20"); 
 
-                $elasticaResults = $elasticaResultsSet->getResults();
+                $entities = $type->find($pattern);
+                    
+                $data = array();             
+                $this->elasticaService->EntitiesToJSTreeData($data, $entities);
 
-                foreach ($elasticaResults as $elasticaResult) {
-                    $elasticaResultArray = $elasticaResult->getData(); 
-                    $this->elasticaService->elasticSearchToJSTree($elasticaResultArray);
-                    array_push($data, $elasticaResultArray);
-                }
             }
-
+            
             $response = new JsonResponse($data);
         }
         else {

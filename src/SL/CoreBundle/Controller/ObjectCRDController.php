@@ -184,14 +184,16 @@ class ObjectCRDController extends Controller
             $disabledParentField = false; 
         }
 
-        $form = $this->createForm('object', $object, array(
+        $formType = ($object->isDocument())?'document':'object';
+
+        $form = $this->createForm($formType, $object, array(
             'action' => $this->generateUrl('object_create', array(
                 'isDocument' => $object->isDocument(),
                 'id' =>  ( $parentObject != null)?$parentObject->getId():0,
                 )
             ),
             'method' => 'POST',
-            'submit_label' => 'form.submit.create',
+            'submit_label' => 'create',
             'submit_color' => 'primary',
             'disabled_parent_field' => $disabledParentField,
             'object' => $object
@@ -313,7 +315,9 @@ class ObjectCRDController extends Controller
      */
     private function createDeleteForm(Object $object)
     {
-        $form = $this->createForm('object', $object, array(
+        $formType = ($object->isDocument())?'document':'object';
+        
+        $form = $this->createForm($formType, $object, array(
             'action' => $this->generateUrl('object_delete', array('id' => $object->getId())),
             'method' => 'DELETE',
             'submit_label' => 'delete',
