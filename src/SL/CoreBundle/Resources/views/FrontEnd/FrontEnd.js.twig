@@ -1,53 +1,75 @@
 <script type="text/javascript">    
 	$(document).ready(function () {
+        
+        var currentJsTreeReferenceId; 
 
         //JsTree init configuration
-        function initJsTree() {
-            $('#jstree').jstree({
+        function initJsTree(jsTreeReferenceId, objectTechnicalName) {
+            $(jsTreeReferenceId)
+            .jstree({
                 'core' : {
                     "check_callback" : true,
                     "multiple" : false,
                     'data' : {
                         'url' :  function (node) {
-                                        var $pattern = $('#sl_corebundle_search_searchField').val(); 
-                                        return Routing.generate('search_process', { pattern : $pattern});
+                                        var pattern; 
+                                        pattern = $('#sl_corebundle_search_searchField').val(); 
+                                        return Routing.generate('search_result', { pattern : pattern, objectTechnicalName : objectTechnicalName });
                         },
                         'data' : function (data) {
                             return data;
                         }
                     }
+                },
+                "plugins" : [ "wholerow" ],
+            })
+            .on('changed.jstree', function (e, data) {
+        
+                var $htmlTarget, i, j;
+
+                currentJsTreeReferenceId = e.currentTarget.id; 
+
+                $htmlTarget = '#features_panel_body'; 
+                $($htmlTarget).html(null);
+
+                for(i = 0, j = data.selected.length; i < j; i++) {
+                    var $url = data.instance.get_node(data.selected[0]).a_attr['href']; 
+                }
+
+                if($url != null && $url != '#' ) {
+                    sendToAjaxFrontEnd('POST', $url, null, $htmlTarget);                                
                 }
             });
         };
 
-        //JsTree on change event
-        $('#jstree')
-        .on('changed.jstree', function (e, data) {
-            
-            var $htmlTarget, i, j;
-
-            $htmlTarget = '#features_panel_body'; 
-            $($htmlTarget).html(null);
-
-            for(i = 0, j = data.selected.length; i < j; i++) {
-                var $url = data.instance.get_node(data.selected[0]).a_attr['href']; 
-            }
-
-            if($url != null && $url != '#' ) {
-                $target = '#backEndSection'; 
-                sendToAjaxFrontEnd('POST', $url, null, $htmlTarget);                                
-            }
-        })
-
-
         //When click on search button
         $( "#sl_corebundle_search_submit" ).click(function() {
-            
-            if($.jstree.reference('#jstree') != "") {
-                initJsTree();
-            }
-            
-            $('#jstree').jstree(true).refresh();
+            var objects, jsTreeReferenceId, objectsTechnicalName; 
+
+            $.ajax({
+                type: 'POST',
+                url: Routing.generate('search'),
+                dataType : "json",  
+                success: function(data) {
+                    $('#search_result').html(data.html);
+
+                    objectsTechnicalName = data.objectsTechnicalName;
+
+                    for (var key in objectsTechnicalName){
+                        jsTreeReferenceId = '#jstree_'+objectsTechnicalName[key];
+
+                        if($.jstree.reference(jsTreeReferenceId) != "") {
+                            initJsTree(jsTreeReferenceId, objectsTechnicalName[key]);
+                        }
+
+                        $(jsTreeReferenceId).jstree(true).refresh();
+                    }
+                },
+                error: function(data) {            
+                    alert('error');
+                }
+            }); 
+
         });
 
         //When submit a form
@@ -84,10 +106,9 @@
                 success: function(data) {
                 	if(data.isValid) {
 
-                         //Get the modal id  
+                        //Get the modal id  
                         modalId = '#'+$($form).parent().parent().attr('id');
-
-                        jsTree = $('#jstree').jstree(true);  
+                        jsTree = $('#'+currentJsTreeReferenceId).jstree(true); 
 
                         if(method.toUpperCase() == 'PUT') {
                             selectedNode = jsTree.get_selected();  

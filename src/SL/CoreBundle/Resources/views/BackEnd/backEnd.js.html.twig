@@ -31,7 +31,6 @@
 		    },
 		    "dnd" : { 
 		    	"is_draggable" : function (data) { 
-		    		console.log(data);
 		    		return false; 
 		    	},
 				"copy" : false ,
@@ -39,7 +38,7 @@
 			"state" : { 
 				"key" : "lateralBackEndMenu" ,
 			},
-    		"plugins" : [ "state", "dnd" ],
+    		"plugins" : [ "state", "dnd", "wholerow" ],
 		});
 
 		//When submit a form
@@ -83,6 +82,7 @@
             				//Get selected node
             				jsTree = $('#jstree').jstree(true);
             				selectedNode = jsTree.get_selected();  
+            				
 
             				if(method.toUpperCase() == 'POST') {
 
@@ -94,9 +94,28 @@
 								jsTree.select_node(newNode); 
 							}
 							else if(method.toUpperCase() == 'PUT') {
-			            		jsTree.rename_node(selectedNode, data.content.js_tree);
+
+								//If we have to change parent node
+								if(data.content.js_tree.new_parent_id != null){ 
+									jsTree.move_node(selectedNode, data.content.js_tree.new_parent_id); 
+									jsTree.rename_node(selectedNode, data.content.js_tree.new_name);
+								}
+								else{
+									jsTree.rename_node(selectedNode, data.content.js_tree);
+								}
 			            	}
 			            	else if(method.toUpperCase() == 'DELETE') {
+
+			            		//If we have to change parent node
+								if(data.content.js_tree == 'change_parent'){ 
+			            			jsTree.open_node(selectedNode);
+			            			childrenNode = jsTree.get_children_dom(selectedNode);
+			            			parentNode = jsTree.get_parent(selectedNode);
+
+			            			$.each(childrenNode, function(key, value){
+			            				jsTree.move_node($(value).attr('id'), parentNode); 
+			            			});				            		
+				            	}
 			            		jsTree.delete_node(selectedNode); 
 			            	}
             			}

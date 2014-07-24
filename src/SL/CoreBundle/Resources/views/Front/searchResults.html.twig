@@ -1,0 +1,18 @@
+<div class="panel-group" id="search_result_panel">
+  {% for object in objects %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#search_result_panel" href="#{{ object.technicalName }}">
+            {{ object.displayName }}
+          </a>
+        </h4>
+      </div>
+      <div id="{{ object.technicalName }}" class="panel-collapse collapse">
+        <div class="panel-body">
+          <div id="jstree_{{ object.technicalName }}"></div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>

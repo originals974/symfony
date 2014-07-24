@@ -1021,16 +1021,16 @@
         },
         {
             "name": "friendsofsymfony/elastica-bundle",
-            "version": "v3.0.0",
+            "version": "v3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSElasticaBundle.git",
-                "reference": "d88d96bf55a1ba6b603d429d9bf6a217d945b1c5"
+                "reference": "9fbc622929c1ce4461a945277dc4566768a13975"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSElasticaBundle/zipball/d88d96bf55a1ba6b603d429d9bf6a217d945b1c5",
-                "reference": "d88d96bf55a1ba6b603d429d9bf6a217d945b1c5",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSElasticaBundle/zipball/9fbc622929c1ce4461a945277dc4566768a13975",
+                "reference": "9fbc622929c1ce4461a945277dc4566768a13975",
                 "shasum": ""
             },
             "require": {
@@ -1085,17 +1085,16 @@
                     "email": "tim@nagel.com.au"
                 },
                 {
-                    "name": "Jeremy Mikola",
-                    "email": "jmikola@gmail.com",
-                    "homepage": "http://jmikola.net"
-                },
-                {
                     "name": "Richard Miller",
                     "email": "richard.miller@limethinking.co.uk"
                 },
                 {
                     "name": "FriendsOfSymfony Community",
                     "homepage": "https://github.com/FriendsOfSymfony/FOSElasticaBundle/contributors"
+                },
+                {
+                    "name": "Jeremy Mikola",
+                    "email": "jmikola@gmail.com"
                 }
             ],
             "description": "Elasticsearch PHP integration for your Symfony2 project using Elastica",
@@ -1108,7 +1107,7 @@
                 "propel",
                 "search"
             ],
-            "time": "2014-07-04 12:10:24"
+            "time": "2014-07-23 10:06:33"
         },
         {
             "name": "friendsofsymfony/jsrouting-bundle",
@@ -3405,12 +3404,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twbs/bootstrap.git",
-                "reference": "a035ee59ae73510ebdb1064e59b4b16f1da9fc66"
+                "reference": "36483af92c2d0be97aa86f16ffcf5f67abf2ed11"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/a035ee59ae73510ebdb1064e59b4b16f1da9fc66",
-                "reference": "a035ee59ae73510ebdb1064e59b4b16f1da9fc66",
+                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/36483af92c2d0be97aa86f16ffcf5f67abf2ed11",
+                "reference": "36483af92c2d0be97aa86f16ffcf5f67abf2ed11",
                 "shasum": ""
             },
             "replace": {
@@ -3448,7 +3447,7 @@
                 "responsive",
                 "web"
             ],
-            "time": "2014-07-20 05:11:07"
+            "time": "2014-07-22 05:48:38"
         },
         {
             "name": "twig/extensions",

@@ -266,6 +266,10 @@ class ObjectCRDController extends Controller
     {
         if ($request->isXmlHttpRequest()) {
 
+            /*$jsTree = array(
+                'new_parent_id' => $object->getParent()->getTechnicalName(),
+            );*/
+
             //Remove all properties of deleted object
             foreach ($object->getProperties() as $property) {
                 $this->em->remove($property); 
@@ -293,7 +297,7 @@ class ObjectCRDController extends Controller
                 'isValid' => true,
                 'content' => array(
                     'html' => null,
-                    'js_tree' => 'delete',
+                    'js_tree' => 'change_parent',
                     ),
                 );
  

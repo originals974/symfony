@@ -247,7 +247,9 @@ mopa_bootstrap:
 #Genmenu
 genemu_form:
     select2: ~
-    date: ~
+    date:
+        enabled: true
+        configs: { changeMonth: true, changeYear: true}
     tinymce: ~
 
 #JMSTranslation Configuration
@@ -293,31 +295,24 @@ fos_elastica:
                         provider: ~
                         listener: ~
                         finder: ~
-                Object16:
-                    persistence:
-                        driver: orm
-                        model:  SL\DataBundle\Entity\Object16
-                        provider: ~
-                        listener: ~
-                        finder: ~
-                Object17:
-                    persistence:
-                        driver: orm
-                        model:  SL\DataBundle\Entity\Object17
-                        provider: ~
-                        listener: ~
-                        finder: ~
-                Object18:
-                    persistence:
-                        driver: orm
-                        model:  SL\DataBundle\Entity\Object18
-                        provider: ~
-                        listener: ~
-                        finder: ~
                 Object20:
                     persistence:
                         driver: orm
                         model:  SL\DataBundle\Entity\Object20
+                        provider: ~
+                        listener: ~
+                        finder: ~
+                Object23:
+                    persistence:
+                        driver: orm
+                        model:  SL\DataBundle\Entity\Object23
+                        provider: ~
+                        listener: ~
+                        finder: ~
+                Object29:
+                    persistence:
+                        driver: orm
+                        model:  SL\DataBundle\Entity\Object29
                         provider: ~
                         listener: ~
                         finder: ~

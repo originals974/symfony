@@ -184,9 +184,6 @@ class FrontController extends Controller
                 //Calculate displayName value
                 $displayName = $this->objectService->calculateDisplayName($entity, $object);
                 $entity->setDisplayName($displayName); 
-
-                 //var_dump($entity->getEntityProperty27());
-
                 $this->databaseEm->flush();
 
                 $content = $displayName; 

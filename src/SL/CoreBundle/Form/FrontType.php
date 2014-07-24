@@ -34,8 +34,6 @@ class FrontType extends AbstractType
     {
         if($options['method'] != 'DELETE'){
             $objects = $this->em->getRepository('SLCoreBundle:Object')->getPath($options['object']); 
-            $lastObject = array_pop($objects); 
-            array_unshift($objects, $lastObject); 
 
             foreach($objects as $object){
                 //Create one tab per object
@@ -135,7 +133,7 @@ class FrontType extends AbstractType
 
                 if($dataListValues) {
                     foreach($dataListValues as $dataListValue){
-                        $choice[$dataListValue->getTechnicalName()] = $dataListValue->getDisplayName();
+                        $choice[$dataListValue->getDisplayName()] = $dataListValue->getDisplayName();
                     }
 
                     $formFieldOptions['choices'] = $choice;

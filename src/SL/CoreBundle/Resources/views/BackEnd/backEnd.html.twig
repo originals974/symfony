@@ -19,9 +19,23 @@
 
 {% block nav %}
 	{{ parent() }}
-	<div id="jstree" class="well">
-		{{ mopa_bootstrap_menu('SLCoreBundle:Builder:lateralBackEndMenu') }}
+	<div class="panel-full-screen panel panel panel-default">
+  		<div class="panel-body">
+			<div id="jstree">
+				{{ mopa_bootstrap_menu('SLCoreBundle:Builder:lateralBackEndMenu') }}
+			</div>
+		</div>
 	</div>
+{% endblock %}
+
+{% block sections %}
+    {{ parent() }}
+    <div class="panel-full-screen panel panel-default">
+  		<div class="panel-body">
+    		<section id="backEndSection">
+    		</section>
+    	</div>
+    </div>
 {% endblock %}
 
 {% block footer %}

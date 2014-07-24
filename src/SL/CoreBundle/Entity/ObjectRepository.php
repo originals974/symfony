@@ -35,7 +35,7 @@ class ObjectRepository extends NestedTreeRepository
   /**
    * Select all active objects and properties 
    */
-  public function findAllActiveObjects(){
+  public function findAllEnabledObjects(){
     
     $qb = $this->createQueryBuilder('o');
     $qb = $this ->findFullAll($qb)
@@ -63,7 +63,7 @@ class ObjectRepository extends NestedTreeRepository
   /**
    * Select all active documents and properties 
    */
-  public function findAllActiveDocuments(){
+  public function findAllEnabledDocuments(){
     
     $qb = $this->createQueryBuilder('o');
     $qb = $this->findFullAll($qb)
@@ -123,7 +123,7 @@ class ObjectRepository extends NestedTreeRepository
 
 	}
 
-   /**
+  /**
    * Select potential parent object
    *
    * @param Object $object Child object

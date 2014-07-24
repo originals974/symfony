@@ -73,13 +73,12 @@ class PropertyRepository extends EntityRepository
 	              ->getResult();
   	}
 
+  	/**
+	 * Select only entity property of an object
+	 *
+	 * @param Object $object 
+	 */
   	public function findEntityPropertyByObject(Object $object){
-
-  		/*$query = $em->createQuery("SELECT p 
-  			FROM SL\CoreBundle\Property p 
-  			WHERE p INSTANCE OF SL\CoreBundle\EntityProperty AND p.object ");
-		
-		return $query->getResult();*/
 
 		$qb = $this ->createQueryBuilder('p')
 					->join('p.object', 'o')

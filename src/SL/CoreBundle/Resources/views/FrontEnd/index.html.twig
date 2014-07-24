@@ -9,7 +9,7 @@
 
 	<div class="row">
         <!--Search section-->
-        <section class="col-lg-6">
+        <section class="col-lg-7">
 			{% set panelClass = 'panel panel-default' %}
 
 			{% embed 'SLCoreBundle::sectionSkeleton.html.twig' with {
@@ -30,17 +30,19 @@
 			    {% endblock %}
 
 			    {% block section_body %}
-			      	<div class="row">
-						<div id="jstree"></div>
-					</div>
+			    	<div id="search_result"></div>
 			    {% endblock %}
 
 			{% endembed %}
 		</section>
 
 		<!--Tool section-->
-        <section class="col-lg-6">
-            <div id="features_panel_body"> </div>
+        <section class="col-lg-5">
+        	<div class="panel-full-screen panel panel panel-default">
+  				<div class="panel-body">
+            		<div id="features_panel_body"> </div>
+            	</div>
+            </div>
         </section>
 	</div>
 {% endblock %}

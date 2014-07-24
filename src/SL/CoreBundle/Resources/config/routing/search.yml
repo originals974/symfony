@@ -1,5 +1,11 @@
-search_process:
-    pattern:  /process
-    defaults: { _controller: SLCoreBundle:Search:Process }
+search:
+    pattern:  /
+    defaults: { _controller: SLCoreBundle:Search:search }
+    options:
+        expose: true
+
+search_result:
+    pattern:  /search_result/{pattern}.{objectTechnicalName}
+    defaults: { _controller: SLCoreBundle:Search:createJsTreeSearchResults }
     options:
         expose: true

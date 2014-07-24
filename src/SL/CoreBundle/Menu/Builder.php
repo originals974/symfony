@@ -69,7 +69,7 @@ class Builder extends ContainerAware
             )
         );
 
-        $objects = $em->getRepository('SLCoreBundle:Object')->findAllActiveObjects();
+        $objects = $em->getRepository('SLCoreBundle:Object')->findAllEnabledObjects();
 
         $menu = $this->addFrontChildrenObjectItems($menu, $objects);
 
@@ -94,7 +94,7 @@ class Builder extends ContainerAware
             )
         );
 
-        $documents = $em->getRepository('SLCoreBundle:Object')->findAllActiveDocuments();
+        $documents = $em->getRepository('SLCoreBundle:Object')->findAllEnabledDocuments();
 
         $menu = $this->addFrontChildrenObjectItems($menu, $documents);
  
