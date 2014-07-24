@@ -40,7 +40,7 @@ class SearchController extends Controller
     }
 
     /**
-    * Search Action
+    * Display search results
     */
     public function searchAction(Request $request) {
        
