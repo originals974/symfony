@@ -9,6 +9,7 @@ use Symfony\Component\Yaml\Dumper;
 
 //Custom classes
 use SL\CoreBundle\Entity\Object;
+use SL\CoreBundle\Services\JSTreeService;
 
 /**
  * ElasticaService
@@ -17,9 +18,10 @@ use SL\CoreBundle\Entity\Object;
 class ElasticaService
 {
     private $em;
+    private $router;
+    private $jsTreeService;
     private $bundlePath;
     private $configPath; 
-    private $router; 
 
     /**
      * Constructor
@@ -29,10 +31,11 @@ class ElasticaService
      * @param String $bundlePath
      * @param String $configPath   
      */
-    public function __construct(EntityManager $em, Router $router, $bundlePath, $configPath)
+    public function __construct(EntityManager $em, Router $router, JSTreeService $jsTreeService, $bundlePath, $configPath)
     {
         $this->em = $em; 
         $this->router = $router; 
+        $this->jsTreeService = $jsTreeService; 
         $this->bundlePath = str_replace("/","\\",$bundlePath);
         $this->configPath = $configPath;
     }
@@ -138,33 +141,54 @@ class ElasticaService
     public function EntitiesToJSTreeData(array &$data, $entities) {
 
         foreach($entities as $entity){
-            $object = $this->em->getRepository('SLCoreBundle:Object')->find($entity->getObjectId());
+            $this->EntitieToJSTreeData($data, $entity);
+        }
+    }
 
-            $node = array(); 
-            $node['text'] = $entity->getDisplayName(); 
-            $node['icon'] = 'fa '.$object->getIcon();
-            $node['a_attr'] = array(
-                'href' => $this->router->generate('front_show', array(
-                    'id' => $entity->getObjectId(),
-                    'entity_id' => $entity->getId(),
-                    )
+    /**
+     * Convert Doctrine Entity to JSTree data
+     *
+     * @param array $data Result array
+     * @param Mixed $entity
+     *
+     * @return array $array
+     */
+    public function EntitieToJSTreeData(array &$data, $entity) {
+
+        $object = $this->em->getRepository('SLCoreBundle:Object')->find($entity->getObjectId());
+
+        $node = array(); 
+        $node['text'] = $this->jsTreeService->shortenTextNode($entity->getDisplayName(),50); 
+        $node['icon'] = 'fa '.$object->getIcon();
+        $node['a_attr'] = array(
+            'href' => $this->router->generate('front_show', array(
+                'id' => $entity->getObjectId(),
+                'entity_id' => $entity->getId(),
                 )
-            );
+            )
+        );
 
-            $entityProperties = $this->em->getRepository('SLCoreBundle:Property')
-                                   ->findEntityPropertyByObject($object);
+        $entityProperties = $this->em->getRepository('SLCoreBundle:Property')
+                               ->findEntityPropertyByObject($object);
 
-            foreach($entityProperties as $entityProperty){
+        foreach($entityProperties as $entityProperty){
+
+            if($entityProperty->isMultiple()){
 
                 $collection = $entity->{"get".$entityProperty->getTechnicalName()}();
-
                 if($collection != null) {
                     $node['children'] = array();  
                     $this->EntitiesToJSTreeData($node['children'], $collection); 
                 }
             }
-
-            array_push($data, $node);
+            else {
+                $subEntity = $entity->{"get".$entityProperty->getTechnicalName()}();
+                if($subEntity != null) {
+                    $node['children'] = array();  
+                    $this->EntitieToJSTreeData($node['children'], $subEntity); 
+                }
+            }
         }
+        array_push($data, $node);  
     }
 }

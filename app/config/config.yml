@@ -316,6 +316,20 @@ fos_elastica:
                         provider: ~
                         listener: ~
                         finder: ~
+                Object30:
+                    persistence:
+                        driver: orm
+                        model:  SL\DataBundle\Entity\Object30
+                        provider: ~
+                        listener: ~
+                        finder: ~
+                Object31:
+                    persistence:
+                        driver: orm
+                        model:  SL\DataBundle\Entity\Object31
+                        provider: ~
+                        listener: ~
+                        finder: ~
 
 #Shiva versionning
 shivas_versioning:

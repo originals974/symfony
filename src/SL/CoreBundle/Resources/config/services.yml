@@ -28,7 +28,7 @@ services:
 
     sl_core.elastica:
         class: SL\CoreBundle\Services\ElasticaService
-        arguments: [@doctrine.orm.entity_manager, @router, %sl_data.bundle%, %symfony.config_path%]
+        arguments: [@doctrine.orm.entity_manager, @router, @sl_core.js_tree, %sl_data.bundle%, %symfony.config_path%]
 
     twig.text_extension:
         class: Twig_Extensions_Extension_Text

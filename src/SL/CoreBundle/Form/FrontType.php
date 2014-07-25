@@ -45,12 +45,17 @@ class FrontType extends AbstractType
 
                 foreach ($object->getProperties() as $property) {
                     
-                    $formFieldOptions = $this->defineFormFieldOptions($property); 
+                    /*$fieldConfiguration = $this->getFieldConfiguration($property); 
+                    
+                    $fieldType = $fieldConfiguration['field_type'];
+                    $fieldOptions = $fieldConfiguration['field_options'];*/
+
+                    $fieldOptions = $this->getFieldConfiguration($property); 
 
                     $tab->add(
                         $property->getTechnicalName(), 
                         $property->getFieldType()->getFormType(),  
-                        $formFieldOptions
+                        $fieldOptions
                     );
                 }
 
@@ -69,16 +74,19 @@ class FrontType extends AbstractType
     
 
     /**
-     * Define options of form field 
+     * Get type and options of a form field
      *
      * @param Property $property Property used to create form field
      *
-     * @return Array $formFieldOptions Options array of Property
+     * @return Array $fieldConfiguration
      */
-    private function defineFormFieldOptions(Property $property) {
+    private function getFieldConfiguration(Property $property) {
+
+        //Default field type
+        //$fieldType = $property->getFieldType()->getFormType();
 
         //Globals options
-        $formFieldOptions = array(
+        $fieldOptions = array(
             'label' =>  $property->getDisplayName(),
             'required' => $property->isRequired(),
             'horizontal_input_wrapper_class' => 'col-lg-6',
@@ -87,41 +95,54 @@ class FrontType extends AbstractType
         //Complete or override options array depending to property field type
         switch ($property->getFieldType()->getFormType()) {
             case 'genemu_jquerydate':
-                $formFieldOptions['widget'] = 'single_text';
+                
+                $fieldOptions['widget'] = 'single_text';
 
                 break;
-            case 'collection':
-                $formFieldOptions['type'] = 'entity';
-                $formFieldOptions['allow_add'] = true;
-                $formFieldOptions['allow_delete'] = true;
-                $formFieldOptions['prototype'] = true;
+            case 'entity':
+                /*if($property->isMultiple()){
+                    
+                    $fieldOptions['type'] = 'entity';
+                    $fieldOptions['allow_add'] = true;
+                    $fieldOptions['allow_delete'] = true;
+                    $fieldOptions['prototype'] = true;
 
-                $widgetButtonOption = array(
-                    'label' => "", 
-                    'icon' => "plus",
-                    'attr' => array(
-                        'class' => 'btn btn-success btn-xs',
-                        )
-                    );
-                $formFieldOptions['widget_add_btn'] = $widgetButtonOption;
-
-
-                $specificOptions = array(
-                    'class' =>  'SLDataBundle:'.$property->getTargetObject()->getTechnicalName(),
-                    'property' => 'displayName',
-                    'label_render' => false,
-                    'required' => $property->isRequired(),
-                    'horizontal_input_wrapper_class' => 'col-lg-6',
-                    'widget_remove_btn' => array(
-                        'wrapper_div' => false,
+                    $widgetButtonOption = array(
                         'label' => "", 
-                        'icon' => "times", 
+                        'icon' => "plus",
                         'attr' => array(
-                            'class' => 'btn btn-danger btn-xs'
+                            'class' => 'btn btn-success btn-xs',
                             )
-                        ),
-                    );
-                $formFieldOptions['options'] = $specificOptions;
+                        );
+                    $fieldOptions['widget_add_btn'] = $widgetButtonOption;
+
+
+                    $specificOptions = array(
+                        'class' =>  'SLDataBundle:'.$property->getTargetObject()->getTechnicalName(),
+                        'property' => 'displayName',
+                        'label_render' => false,
+                        'required' => $property->isRequired(),
+                        'horizontal_input_wrapper_class' => 'col-lg-6',
+                        'widget_remove_btn' => array(
+                            'wrapper_div' => false,
+                            'label' => "", 
+                            'icon' => "times", 
+                            'attr' => array(
+                                'class' => 'btn btn-danger btn-xs'
+                                )
+                            ),
+                        ); 
+
+                    $fieldOptions['options'] = $specificOptions;
+                }
+                else{*/
+                    //Overwrite field type
+                    $fieldType = $property->getFieldType()->getTechnicalName();
+                    
+                    $fieldOptions['class'] = 'SLDataBundle:'.$property->getTargetObject()->getTechnicalName();
+                    $fieldOptions['property'] = 'displayName';
+                    $fieldOptions['multiple'] = $property->isMultiple();
+                //}
             
                 break;
             
@@ -136,19 +157,26 @@ class FrontType extends AbstractType
                         $choice[$dataListValue->getDisplayName()] = $dataListValue->getDisplayName();
                     }
 
-                    $formFieldOptions['choices'] = $choice;
+                    $fieldOptions['choices'] = $choice;
 
                 }
 
                 break;
 
             default:
-                 $formFieldOptions['attr']['max_length'] = $property->getFieldType()->getLength(); 
+                $fieldOptions['attr']['max_length'] = $property->getFieldType()->getLength(); 
 
                 break; 
         }
 
-        return $formFieldOptions; 
+        /*$fieldConfiguration = array(
+            'field_type' => $fieldType,
+            'field_options' => $fieldOptions,
+            );
+
+        return $fieldConfiguration;*/
+
+        return $fieldOptions; 
     }
 
     /**

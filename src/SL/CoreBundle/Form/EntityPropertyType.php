@@ -28,6 +28,7 @@ class EntityPropertyType extends PropertyType
                 )
             ) 
             ->add('targetObject', 'entity', array(
+                'empty_value' => '',
                 'class' => 'SLCoreBundle:Object',
                 'property' => 'displayName',
                 'query_builder' => function(EntityRepository $er) use($objectId) {

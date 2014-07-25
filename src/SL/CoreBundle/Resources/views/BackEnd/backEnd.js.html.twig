@@ -190,6 +190,29 @@
 
 		});
 
+        //When an option of choice list with entity_property_targetObject id is select 
+        $(document).on("change", '#entity_property_targetObject', function(event){
+		   	copySelectedValueToInput($(this).attr('id'), 'entity_property_displayName')
+		});
+
+        //When an option of choice list with list_property_dataList id is select
+        $(document).on("change", '#list_property_dataList', function(event){
+		   	copySelectedValueToInput($(this).attr('id'), 'list_property_displayName')
+		});
+
+        /**
+	     * Copy select value of a choice list to an input element
+	     *
+	     * @param String selectedId 
+	     * @param String inputId
+	     */
+        function copySelectedValueToInput(selectedId, inputId){
+        	var selectedText; 
+
+			selectedText = $('#'+selectedId).find('option:selected').text();
+			$('#'+inputId).val(selectedText);
+        }
+
         /**
 	     * Submit data by using ajax
 	     *
@@ -197,7 +220,6 @@
 	     * @param String $url  Url where data are send
 	     * @param JSonArray $data Data to send
 	     * @param String $htmlTarget Html section to modify after success
-	     *
 	     */
 		function sendToAjaxBackEnd($method, $url, $data, $htmlTarget) {
         	

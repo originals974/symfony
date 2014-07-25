@@ -23,6 +23,7 @@ class ListPropertyType extends PropertyType
                 )
             ) 
             ->add('dataList', 'entity', array(
+                'empty_value' => '',
                 'class' => 'SLCoreBundle:DataList',
                 'property' => 'displayName',
                 'query_builder' => function(EntityRepository $er) {

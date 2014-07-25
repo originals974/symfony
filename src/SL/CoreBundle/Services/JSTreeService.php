@@ -80,4 +80,26 @@ class JSTreeService
 
         return $newNode; 
     }
+
+    /**
+     * Shorten text property of a node if it's over max length
+     *
+     * @param String $textToShorten
+     * @param String $maxLength
+     *
+     * @return Array $newNode DataList node
+     */
+    public function shortenTextNode($textToShorten, $maxLength){
+
+        if(strlen($textToShorten) > $maxLength) {
+
+            $halfLength = $maxLength/2; 
+            $shortedText = substr($textToShorten, 0, $halfLength) . "....." . substr($textToShorten, -$halfLength);
+        }
+        else{
+            $shortedText = $textToShorten;
+        }
+
+        return $shortedText;
+    }
 }

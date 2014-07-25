@@ -107,15 +107,23 @@ class DoctrineService
             switch ($property->getFieldType()->getTechnicalName()) {
                 case 'entity':
 
-                     $fieldMapping = array(
+                    $fieldMapping = array(
                         'fieldName' => $property->getTechnicalName(), 
                         'targetEntity' => $this->getEntityClass($property->getTargetObject()->getTechnicalName()),
                         );
+
+                    if($property->isMultiple()){
+                        $fieldMapping['mappingType'] = 'manyToMany';
+                    }
+                    else{
+                        $fieldMapping['mappingType'] = 'manyToOne';
+                    }
 
                     break;
                 default:
 
                     $fieldMapping = array(
+                        'mappingType' => null,
                         'fieldName' => $property->getTechnicalName(), 
                         'type' => $property->getFieldType()->getDataType(),
                         'length' => $property->getFieldType()->getLength(),
@@ -207,7 +215,10 @@ class DoctrineService
         //Mapped other fields
         foreach ($mapping as $fieldMapping) {
 
-            if(array_key_exists('targetEntity',$fieldMapping)){
+            if($fieldMapping['mappingType'] == 'manyToOne'){
+                $class->mapManyToOne($fieldMapping);
+            }
+            else if($fieldMapping['mappingType'] == 'manyToMany'){
                 $class->mapManyToMany($fieldMapping);
             }
             else {

@@ -8,7 +8,7 @@
           </a>
         </h4>
       </div>
-      <div id="{{ object.technicalName }}" class="panel-collapse collapse">
+      <div id="{{ object.technicalName }}" class="panel-collapse collapse {% if loop.first %}in{% endif %}">
         <div class="panel-body">
           <div id="jstree_{{ object.technicalName }}"></div>
         </div>

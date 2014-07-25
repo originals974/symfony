@@ -49,6 +49,9 @@ class FrontController extends Controller
     */
     public function newAction(Object $object)
     {
+        //$test = $this->databaseEm->getRepository('SLDataBundle:Object30')->findAll(); 
+        //var_dump($test[1]); 
+
         $class = $this->doctrineService->getEntityClass($object->getTechnicalName());
         $entity =  new $class(); 
 
