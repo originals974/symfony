@@ -133,8 +133,8 @@ class PropertyController extends Controller
             $isValid = $form->isValid();
             if ($isValid) {
 
-                if($formMode == 'entity' || $formMode == 'data_list') {
-                    $fieldType = $this->em->getRepository('SLCoreBundle:FieldType')->findOneByTechnicalName($formMode);
+                if($formMode == 'entity' || $formMode == 'choice') {
+                    $fieldType = $this->em->getRepository('SLCoreBundle:FieldType')->findOneByFormType($formMode);
                     $property->setFieldType($fieldType); 
                 }
 

@@ -104,7 +104,7 @@ class DoctrineService
         //Create a mapping array
         foreach ($object->getProperties() as $property) {  
 
-            switch ($property->getFieldType()->getTechnicalName()) {
+            switch ($property->getFieldType()->getFormType()) {
                 case 'entity':
 
                     $fieldMapping = array(
@@ -125,7 +125,7 @@ class DoctrineService
                     $fieldMapping = array(
                         'mappingType' => null,
                         'fieldName' => $property->getTechnicalName(), 
-                        'type' => $property->getFieldType()->getDataType(),
+                        'type' => ($property->isMultiple())?'array':$property->getFieldType()->getDataType(),
                         'length' => $property->getFieldType()->getLength(),
                         'nullable' => !$property->isRequired()
                         ); 
@@ -200,6 +200,7 @@ class DoctrineService
         if($object->getParent() == null){
             //Mapped default fields
             $class->mapField(array('fieldName' => 'id', 'type' => 'integer', 'id' => true));
+            $class->mapField(array('fieldName' => 'guid', 'type' => 'string', 'nullable' => true));
             $class->mapField(array('fieldName' => 'objectId', 'type' => 'integer'));
             $class->mapField(array('fieldName' => 'displayName', 'type' => 'string'));
             $class->setIdGeneratorType(ClassMetadataInfo::GENERATOR_TYPE_AUTO);

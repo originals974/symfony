@@ -35,6 +35,11 @@ class ListPropertyType extends PropertyType
                     ) 
                 )
             )
+            ->add('isMultiple' , 'checkbox', array(
+                'label' =>  'isMultiple',
+                'required' => false,
+                )
+            )
             ->add('submit', 'submit', array(
                 'label' => $options['submit_label'],
                 'attr' => array(
@@ -50,6 +55,6 @@ class ListPropertyType extends PropertyType
      */
     public function getName()
     {
-        return 'list_property';
+        return 'choice_property';
     }
 }

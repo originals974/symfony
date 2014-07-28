@@ -45,7 +45,7 @@
                         {{ property.fieldType.displayName }}
                     </td>
                     <td>
-                        {% if property.fieldType.technicalName == 'entity' %}
+                        {% if property.fieldType.formType == 'entity' %}
                             {% if property.isMultiple %}
                                 {% set relation_type='many' %}
                             {% else %}
@@ -57,11 +57,17 @@
                             '%relation_type%' : relation_type|trans,
                             '%linked_object%': property.targetObject.displayName
                             })}}</i></b>
-                        {% endif %}
-                        {% if property.fieldType.technicalName == 'data_list' %}
-                            <b><i>{{ 'data_list.relation.description'|trans ({
+                        {% elseif property.fieldType.formType == 'choice'%}
+                            {% if property.isMultiple %}
+                                {% set relation_type='many' %}
+                            {% else %}
+                                {% set relation_type='one' %}
+                            {% endif %}
+
+                            <b><i>{{ 'data_list.relation.description'|trans({
                             '%current_object%': property.object.displayName,
-                            '%linked_list%' : property.datalist.displayName
+                            '%relation_type%' : relation_type|trans,
+                            '%linked_list%': property.datalist.displayName
                             })}}</i></b>
                         {% endif %}
                     </td>

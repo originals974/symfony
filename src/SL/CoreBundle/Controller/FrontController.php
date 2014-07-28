@@ -138,6 +138,11 @@ class FrontController extends Controller
                 )
             ),
             'method' => 'POST',
+            'attr' => array(
+                'mode' => 'add',  
+                'valid-target' => '',  
+                'no-valid-target' => 'ajax-modal',
+                ),
             'submit_label' => 'create',
             'submit_color' => 'primary',
             'object' => $object,
@@ -237,6 +242,11 @@ class FrontController extends Controller
                 )
             ),
             'method' => 'PUT',
+            'attr' => array(
+                'mode' => 'update',  
+                'valid-target' => '',  
+                'no-valid-target' => 'ajax-modal',
+                ),
             'submit_label' => 'update',
             'submit_color' => 'primary',
             'object' => $object,
@@ -316,6 +326,7 @@ class FrontController extends Controller
             $data = array(  
                 'isValid' => true,
                 'content' => null,
+                'mode' => 'delete',
             );
 
             $response = new JsonResponse($data);
@@ -346,6 +357,11 @@ class FrontController extends Controller
                 )
             ),
             'method' => 'DELETE',
+            'attr' => array(
+                'mode' => 'delete',  
+                'valid-target' => '',  
+                'no-valid-target' => 'ajax-modal',
+                ),
             'submit_label' => 'delete',
             'submit_color' => 'danger',
             'object' => $object,

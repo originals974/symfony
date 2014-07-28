@@ -109,7 +109,7 @@ class ObjectCRDController extends Controller
     {
         //Get text fieldtype if necessary
         if($parentObject == null) {
-            $fieldType = $this->em->getRepository('SLCoreBundle:FieldType')->findOneByTechnicalName('text');
+            $fieldType = $this->em->getRepository('SLCoreBundle:FieldType')->findOneByFormType('text');
         }
         else{
             $fieldType = null; 

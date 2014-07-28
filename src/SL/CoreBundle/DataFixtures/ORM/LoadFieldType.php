@@ -16,13 +16,11 @@ class LoadFieldTypeData implements FixtureInterface
     {
         /**********TEXT********/ 
         $textCategory = new FieldCategory(); 
-        $textCategory->setTechnicalName('text');
         $textCategory->setDisplayName('Texte');
         $textCategory->setDisplayOrder(1); 
 
         //Text
         $textType = new FieldType(); 
-        $textType->setTechnicalName('text'); 
         $textType->setDisplayName('Texte');
         $textType->setDisplayOrder(0);
         $textType->setDataType('string'); 
@@ -32,7 +30,6 @@ class LoadFieldTypeData implements FixtureInterface
 
         //TextArea
         $textAreaType = new FieldType(); 
-        $textAreaType->setTechnicalName('textarea'); 
         $textAreaType->setDisplayName('Texte long');
         $textAreaType->setDisplayOrder(10);
         $textAreaType->setDataType('text'); 
@@ -42,7 +39,6 @@ class LoadFieldTypeData implements FixtureInterface
 
         //Email
         $emailType = new FieldType(); 
-        $emailType->setTechnicalName('email'); 
         $emailType->setDisplayName('Email');
         $emailType->setDisplayOrder(20);
         $emailType->setDataType('string'); 
@@ -52,7 +48,6 @@ class LoadFieldTypeData implements FixtureInterface
 
         //Money
         $moneyType = new FieldType(); 
-        $moneyType->setTechnicalName('money'); 
         $moneyType->setDisplayName('Monétaire');
         $moneyType->setDisplayOrder(30);
         $moneyType->setDataType('string'); 
@@ -62,7 +57,6 @@ class LoadFieldTypeData implements FixtureInterface
 
         //Number
         $numberType = new FieldType(); 
-        $numberType->setTechnicalName('number'); 
         $numberType->setDisplayName('Nombre');
         $numberType->setDisplayOrder(40);
         $numberType->setDataType('decimal'); 
@@ -71,7 +65,6 @@ class LoadFieldTypeData implements FixtureInterface
 
         //Percent
         $percentType = new FieldType(); 
-        $percentType->setTechnicalName('percent'); 
         $percentType->setDisplayName('Pourcentage');
         $percentType->setDisplayOrder(50);
         $percentType->setDataType('decimal'); 
@@ -79,8 +72,7 @@ class LoadFieldTypeData implements FixtureInterface
         $percentType->setFormType('percent'); 
 
         //Url
-        $urlType = new FieldType(); 
-        $urlType->setTechnicalName('url'); 
+        $urlType = new FieldType();  
         $urlType->setDisplayName('Url');
         $urlType->setDisplayOrder(60);
         $urlType->setDataType('string');
@@ -91,47 +83,42 @@ class LoadFieldTypeData implements FixtureInterface
 
         /**********CHOICE********/ 
         $choiceCategory = new FieldCategory(); 
-        $choiceCategory->setTechnicalName('choice');
         $choiceCategory->setDisplayName('Liste de choix');
         $choiceCategory->setDisplayOrder(2); 
 
         //Entity
         $entityType = new FieldType(); 
-        $entityType->setTechnicalName('entity'); 
         $entityType->setDisplayName('Objet');
         $entityType->setDisplayOrder(0);
         $entityType->setDataType('string'); 
         $entityType->setLength(255);
         $entityType->setEnabled(false);
         $entityType->setFieldCategory($choiceCategory); 
-        $entityType->setFormType('collection'); 
+        $entityType->setFormType('entity'); 
 
         //Data_List
         $dataList = new FieldType(); 
-        $dataList->setTechnicalName('data_list'); 
         $dataList->setDisplayName('Liste');
         $dataList->setDisplayOrder(10);
         $dataList->setDataType('string'); 
         $dataList->setLength(255);
         $dataList->setEnabled(false);
         $dataList->setFieldCategory($choiceCategory); 
-        $dataList->setFormType('choice'); 
+        $dataList->setFormType('choice');
 
 
          /**********DATETIME********/ 
         $dateTimeCategory = new FieldCategory(); 
-        $dateTimeCategory->setTechnicalName('datetime');
         $dateTimeCategory->setDisplayName('Date et heure');
         $dateTimeCategory->setDisplayOrder(3); 
 
         //JQueryDate
-        $jqueryDateType = new FieldType(); 
-        $jqueryDateType->setTechnicalName('genemu_jquerydate'); 
+        $jqueryDateType = new FieldType();  
         $jqueryDateType->setDisplayName('Date');
         $jqueryDateType->setDisplayOrder(70);
         $jqueryDateType->setDataType('date'); 
         $jqueryDateType->setFieldCategory($dateTimeCategory); 
-        $jqueryDateType->setFormType('genemu_jquerydate'); 
+        $jqueryDateType->setFormType('genemu_jquerydate');
 
         $manager->persist($textCategory);
         $manager->persist($textType);

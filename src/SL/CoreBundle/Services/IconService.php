@@ -131,10 +131,10 @@ class IconService
      */
     public function getPropertyIcon(Property $property=null)
     {
-        if($property->getFieldType()->getTechnicalName() == 'entity' ){
+        if($property->getFieldType()->getFormType() == 'entity' ){
             $icon = $this->getRootObjectIcon();
         }
-        else if($property->getFieldType()->getTechnicalName() == 'data_list' ){
+        else if($property->getFieldType()->getFormType() == 'choice' ){
             $icon = $this->getRootDataListIcon();
         }
         else{

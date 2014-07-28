@@ -62,8 +62,11 @@ class SearchController extends Controller
             }
 
             $data = array(
-                'html' => $html,
-                'objectsTechnicalName' => $objectsTechnicalName,
+                'isValid' => true,
+                'content' => array(
+                    'html' => $html,
+                    'objectsTechnicalName' => $objectsTechnicalName,
+                    ),
                 ); 
             
             $response = new JsonResponse($data);

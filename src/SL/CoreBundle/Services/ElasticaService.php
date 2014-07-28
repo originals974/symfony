@@ -160,12 +160,15 @@ class ElasticaService
         $node = array(); 
         $node['text'] = $this->jsTreeService->shortenTextNode($entity->getDisplayName(),50); 
         $node['icon'] = 'fa '.$object->getIcon();
+        $node['li_attr'] = array(
+            'guid' => $entity->getGuid(),
+        );
         $node['a_attr'] = array(
             'href' => $this->router->generate('front_show', array(
                 'id' => $entity->getObjectId(),
                 'entity_id' => $entity->getId(),
                 )
-            )
+            ),
         );
 
         $entityProperties = $this->em->getRepository('SLCoreBundle:Property')

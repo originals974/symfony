@@ -24,6 +24,13 @@ abstract class AbstractEntity
     /**
      * @var string
      *
+     * @ORM\Column(name="guid", type="string", length=255, nullable=true)
+     */
+    private $guid;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="technical_name", type="string", length=255, nullable=true)
      */
     private $technicalName;
@@ -48,7 +55,7 @@ abstract class AbstractEntity
      * @ORM\Column(name="is_enabled", type="boolean")
      */
     private $isEnabled = true;
-    
+
     /**
      * Get id
      *
@@ -60,6 +67,29 @@ abstract class AbstractEntity
     }
 
     /**
+     * Get guid
+     *
+     * @return integer 
+     */
+    public function getGuid()
+    {
+        return $this->guid;
+    }
+
+     /**
+     * Get guid
+     *
+     * @param string $guid
+     * @return AbstractEntity
+     */
+    public function setGuid($guid)
+    {
+        $this->guid = $guid;
+
+        return $this;
+    }
+
+    /**
      * Set technicalName
      *
      * @return AbstractEntity
@@ -67,7 +97,7 @@ abstract class AbstractEntity
     public function setTechnicalName()
     {
         $this->technicalName = $this->getClassShortName().$this->getId();
-
+        
         return $this;
     }
 

@@ -8,10 +8,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * FieldType
  *
- * @ORM\Table(name="field_type",uniqueConstraints={
- *     @ORM\UniqueConstraint(name="unique_index_field_type_technical_name", columns={"technical_name"}),
- *     @ORM\UniqueConstraint(name="unique_index_field_type_display_name", columns={"display_name"})
- * })
+ * @ORM\Table(name="field_type")
  * @ORM\Entity
  * @UniqueEntity(fields="displayName")
  */

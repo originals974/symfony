@@ -45,11 +45,6 @@ class FrontType extends AbstractType
 
                 foreach ($object->getProperties() as $property) {
                     
-                    /*$fieldConfiguration = $this->getFieldConfiguration($property); 
-                    
-                    $fieldType = $fieldConfiguration['field_type'];
-                    $fieldOptions = $fieldConfiguration['field_options'];*/
-
                     $fieldOptions = $this->getFieldConfiguration($property); 
 
                     $tab->add(
@@ -82,9 +77,6 @@ class FrontType extends AbstractType
      */
     private function getFieldConfiguration(Property $property) {
 
-        //Default field type
-        //$fieldType = $property->getFieldType()->getFormType();
-
         //Globals options
         $fieldOptions = array(
             'label' =>  $property->getDisplayName(),
@@ -100,50 +92,11 @@ class FrontType extends AbstractType
 
                 break;
             case 'entity':
-                /*if($property->isMultiple()){
-                    
-                    $fieldOptions['type'] = 'entity';
-                    $fieldOptions['allow_add'] = true;
-                    $fieldOptions['allow_delete'] = true;
-                    $fieldOptions['prototype'] = true;
 
-                    $widgetButtonOption = array(
-                        'label' => "", 
-                        'icon' => "plus",
-                        'attr' => array(
-                            'class' => 'btn btn-success btn-xs',
-                            )
-                        );
-                    $fieldOptions['widget_add_btn'] = $widgetButtonOption;
+                $fieldOptions['class'] = 'SLDataBundle:'.$property->getTargetObject()->getTechnicalName();
+                $fieldOptions['property'] = 'displayName';
+                $fieldOptions['multiple'] = $property->isMultiple();
 
-
-                    $specificOptions = array(
-                        'class' =>  'SLDataBundle:'.$property->getTargetObject()->getTechnicalName(),
-                        'property' => 'displayName',
-                        'label_render' => false,
-                        'required' => $property->isRequired(),
-                        'horizontal_input_wrapper_class' => 'col-lg-6',
-                        'widget_remove_btn' => array(
-                            'wrapper_div' => false,
-                            'label' => "", 
-                            'icon' => "times", 
-                            'attr' => array(
-                                'class' => 'btn btn-danger btn-xs'
-                                )
-                            ),
-                        ); 
-
-                    $fieldOptions['options'] = $specificOptions;
-                }
-                else{*/
-                    //Overwrite field type
-                    $fieldType = $property->getFieldType()->getTechnicalName();
-                    
-                    $fieldOptions['class'] = 'SLDataBundle:'.$property->getTargetObject()->getTechnicalName();
-                    $fieldOptions['property'] = 'displayName';
-                    $fieldOptions['multiple'] = $property->isMultiple();
-                //}
-            
                 break;
             
             case 'choice':
@@ -160,6 +113,7 @@ class FrontType extends AbstractType
                     $fieldOptions['choices'] = $choice;
 
                 }
+                $fieldOptions['multiple'] = $property->isMultiple();
 
                 break;
 
@@ -168,13 +122,6 @@ class FrontType extends AbstractType
 
                 break; 
         }
-
-        /*$fieldConfiguration = array(
-            'field_type' => $fieldType,
-            'field_options' => $fieldOptions,
-            );
-
-        return $fieldConfiguration;*/
 
         return $fieldOptions; 
     }
@@ -186,10 +133,6 @@ class FrontType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => $this->entityClass,
-            'attr' => array(
-                'valid-target' => '',  
-                'no-valid-target' => 'ajax-modal',
-                ),
             'show_legend' => false,
             )
         );

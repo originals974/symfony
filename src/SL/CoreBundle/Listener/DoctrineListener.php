@@ -17,12 +17,13 @@ class DoctrineListener
         $entity = $args->getEntity();
         $em = $args->getEntityManager();
 
+        $entity->setGuid(uniqid());
+
         if ($entity instanceof AbstractEntity) {
             //Init technical name of new entity
         	$entity->setTechnicalName(); 
-        	
         }
-        
+
         $em->flush(); 
     }
 }

@@ -21,10 +21,10 @@
                         }
                     }
                 },
-                "plugins" : [ "wholerow" ],
+                "plugins" : [ "wholerow"],
             })
             .on('changed.jstree', function (e, data) {
-        
+
                 var $htmlTarget, i, j;
 
                 currentJsTreeReferenceId = e.currentTarget.id; 
@@ -42,42 +42,14 @@
             });
         };
 
-        //When click on search button
-        $( "#sl_corebundle_search_submit" ).click(function() {
-            var objects, jsTreeReferenceId, objectsTechnicalName; 
-
-            $.ajax({
-                type: 'POST',
-                url: Routing.generate('search'),
-                dataType : "json",  
-                success: function(data) {
-                    $('#search_result').html(data.html);
-
-                    objectsTechnicalName = data.objectsTechnicalName;
-
-                    for (var key in objectsTechnicalName){
-                        jsTreeReferenceId = '#jstree_'+objectsTechnicalName[key];
-
-                        if($.jstree.reference(jsTreeReferenceId) != "") {
-                            initJsTree(jsTreeReferenceId, objectsTechnicalName[key]);
-                        }
-
-                        $(jsTreeReferenceId).jstree(true).refresh();
-                    }
-                },
-                error: function(data) {            
-                    alert('error');
-                }
-            }); 
-
-        });
-
         //When submit a form
 		$(document).on('submit', 'form', function(event) {
-            if($(this).attr('action') != "") {
+            if($(this).attr('mode') != "search") {
                 $(this).find('button[type="submit"]').attr('disabled', true);
-                submitFormToAjaxFrontEnd($(this));
-            }
+            } 
+            
+            submitFormToAjaxFrontEnd($(this));
+            
             return false;
         });
 
@@ -88,18 +60,15 @@
 	     */
         function submitFormToAjaxFrontEnd($form) {
 
-        	var validTarget, noValidTarget, method, modalId, jsTree, selectedNode, reSelectedNode; 
+        	var validTarget, noValidTarget, method, modalId, selectedNode, reSelectedNode, guid, mode;
+            var jsTree, currentJsTreeReference, jsTreeId, jsTreeIds;  
 
         	validTarget = '#'+$form.attr('valid-target'); 
         	noValidTarget = '#'+$form.attr('no-valid-target'); 
-
-            method = $form.find('input[name="_method"]').attr('value'); 
-            if(method == null) {
-                method = $form.attr('method');  
-            }
+            mode = $form.attr('mode');
 
             $.ajax({
-                type: method,
+                type: $form.attr('method'),
                 url: $form.attr('action'),
                 data: $form.serializeArray(),
                 dataType : "json",    
@@ -110,16 +79,67 @@
                         modalId = '#'+$($form).parent().parent().attr('id');
                         jsTree = $('#'+currentJsTreeReferenceId).jstree(true); 
 
-                        if(method.toUpperCase() == 'PUT') {
-                            selectedNode = jsTree.get_selected();  
-                            reSelectedNode = jsTree.get_node(selectedNode);
+                        if(mode == 'add'){
+                            //Refresh all search results
+                            /*$('#search_result_panel').find('div[id*="jstree"]').each(function(){
+                                jsTreeId = $(this).attr('id'); 
+                                currentJsTreeReference = $('#'+jsTreeId).jstree(true);
+                                currentJsTreeReference.refresh();
+                            });*/
+                        }
+                        else if(mode == 'update') {
+                            selectedNode = jsTree.get_selected(true);  
+                            reSelectedNode = jsTree.get_node(selectedNode[0].id);
+                            
+                            //Rename all node for all jstree reference
+                            guid = selectedNode[0].li_attr['guid'];
+                            $('#search_result_panel').find('div[id*="jstree"]').each(function(){
 
-                            jsTree.rename_node(selectedNode, data.content);
+                                jsTreeId = $(this).attr('id'); 
+                                currentJsTreeReference = $('#'+jsTreeId).jstree(true);
+                                jsTreeIds = [];
+                                $(this).find('li[guid="'+guid+'"]').each(function(){
+                                    jsTreeIds[jsTreeIds.length] = $(this).attr('id');
+                                });
+
+                                currentJsTreeReference.rename_node(jsTreeIds, data.content);
+                            });
+
                             jsTree.deselect_node(selectedNode);
                             jsTree.select_node(reSelectedNode);
                         }
-                        else if(method.toUpperCase() == 'DELETE') {
-                            jsTree.delete_node(jsTree.get_selected());
+                        else if(mode == 'delete') {
+                            selectedNode = jsTree.get_selected(true);  
+                            reSelectedNode = jsTree.get_node(selectedNode[0].id);
+
+                            //Delete all node for all jstree reference
+                            guid = selectedNode[0].li_attr['guid'];
+                            $('#search_result_panel').find('div[id*="jstree"]').each(function(){
+
+                                jsTreeId = $(this).attr('id'); 
+                                currentJsTreeReference = $('#'+jsTreeId).jstree(true);
+                                jsTreeIds = [];
+                                $(this).find('li[guid="'+guid+'"]').each(function(){
+                                    jsTreeIds[jsTreeIds.length] = $(this).attr('id');
+                                });
+
+                                currentJsTreeReference.delete_node(jsTreeIds);
+                            });
+                        }
+                        else if(mode == 'search') {
+                            $(validTarget).html(data.content.html);
+
+                            objectsTechnicalName = data.content.objectsTechnicalName;
+
+                            for (var key in objectsTechnicalName){
+                                jsTreeReferenceId = '#jstree_'+objectsTechnicalName[key];
+
+                                if($.jstree.reference(jsTreeReferenceId) != "") {
+                                    initJsTree(jsTreeReferenceId, objectsTechnicalName[key]);
+                                }
+
+                                $(jsTreeReferenceId).jstree(true).refresh();
+                            }
                         }
 
                         //Close the modal

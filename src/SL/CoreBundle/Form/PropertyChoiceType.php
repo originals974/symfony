@@ -21,7 +21,7 @@ class PropertyChoiceType extends AbstractType
                 'choices'      => array(
                     'default' => 'property', 
                     'entity' => 'entity_property',
-                    'data_list' => 'list_property',
+                    'choice' => 'choice_property',
                     ),
                 'widget_type'  => 'inline',
             )

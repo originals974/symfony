@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2014-07-22T14:01:14Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+  <file date="2014-07-28T13:58:41Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -9,13 +9,13 @@
       <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
         <source></source>
         <target></target>
-        <jms:reference-file line="102">CoreBundle/Form/FrontType.php</jms:reference-file>
-        <jms:reference-file line="119">CoreBundle/Form/FrontType.php</jms:reference-file>
+        <jms:reference-file line="26">CoreBundle/Form/ListPropertyType.php</jms:reference-file>
+        <jms:reference-file line="31">CoreBundle/Form/EntityPropertyType.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="38881670f3326f65a92d44dd702673cb44d4b199" resname="backEnd">
         <source>backEnd</source>
         <target>BackEnd</target>
-        <jms:reference-file line="29">views/BackEnd/backEnd.html.twig</jms:reference-file>
+        <jms:reference-file line="43">views/BackEnd/backEnd.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="6d5e006fe727e6891120eac3cda79b6627eebcb4" resname="back_end.title">
         <source>back_end.title</source>
@@ -26,6 +26,11 @@
         <source>calculatedName</source>
         <target>Nom calculé</target>
         <jms:reference-file line="19">CoreBundle/Form/ObjectCalculatedNameType.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="b5639f7983c557cf9485f9144174801412d34a36" resname="choice_property">
+        <source>choice_property</source>
+        <target>Liste déroulante</target>
+        <jms:reference-file line="24">CoreBundle/Form/PropertyChoiceType.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="da38860cb875cb64092e402d80d9fe29c4865b18" resname="close">
         <source>close</source>
@@ -46,7 +51,7 @@
         <source>data_list</source>
         <target>Liste</target>
         <jms:reference-file line="10">Resources/views/toTranslate.html.twig</jms:reference-file>
-        <jms:reference-file line="31">CoreBundle/Form/ListPropertyType.php</jms:reference-file>
+        <jms:reference-file line="32">CoreBundle/Form/ListPropertyType.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="261890ffe5b5dd2ce1b5ab220acc8c6662933660" resname="data_list.delete.message">
         <source>data_list.delete.message</source>
@@ -68,8 +73,8 @@
       </trans-unit>
       <trans-unit id="85b75e5979a4204e9f034fc119be2edf5e846f59" resname="data_list.relation.description">
         <source>data_list.relation.description</source>
-        <target>L'objet "%current_object%" est lié à la liste "%linked_list%"</target>
-        <jms:reference-file line="62">views/Property/propertyTable.html.twig</jms:reference-file>
+        <target>L'objet "%current_object%" est lié à %relation_type% item(s) de la liste "%linked_list%"</target>
+        <jms:reference-file line="67">views/Property/propertyTable.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="21fe4e938e172d09bcbac1be084bdc5ab658f75d" resname="data_list_value">
         <source>data_list_value</source>
@@ -201,7 +206,7 @@
       <trans-unit id="269781c7a623077b8f978983460ed49f6bf8da9b" resname="frontEnd">
         <source>frontEnd</source>
         <target>FrontEnd</target>
-        <jms:reference-file line="57">views/FrontEnd/frontEnd.html.twig</jms:reference-file>
+        <jms:reference-file line="59">views/FrontEnd/frontEnd.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="41d56e83221d06c8c07a3465e56b0c4b446357d0" resname="front_end.title">
         <source>front_end.title</source>
@@ -217,7 +222,8 @@
       <trans-unit id="5aa41b78ebd0d391be4fe1388266142571b15b82" resname="isMultiple">
         <source>isMultiple</source>
         <target>Sélection multiple</target>
-        <jms:reference-file line="43">CoreBundle/Form/EntityPropertyType.php</jms:reference-file>
+        <jms:reference-file line="39">CoreBundle/Form/ListPropertyType.php</jms:reference-file>
+        <jms:reference-file line="44">CoreBundle/Form/EntityPropertyType.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="a0bee87e68d1e613ad328cdb9f29ff0f905b6086" resname="isRequired">
         <source>isRequired</source>
@@ -233,7 +239,6 @@
         <source>list_property</source>
         <target>Liste déroulante</target>
         <jms:reference-file line="14">Resources/views/toTranslate.html.twig</jms:reference-file>
-        <jms:reference-file line="24">CoreBundle/Form/PropertyChoiceType.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="3ef008cb431503d0febfe75bae4d782304e8e8dc" resname="main_application.name">
         <source>main_application.name</source>
@@ -261,18 +266,18 @@
         <target>  Objet</target>
         <jms:reference-file line="9">Resources/views/toTranslate.html.twig</jms:reference-file>
         <jms:reference-file line="190">CoreBundle/Menu/Builder.php</jms:reference-file>
-        <jms:reference-file line="36">CoreBundle/Form/EntityPropertyType.php</jms:reference-file>
+        <jms:reference-file line="37">CoreBundle/Form/EntityPropertyType.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="d85c8fde52d117fcf0ff64609047a9399a14e565" resname="object.add">
         <source>object.add</source>
         <target>Ajouter un objet/document</target>
-        <jms:reference-file line="26">views/Object/show.html.twig</jms:reference-file>
+        <jms:reference-file line="25">views/Object/show.html.twig</jms:reference-file>
         <jms:reference-file line="19">views/Object/index.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="842c947e4b3a68231a0ead124293a9309445850f" resname="object.choose.icon">
         <source>object.choose.icon</source>
         <target>Changer l'icône d'un objet/document</target>
-        <jms:reference-file line="24">views/Object/show.html.twig</jms:reference-file>
+        <jms:reference-file line="23">views/Object/show.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="a79fc368a09db555055b731bf2a675d41c5fd08a" resname="object.delete.message">
         <source>object.delete.message</source>
@@ -358,7 +363,7 @@
       </trans-unit>
       <trans-unit id="b4e2207288ff9aa8841f62e3b76b877191a6366f" resname="property.relation.description">
         <source>property.relation.description</source>
-        <target>L'objet "%current_object%" est lié à %relation_type% objet "%linked_object%"</target>
+        <target>L'objet "%current_object%" est lié à %relation_type% objet(s) "%linked_object%"</target>
         <jms:reference-file line="55">views/Property/propertyTable.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="3f312a76094694f9127242f230c83e1d1d09cce7" resname="property.update">

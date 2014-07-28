@@ -39,11 +39,6 @@ class SearchType extends AbstractType
     {
         $resolver->setDefaults(array(
             'validation_groups' => false,
-            'attr' => array(
-                'id' => 'sl_corebundle_search',
-                'class' => 'form-inline',
-                'valid-target' => '', 
-                ),
             'show_legend' => false,
         ));
     }

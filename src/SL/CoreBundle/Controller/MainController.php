@@ -43,7 +43,17 @@ class MainController extends Controller
     {
         $search = new Search(); 
 
-        $form = $this->createForm(new SearchType(), $search);
+        $form = $this->createForm(new SearchType(), $search, array(
+            'action' => $this->generateUrl('search'),
+            'method' => 'POST',
+            'attr' => array(
+                'id' => 'sl_corebundle_search',
+                'class' => 'form-inline',
+                'valid-target' => 'search_result', 
+                'mode' => 'search',
+                ),
+            )
+        );
 
         return $this->render('SLCoreBundle:FrontEnd:index.html.twig', array(
             'form'   => $form->createView(),

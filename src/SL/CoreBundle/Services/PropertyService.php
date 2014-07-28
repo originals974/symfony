@@ -50,8 +50,8 @@ class PropertyService
             case 'entity' : 
                 $formService = 'entity_property';
                 break; 
-            case 'data_list' : 
-                $formService = 'list_property';
+            case 'choice' : 
+                $formService = 'choice_property';
                 break; 
             default:
                 $formService = 'property';
@@ -73,7 +73,7 @@ class PropertyService
             case 'entity' : 
                 $property = new EntityProperty();
                 break; 
-            case 'data_list' : 
+            case 'choice' : 
                 $property = new ListProperty();
                 break;
             default:
@@ -92,12 +92,12 @@ class PropertyService
      */
     public function getFormModeByProperty(Property $property) 
     {
-        $fieldTypeTechnicalName = $property->getFieldType()->getTechnicalName(); 
+        $fieldTypeFormType = $property->getFieldType()->getFormType(); 
 
-        switch($fieldTypeTechnicalName) {
+        switch($fieldTypeFormType) {
             case 'entity' : 
-            case 'data_list' : 
-                $formMode = $fieldTypeTechnicalName; 
+            case 'choice' : 
+                $formMode = $fieldTypeFormType; 
                 break; 
             default:
                 $formMode = 'default';

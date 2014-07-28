@@ -38,18 +38,35 @@
 
 				    <dt>{{ property.displayName}}</dt>
 
-				    {% if property.fieldType.technicalName == 'date' %}
+				    {% if property.fieldType.FormType == 'genemu_jquerydate' %}
 				        <dd>{{ attribute(entity, property.technicalName)|date("d/m/Y") }}</dd>
-				    {% elseif  property.fieldType.technicalName == 'entity' %}
-
-				        {% set entityProperties = attribute(entity, property.technicalName) %}
+				    {% elseif  property.fieldType.FormType == 'entity' %}
+			    		{% set entityProperties = attribute(entity, property.technicalName) %}
 				        <dd>
-				        {% for entityProperty in entityProperties %}
-				            {{ entityProperty.displayName }}
-				            {% if not loop.last %}
-				                ,
-				            {% endif %}
-				        {% endfor %}
+				        	{% if property.isMultiple %}
+						        {% for entityProperty in entityProperties %}
+						            {{ entityProperty.displayName }}
+						            {% if not loop.last %}
+						                ,
+						            {% endif %}
+						        {% endfor %}
+						    {% else %}
+						    	{{ entityProperties.displayName }}
+						    {% endif %}
+				        </dd>
+				    {% elseif  property.fieldType.FormType == 'choice' %}
+				        <dd>
+				        	{% if property.isMultiple %}
+				        		{% set items = attribute(entity, property.technicalName) %}
+						        {% for item in items %}
+						            {{ item }}
+						            {% if not loop.last %}
+						                ,
+						            {% endif %}
+						        {% endfor %}
+						    {% else %}
+						    	{{ attribute(entity, property.technicalName) }}
+						    {% endif %}
 				        </dd>
 				    {% else %}
 				        <dd>{{ attribute(entity, property.technicalName) }}</dd>

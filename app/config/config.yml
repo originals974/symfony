@@ -249,7 +249,7 @@ genemu_form:
     select2: ~
     date:
         enabled: true
-        configs: { changeMonth: true, changeYear: true}
+        configs: { changeMonth: true, changeYear: true, minDate: "-50Y", maxDate: "+50Y"}
     tinymce: ~
 
 #JMSTranslation Configuration
@@ -288,48 +288,23 @@ fos_elastica:
         slcore:
             client: default
             types:
-                Object15:
+                Object18:
                     persistence:
                         driver: orm
-                        model:  SL\DataBundle\Entity\Object15
+                        model:  SL\DataBundle\Entity\Object18
                         provider: ~
                         listener: ~
                         finder: ~
-                Object20:
+                
+                Object19:
                     persistence:
                         driver: orm
-                        model:  SL\DataBundle\Entity\Object20
+                        model:  SL\DataBundle\Entity\Object19
                         provider: ~
                         listener: ~
                         finder: ~
-                Object23:
-                    persistence:
-                        driver: orm
-                        model:  SL\DataBundle\Entity\Object23
-                        provider: ~
-                        listener: ~
-                        finder: ~
-                Object29:
-                    persistence:
-                        driver: orm
-                        model:  SL\DataBundle\Entity\Object29
-                        provider: ~
-                        listener: ~
-                        finder: ~
-                Object30:
-                    persistence:
-                        driver: orm
-                        model:  SL\DataBundle\Entity\Object30
-                        provider: ~
-                        listener: ~
-                        finder: ~
-                Object31:
-                    persistence:
-                        driver: orm
-                        model:  SL\DataBundle\Entity\Object31
-                        provider: ~
-                        listener: ~
-                        finder: ~
+                
+
 
 #Shiva versionning
 shivas_versioning:

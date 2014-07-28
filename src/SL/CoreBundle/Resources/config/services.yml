@@ -82,10 +82,10 @@ services:
         tags:
             - { name: form.type, alias: entity_property }
 
-    sl_core.form.type.list.property:
+    sl_core.form.type.choice.property:
         class: SL\CoreBundle\Form\ListPropertyType
         tags:
-            - { name: form.type, alias: list_property }
+            - { name: form.type, alias: choice_property }
 
     #Custom form validator service
     validator.unique.calculated_name_pattern:
