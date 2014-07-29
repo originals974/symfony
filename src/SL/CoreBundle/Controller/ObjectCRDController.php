@@ -84,7 +84,7 @@ class ObjectCRDController extends Controller
 
             $object = new Object($isDocument, null, $parentObject);
  
-            $form = $this->createCreateForm($object);
+            $form = $this->objectService->createCreateForm($object);
 
             $response = $this->render('SLCoreBundle::save.html.twig', array(
                 'entity' => $object,
@@ -117,7 +117,7 @@ class ObjectCRDController extends Controller
             
         $object = new Object($isDocument, $fieldType, $parentObject);
 
-        $form = $this->createCreateForm($object);
+        $form = $this->objectService->createCreateForm($object);
 
         $form->handleRequest($request);
  
@@ -165,44 +165,6 @@ class ObjectCRDController extends Controller
         return $response; 
     }
 
-    /**
-    * Create object form
-    *
-    * @param Object $object
-    *
-    * @return Form $form
-    */
-    private function createCreateForm(Object $object)
-    {
-        $parentObject = $object->getParent();
-
-        //Disable parent combobox if object has a parent object
-        if($object->getParent() != null) {
-            $disabledParentField = true; 
-        }
-        else{
-            $disabledParentField = false; 
-        }
-
-        $formType = ($object->isDocument())?'document':'object';
-
-        $form = $this->createForm($formType, $object, array(
-            'action' => $this->generateUrl('object_create', array(
-                'isDocument' => $object->isDocument(),
-                'id' =>  ( $parentObject != null)?$parentObject->getId():0,
-                )
-            ),
-            'method' => 'POST',
-            'submit_label' => 'create',
-            'submit_color' => 'primary',
-            'disabled_parent_field' => $disabledParentField,
-            'object' => $object
-            )
-        );
-
-        return $form;
-    }
-
      /**
      * Show object entity
      *
@@ -235,7 +197,7 @@ class ObjectCRDController extends Controller
         $integrityError = $this->objectService->integrityControlBeforeDelete($object); 
         if($integrityError == null) {
                    
-            $form = $this->createDeleteForm($object);
+            $form = $this->objectService->createDeleteForm($object);
 
             $response = $this->render('SLCoreBundle::save.html.twig', array(
                 'entity' => $object,
@@ -265,10 +227,6 @@ class ObjectCRDController extends Controller
     public function deleteAction(Request $request, Object $object)
     {
         if ($request->isXmlHttpRequest()) {
-
-            /*$jsTree = array(
-                'new_parent_id' => $object->getParent()->getTechnicalName(),
-            );*/
 
             //Remove all properties of deleted object
             foreach ($object->getProperties() as $property) {
@@ -308,29 +266,5 @@ class ObjectCRDController extends Controller
         }
 
         return $response;   
-    }
-
-    /**
-     * Delete object Form
-     *
-     * @param Object $object
-     *
-     * @return Form $form
-     */
-    private function createDeleteForm(Object $object)
-    {
-        $formType = ($object->isDocument())?'document':'object';
-        
-        $form = $this->createForm($formType, $object, array(
-            'action' => $this->generateUrl('object_delete', array('id' => $object->getId())),
-            'method' => 'DELETE',
-            'submit_label' => 'delete',
-            'submit_color' => 'danger',
-            'disabled_parent_field' => false,
-            'object' => $object
-            )
-        );
-
-        return $form;
     }
 }

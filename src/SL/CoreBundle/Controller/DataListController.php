@@ -66,7 +66,7 @@ class DataListController extends Controller
 
             $dataList = new DataList();
 
-            $form = $this->createCreateForm($dataList);
+            $form = $this->dataListService->createCreateForm($dataList);
 
             $response = $this->render('SLCoreBundle::save.html.twig', array(
                 'entity' => $dataList,
@@ -88,7 +88,7 @@ class DataListController extends Controller
     { 
         $dataList = new DataList();
 
-        $form = $this->createCreateForm($dataList);
+        $form = $this->dataListService->createCreateForm($dataList);
         $form->handleRequest($request);
 
         if ($request->isXmlHttpRequest()) {
@@ -129,26 +129,6 @@ class DataListController extends Controller
     }
 
     /**
-    * Create datalist form
-    *
-    * @param DataList $dataList
-    *
-    * @return Form $form
-    */
-    private function createCreateForm(DataList $dataList)
-    {   
-        $form = $this->createForm('data_list', $dataList, array(
-            'action' => $this->generateUrl('data_list_create'),
-            'method' => 'POST',
-            'submit_label' => 'create',
-            'submit_color' => 'primary',
-            )
-        );
-
-        return $form;
-    }
-
-    /**
     * Display form to edit datalist entity
     *
     * @param DataList $dataList 
@@ -157,7 +137,7 @@ class DataListController extends Controller
     {
         if ($request->isXmlHttpRequest()) {
 
-            $form = $this->createEditForm($dataList);
+            $form = $this->dataListService->createEditForm($dataList);
      
             $response = $this->render('SLCoreBundle::save.html.twig', array(
                 'entity' => $dataList,
@@ -179,7 +159,7 @@ class DataListController extends Controller
     */
     public function updateAction(Request $request, DataList $dataList)
     {
-        $form = $this->createEditForm($dataList);
+        $form = $this->dataListService->createEditForm($dataList);
         $form->handleRequest($request);
 
         if ($request->isXmlHttpRequest()) {
@@ -218,29 +198,6 @@ class DataListController extends Controller
         return $response; 
     }
 
-    /**
-    * Update datalist form
-    *
-    * @param DataList $dataList
-    *
-    * @return Form $form
-    */
-    private function createEditForm(DataList $dataList)
-    {     
-        $form = $this->createForm('data_list', $dataList, array(
-            'action' => $this->generateUrl('data_list_update', array(
-                'id' => $dataList->getId(),
-                )
-            ),
-            'method' => 'PUT',
-            'submit_label' => 'update',
-            'submit_color' => 'primary',
-            )
-        );
-
-        return $form;
-    }
-
      /**
      * Show datalist entity
      *
@@ -275,7 +232,7 @@ class DataListController extends Controller
             $integrityError = $this->dataListService->integrityControlBeforeDelete($dataList); 
             if($integrityError == null) {
                   
-                $form = $this->createDeleteForm($dataList);
+                $form = $this->dataListService->createDeleteForm($dataList);
 
                 $response = $this->render('SLCoreBundle::save.html.twig', array(
                     'entity' => $dataList,
@@ -327,29 +284,6 @@ class DataListController extends Controller
         }
 
         return $response; 
-    }
-
-    /**
-     * Delete datalist form
-     *
-     * @param DataList $dataList
-     *
-     * @return Form $form
-     */
-    private function createDeleteForm(DataList $dataList)
-    {
-        $form = $this->createForm('data_list', $dataList, array(
-            'action' => $this->generateUrl('data_list_delete', array(
-                'id' => $dataList->getId(),
-                )
-            ),
-            'method' => 'DELETE',
-            'submit_label' => 'delete',
-            'submit_color' => 'danger',
-            )
-        );
-
-        return $form;
     }
 
     /**

@@ -14,6 +14,7 @@ use SL\CoreBundle\Entity\DataList;
 use SL\CoreBundle\Entity\DataListValue;
 use SL\CoreBundle\Services\JSTreeService;
 use SL\CoreBundle\Services\IconService;
+use SL\CoreBundle\Services\DataListValueService;
 
 /**
  * DataListValue controller
@@ -24,19 +25,22 @@ class DataListValueController extends Controller
     private $em;
     private $jstreeService;
     private $iconService;
+    private $dataListValueService;
 
     /**
      * @DI\InjectParams({
      *     "em" = @DI\Inject("doctrine.orm.entity_manager"),
      *     "jstreeService" = @DI\Inject("sl_core.js_tree"),
      *     "iconService" = @DI\Inject("sl_core.icon"),
+     *     "dataListValueService" = @DI\Inject("sl_core.data_list_value")
      * })
      */
-    public function __construct(EntityManager $em, JSTreeService $jstreeService, IconService $iconService)
+    public function __construct(EntityManager $em, JSTreeService $jstreeService, IconService $iconService, DataListValueService $dataListValueService)
     {
         $this->em = $em;
         $this->jstreeService = $jstreeService;
         $this->iconService = $iconService;
+        $this->dataListValueService = $dataListValueService;
     }
 
     /**
@@ -50,7 +54,7 @@ class DataListValueController extends Controller
 
             $dataListValue = new DataListValue();
 
-            $form = $this->createCreateForm($dataList, $dataListValue);
+            $form = $this->dataListValueService->createCreateForm($dataList, $dataListValue);
 
             $response = $this->render('SLCoreBundle::save.html.twig', array(
                 'entity' => $dataListValue,
@@ -75,7 +79,7 @@ class DataListValueController extends Controller
         $dataListValue = new DataListValue();
         $dataListValue->setDataList($dataList); 
 
-        $form = $this->createCreateForm($dataList, $dataListValue);
+        $form = $this->dataListValueService->createCreateForm($dataList, $dataListValue);
 
         $form->handleRequest($request);
 
@@ -119,37 +123,13 @@ class DataListValueController extends Controller
     }
 
     /**
-    * Create datalistvalue form
-    *
-    * @param DataList $dataList Parent datalist
-    * @param DataListValue $dataListValue
-    *
-    * @return Form $form
-    */
-    private function createCreateForm(DataList $dataList, DataListValue $dataListValue)
-    {   
-        $form = $this->createForm('data_list_value', $dataListValue, array(
-            'action' => $this->generateUrl('data_list_value_create', array(
-                'id' => $dataList->getId(),
-                )
-            ),
-            'method' => 'POST',
-            'submit_label' => 'create',
-            'submit_color' => 'primary',
-            )
-        );
-
-        return $form;
-    }
-
-    /**
      * Display form to edit datalistvalue entity
      *
      * @param DataListValue $dataListValue
      */
     public function editAction(DataListValue $dataListValue)
     {
-        $form = $this->createEditForm($dataListValue);
+        $form = $this->dataListValueService->createEditForm($dataListValue);
    
         return $this->render('SLCoreBundle::save.html.twig', array(
             'entity' => $dataListValue,
@@ -165,7 +145,7 @@ class DataListValueController extends Controller
      */
     public function updateAction(Request $request, DataListValue $dataListValue)
     {
-        $form = $this->createEditForm($dataListValue);
+        $form = $this->dataListValueService->createEditForm($dataListValue);
         
         $form->handleRequest($request);
 
@@ -206,30 +186,6 @@ class DataListValueController extends Controller
         return $response;
     }
 
-
-    /**
-    * Update datalistvalue form
-    *
-    * @param DataListValue $dataListValue
-    *
-    * @return Form $form
-    */
-    private function createEditForm(DataListValue $dataListValue)
-    {
-        $form = $this->createForm('data_list_value', $dataListValue, array(
-            'action' => $this->generateUrl('data_list_value_update', array(
-                'id' => $dataListValue->getId(),
-                )
-            ),
-            'method' => 'PUT',
-            'submit_label' => 'update',
-            'submit_color' => 'primary',
-            )
-        );
-
-        return $form;
-    }
-
     /**
      * Display form to remove datalistvalue entity
      *
@@ -237,7 +193,7 @@ class DataListValueController extends Controller
      */
     public function removeAction(DataListValue $dataListValue)
     {
-        $form = $this->createDeleteForm($dataListValue);
+        $form = $this->dataListValueService->createDeleteForm($dataListValue);
 
         return $this->render('SLCoreBundle::save.html.twig', array(
             'entity' => $dataListValue,
@@ -278,30 +234,6 @@ class DataListValueController extends Controller
         }
 
         return $response; 
-    }
-
-
-    /**
-     * Delete datalistvalue Form
-     *
-     * @param DataListValue $dataListValue
-     *
-     * @return Form $form
-     */
-    private function createDeleteForm(DataListValue $dataListValue)
-    {
-        $form = $this->createForm('data_list_value', $dataListValue, array(
-            'action' => $this->generateUrl('data_list_value_delete', array(
-                'id' => $dataListValue->getId(),
-                )
-            ),
-            'method' => 'DELETE',
-            'submit_label' => 'delete',
-            'submit_color' => 'danger',
-            )
-        );
-
-        return $form;
     }
 
     /**

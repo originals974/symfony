@@ -59,7 +59,7 @@ class PropertyController extends Controller
 
             $property = new Property();
  
-            $formArray = $this->createCreateForm($object, $property, 'default');
+            $formArray = $this->propertyService->createCreateForm($object, $property, 'default');
             $formChoice = $formArray['choiceForm']; 
             $form = $formArray['mainForm'];
 
@@ -93,7 +93,7 @@ class PropertyController extends Controller
             $property = $this->propertyService->getPropertyObjectByFormMode($formMode); 
             $property->setObject($object); 
 
-            $formArray = $this->createCreateForm($object, $property, $formMode);
+            $formArray = $this->propertyService->createCreateForm($object, $property, $formMode);
             $formChoice = $formArray['choiceForm']; 
             $form = $formArray['mainForm'];
 
@@ -122,7 +122,7 @@ class PropertyController extends Controller
         $property = $this->propertyService->getPropertyObjectByFormMode($formMode); 
         $property->setObject($object);
 
-        $formArray = $this->createCreateForm($object, $property, $formMode);
+        $formArray = $this->propertyService->createCreateForm($object, $property, $formMode);
         $formChoice = $formArray['choiceForm'];
         $form = $formArray['mainForm'];
 
@@ -177,60 +177,13 @@ class PropertyController extends Controller
     }
 
     /**
-    * Create property form
-    *
-    * @param Object $object Parent object of new property
-    * @param Property $property 
-    * @param String $formMode Depending of the property type to create (Default | Entity | List) 
-    *
-    * @return Array $form Array of form
-    */
-    private function createCreateForm(Object $object, Property $property, $formMode)
-    {   
-        $form = array(); 
-
-        $choiceForm = $this->createForm('property_choice', null, array(
-            'action' => $this->generateUrl('property_choice_form', array(
-                'id' => $object->getId(),
-                )
-            ),
-            'method' => 'POST',
-            )
-        );
-
-        $choiceForm->get('formMode')->setData($formMode);
-
-        $form['choiceForm'] = $choiceForm; 
-
-        //Select formType depending to formMode
-        $formService = $this->propertyService->selectFormService($formMode); 
-
-        $mainForm = $this->createForm($formService, $property, array(
-            'action' => $this->generateUrl('property_create', array(
-                    'id' => $object->getId(),
-                    'formMode' => $formMode,
-                )
-            ),
-            'method' => 'POST',
-            'object_id' => $object->getId(),
-            'submit_label' => 'create',
-            'submit_color' => 'primary',
-            )
-        );
-
-        $form['mainForm'] = $mainForm; 
-
-        return $form;
-    }
-
-    /**
      * Display form to edit property entity
      *
      * @param Property $property
      */
     public function editAction(Property $property)
     {
-        $form = $this->createEditForm($property);
+        $form = $this->propertyService->createEditForm($property);
  
         return $this->render('SLCoreBundle::save.html.twig', array(
             'entity' => $property,
@@ -246,7 +199,7 @@ class PropertyController extends Controller
      */
     public function updateAction(Request $request, Property $property)
     {
-        $form = $this->createEditForm($property);
+        $form = $this->propertyService->createEditForm($property);
 
         $form->handleRequest($request);
 
@@ -293,35 +246,6 @@ class PropertyController extends Controller
         return $response; 
     }
 
-
-    /**
-    * Update property form
-    *
-    * @param Property $property
-    *
-    * @return Form $form
-    */
-    private function createEditForm(Property $property)
-    {
-        //Select formtype depending to fieldtype
-        $formMode = $this->propertyService->getFormModeByProperty($property); 
-        $formService = $this->propertyService->selectFormService($formMode); 
-
-        $form = $this->createForm($formService, $property, array(
-            'action' => $this->generateUrl('property_update', array(
-                'id' => $property->getId(),
-                )
-            ),
-            'method' => 'PUT',
-            'object_id' => $property->getObject()->getId(),
-            'submit_label' => 'update',
-            'submit_color' => 'primary',
-            )
-        );
-
-        return $form;
-    }
-
     /**
      * Display form to remove property entity
      *
@@ -333,7 +257,7 @@ class PropertyController extends Controller
         $integrityError = $this->propertyService->integrityControlBeforeDelete($property); 
         if($integrityError == null) {
                    
-            $form = $this->createDeleteForm($property);
+            $form = $this->propertyService->createDeleteForm($property);
 
             return $this->render('SLCoreBundle::save.html.twig', array(
                 'entity' => $property,
@@ -390,31 +314,6 @@ class PropertyController extends Controller
         }
 
         return $response; 
-    }
-
-
-    /**
-     * Delete property form
-     *
-     * @param Property $property
-     *
-     * @return Form $form
-     */
-    private function createDeleteForm(Property $property)
-    {
-        $form = $this->createForm('property', $property, array(
-            'action' => $this->generateUrl('property_delete', array(
-                'id' => $property->getId(),
-                )
-            ),
-            'method' => 'DELETE',
-            'object_id' => $property->getObject()->getId(),
-            'submit_label' => 'delete',
-            'submit_color' => 'danger',
-            )
-        );
-
-        return $form;
     }
 
     /**

@@ -53,7 +53,7 @@ class ObjectUpdateController extends Controller
     */
     public function editAction(Object $object)
     {
-        $form = $this->createEditForm($object);
+        $form = $this->objectService->createEditForm($object);
  
         return $this->render('SLCoreBundle::save.html.twig', array(
             'entity' => $object,
@@ -72,7 +72,7 @@ class ObjectUpdateController extends Controller
         //Get initial parent of Object
         $initParentId = ($object->getParent() != null)?$object->getParent()->getId():null; 
 
-        $form = $this->createEditForm($object);
+        $form = $this->objectService->createEditForm($object);
         $form->handleRequest($request);
 
         //Get new parent of Object
@@ -131,37 +131,13 @@ class ObjectUpdateController extends Controller
     }
 
     /**
-    * Update object form
-    *
-    * @param Object $object
-    *
-    * @return Form $form
-    */
-    private function createEditForm(Object $object)
-    {    
-        $formType = ($object->isDocument())?'document':'object';
-        
-        $form = $this->createForm($formType, $object, array(
-            'action' => $this->generateUrl('object_update', array('id' => $object->getId())),
-            'method' => 'PUT',
-            'submit_label' => 'update',
-            'submit_color' => 'primary',
-            'disabled_parent_field' => false,
-            'object' => $object
-            )
-        );
-
-        return $form;
-    }
-
-    /**
     * Display form to edit calculated name
     *
     * @param Object $object
     */
     public function editCalculatedNameAction(Object $object)
     {
-        $form = $this->createEditCalculatedNameForm($object);
+        $form = $this->objectService->createEditCalculatedNameForm($object);
  
         $objects = $this->em->getRepository('SLCoreBundle:Object')->getPath($object); 
 
@@ -179,7 +155,7 @@ class ObjectUpdateController extends Controller
     */
     public function updateCalculatedNameAction(Request $request, Object $object)
     {
-        $form = $this->createEditCalculatedNameForm($object);
+        $form = $this->objectService->createEditCalculatedNameForm($object);
 
         $form->handleRequest($request);
 
@@ -221,26 +197,6 @@ class ObjectUpdateController extends Controller
         }
 
         return $response; 
-    }
-
-    /**
-    * Update Calculated name form 
-    *
-    * @param Object $object
-    *
-    * @return Form $form
-    */
-    private function createEditCalculatedNameForm(Object $object)
-    {      
-        $form = $this->createForm('object_calculated_name', $object, array(
-            'action' => $this->generateUrl('object_update_calculated_name', array(
-                'id' => $object->getId(),
-                )
-            ),
-            )
-        );
-
-        return $form;
     }
 
      /**

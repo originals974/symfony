@@ -7,7 +7,9 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Component\Translation\Translator;
 use Symfony\Component\Form\Form; 
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Bundle\TwigBundle\Debug\TimedTwigEngine;  
+use Symfony\Bundle\TwigBundle\Debug\TimedTwigEngine;
+use Symfony\Component\Form\FormFactory;
+use Symfony\Component\Routing\Router;   
 
 //Custom classes
 use SL\CoreBundle\Entity\Object;
@@ -23,18 +25,123 @@ class PropertyService
 {
     private $em;
     private $translator;
+    private $formFactory;
+    private $router;
 
     /**
      * Constructor
      *
      * @param EntityManager $em
      * @param Translator $translator
+     * @param FormFactory $formFactory
+     * @param Router $router
      *
      */
-    public function __construct(EntityManager $em, Translator $translator)
+    public function __construct(EntityManager $em, Translator $translator, FormFactory $formFactory, Router $router)
     {
         $this->em = $em;
         $this->translator = $translator;
+        $this->formFactory = $formFactory;
+        $this->router = $router;
+    }
+
+     /**
+    * Create property form
+    *
+    * @param Object $object Parent object of new property
+    * @param Property $property 
+    * @param String $formMode Depending of the property type to create (Default | Entity | List) 
+    *
+    * @return Array $form Array of form
+    */
+    public function createCreateForm(Object $object, Property $property, $formMode)
+    {   
+        $form = array(); 
+
+        $choiceForm = $this->formFactory->create('property_choice', null, array(
+            'action' => $this->router->generate('property_choice_form', array(
+                'id' => $object->getId(),
+                )
+            ),
+            'method' => 'POST',
+            )
+        );
+
+        $choiceForm->get('formMode')->setData($formMode);
+
+        $form['choiceForm'] = $choiceForm; 
+
+        //Select formType depending to formMode
+        $formService = $this->selectFormService($formMode); 
+
+        $mainForm = $this->formFactory->create($formService, $property, array(
+            'action' => $this->router->generate('property_create', array(
+                    'id' => $object->getId(),
+                    'formMode' => $formMode,
+                )
+            ),
+            'method' => 'POST',
+            'object_id' => $object->getId(),
+            'submit_label' => 'create',
+            'submit_color' => 'primary',
+            )
+        );
+
+        $form['mainForm'] = $mainForm; 
+
+        return $form;
+    }
+
+    /**
+    * Update property form
+    *
+    * @param Property $property
+    *
+    * @return Form $form
+    */
+    public function createEditForm(Property $property)
+    {
+        //Select formtype depending to fieldtype
+        $formMode = $this->getFormModeByProperty($property); 
+        $formService = $this->selectFormService($formMode); 
+
+        $form = $this->formFactory->create($formService, $property, array(
+            'action' => $this->router->generate('property_update', array(
+                'id' => $property->getId(),
+                )
+            ),
+            'method' => 'PUT',
+            'object_id' => $property->getObject()->getId(),
+            'submit_label' => 'update',
+            'submit_color' => 'primary',
+            )
+        );
+
+        return $form;
+    }
+
+     /**
+     * Delete property form
+     *
+     * @param Property $property
+     *
+     * @return Form $form
+     */
+    public function createDeleteForm(Property $property)
+    {
+        $form = $this->formFactory->create('property', $property, array(
+            'action' => $this->router->generate('property_delete', array(
+                'id' => $property->getId(),
+                )
+            ),
+            'method' => 'DELETE',
+            'object_id' => $property->getObject()->getId(),
+            'submit_label' => 'delete',
+            'submit_color' => 'danger',
+            )
+        );
+
+        return $form;
     }
 
    /**

@@ -9,6 +9,8 @@ use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\TwigBundle\Debug\TimedTwigEngine;  
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\Form\FormFactory;
+use Symfony\Component\Routing\Router; 
 
 //Custom classes
 use SL\CoreBundle\Entity\Object;
@@ -24,20 +26,132 @@ class ObjectService
     private $em;
     private $databaseEm;
     private $translator;
+    private $formFactory;
+    private $router;
 
     /**
      * Constructor
      *
      * @param RegistryInterface $registry
      * @param Translator $translator
+     * @param FormFactory $formFactory
+     * @param Router $router
      *
      */
-    public function __construct(RegistryInterface $registry, Translator $translator)
+    public function __construct(RegistryInterface $registry, Translator $translator, FormFactory $formFactory, Router $router)
     {
         $this->registry = $registry;
         $this->em = $registry->getManager();
         $this->databaseEm = $registry->getManager('database');
         $this->translator = $translator;
+        $this->formFactory = $formFactory;
+        $this->router = $router;
+    }
+
+    /**
+    * Create object form
+    *
+    * @param Object $object
+    *
+    * @return Form $form
+    */
+    public function createCreateForm(Object $object)
+    {
+        $parentObject = $object->getParent();
+
+        //Disable parent combobox if object has a parent object
+        if($object->getParent() != null) {
+            $disabledParentField = true; 
+        }
+        else{
+            $disabledParentField = false; 
+        }
+
+        $formType = ($object->isDocument())?'document':'object';
+
+        $form = $this->formFactory->create($formType, $object, array(
+            'action' => $this->router->generate('object_create', array(
+                'isDocument' => $object->isDocument(),
+                'id' =>  ( $parentObject != null)?$parentObject->getId():0,
+                )
+            ),
+            'method' => 'POST',
+            'submit_label' => 'create',
+            'submit_color' => 'primary',
+            'disabled_parent_field' => $disabledParentField,
+            'object' => $object
+            )
+        );
+
+        return $form;
+    }
+
+    /**
+    * Update object form
+    *
+    * @param Object $object
+    *
+    * @return Form $form
+    */
+    public function createEditForm(Object $object)
+    {    
+        $formService = ($object->isDocument())?'document':'object';
+        
+        $form = $this->formFactory->create($formService, $object, array(
+            'action' => $this->router->generate('object_update', array('id' => $object->getId())),
+            'method' => 'PUT',
+            'submit_label' => 'update',
+            'submit_color' => 'primary',
+            'disabled_parent_field' => false,
+            'object' => $object
+            )
+        );
+
+        return $form;
+    }
+
+    /**
+    * Update Calculated name form 
+    *
+    * @param Object $object
+    *
+    * @return Form $form
+    */
+    public function createEditCalculatedNameForm(Object $object)
+    {      
+        $form = $this->formFactory->create('object_calculated_name', $object, array(
+            'action' => $this->router->generate('object_update_calculated_name', array(
+                'id' => $object->getId(),
+                )
+            ),
+            )
+        );
+
+        return $form;
+    }
+
+    /**
+     * Delete object Form
+     *
+     * @param Object $object
+     *
+     * @return Form $form
+     */
+    public function createDeleteForm(Object $object)
+    {
+        $formType = ($object->isDocument())?'document':'object';
+        
+        $form = $this->formFactory->create($formType, $object, array(
+            'action' => $this->router->generate('object_delete', array('id' => $object->getId())),
+            'method' => 'DELETE',
+            'submit_label' => 'delete',
+            'submit_color' => 'danger',
+            'disabled_parent_field' => false,
+            'object' => $object
+            )
+        );
+
+        return $form;
     }
 
    /**
