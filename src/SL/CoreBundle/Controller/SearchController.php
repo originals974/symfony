@@ -12,8 +12,8 @@ use JMS\DiExtraBundle\Annotation as DI;
 
 //Custom classes
 use SL\CoreBundle\Entity\Search;
-use SL\CoreBundle\Form\SearchType;
 use SL\CoreBundle\Services\ElasticaService;
+use SL\CoreBundle\Services\SearchService;
 
 /**
  * Search controller.
@@ -23,20 +23,20 @@ class SearchController extends Controller
 {
     private $em;
     private $elasticaService;
-    private $type;
+    private $searchService; 
 
     /**
      * @DI\InjectParams({
      *     "em" = @DI\Inject("doctrine.orm.entity_manager"),
      *     "elasticaService" = @DI\Inject("sl_core.elastica"),
-     *     "type" = @DI\Inject("fos_elastica.index.slcore")
+     *     "searchService" = @DI\Inject("sl_core.search")
      * })
      */
-    public function __construct(EntityManager $em, ElasticaService $elasticaService, Index $type)
+    public function __construct(EntityManager $em, ElasticaService $elasticaService, SearchService $searchService)
     {
         $this->em = $em;
         $this->elasticaService = $elasticaService;
-        $this->type = $type; 
+        $this->searchService = $searchService; 
     }
 
     /**
@@ -44,29 +44,42 @@ class SearchController extends Controller
     */
     public function searchAction(Request $request) {
        
+        $search =  new Search(); 
+        
+        $form = $this->searchService->createSearchForm($search);
+        $form->handleRequest($request);
+
         if ($request->isXmlHttpRequest()) {    
 
+            //Get all active objects and documents
             $objects = $this->em->getRepository('SLCoreBundle:Object')->findAllEnabledObjects();
             $documents = $this->em->getRepository('SLCoreBundle:Object')->findAllEnabledDocuments();
             $objects = array_merge($objects, $documents);
 
-            $html = $this->renderView('SLCoreBundle:Front:searchResults.html.twig', array(
-                    'objects' => $objects,
-                    )
-                ); 
-
-            //Format object technical name array for javascript
-            $objectsTechnicalName = array(); 
+            //Get number of results for each object
+            $objectsArray = array(); 
             foreach($objects as $object){
-                array_push($objectsTechnicalName, $object->getTechnicalName()); 
+
+                //Search in Elactica index
+                $entities = $this->getSearchResults($search->getSearchField(), $object->getTechnicalName(), 100);
+
+                //Include object only if it has results
+                if(!empty($entities)){
+                    $objectArray = array(
+                        'object' => $object,
+                        'nb_results' => count($entities), 
+                        );
+                    array_push($objectsArray, $objectArray);
+                }
             }
+            $html = $this->renderView('SLCoreBundle:Front:searchResults.html.twig', array(
+                    'objectsArray' => $objectsArray,
+                    )
+                );
 
             $data = array(
                 'isValid' => true,
-                'content' => array(
-                    'html' => $html,
-                    'objectsTechnicalName' => $objectsTechnicalName,
-                    ),
+                'content' => $html
                 ); 
             
             $response = new JsonResponse($data);
@@ -80,27 +93,22 @@ class SearchController extends Controller
         return $response; 
     }
 
-
     /**
-    * Create JsTree Results for an object
+    * Refresh JsTree Results for an object
+    *
+    * @param String $pattern Search pattern
+    * @param String $objectTechnicalName
     */
-    public function createJsTreeSearchResultsAction(Request $request, $pattern, $objectTechnicalName)
+    public function refreshJsTreeSearchResultsAction(Request $request, $pattern, $objectTechnicalName)
     {
         if ($request->isXmlHttpRequest()) {    
 
             $data = array(); 
 
-            if($pattern != "") {
-                $finderName = 'fos_elastica.finder.slcore.'.$objectTechnicalName; 
-
-                $finder = $this->get($finderName); 
-
-                $entities = $finder->find($pattern, 50);
+            $entities = $this->getSearchResults($pattern, $objectTechnicalName, 50);
                     
-                $data = array();             
-                $this->elasticaService->EntitiesToJSTreeData($data, $entities);
-
-            }
+            $data = array();             
+            $this->elasticaService->EntitiesToJSTreeData($data, $entities);
             
             $response = new JsonResponse($data);
         }
@@ -111,5 +119,23 @@ class SearchController extends Controller
         }
 
         return $response; 
+    }
+
+    /**
+    * Get search results for an object 
+    *
+    * @param String $pattern Search pattern
+    * @param String $objectTechnicalName
+    * @param Integer $limit Max results number 
+    *
+    * @return array $entities Array of results
+    */
+    private function getSearchResults($pattern, $objectTechnicalName, $limit){
+
+        $finderName = 'fos_elastica.finder.slcore.'.$objectTechnicalName; 
+        $finder = $this->get($finderName); 
+        $entities = $finder->find($pattern, $limit);
+
+        return $entities; 
     }
 }

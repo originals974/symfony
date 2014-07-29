@@ -48,6 +48,6 @@ class SearchType extends AbstractType
      */
     public function getName()
     {
-        return 'sl_corebundle_search';
+        return 'sl_core_search';
     }
 }

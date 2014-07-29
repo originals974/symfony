@@ -288,23 +288,28 @@ fos_elastica:
         slcore:
             client: default
             types:
-                Object18:
+                Object21:
                     persistence:
                         driver: orm
-                        model:  SL\DataBundle\Entity\Object18
+                        model:  SL\DataBundle\Entity\Object21
                         provider: ~
                         listener: ~
                         finder: ~
                 
-                Object19:
+                Object22:
                     persistence:
                         driver: orm
-                        model:  SL\DataBundle\Entity\Object19
+                        model:  SL\DataBundle\Entity\Object22
                         provider: ~
                         listener: ~
                         finder: ~
-                
-
+                Object23:
+                    persistence:
+                        driver: orm
+                        model:  SL\DataBundle\Entity\Object23
+                        provider: ~
+                        listener: ~
+                        finder: ~
 
 #Shiva versionning
 shivas_versioning:

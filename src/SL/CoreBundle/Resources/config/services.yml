@@ -30,6 +30,10 @@ services:
         class: SL\CoreBundle\Services\ElasticaService
         arguments: [@doctrine.orm.entity_manager, @router, @sl_core.js_tree, %sl_data.bundle%, %symfony.config_path%]
 
+    sl_core.search:
+        class: SL\CoreBundle\Services\SearchService
+        arguments: [@form.factory, @router]
+
     twig.text_extension:
         class: Twig_Extensions_Extension_Text
         tags:
@@ -86,6 +90,11 @@ services:
         class: SL\CoreBundle\Form\ListPropertyType
         tags:
             - { name: form.type, alias: choice_property }
+    
+    sl_core.form.type.search:
+        class: SL\CoreBundle\Form\SearchType
+        tags:
+            - { name: form.type, alias: sl_core_search }
 
     #Custom form validator service
     validator.unique.calculated_name_pattern:

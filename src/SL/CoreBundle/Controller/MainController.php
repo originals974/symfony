@@ -6,10 +6,11 @@ namespace SL\CoreBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use JMS\DiExtraBundle\Annotation as DI;
 
 //Custom classes
 use SL\CoreBundle\Entity\Search;
-use SL\CoreBundle\Form\SearchType;
+use SL\CoreBundle\Services\SearchService;
 
 /**
  * Front controller.
@@ -17,6 +18,18 @@ use SL\CoreBundle\Form\SearchType;
  */
 class MainController extends Controller
 {
+    private $searchService;
+
+     /**
+     * @DI\InjectParams({
+     *     "searchService" = @DI\Inject("sl_core.search"),
+     * })
+     */
+    public function __construct(SearchService $searchService)
+    {
+        $this->searchService = $searchService;
+    }
+
     /**
      * Test
      */
@@ -43,17 +56,7 @@ class MainController extends Controller
     {
         $search = new Search(); 
 
-        $form = $this->createForm(new SearchType(), $search, array(
-            'action' => $this->generateUrl('search'),
-            'method' => 'POST',
-            'attr' => array(
-                'id' => 'sl_corebundle_search',
-                'class' => 'form-inline',
-                'valid-target' => 'search_result', 
-                'mode' => 'search',
-                ),
-            )
-        );
+        $form = $this->searchService->createSearchForm($search);
 
         return $this->render('SLCoreBundle:FrontEnd:index.html.twig', array(
             'form'   => $form->createView(),

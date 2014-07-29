@@ -1,11 +1,18 @@
 <div class="panel-group" id="search_result_panel">
-  {% for object in objects %}
+  {% for objectArray in objectsArray %}
+    {% set object = objectArray['object'] %}
+    {% set nbResults = objectArray['nb_results'] %}
+
+    {% if nbResults > 50 %}
+      {% set nbResults = '50 +' %}
+    {% endif %}
+
     <div class="panel panel-default">
       <div class="panel-heading">
         <h4 class="panel-title">
           <a data-toggle="collapse" data-parent="#search_result_panel" href="#{{ object.technicalName }}">
             <span class="fa {{ object.icon }}"></span> 
-            {{ object.displayName }}
+            {{ object.displayName }} ({{ nbResults }})
           </a>
         </h4>
       </div>
@@ -15,5 +22,6 @@
         </div>
       </div>
     </div>
+
   {% endfor %}
 </div>

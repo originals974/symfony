@@ -4,8 +4,8 @@
         var currentJsTreeReferenceId; 
 
         //JsTree init configuration
-        function initJsTree(jsTreeReferenceId, objectTechnicalName) {
-            $(jsTreeReferenceId)
+        function initJsTree(jsTreeId, objectTechnicalName) {
+            $('#'+jsTreeId)
             .jstree({
                 'core' : {
                     "check_callback" : true,
@@ -13,7 +13,7 @@
                     'data' : {
                         'url' :  function (node) {
                                         var pattern; 
-                                        pattern = $('#sl_corebundle_search_searchField').val(); 
+                                        pattern = $('#sl_core_search_searchField').val(); 
                                         return Routing.generate('search_result', { pattern : pattern, objectTechnicalName : objectTechnicalName });
                         },
                         'data' : function (data) {
@@ -60,8 +60,8 @@
 	     */
         function submitFormToAjaxFrontEnd($form) {
 
-        	var validTarget, noValidTarget, method, modalId, selectedNode, reSelectedNode, guid, mode;
-            var jsTree, currentJsTreeReference, jsTreeId, jsTreeIds;  
+        	var validTarget, noValidTarget, method, modalId, selectedNode, reSelectedNode, guid, mode, objectsTechnicalName, n;
+            var selectedJsTree, jsTree, jsTreeId, jsTreeIds;  
 
         	validTarget = '#'+$form.attr('valid-target'); 
         	noValidTarget = '#'+$form.attr('no-valid-target'); 
@@ -77,7 +77,7 @@
 
                         //Get the modal id  
                         modalId = '#'+$($form).parent().parent().attr('id');
-                        jsTree = $('#'+currentJsTreeReferenceId).jstree(true); 
+                        selectedJsTree = $('#'+currentJsTreeReferenceId).jstree(true); 
 
                         if(mode == 'add'){
                             //Refresh all search results
@@ -88,58 +88,60 @@
                             });*/
                         }
                         else if(mode == 'update') {
-                            selectedNode = jsTree.get_selected(true);  
-                            reSelectedNode = jsTree.get_node(selectedNode[0].id);
+                            selectedNode = selectedJsTree.get_selected(true);  
+                            reSelectedNode = selectedJsTree.get_node(selectedNode[0].id);
                             
                             //Rename all node for all jstree reference
                             guid = selectedNode[0].li_attr['guid'];
-                            $('#search_result_panel').find('div[id*="jstree"]').each(function(){
+                            $('#search_result_panel').find('div[id*="jstree_"]').each(function(){
 
                                 jsTreeId = $(this).attr('id'); 
-                                currentJsTreeReference = $('#'+jsTreeId).jstree(true);
+                                jsTree = $('#'+jsTreeId).jstree(true);
                                 jsTreeIds = [];
                                 $(this).find('li[guid="'+guid+'"]').each(function(){
                                     jsTreeIds[jsTreeIds.length] = $(this).attr('id');
                                 });
 
-                                currentJsTreeReference.rename_node(jsTreeIds, data.content);
+                                jsTree.rename_node(jsTreeIds, data.content);
                             });
 
-                            jsTree.deselect_node(selectedNode);
-                            jsTree.select_node(reSelectedNode);
+                            selectedJsTree.deselect_node(selectedNode);
+                            selectedJsTree.select_node(reSelectedNode);
                         }
                         else if(mode == 'delete') {
-                            selectedNode = jsTree.get_selected(true);  
-                            reSelectedNode = jsTree.get_node(selectedNode[0].id);
+                            selectedNode = selectedJsTree.get_selected(true);  
+                            reSelectedNode = selectedJsTree.get_node(selectedNode[0].id);
 
                             //Delete all node for all jstree reference
                             guid = selectedNode[0].li_attr['guid'];
-                            $('#search_result_panel').find('div[id*="jstree"]').each(function(){
+                            $('#search_result_panel').find('div[id*="jstree_"]').each(function(){
 
                                 jsTreeId = $(this).attr('id'); 
-                                currentJsTreeReference = $('#'+jsTreeId).jstree(true);
+                                jsTree = $('#'+jsTreeId).jstree(true);
                                 jsTreeIds = [];
                                 $(this).find('li[guid="'+guid+'"]').each(function(){
                                     jsTreeIds[jsTreeIds.length] = $(this).attr('id');
                                 });
 
-                                currentJsTreeReference.delete_node(jsTreeIds);
+                                jsTree.delete_node(jsTreeIds);
                             });
                         }
                         else if(mode == 'search') {
-                            $(validTarget).html(data.content.html);
+                            $(validTarget).html(data.content);
 
-                            objectsTechnicalName = data.content.objectsTechnicalName;
+                            $('#search_result_panel').find('div[id*="jstree_"]').each(function(){
 
-                            for (var key in objectsTechnicalName){
-                                jsTreeReferenceId = '#jstree_'+objectsTechnicalName[key];
+                                jsTreeId = $(this).attr('id'); 
 
-                                if($.jstree.reference(jsTreeReferenceId) != "") {
-                                    initJsTree(jsTreeReferenceId, objectsTechnicalName[key]);
-                                }
+                                //Extract object technical name
+                                n =  jsTreeId.search("_"); 
+                                objectsTechnicalName = jsTreeId.substring(n);
 
-                                $(jsTreeReferenceId).jstree(true).refresh();
-                            }
+                                initJsTree(jsTreeId, objectsTechnicalName);
+
+                                $('#'+jsTreeId).jstree(true).refresh();
+
+                            });
                         }
 
                         //Close the modal

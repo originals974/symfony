@@ -6,6 +6,6 @@ search:
 
 search_result:
     pattern:  /search_result/{pattern}.{objectTechnicalName}
-    defaults: { _controller: SLCoreBundle:Search:createJsTreeSearchResults }
+    defaults: { _controller: SLCoreBundle:Search:refreshJsTreeSearchResults }
     options:
         expose: true
