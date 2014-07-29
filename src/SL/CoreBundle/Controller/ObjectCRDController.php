@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 //Custom classes
 use SL\CoreBundle\Entity\Object;
@@ -169,6 +170,8 @@ class ObjectCRDController extends Controller
      * Show object entity
      *
      * @param Object $object Object to show
+     *
+     * @ParamConverter("object", options={"repository_method" = "findFullById"})
      */
     public function showAction(Request $request,Object $object)
     {

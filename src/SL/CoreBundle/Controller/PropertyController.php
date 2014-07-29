@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use JMS\DiExtraBundle\Annotation as DI;
 use Doctrine\ORM\EntityManager;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 //Custom classes
 use SL\CoreBundle\Entity\Object;
@@ -116,11 +117,14 @@ class PropertyController extends Controller
      *
      * @param Object $object Parent object of new property
      * @param String $formMode Property type to create (Default | Entity | List) 
+     * 
+     * @ParamConverter("object", options={"repository_method" = "findFullById"})
      */
     public function createAction(Request $request, Object $object, $formMode)
     {
         $property = $this->propertyService->getPropertyObjectByFormMode($formMode); 
         $property->setObject($object);
+        $object->addProperty($property); 
 
         $formArray = $this->propertyService->createCreateForm($object, $property, $formMode);
         $formChoice = $formArray['choiceForm'];
@@ -320,7 +324,6 @@ class PropertyController extends Controller
      * Update property checkbox
      *
      * @param Property $property Property to update
-     *
      */
     public function updateCheckboxAction(Request $request, Property $property)
     {

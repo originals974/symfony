@@ -6,7 +6,6 @@ namespace SL\CoreBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use JMS\DiExtraBundle\Annotation as DI;
@@ -272,9 +271,16 @@ class FrontController extends Controller
 
             $objects = $this->em->getRepository('SLCoreBundle:Object')->getPath($object); 
 
+            //Ordered property
+            $orderedObjects = array(); 
+            foreach($objects as $object){
+                $object = $this->em->getRepository('SLCoreBundle:Object')->findFullById($object);
+                array_push($orderedObjects, $object);
+            }
+
             $response = $this->render('SLCoreBundle:Front:show.html.twig', array(
                 'object' => $object, 
-                'objects' => $objects,
+                'objects' => $orderedObjects,
                 'entity' => $entity, 
                 'path' => $path,
                 )

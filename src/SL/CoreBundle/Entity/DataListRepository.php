@@ -18,7 +18,8 @@ class DataListRepository extends EntityRepository
 	{
 		$qb = $this	->createQueryBuilder('dl')
 				   	->leftJoin('dl.dataListValues','dlv')
-	               	->addSelect('dl,dlv');
+	               	->addSelect('dlv')
+	               	->orderBy('dl.position, dlv.position', 'ASC');
 
 	    return $qb 	->getQuery()
 	              	->getResult();
@@ -36,7 +37,8 @@ class DataListRepository extends EntityRepository
 				   	->leftJoin('dl.dataListValues','dlv')
 				   	->where('dl.id = :id')
            			->setParameter('id', $dataListId)
-	               	->addSelect('dl,dlv');
+	               	->addSelect('dlv')
+	               	->orderBy('dlv.position', 'ASC');
 
 	    return $qb 	->getQuery()
 	              	->getSingleResult();
@@ -49,6 +51,7 @@ class DataListRepository extends EntityRepository
 	public function findEnabledDataList()
    {
         return  $this ->createQueryBuilder('dl')
-            		  ->where('dl.isEnabled = true');
+            		  ->where('dl.isEnabled = true')
+            		  ->orderBy('dl.position');
 	}
 }

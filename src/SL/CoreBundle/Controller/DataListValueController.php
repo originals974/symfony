@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 //Custom classes
 use SL\CoreBundle\Entity\DataList;
@@ -73,11 +74,14 @@ class DataListValueController extends Controller
      * Create datalistvalue entity
      *
      * @param DataList $dataList Parent datalist 
+     *
+     * @ParamConverter("dataList", options={"repository_method" = "findFullById"})
      */
     public function createAction(Request $request, DataList $dataList)
     {
         $dataListValue = new DataListValue();
         $dataListValue->setDataList($dataList); 
+        $dataList->addDataListValue($dataListValue); 
 
         $form = $this->dataListValueService->createCreateForm($dataList, $dataListValue);
 
@@ -156,8 +160,10 @@ class DataListValueController extends Controller
 
                 $this->em->flush();
                 
+                $dataList = $this->em->getRepository('SLCoreBundle:DataList')->findFullById($dataListValue->getDataList()->getId()); 
+
                 $html = $this->renderView('SLCoreBundle:DataListValue:dataListValueTable.html.twig', array(
-                    'dataList' => $dataListValue->getDataList(), 
+                    'dataList' => $dataList, 
                     )
                 );
             }
@@ -214,8 +220,10 @@ class DataListValueController extends Controller
             $this->em->remove($dataListValue);
             $this->em->flush();
 
+            $dataList = $this->em->getRepository('SLCoreBundle:DataList')->findFullById($dataListValue->getDataList()->getId()); 
+
             $html = $this->renderView('SLCoreBundle:DataListValue:dataListValueTable.html.twig', array(
-                'dataList' => $dataListValue->getDataList(), 
+                'dataList' => $dataList, 
                 )
             );
 

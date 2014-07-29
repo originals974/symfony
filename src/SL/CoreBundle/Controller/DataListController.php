@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 //Custom classes
 use SL\CoreBundle\Entity\DataList;
@@ -202,6 +203,8 @@ class DataListController extends Controller
      * Show datalist entity
      *
      * @param DataList $dataList Datalist to show
+     *
+     * @ParamConverter("dataList", options={"repository_method" = "findFullById"})
      */
     public function showAction(Request $request, DataList $dataList)
     {

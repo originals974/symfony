@@ -24,7 +24,7 @@ class ObjectRepository extends NestedTreeRepository
 	public function findFullAll(QueryBuilder $qb){
 
 		$qb ->leftjoin('o.properties','p')
-        ->addOrderBy('o.lvl', 'ASC')
+        ->orderBy('o.position, p.position', 'ASC')
         ->addSelect('p');
 
     return $qb; 
@@ -114,7 +114,8 @@ class ObjectRepository extends NestedTreeRepository
               ->andWhere('o.isDocument = :isDocument')
               ->setParameter('isDocument', false)
               ->andWhere('o.id <> :id')
-              ->setParameter('id', $currentObjectId);
+              ->setParameter('id', $currentObjectId)
+              ->orderBy('o.position', 'ASC');
 
     return  $qb;
 

@@ -289,25 +289,25 @@ fos_elastica:
         slcore:
             client: default
             types:
-                Object21:
+                Object34:
                     persistence:
                         driver: orm
-                        model:  SL\DataBundle\Entity\Object21
+                        model:  SL\DataBundle\Entity\Object34
                         provider: ~
                         listener: ~
                         finder: ~
                 
-                Object22:
+                Object35:
                     persistence:
                         driver: orm
-                        model:  SL\DataBundle\Entity\Object22
+                        model:  SL\DataBundle\Entity\Object35
                         provider: ~
                         listener: ~
                         finder: ~
-                Object23:
+                Object36:
                     persistence:
                         driver: orm
-                        model:  SL\DataBundle\Entity\Object23
+                        model:  SL\DataBundle\Entity\Object36
                         provider: ~
                         listener: ~
                         finder: ~

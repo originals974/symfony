@@ -43,6 +43,8 @@ class FrontType extends AbstractType
                 'inherit_data' => true,
                 ));
 
+                $object = $this->em->getRepository('SLCoreBundle:Object')->findFullById($object->getId());
+
                 foreach ($object->getProperties() as $property) {
                     
                     $fieldOptions = $this->getFieldConfiguration($property); 
