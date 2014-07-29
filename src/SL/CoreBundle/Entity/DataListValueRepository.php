@@ -25,8 +25,7 @@ class DataListValueRepository extends EntityRepository
 	    			->join('dlv.dataList','dl')
 	                ->where('dl.id = :id')
 	                ->setParameter('id', $dataList->getId())
-	                ->andWhere('dlv.isEnabled = true')
-	                ->orderBy('dlv.displayOrder', 'ASC'); 
+	                ->andWhere('dlv.isEnabled = true'); 
 
 	    return $qb->getQuery()
 	              ->getResult();

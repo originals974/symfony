@@ -225,6 +225,7 @@ stof_doctrine_extensions:
     orm:
         default:
             tree: true
+            sortable: true
 
 # Swiftmailer Configuration
 swiftmailer:

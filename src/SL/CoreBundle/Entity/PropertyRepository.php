@@ -66,8 +66,7 @@ class PropertyRepository extends EntityRepository
 	                ->where('o.id = :id')
 	                ->setParameter('id', $object->getId())
 	                ->andWhere('p.isEnabled = true')
-	                ->addSelect('ft')
-	                ->orderBy('p.displayOrder', 'ASC');
+	                ->addSelect('ft');
 
 	    return $qb->getQuery()
 	              ->getResult();

@@ -265,7 +265,7 @@ class Builder extends ContainerAware
                 )
             );
 
-            $objects = $em->getRepository('SLCoreBundle:Object')->children($object, true, 'displayOrder'); 
+            $objects = $em->getRepository('SLCoreBundle:Object')->children($object, true); 
 
             $this->addBackChildrenObjectItems($objectItem, $objects); 
 

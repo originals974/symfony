@@ -31,8 +31,7 @@ class PropertyType extends AbstractType
                     'query_builder' => function(EntityRepository $er) {
                                             return $er->createQueryBuilder('ft')
                                                       ->join('ft.fieldCategory', 'fg')
-                                                      ->where('ft.isEnabled = true')
-                                                      ->orderBy('ft.displayOrder', 'ASC');
+                                                      ->where('ft.isEnabled = true');
                                         },
                     'group_by' => 'fieldCategory.displayName',
                     'label' =>  'fieldType',

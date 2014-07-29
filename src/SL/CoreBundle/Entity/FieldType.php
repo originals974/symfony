@@ -4,6 +4,7 @@ namespace SL\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * FieldType
@@ -36,6 +37,7 @@ class FieldType extends AbstractEntity
     private $length;
 
     /**
+     * @Gedmo\SortableGroup
      * @ORM\ManyToOne(targetEntity="SL\CoreBundle\Entity\FieldCategory", inversedBy="fieldTypes")
      * @ORM\JoinColumn(nullable=false)
      */

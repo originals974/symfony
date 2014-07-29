@@ -3,6 +3,7 @@
 namespace SL\CoreBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * DataListRepository
@@ -17,8 +18,6 @@ class DataListRepository extends EntityRepository
 	{
 		$qb = $this	->createQueryBuilder('dl')
 				   	->leftJoin('dl.dataListValues','dlv')
-				   	->addOrderBy('dl.displayOrder', 'ASC')
-				   	->addOrderBy('dlv.displayOrder', 'ASC')
 	               	->addSelect('dl,dlv');
 
 	    return $qb 	->getQuery()
@@ -37,8 +36,6 @@ class DataListRepository extends EntityRepository
 				   	->leftJoin('dl.dataListValues','dlv')
 				   	->where('dl.id = :id')
            			->setParameter('id', $dataListId)
-				   	->addOrderBy('dl.displayOrder', 'ASC')
-				   	->addOrderBy('dlv.displayOrder', 'ASC')
 	               	->addSelect('dl,dlv');
 
 	    return $qb 	->getQuery()
@@ -52,7 +49,6 @@ class DataListRepository extends EntityRepository
 	public function findEnabledDataList()
    {
         return  $this ->createQueryBuilder('dl')
-            		  ->where('dl.isEnabled = true')
-                      ->orderBy('dl.displayOrder', 'ASC');
+            		  ->where('dl.isEnabled = true');
 	}
 }

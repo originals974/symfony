@@ -4,6 +4,7 @@ namespace SL\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Property
@@ -34,6 +35,7 @@ class Property extends AbstractEntity
     private $isMultiple=false;
 
     /**
+     * @Gedmo\SortableGroup
      * @ORM\ManyToOne(targetEntity="SL\CoreBundle\Entity\Object", inversedBy="properties")
      * @ORM\JoinColumn(nullable=false)
      */

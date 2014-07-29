@@ -25,8 +25,6 @@ class ObjectRepository extends NestedTreeRepository
 
 		$qb ->leftjoin('o.properties','p')
         ->addOrderBy('o.lvl', 'ASC')
-  		  ->addOrderBy('o.displayOrder', 'ASC')
-  		  ->addOrderBy('p.displayOrder', 'ASC')
         ->addSelect('p');
 
     return $qb; 
@@ -116,8 +114,7 @@ class ObjectRepository extends NestedTreeRepository
               ->andWhere('o.isDocument = :isDocument')
               ->setParameter('isDocument', false)
               ->andWhere('o.id <> :id')
-              ->setParameter('id', $currentObjectId)
-              ->orderBy('o.displayOrder', 'ASC');
+              ->setParameter('id', $currentObjectId);
 
     return  $qb;
 
@@ -133,8 +130,7 @@ class ObjectRepository extends NestedTreeRepository
     $qb = $this->createQueryBuilder('o')
               //->where('o.isEnabled = true')
               ->where('o.isDocument = :isDocument')
-              ->setParameter('isDocument',$object->isDocument())
-              ->orderBy('o.displayOrder', 'ASC');
+              ->setParameter('isDocument',$object->isDocument());
 
     if($object->getId()){
       $qb->andWhere('o.id <> :objectId')

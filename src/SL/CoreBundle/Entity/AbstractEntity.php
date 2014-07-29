@@ -3,6 +3,7 @@
 namespace SL\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * AbstractEntity
@@ -43,11 +44,10 @@ abstract class AbstractEntity
     private $displayName;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="display_order", type="integer", nullable=true)
+     * @Gedmo\SortablePosition
+     * @ORM\Column(name="position", type="integer")
      */
-    private $displayOrder;
+    private $position;
 
     /**
      * @var boolean
@@ -135,26 +135,26 @@ abstract class AbstractEntity
     }
 
     /**
-     * Set displayOrder
+     * Set position
      *
-     * @param integer $displayOrder
+     * @param integer $position
      * @return AbstractEntity
      */
-    public function setDisplayOrder($displayOrder)
+    public function setPosition($position)
     {
-        $this->displayOrder = $displayOrder;
+        $this->position = $position;
 
         return $this;
     }
 
     /**
-     * Get displayOrder
+     * Get position
      *
      * @return integer 
      */
-    public function getDisplayOrder()
+    public function getPosition()
     {
-        return $this->displayOrder;
+        return $this->position;
     }
 
     /**

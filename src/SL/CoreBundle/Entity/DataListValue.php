@@ -4,6 +4,7 @@ namespace SL\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * DataListValue
@@ -25,6 +26,7 @@ class DataListValue extends AbstractEntity
     private $icon = 'fa-minus';
 
     /**
+     * @Gedmo\SortableGroup
      * @ORM\ManyToOne(targetEntity="SL\CoreBundle\Entity\DataList", inversedBy="dataListValues")
      * @ORM\JoinColumn(nullable=false)
      */
