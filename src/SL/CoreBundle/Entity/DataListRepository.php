@@ -3,6 +3,7 @@
 namespace SL\CoreBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
@@ -11,17 +12,40 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class DataListRepository extends EntityRepository
 {
-	/**
-     * Find all datalist and datalistvalue
-     */ 
-	public function findFullAll()
-	{
+   /**
+   * Select all data list and data list value 
+   *
+   * @param QueryBuilder $qb
+   */
+	private function sharedQB(QueryBuilder $qb){
+
 		$qb = $this	->createQueryBuilder('dl')
 				   	->leftJoin('dl.dataListValues','dlv')
 	               	->addSelect('dlv')
 	               	->orderBy('dl.position, dlv.position', 'ASC');
 
-	    return $qb 	->getQuery()
+    	return $qb; 
+	}
+
+	/**
+     * Find all datalist and datalistvalue
+     */ 
+	public function fullFindAllQb()
+	{
+		$qb = $this->createQueryBuilder('dl');
+		$qb = $this->sharedQB($qb);
+
+	    return $qb;
+
+	}
+
+	/**
+     * Find all datalist and datalistvalue
+     */ 
+	public function fullFindAll()
+	{
+	    return $this->fullFindAllQb()
+	    			->getQuery()
 	              	->getResult();
 
 	}
@@ -29,29 +53,18 @@ class DataListRepository extends EntityRepository
 	/**
      * Find all datalist and datalistvalue by datalist id
      *
-     * @param int $dataListId
+     * @param integer $dataListId
      */ 
-	public function findFullById($dataListId)
+	public function fullFindById($dataListId)
 	{
-		$qb = $this	->createQueryBuilder('dl')
-				   	->leftJoin('dl.dataListValues','dlv')
-				   	->where('dl.id = :id')
-           			->setParameter('id', $dataListId)
-	               	->addSelect('dlv')
-	               	->orderBy('dlv.position', 'ASC');
+		$qb = $this->createQueryBuilder('dl');
+		$qb = $this->sharedQB($qb);
+
+		$qb ->where('dl.id = :id')
+			->setParameter('id', $dataListId);
 
 	    return $qb 	->getQuery()
 	              	->getSingleResult();
 
-	}
-
-   /**
-   * Select enabled datalist
-   */
-	public function findEnabledDataList()
-   {
-        return  $this ->createQueryBuilder('dl')
-            		  ->where('dl.isEnabled = true')
-            		  ->orderBy('dl.position');
 	}
 }

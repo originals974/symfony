@@ -274,7 +274,7 @@ class FrontController extends Controller
             //Ordered property
             $orderedObjects = array(); 
             foreach($objects as $object){
-                $object = $this->em->getRepository('SLCoreBundle:Object')->findFullById($object);
+                $object = $this->em->getRepository('SLCoreBundle:Object')->fullFindById($object);
                 array_push($orderedObjects, $object);
             }
 

@@ -15,17 +15,17 @@ use SL\CoreBundle\Entity\DataList;
 class DataListValueRepository extends EntityRepository
 {
 	/**
-	 * Select enabled datalistvalue for a datalist
+	 * Select data list value for datalist
 	 *
 	 * @param DataList $dataList
 	 */
-	public function findEnabledByDataList(DataList $dataList){
+	public function fullFindByDataList(DataList $dataList){
 		
 	    $qb = $this ->createQueryBuilder('dlv')
 	    			->join('dlv.dataList','dl')
 	                ->where('dl.id = :id')
 	                ->setParameter('id', $dataList->getId())
-	                ->andWhere('dlv.isEnabled = true'); 
+	                ->orderBy('dlv.position', 'ASC'); 
 
 	    return $qb->getQuery()
 	              ->getResult();

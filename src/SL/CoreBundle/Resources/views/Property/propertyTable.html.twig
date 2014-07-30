@@ -15,7 +15,6 @@
                         <span class="fa fa-plus"></span>  
                     </a>
                 </th>
-                <th style="width:60px;">{{ 'isEnabled'|trans }}</th>
                 <th style="width:60px;">{{ 'isRequired'|trans }}</th>
                 <th>{{ 'displayName'|trans }}</th>
                 <th>{{ 'fieldType'|trans }}</th>
@@ -29,9 +28,6 @@
                         <a title="{{ 'property.delete'|trans }}" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#" href="{{ path('property_remove', { 'id': property.id }) }}" >
                             <span class="fa fa-times"></span>        
                         </a> 
-                    </td>
-                    <td>
-                        <input title="{{ 'property.enable.disable'|trans }}" type="checkbox" name="isEnabled" value="isEnabled" {% if property.isEnabled %}checked{% endif %} ajax-action={{ path('property_update_checkbox', { 'id': property.id }) }}>
                     </td>
                     <td>
                         <input title="{{ 'property.make.require'|trans }}" type="checkbox" name="isRequired" value="isRequired" {% if property.isRequired %}checked{% endif %} ajax-action={{ path('property_update_checkbox', { 'id': property.id }) }}>

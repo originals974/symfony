@@ -36,6 +36,7 @@ class FrontType extends AbstractType
             $objects = $this->em->getRepository('SLCoreBundle:Object')->getPath($options['object']); 
 
             foreach($objects as $object){
+
                 //Create one tab per object
                 $tab = $builder->create($object->getTechnicalName().'Property', 'tab', array(
                 'label' => $object->getDisplayName(),
@@ -43,7 +44,7 @@ class FrontType extends AbstractType
                 'inherit_data' => true,
                 ));
 
-                $object = $this->em->getRepository('SLCoreBundle:Object')->findFullById($object->getId());
+                $object = $this->em->getRepository('SLCoreBundle:Object')->fullFindById($object->getId());
 
                 foreach ($object->getProperties() as $property) {
                     
@@ -104,8 +105,8 @@ class FrontType extends AbstractType
             case 'choice':
 
                 $choice = array(); 
-                $dataListValues = $this->em ->getRepository('SLCoreBundle:DataLIstValue')
-                                            ->findEnabledByDataList($property->getDataList());
+                $dataListValues = $this->em ->getRepository('SLCoreBundle:DataListValue')
+                                            ->fullFindByDataList($property->getDataList());
 
                 if($dataListValues) {
                     foreach($dataListValues as $dataListValue){

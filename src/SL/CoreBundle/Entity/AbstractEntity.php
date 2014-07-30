@@ -50,13 +50,6 @@ abstract class AbstractEntity
     private $position;
 
     /**
-     * @var boolean
-     *
-     * @ORM\Column(name="is_enabled", type="boolean")
-     */
-    private $isEnabled = true;
-
-    /**
      * Get id
      *
      * @return integer 
@@ -156,30 +149,6 @@ abstract class AbstractEntity
     {
         return $this->position;
     }
-
-    /**
-     * Set isEnabled
-     *
-     * @param boolean $isEnabled
-     * @return AbstractEntity
-     */
-    public function setEnabled($isEnabled)
-    {
-        $this->isEnabled = $isEnabled;
-
-        return $this;
-    }
-
-    /**
-     * Get isEnabled
-     *
-     * @return boolean 
-     */
-    public function isEnabled()
-    {
-        return $this->isEnabled;
-    }
-
 
     /**
      * Get short name of current class

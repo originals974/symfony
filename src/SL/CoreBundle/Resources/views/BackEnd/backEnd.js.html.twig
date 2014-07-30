@@ -1,11 +1,5 @@
 <script type="text/javascript">    
 	$(document).ready(function () {
-
-		//Default BootstrapSwitch parameter
-        $.fn.bootstrapSwitch.defaults.size = 'mini';
-        $.fn.bootstrapSwitch.defaults.onColor = "success"; 
-        $.fn.bootstrapSwitch.defaults.offColor = "danger"; 
-
         //JsTree on change event
 		$('#jstree')
 		.on('changed.jstree', function (e, data) {
@@ -173,12 +167,6 @@
 		    sendToAjaxBackEnd('PUT', $checkbox.attr('ajax-action'), {name : $checkbox.attr("name"), value : $checkbox.is(':checked')}, null);
 		});
 
-        //When change state of switch button ON/OFF
-        $(document).on('switchChange.bootstrapSwitch', 'input[skin="bootstrap-switch"]', function(event, state) {
-        	var $bootstrapSwitch = $(this); 
-		    sendToAjaxBackEnd('PUT', $bootstrapSwitch.attr('ajax-action'), {value : state}, null);
-		});
-
         //When click on a button of calculated name form
         $(document).on('click', '#object_name_designer_button button', function(event) {
         	
@@ -234,7 +222,6 @@
 		        	if($htmlTarget != null) {
 		        		$($htmlTarget).html(data);
 		            	$('button[role="iconpicker"]').iconpicker();
-		            	$('input[skin="bootstrap-switch"]').bootstrapSwitch();
 		        	}
 		        },
 		        error: function(data) {	           

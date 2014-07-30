@@ -52,9 +52,7 @@ class SearchController extends Controller
         if ($request->isXmlHttpRequest()) {    
 
             //Get all active objects and documents
-            $objects = $this->em->getRepository('SLCoreBundle:Object')->findAllEnabledObjects();
-            $documents = $this->em->getRepository('SLCoreBundle:Object')->findAllEnabledDocuments();
-            $objects = array_merge($objects, $documents);
+            $objects = $this->em->getRepository('SLCoreBundle:Object')->fullFindAll();
 
             //Get number of results for each object
             $objectsArray = array(); 

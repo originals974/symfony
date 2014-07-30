@@ -9,9 +9,6 @@
     {% block section_heading %}
         <ul class="list-inline">
             <li>
-                <input skin="bootstrap-switch" type="checkbox" name="isEnabled" value="isEnabled" {% if dataList.isEnabled %}checked{% endif %} ajax-action={{ path('data_list_update_checkbox', { 'id': dataList.id }) }}>  
-            </li>
-            <li>
                 <div class="btn-group">  
                     <a title="{{ 'datalist.update'|trans }}" class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('data_list_edit', { 'id': dataList.id }) }}" data-target="#">
                         <span class="fa fa-pencil"></span>  

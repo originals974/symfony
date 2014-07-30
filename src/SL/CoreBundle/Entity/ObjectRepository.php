@@ -21,7 +21,7 @@ class ObjectRepository extends NestedTreeRepository
    *
    * @param QueryBuilder $qb
    */
-	public function findFullAll(QueryBuilder $qb){
+	private function sharedQB(QueryBuilder $qb){
 
 		$qb ->leftjoin('o.properties','p')
         ->orderBy('o.position, p.position', 'ASC')
@@ -31,57 +31,26 @@ class ObjectRepository extends NestedTreeRepository
 	}
 
   /**
-   * Select all active objects and properties 
+   * Select all objects and properties 
+   *
+   * @param boolean $isDocument
+   * @param integer $level
    */
-  public function findAllEnabledObjects(){
+  public function fullFindAll($isDocument = null, $level = null){
     
     $qb = $this->createQueryBuilder('o');
-    $qb = $this ->findFullAll($qb)
-                ->where('o.isDocument = false')
-                ->andWhere('o.isEnabled = true');
-    
-    return $qb->getQuery()
-              ->getResult();
-  }
+    $qb = $this->sharedQB($qb);
+               
+    if($isDocument !== null){
+      $qb->andWhere('o.isDocument = :isDocument')
+         ->setParameter('isDocument', $isDocument);
+    }
 
-  /**
-   * Select all root objects and properties 
-   */
-  public function findRootObjects(){
-    
-    $qb = $this->createQueryBuilder('o');
-    $qb = $this ->findFullAll($qb)
-                ->where('o.isDocument = false')
-                ->andWhere('o.lvl = 0');
-    
-    return $qb->getQuery()
-              ->getResult();
-  }
+    if($level !== null){
+      $qb->andWhere('o.lvl = :level')
+         ->setParameter('level', $level);
+    }
 
-  /**
-   * Select all active documents and properties 
-   */
-  public function findAllEnabledDocuments(){
-    
-    $qb = $this->createQueryBuilder('o');
-    $qb = $this->findFullAll($qb)
-               ->where('o.isDocument = true')
-               ->andWhere('o.isEnabled = true'); 
-
-    return $qb->getQuery()
-              ->getResult();
-  }
-
-  /**
-   * Select all root documents and properties 
-   */
-  public function findRootDocuments(){
-    
-    $qb = $this->createQueryBuilder('o');
-    $qb = $this ->findFullAll($qb)
-                ->where('o.isDocument = true')
-                ->andWhere('o.lvl = 0');
-    
     return $qb->getQuery()
               ->getResult();
   }
@@ -91,10 +60,10 @@ class ObjectRepository extends NestedTreeRepository
    *
    * @param int $objectId
    */
-  public function findFullById($objectId){
+  public function fullFindById($objectId){
     
     $qb = $this->createQueryBuilder('o');
-    $qb = $this->findFullAll($qb)
+    $qb = $this->sharedQB($qb)
                 ->where('o.id = :id')
                 ->setParameter('id', $objectId);
 
@@ -110,8 +79,7 @@ class ObjectRepository extends NestedTreeRepository
 	public function findOtherObject($currentObjectId)
   {
     $qb = $this->createQueryBuilder('o')
-              ->where('o.isEnabled = true')
-              ->andWhere('o.isDocument = :isDocument')
+              ->where('o.isDocument = :isDocument')
               ->setParameter('isDocument', false)
               ->andWhere('o.id <> :id')
               ->setParameter('id', $currentObjectId)
@@ -129,14 +97,10 @@ class ObjectRepository extends NestedTreeRepository
   public function findParentObject($object)
   {
     $qb = $this->createQueryBuilder('o')
-              //->where('o.isEnabled = true')
-              ->where('o.isDocument = :isDocument')
-              ->setParameter('isDocument',$object->isDocument());
-
-    if($object->getId()){
-      $qb->andWhere('o.id <> :objectId')
-         ->setParameter('objectId',$object->getId());
-    }
+               ->where('o.isDocument = :isDocument')
+               ->setParameter('isDocument',$object->isDocument())
+               ->andWhere('o.id <> :objectId')
+               ->setParameter('objectId',$object->getId());
 
     return  $qb;
 

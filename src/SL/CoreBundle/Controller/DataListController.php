@@ -204,7 +204,7 @@ class DataListController extends Controller
      *
      * @param DataList $dataList Datalist to show
      *
-     * @ParamConverter("dataList", options={"repository_method" = "findFullById"})
+     * @ParamConverter("dataList", options={"repository_method" = "fullFindById"})
      */
     public function showAction(Request $request, DataList $dataList)
     {

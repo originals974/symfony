@@ -69,7 +69,7 @@ class Builder extends ContainerAware
             )
         );
 
-        $objects = $em->getRepository('SLCoreBundle:Object')->findAllEnabledObjects();
+        $objects = $em->getRepository('SLCoreBundle:Object')->fullFindAll(false);
 
         $menu = $this->addFrontChildrenObjectItems($menu, $objects);
 
@@ -94,7 +94,7 @@ class Builder extends ContainerAware
             )
         );
 
-        $documents = $em->getRepository('SLCoreBundle:Object')->findAllEnabledDocuments();
+        $documents = $em->getRepository('SLCoreBundle:Object')->fullFindAll(true);
 
         $menu = $this->addFrontChildrenObjectItems($menu, $documents);
  
@@ -175,7 +175,7 @@ class Builder extends ContainerAware
         );
 
         //Select all root documents
-        $documents = $em->getRepository('SLCoreBundle:Object')->findRootDocuments();
+        $documents = $em->getRepository('SLCoreBundle:Object')->fullFindAll(true, 0);
 
         $this->addBackChildrenObjectItems($documentRoot, $documents);
 
@@ -196,7 +196,7 @@ class Builder extends ContainerAware
         );
         
         //Select all root objects
-        $objects = $em->getRepository('SLCoreBundle:Object')->findRootObjects();
+        $objects = $em->getRepository('SLCoreBundle:Object')->fullFindAll(false, 0);
 
         $this->addBackChildrenObjectItems($objectRoot, $objects);
 
@@ -213,7 +213,7 @@ class Builder extends ContainerAware
         );    
 
         //Select all datalists
-        $dataLists = $em->getRepository('SLCoreBundle:DataList')->findFullAll();
+        $dataLists = $em->getRepository('SLCoreBundle:DataList')->fullFindAll();
 
         //Create a node for each datalist
         foreach($dataLists as $dataList) {

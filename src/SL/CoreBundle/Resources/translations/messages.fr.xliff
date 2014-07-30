@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2014-07-28T13:59:59Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+  <file date="2014-07-30T09:26:29Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -74,7 +74,7 @@
       <trans-unit id="85b75e5979a4204e9f034fc119be2edf5e846f59" resname="data_list.relation.description">
         <source>data_list.relation.description</source>
         <target>L'objet "%current_object%" est lié à %relation_type% item(s) de la liste "%linked_list%"</target>
-        <jms:reference-file line="67">views/Property/propertyTable.html.twig</jms:reference-file>
+        <jms:reference-file line="63">views/Property/propertyTable.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="21fe4e938e172d09bcbac1be084bdc5ab658f75d" resname="data_list_value">
         <source>data_list_value</source>
@@ -94,12 +94,12 @@
       <trans-unit id="05ca79c6e33863a830c4a45801e2110f94092594" resname="datalist.delete">
         <source>datalist.delete</source>
         <target>Supprimer une liste</target>
-        <jms:reference-file line="19">views/DataList/show.html.twig</jms:reference-file>
+        <jms:reference-file line="16">views/DataList/show.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="820b99b84d5ac719109295bde5d55856a1b4dd6c" resname="datalist.update">
         <source>datalist.update</source>
         <target>Modifier une liste</target>
-        <jms:reference-file line="16">views/DataList/show.html.twig</jms:reference-file>
+        <jms:reference-file line="13">views/DataList/show.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="c3afcb1e85411d8e683effd39440e3924f09f083" resname="datalistvalue.add">
         <source>datalistvalue.add</source>
@@ -110,22 +110,17 @@
       <trans-unit id="9c02ee70630d358b1dfcd5ca1408cd7d68f6c1f5" resname="datalistvalue.change.icon">
         <source>datalistvalue.change.icon</source>
         <target>Modifier l'icône d'une valeur</target>
-        <jms:reference-file line="27">views/DataListValue/dataListValueTable.html.twig</jms:reference-file>
+        <jms:reference-file line="26">views/DataListValue/dataListValueTable.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="f37d07cc3eb0c75fc89ebad8e92fbc63a85c141d" resname="datalistvalue.delete">
         <source>datalistvalue.delete</source>
         <target>Supprimer une valeur</target>
-        <jms:reference-file line="28">views/DataListValue/dataListValueTable.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="75306cc076b96a7a851ea4f745b70a865f5d82df" resname="datalistvalue.enable.disable">
-        <source>datalistvalue.enable.disable</source>
-        <target>Activer/désactiver une valeur</target>
-        <jms:reference-file line="34">views/DataListValue/dataListValueTable.html.twig</jms:reference-file>
+        <jms:reference-file line="27">views/DataListValue/dataListValueTable.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="2178e407235e400bacf12dcfd58b6b2ec9d7a692" resname="datalistvalue.update">
         <source>datalistvalue.update</source>
         <target>Modifier une valeur</target>
-        <jms:reference-file line="37">views/DataListValue/dataListValueTable.html.twig</jms:reference-file>
+        <jms:reference-file line="33">views/DataListValue/dataListValueTable.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="9485989ff514b5106b7738850fd73c23e8c1e3f7" resname="delete">
         <source>delete</source>
@@ -135,30 +130,30 @@
       <trans-unit id="f196292178e2ac07d4f4e634d5a3613393da28cb" resname="delete.dataList.reference.error.message">
         <source>delete.dataList.reference.error.message</source>
         <target>Cette liste est définie en tant que propriété d'un objet ou d'un document.</target>
-        <jms:reference-file line="53">CoreBundle/Services/DataListService.php</jms:reference-file>
+        <jms:reference-file line="127">CoreBundle/Services/DataListService.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="86d059f7476d99616a1b30569e3aeda3df8fd4af" resname="delete.error.title">
         <source>delete.error.title</source>
         <target>Suppression impossible</target>
-        <jms:reference-file line="52">CoreBundle/Services/DataListService.php</jms:reference-file>
-        <jms:reference-file line="58">CoreBundle/Services/ObjectService.php</jms:reference-file>
-        <jms:reference-file line="125">CoreBundle/Services/PropertyService.php</jms:reference-file>
+        <jms:reference-file line="126">CoreBundle/Services/DataListService.php</jms:reference-file>
+        <jms:reference-file line="172">CoreBundle/Services/ObjectService.php</jms:reference-file>
+        <jms:reference-file line="232">CoreBundle/Services/PropertyService.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="c6e2d0c04d9ffda5de41c59f33c3b1ebe17d0ac2" resname="delete.object.reference.error.message">
         <source>delete.object.reference.error.message</source>
         <target>Cet objet est défini en tant que propriété d'un autre objet ou document.</target>
-        <jms:reference-file line="59">CoreBundle/Services/ObjectService.php</jms:reference-file>
+        <jms:reference-file line="173">CoreBundle/Services/ObjectService.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="30503239bd87a070dc371b00ae75b385c26a4c69" resname="delete.property.calculatedName.error.message">
         <source>delete.property.calculatedName.error.message</source>
         <target>Cette propriété est utilisée afin de définir le nom calculé de l'objet.</target>
-        <jms:reference-file line="126">CoreBundle/Services/PropertyService.php</jms:reference-file>
+        <jms:reference-file line="233">CoreBundle/Services/PropertyService.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="226e8ab97c399ef7e520a8c77ae9ce3fd60b449f" resname="displayName">
         <source>displayName</source>
         <target>Nom</target>
-        <jms:reference-file line="20">views/Property/propertyTable.html.twig</jms:reference-file>
-        <jms:reference-file line="19">views/DataListValue/dataListValueTable.html.twig</jms:reference-file>
+        <jms:reference-file line="19">views/Property/propertyTable.html.twig</jms:reference-file>
+        <jms:reference-file line="18">views/DataListValue/dataListValueTable.html.twig</jms:reference-file>
         <jms:reference-file line="21">CoreBundle/Form/DataListType.php</jms:reference-file>
         <jms:reference-file line="21">CoreBundle/Form/DataListValueType.php</jms:reference-file>
         <jms:reference-file line="28">CoreBundle/Form/ObjectType.php</jms:reference-file>
@@ -195,8 +190,8 @@
       <trans-unit id="1b4d1ebe7fded6042de92a7fea3685fc9c688b97" resname="fieldType">
         <source>fieldType</source>
         <target>Type de champ</target>
-        <jms:reference-file line="21">views/Property/propertyTable.html.twig</jms:reference-file>
-        <jms:reference-file line="38">CoreBundle/Form/PropertyType.php</jms:reference-file>
+        <jms:reference-file line="20">views/Property/propertyTable.html.twig</jms:reference-file>
+        <jms:reference-file line="36">CoreBundle/Form/PropertyType.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="59033f88c2402e50ee6022f2edd41f5059beb2c1" resname="front.delete.message">
         <source>front.delete.message</source>
@@ -213,12 +208,6 @@
         <target>Explorateur d'objet</target>
         <jms:reference-file line="4">views/FrontEnd/index.html.twig</jms:reference-file>
       </trans-unit>
-      <trans-unit id="67d5de1e8f2930f74b4bb8426c668af5ce54ed19" resname="isEnabled">
-        <source>isEnabled</source>
-        <target>Activé</target>
-        <jms:reference-file line="18">views/Property/propertyTable.html.twig</jms:reference-file>
-        <jms:reference-file line="18">views/DataListValue/dataListValueTable.html.twig</jms:reference-file>
-      </trans-unit>
       <trans-unit id="5aa41b78ebd0d391be4fe1388266142571b15b82" resname="isMultiple">
         <source>isMultiple</source>
         <target>Sélection multiple</target>
@@ -228,7 +217,7 @@
       <trans-unit id="a0bee87e68d1e613ad328cdb9f29ff0f905b6086" resname="isRequired">
         <source>isRequired</source>
         <target>Obligatoire</target>
-        <jms:reference-file line="19">views/Property/propertyTable.html.twig</jms:reference-file>
+        <jms:reference-file line="18">views/Property/propertyTable.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="38b62be4bddaa5661c7d6b8e36e28159314df5c7" resname="list">
         <source>list</source>
@@ -271,13 +260,13 @@
       <trans-unit id="d85c8fde52d117fcf0ff64609047a9399a14e565" resname="object.add">
         <source>object.add</source>
         <target>Ajouter un objet/document</target>
-        <jms:reference-file line="25">views/Object/show.html.twig</jms:reference-file>
+        <jms:reference-file line="22">views/Object/show.html.twig</jms:reference-file>
         <jms:reference-file line="19">views/Object/index.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="842c947e4b3a68231a0ead124293a9309445850f" resname="object.choose.icon">
         <source>object.choose.icon</source>
         <target>Changer l'icône d'un objet/document</target>
-        <jms:reference-file line="23">views/Object/show.html.twig</jms:reference-file>
+        <jms:reference-file line="20">views/Object/show.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="a79fc368a09db555055b731bf2a675d41c5fd08a" resname="object.delete.message">
         <source>object.delete.message</source>
@@ -344,32 +333,27 @@
       <trans-unit id="79608002f8560f3f9d2b83efb11f84a282de8a23" resname="property.delete">
         <source>property.delete</source>
         <target>Supprimer une propriété</target>
-        <jms:reference-file line="29">views/Property/propertyTable.html.twig</jms:reference-file>
+        <jms:reference-file line="28">views/Property/propertyTable.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="6c2203ad794b07641a5f0e495ab643df6beedf4a" resname="property.delete.message">
         <source>property.delete.message</source>
         <target>Etes-vous sûre de vouloir supprimer la propriété "%displayName%" ?</target>
         <jms:reference-file line="32">Resources/views/toTranslate.html.twig</jms:reference-file>
       </trans-unit>
-      <trans-unit id="5bd154ecc991906ec538e02571e60e3b8ed18a54" resname="property.enable.disable">
-        <source>property.enable.disable</source>
-        <target>Activer/désactiver une propriété</target>
-        <jms:reference-file line="34">views/Property/propertyTable.html.twig</jms:reference-file>
-      </trans-unit>
       <trans-unit id="7e90db085514e5df6ffb59f2722acc67f87ca1c1" resname="property.make.require">
         <source>property.make.require</source>
         <target>Saisie obligatoire/facultative</target>
-        <jms:reference-file line="37">views/Property/propertyTable.html.twig</jms:reference-file>
+        <jms:reference-file line="33">views/Property/propertyTable.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="b4e2207288ff9aa8841f62e3b76b877191a6366f" resname="property.relation.description">
         <source>property.relation.description</source>
         <target>L'objet "%current_object%" est lié à %relation_type% objet(s) "%linked_object%"</target>
-        <jms:reference-file line="55">views/Property/propertyTable.html.twig</jms:reference-file>
+        <jms:reference-file line="51">views/Property/propertyTable.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="3f312a76094694f9127242f230c83e1d1d09cce7" resname="property.update">
         <source>property.update</source>
         <target>Mettre à jour une propriété</target>
-        <jms:reference-file line="40">views/Property/propertyTable.html.twig</jms:reference-file>
+        <jms:reference-file line="36">views/Property/propertyTable.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="132aeadf736728a3f874cd17615dda27830e8cbd" resname="put">
         <source>put</source>
@@ -379,7 +363,7 @@
       <trans-unit id="2d5badbd08164337ad2dcfead2e34faf2fa9e576" resname="relation">
         <source>relation</source>
         <target>Relation</target>
-        <jms:reference-file line="22">views/Property/propertyTable.html.twig</jms:reference-file>
+        <jms:reference-file line="21">views/Property/propertyTable.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="3559d7accf00360971961ca18989adc0614089c0" resname="search">
         <source>search</source>

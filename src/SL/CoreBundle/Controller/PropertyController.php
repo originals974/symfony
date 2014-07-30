@@ -118,7 +118,7 @@ class PropertyController extends Controller
      * @param Object $object Parent object of new property
      * @param String $formMode Property type to create (Default | Entity | List) 
      * 
-     * @ParamConverter("object", options={"repository_method" = "findFullById"})
+     * @ParamConverter("object", options={"repository_method" = "fullFindById"})
      */
     public function createAction(Request $request, Object $object, $formMode)
     {
@@ -218,7 +218,7 @@ class PropertyController extends Controller
                 $this->doctrineService->doctrineGenerateEntityFileByObject($property->getObject());  
                 $this->doctrineService->doctrineSchemaUpdateForce();
 
-                $object = $this->em->getRepository('SLCoreBundle:Object')->findFullById($property->getObject()->getId()); 
+                $object = $this->em->getRepository('SLCoreBundle:Object')->fullFindById($property->getObject()->getId()); 
 
                 $html = $this->renderView('SLCoreBundle:Property:propertyTable.html.twig', array(
                     'object' => $object, 
@@ -296,7 +296,7 @@ class PropertyController extends Controller
             $this->doctrineService->doctrineGenerateEntityFileByObject($property->getObject());  
             $this->doctrineService->doctrineSchemaUpdateForce();
 
-            $object = $this->em->getRepository('SLCoreBundle:Object')->findFullById($property->getObject()->getId()); 
+            $object = $this->em->getRepository('SLCoreBundle:Object')->fullFindById($property->getObject()->getId()); 
 
             $html = $this->renderView('SLCoreBundle:Property:propertyTable.html.twig', array(
                 'object' => $object, 
@@ -333,10 +333,6 @@ class PropertyController extends Controller
             $value = ($request->request->get('value')=='true')?true:false;
 
             switch ($name) {
-                case 'isEnabled':
-                    $property->setEnabled($value);
-                    break;
-                
                 case 'isRequired':
                     $property->setRequired($value);
                     break;

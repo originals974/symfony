@@ -75,7 +75,7 @@ class DataListValueController extends Controller
      *
      * @param DataList $dataList Parent datalist 
      *
-     * @ParamConverter("dataList", options={"repository_method" = "findFullById"})
+     * @ParamConverter("dataList", options={"repository_method" = "fullFindById"})
      */
     public function createAction(Request $request, DataList $dataList)
     {
@@ -160,7 +160,7 @@ class DataListValueController extends Controller
 
                 $this->em->flush();
                 
-                $dataList = $this->em->getRepository('SLCoreBundle:DataList')->findFullById($dataListValue->getDataList()->getId()); 
+                $dataList = $this->em->getRepository('SLCoreBundle:DataList')->fullFindById($dataListValue->getDataList()->getId()); 
 
                 $html = $this->renderView('SLCoreBundle:DataListValue:dataListValueTable.html.twig', array(
                     'dataList' => $dataList, 
@@ -220,7 +220,7 @@ class DataListValueController extends Controller
             $this->em->remove($dataListValue);
             $this->em->flush();
 
-            $dataList = $this->em->getRepository('SLCoreBundle:DataList')->findFullById($dataListValue->getDataList()->getId()); 
+            $dataList = $this->em->getRepository('SLCoreBundle:DataList')->fullFindById($dataListValue->getDataList()->getId()); 
 
             $html = $this->renderView('SLCoreBundle:DataListValue:dataListValueTable.html.twig', array(
                 'dataList' => $dataList, 

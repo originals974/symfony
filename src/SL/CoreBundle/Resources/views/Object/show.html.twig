@@ -16,9 +16,6 @@
     {% block section_heading %}
         <ul class="list-inline">
             <li>
-                <input skin="bootstrap-switch" type="checkbox" name="isEnabled" value="isEnabled" {% if object.isEnabled %}checked{% endif %} ajax-action={{ path('object_update_checkbox', { 'id': object.id }) }}>              
-            </li>
-            <li>
                 <div class="btn-group"> 
                     <button title="{{ 'object.choose.icon'|trans }}" class="btn btn-default btn-xs" role="iconpicker" data-iconset="fontawesome" data-icon="{{ object.icon }}" data-rows="6" data-cols="6" data-placement="bottom" ajax-action={{ path('object_update_icon', { 'id': object.id }) }}>
                     </button>

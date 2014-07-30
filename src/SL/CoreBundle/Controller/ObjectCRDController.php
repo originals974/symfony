@@ -171,7 +171,7 @@ class ObjectCRDController extends Controller
      *
      * @param Object $object Object to show
      *
-     * @ParamConverter("object", options={"repository_method" = "findFullById"})
+     * @ParamConverter("object", options={"repository_method" = "fullFindById"})
      */
     public function showAction(Request $request,Object $object)
     {

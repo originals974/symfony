@@ -12,7 +12,7 @@
         {# CSS section #}
         {% block stylesheets %}
             <!--Assetic CSS-->
-            {% stylesheets '@jquery_ui_css' '@bootstrap_css' '@bootstrap_theme_css' '@fontawesome_css' '@bootstrap_modal_css'  '@js_tree_css' '@bootstrap_switch_css' '@bootstrap_icon_picker_css' '@custom_css' %}
+            {% stylesheets '@jquery_ui_css' '@bootstrap_css' '@bootstrap_theme_css' '@fontawesome_css' '@bootstrap_modal_css'  '@js_tree_css' '@bootstrap_icon_picker_css' '@custom_css' %}
                 <link rel="stylesheet" href="{{ asset_url }}" />
             {% endstylesheets %}
 
@@ -57,7 +57,7 @@
             <!--Javascript section-->
             {% block javascripts %}
                 <!--Assetic JS-->
-                {% javascripts '@jquery_js' '@jquery_ui_js' '@bootstrap_js' '@mopabootstrap_collection_js' '@bootstrap_modal_js' '@bootstrap_switch_js' '@bootstrap_icon_picker_js' '@js_tree_js' '@fos_js_routting_js' '@insert_at_caret_js' '@custom_js' %}
+                {% javascripts '@jquery_js' '@jquery_ui_js' '@bootstrap_js' '@mopabootstrap_collection_js' '@bootstrap_modal_js' '@bootstrap_icon_picker_js' '@js_tree_js' '@fos_js_routting_js' '@insert_at_caret_js' '@custom_js' %}
                     <script src="{{ asset_url }}"></script>
                 {% endjavascripts %}
 

@@ -27,7 +27,7 @@ class ListPropertyType extends PropertyType
                 'class' => 'SLCoreBundle:DataList',
                 'property' => 'displayName',
                 'query_builder' => function(EntityRepository $er) {
-                                      return $er->findEnabledDataList();
+                                      return $er->fullFindAllQb();
                                     },
                 'label' =>  'data_list',
                 'attr' => array(

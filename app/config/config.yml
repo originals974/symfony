@@ -113,18 +113,6 @@ assetic:
             filters:
                - ?yui_js
             output: assets/js/bootstrap_iconpicker.min.js
-        bootstrap_switch_css:
-            inputs:
-               - %kernel.root_dir%/../vendor/components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css
-            filters:
-               - ?yui_css
-            output: assets/css/bootstrap-switch.min.css
-        bootstrap_switch_js:
-            inputs:
-               - %kernel.root_dir%/../vendor/components/bootstrap-switch/dist/js/bootstrap-switch.min.js
-            filters:
-               - ?yui_js
-            output: assets/js/bootstrap-switch.min.js
         bootstrap_icon_picker_css:
             inputs:
                - %kernel.root_dir%/../web/bundles/slcore/css/bootstrap-iconpicker.min.css
@@ -289,25 +277,25 @@ fos_elastica:
         slcore:
             client: default
             types:
-                Object34:
+                Object37:
                     persistence:
                         driver: orm
-                        model:  SL\DataBundle\Entity\Object34
+                        model:  SL\DataBundle\Entity\Object37
                         provider: ~
                         listener: ~
                         finder: ~
                 
-                Object35:
+                Object38:
                     persistence:
                         driver: orm
-                        model:  SL\DataBundle\Entity\Object35
+                        model:  SL\DataBundle\Entity\Object38
                         provider: ~
                         listener: ~
                         finder: ~
-                Object36:
+                Object39:
                     persistence:
                         driver: orm
-                        model:  SL\DataBundle\Entity\Object36
+                        model:  SL\DataBundle\Entity\Object39
                         provider: ~
                         listener: ~
                         finder: ~

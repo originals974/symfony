@@ -15,7 +15,6 @@
                         <span class="fa fa-plus"></span>  
                     </a>
                 </th>
-                <th style="width:60px;">{{ 'isEnabled'|trans }}</th>
                 <th>{{ 'displayName'|trans }}</th>
             </tr>
         </thead>
@@ -29,9 +28,6 @@
                                 <span class="fa fa-times"></span>        
                             </a>
                         </div>
-                    </td>
-                    <td>
-                        <input title="{{ 'datalistvalue.enable.disable'|trans }}" type="checkbox" name="isEnabled" value="isEnabled" {% if dataListValue.isEnabled %}checked{% endif %} ajax-action={{ path('data_list_value_update_checkbox', { 'id': dataListValue.id }) }}>
                     </td>
                     <td>
                         <a title="{{ 'datalistvalue.update'|trans }}" data-toggle="modal" data-target="#" href="{{ path('data_list_value_edit', { 'id': dataListValue.id }) }}">
