@@ -84,23 +84,8 @@ class ObjectUpdateController extends Controller
             if ($isValid) {
 
                 $this->em->flush();
-
-                if($initParentId != $newParentId){
-                    //Update database schema
-                    $this->doctrineService->doctrineGenerateEntityFileByObject($object);  
-                    $this->doctrineService->doctrineSchemaUpdateForce();
-
-                    $jsTree = array(
-                        'new_parent_id' => $object->getParent()->getTechnicalName(),
-                        'new_name' => $object->getDisplayName(),
-                        );
-
-                }
-                else{
-                    $jsTree = $object->getDisplayName();
-
-                }
-
+                
+                $jsTree = $object->getDisplayName();
                 $html = null; 
                 
             }

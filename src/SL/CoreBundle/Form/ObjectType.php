@@ -31,20 +31,6 @@ class ObjectType extends AbstractType
                         )
                     )
                 )
-                ->add('parent', 'entity', array(
-                    'disabled' => $options['disabled_parent_field'], 
-                    'label' =>  'object.parent',
-                    'required' => false,
-                    'class' => 'SLCoreBundle:Object',
-                    'property' => 'displayName',
-                    'query_builder' => function(EntityRepository $er) use ($object){
-                                          return $er->findParentObject($object);
-                                        },
-                    'attr' => array(
-                            'class'       => 'col-lg-4'
-                        ) 
-                    )
-                )
             ;
         }
 

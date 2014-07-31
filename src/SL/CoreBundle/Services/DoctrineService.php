@@ -200,12 +200,6 @@ class DoctrineService
         $class = new ClassMetadataInfo($entityClass);
 
         if($object->getParent() === null){
-            //Mapped default fields
-            //$class->mapField(array('fieldName' => 'id', 'type' => 'integer', 'id' => true));
-            //$class->mapField(array('fieldName' => 'guid', 'type' => 'string', 'nullable' => true));
-            //$class->mapField(array('fieldName' => 'objectId', 'type' => 'integer'));
-            //$class->mapField(array('fieldName' => 'displayName', 'type' => 'string'));
-            //$class->setIdGeneratorType(ClassMetadataInfo::GENERATOR_TYPE_AUTO);
             $class->setInheritanceType(ClassMetadataInfo::INHERITANCE_TYPE_JOINED);
             $class->setDiscriminatorColumn(array(
                 'name' => 'discr',

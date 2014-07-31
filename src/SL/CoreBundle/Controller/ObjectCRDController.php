@@ -238,15 +238,8 @@ class ObjectCRDController extends Controller
 
             $this->em->flush(); 
 
-            //Remove object from tree and attach its children to its parent
-            //$this->em->getRepository('SLCoreBundle:Object')->removeFromTree($object);
-            //$this->em->clear(); 
-
             $this->em->remove($object);
             $this->em->flush(); 
-
-            //Update database schema
-            //$this->doctrineService->removeDoctrineFiles($object);
 
             //Get direct children of parent Object
             $directChildren = $this->em->getRepository('SLCoreBundle:Object')->children($object->getParent(), true); 
@@ -261,7 +254,7 @@ class ObjectCRDController extends Controller
                 'isValid' => true,
                 'content' => array(
                     'html' => null,
-                    'js_tree' => 'change_parent',
+                    'js_tree' => 'delete',
                     ),
                 );
  

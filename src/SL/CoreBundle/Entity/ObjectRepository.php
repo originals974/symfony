@@ -88,21 +88,4 @@ class ObjectRepository extends NestedTreeRepository
     return  $qb;
 
 	}
-
-  /**
-   * Select potential parent object
-   *
-   * @param Object $object Child object
-   */
-  public function findParentObject($object)
-  {
-    $qb = $this->createQueryBuilder('o')
-               ->where('o.isDocument = :isDocument')
-               ->setParameter('isDocument',$object->isDocument())
-               ->andWhere('o.id <> :objectId')
-               ->setParameter('objectId',$object->getId());
-
-    return  $qb;
-
-  }
 }
