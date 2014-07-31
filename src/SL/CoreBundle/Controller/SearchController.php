@@ -58,7 +58,7 @@ class SearchController extends Controller
             $objects = $this->em->getRepository('SLCoreBundle:Object')->fullFindAll();
             
             $filters->enable('softdeleteable');
-
+            
             //Get number of results for each object
             $objectsArray = array(); 
             foreach($objects as $object){
@@ -84,7 +84,7 @@ class SearchController extends Controller
                 'isValid' => true,
                 'content' => $html
                 ); 
-            
+
             $response = new JsonResponse($data);
         }
         else {

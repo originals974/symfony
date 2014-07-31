@@ -1,11 +1,12 @@
 parameters:
+    sl_core.bundle: SL/CoreBundle
     sl_data.bundle: SL/DataBundle
     symfony.config_path : %kernel.root_dir%/config/
 
 services:
     sl_core.doctrine:
         class: SL\CoreBundle\Services\DoctrineService
-        arguments: [@filesystem, @doctrine, @kernel, %sl_data.bundle%]
+        arguments: [@filesystem, @doctrine, @kernel, %sl_core.bundle%,%sl_data.bundle%]
 
     sl_core.js_tree:
         class: SL\CoreBundle\Services\JSTreeService

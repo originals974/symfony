@@ -53,7 +53,7 @@ class FrontController extends Controller
     */
     public function newAction(Object $object)
     {
-        $class = $this->doctrineService->getEntityClass($object->getTechnicalName());
+        $class = $this->doctrineService->getDataEntityClass($object->getTechnicalName());
         $entity =  new $class(); 
 
         $form   = $this->frontService->createCreateForm($object, $entity);
@@ -72,7 +72,7 @@ class FrontController extends Controller
      */
     public function createAction(Request $request, Object $object)
     {
-        $class = $this->doctrineService->getEntityClass($object->getTechnicalName());
+        $class = $this->doctrineService->getDataEntityClass($object->getTechnicalName());
         $entity =  new $class(); 
         
         $form = $this->frontService->createCreateForm($object, $entity);

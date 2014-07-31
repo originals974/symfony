@@ -1,6 +1,6 @@
 <?php
 
-namespace SL\CoreBundle\Entity;
+namespace SL\DataBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -31,11 +31,11 @@ abstract class AbstractEntity
     private $guid;
 
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="technical_name", type="string", length=255, nullable=true)
+     * @ORM\Column(name="object_id", type="integer")
      */
-    private $technicalName;
+    private $objectId;
 
     /**
      * @var string
@@ -43,12 +43,6 @@ abstract class AbstractEntity
      * @ORM\Column(name="display_name", type="string", length=255)
      */
     private $displayName;
-
-    /**
-     * @Gedmo\SortablePosition
-     * @ORM\Column(name="position", type="integer")
-     */
-    private $position;
 
     /**
      * @ORM\Column(name="deletedAt", type="datetime", nullable=true)
@@ -75,8 +69,8 @@ abstract class AbstractEntity
         return $this->guid;
     }
 
-     /**
-     * Get guid
+    /**
+     * Set guid
      *
      * @param string $guid
      * @return AbstractEntity
@@ -89,25 +83,26 @@ abstract class AbstractEntity
     }
 
     /**
-     * Set technicalName
+     * Get objectId
      *
-     * @return AbstractEntity
+     * @return integer 
      */
-    public function setTechnicalName()
+    public function getObjectId()
     {
-        $this->technicalName = $this->getClassShortName().$this->getId();
-        
-        return $this;
+        return $this->objectId;
     }
 
     /**
-     * Get technicalName
+     * Get objectId
      *
-     * @return string 
+     * @param integer $objectId
+     * @return AbstractEntity
      */
-    public function getTechnicalName()
+    public function setObjectId($objectId)
     {
-        return $this->technicalName;
+        $this->objectId = $objectId;
+
+        return $this;
     }
 
     /**
@@ -134,29 +129,6 @@ abstract class AbstractEntity
     }
 
     /**
-     * Set position
-     *
-     * @param integer $position
-     * @return AbstractEntity
-     */
-    public function setPosition($position)
-    {
-        $this->position = $position;
-
-        return $this;
-    }
-
-    /**
-     * Get position
-     *
-     * @return integer 
-     */
-    public function getPosition()
-    {
-        return $this->position;
-    }
-
-    /**
      * Set deletedAt
      *
      * @param DateTime $deletedAt
@@ -177,16 +149,5 @@ abstract class AbstractEntity
     public function getDeletedAt()
     {
         return $this->deletedAt;
-    }
-
-    /**
-     * Get short name of current class
-     *
-     * @return String $classShortName Short name of current class
-     */
-    public function getClassShortName() 
-    {
-        $classShortName = ucfirst(basename(strtr(get_class($this), "\\", "/")));
-        return $classShortName;
     }
 }

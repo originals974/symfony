@@ -7,5 +7,5 @@
 /app/logs/*
 /vendor/
 /app/config/parameters.yml
-/src/SL/DataBundle/Entity
+/src/SL/DataBundle/Entity/Object*.php
 /components/

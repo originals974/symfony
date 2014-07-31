@@ -208,10 +208,10 @@ doctrine:
                         is_bundle: false
             database:
                 connection:       database
-                # filters:
-                #     softdeleteable:
-                #         class: Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter
-                #         enabled: true
+                filters:
+                    softdeleteable:
+                        class: Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter
+                        enabled: true
                 mappings:
                     SLDataBundle: ~
 
@@ -222,6 +222,8 @@ stof_doctrine_extensions:
         default:
             tree: true
             sortable: true
+            softdeleteable: true
+        database:
             softdeleteable: true
 
 
@@ -287,25 +289,17 @@ fos_elastica:
         slcore:
             client: default
             types:
-                Object57:
+                Object65:
                     persistence:
                         driver: orm
-                        model:  SL\DataBundle\Entity\Object57
+                        model:  SL\DataBundle\Entity\Object65
                         provider: ~
                         listener: ~
                         finder: ~
-                
-                Object58:
+                Object66:
                     persistence:
                         driver: orm
-                        model:  SL\DataBundle\Entity\Object58
-                        provider: ~
-                        listener: ~
-                        finder: ~
-                Object59:
-                    persistence:
-                        driver: orm
-                        model:  SL\DataBundle\Entity\Object59
+                        model:  SL\DataBundle\Entity\Object66
                         provider: ~
                         listener: ~
                         finder: ~

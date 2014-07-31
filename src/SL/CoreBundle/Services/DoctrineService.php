@@ -23,9 +23,8 @@ class DoctrineService
     private $registry;
     private $kernel;
     private $em;
-    private $bundlePath;
-    private $bundleName;
-    private $bundle; 
+    private $coreBundle;
+    private $dataBundle; 
 
     /**
      * Constructor
@@ -35,16 +34,15 @@ class DoctrineService
      * @param HttpKernelInterface $kernel
      * @param String $bundlePath
      */
-    public function __construct(Filesystem $filesystem, RegistryInterface $registry, HttpKernelInterface $kernel, $bundlePath)
+    public function __construct(Filesystem $filesystem, RegistryInterface $registry, HttpKernelInterface $kernel, $coreBundlePath, $dataBundlePath)
     {
         $this->filesystem = $filesystem;
         $this->registry = $registry;
         $this->kernel = $kernel; 
         $this->em = $registry->getManager(); 
         $this->databaseEm = $registry->getManager('database');
-        $this->bundlePath = $bundlePath;
-        $this->bundleName = str_replace('/', '', $this->bundlePath);
-        $this->bundle = $this->kernel->getBundle($this->bundleName); 
+        $this->coreBundle = $this->kernel->getBundle(str_replace('/', '', $coreBundlePath)); 
+        $this->dataBundle = $this->kernel->getBundle(str_replace('/', '', $dataBundlePath)); 
     }
 
     /**
@@ -70,7 +68,7 @@ class DoctrineService
     public function removeDoctrineFiles(Object $object)
     {
         //Get path of entity class file
-        $entityPath = $this->getEntityPath($object->getTechnicalName());
+        $entityPath = $this->getDataEntityPath($object->getTechnicalName());
 
         //Remove entity class file
         $this->filesystem->remove(array($entityPath));
@@ -109,7 +107,7 @@ class DoctrineService
 
                     $fieldMapping = array(
                         'fieldName' => $property->getTechnicalName(), 
-                        'targetEntity' => $this->getEntityClass($property->getTargetObject()->getTechnicalName()),
+                        'targetEntity' => $this->getDataEntityClass($property->getTargetObject()->getTechnicalName()),
                         );
 
                     if($property->isMultiple()){
@@ -147,8 +145,8 @@ class DoctrineService
     public function doctrineGenerateEntityFileByMapping(Object $object, array $mapping = array())
     {
         //Define entity path and class path for the entity 
-        $entityClass = $this->getEntityClass($object->getTechnicalName());
-        $entityPath = $this->getEntityPath($object->getTechnicalName());
+        $entityClass = $this->getDataEntityClass($object->getTechnicalName());
+        $entityPath = $this->getDataEntityPath($object->getTechnicalName());
 
         //Create entity code
         $entityGenerator = $this->initEntityGenerator($object);
@@ -178,8 +176,12 @@ class DoctrineService
         $entityGenerator->setAnnotationPrefix('ORM\\');
         $entityGenerator->setGenerateAnnotations(true);
 
-        if($object->getParent() != null){
-            $entityClass = $this->getEntityClass($object->getParent()->getTechnicalName());
+        if($object->getParent() === null){
+            $entityClass = $this->getDataEntityClass('AbstractEntity');
+            $entityGenerator->setClassToExtend($entityClass); 
+        }
+        else{
+            $entityClass = $this->getDataEntityClass($object->getParent()->getTechnicalName());
             $entityGenerator->setClassToExtend($entityClass); 
         }
 
@@ -197,13 +199,13 @@ class DoctrineService
 
         $class = new ClassMetadataInfo($entityClass);
 
-        if($object->getParent() == null){
+        if($object->getParent() === null){
             //Mapped default fields
-            $class->mapField(array('fieldName' => 'id', 'type' => 'integer', 'id' => true));
-            $class->mapField(array('fieldName' => 'guid', 'type' => 'string', 'nullable' => true));
-            $class->mapField(array('fieldName' => 'objectId', 'type' => 'integer'));
-            $class->mapField(array('fieldName' => 'displayName', 'type' => 'string'));
-            $class->setIdGeneratorType(ClassMetadataInfo::GENERATOR_TYPE_AUTO);
+            //$class->mapField(array('fieldName' => 'id', 'type' => 'integer', 'id' => true));
+            //$class->mapField(array('fieldName' => 'guid', 'type' => 'string', 'nullable' => true));
+            //$class->mapField(array('fieldName' => 'objectId', 'type' => 'integer'));
+            //$class->mapField(array('fieldName' => 'displayName', 'type' => 'string'));
+            //$class->setIdGeneratorType(ClassMetadataInfo::GENERATOR_TYPE_AUTO);
             $class->setInheritanceType(ClassMetadataInfo::INHERITANCE_TYPE_JOINED);
             $class->setDiscriminatorColumn(array(
                 'name' => 'discr',
@@ -230,29 +232,55 @@ class DoctrineService
         return $class; 
     }
 
-     /**
-     * Get namespace of an entity
+    /**
+     * Get namespace of a core bundle entity
      *
-     * @param String $entityName
+     * @param string $entityName
      *
-     * @return String $entityClass
+     * @return string $entityClass
      */
-    public function getEntityClass($entityName)
+    public function getCoreEntityClass($entityName)
     {
-        $entityClass = $this->registry->getAliasNamespace($this->bundle->getName()).'\\'.$entityName;
+        $entityClass = $this->registry->getAliasNamespace($this->coreBundle->getName()).'\\'.$entityName;
         return $entityClass; 
     }
 
     /**
-     * Get path of an entity file
+     * Get path of a core bundle entity file
      *
-     * @param String $entityName
+     * @param string $entityName
      *
-     * @return String $entityPath
+     * @return string $entityPath
      */
-    private function getEntityPath($entityName)
+    private function getCoreEntityPath($entityName)
     {
-        $entityPath = $this->bundle->getPath().'/Entity/'.str_replace('\\', '/', $entityName).'.php';
+        $entityPath = $this->coreBundle->getPath().'/Entity/'.str_replace('\\', '/', $entityName).'.php';
+        return $entityPath; 
+    }
+
+    /**
+     * Get namespace of a data bundle entity
+     *
+     * @param string $entityName
+     *
+     * @return string $entityClass
+     */
+    public function getDataEntityClass($entityName)
+    {
+        $entityClass = $this->registry->getAliasNamespace($this->dataBundle->getName()).'\\'.$entityName;
+        return $entityClass; 
+    }
+
+    /**
+     * Get path of a data bundle entity file
+     *
+     * @param string $entityName
+     *
+     * @return string $entityPath
+     */
+    private function getDataEntityPath($entityName)
+    {
+        $entityPath = $this->dataBundle->getPath().'/Entity/'.str_replace('\\', '/', $entityName).'.php';
         return $entityPath; 
     }
 }

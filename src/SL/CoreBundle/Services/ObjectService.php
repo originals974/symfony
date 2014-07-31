@@ -261,8 +261,8 @@ class ObjectService
      * @return String $path Hierarchy path of object
      */
     public function getObjectPath($object){
-        
-        $objects = $this->em->getRepository('SLCoreBundle:Object')->getPath($object); 
+
+        $objects = $this->getPath($object); 
 
         $path = "";
         foreach($objects as $key=>$object){

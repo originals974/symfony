@@ -58,7 +58,7 @@ class FrontService
     */
     public function createCreateForm(Object $object, $entity)
     {
-        $entityClass = $this->doctrineService->getEntityClass($object->getTechnicalName());
+        $entityClass = $this->doctrineService->getDataEntityClass($object->getTechnicalName());
 
         $form = $this->formFactory->create(new FrontType($this->em, $entityClass, $this->objectService, $this->translator), $entity, array(
             'action' => $this->router->generate('front_create', array(
@@ -90,7 +90,7 @@ class FrontService
     */
     public function createEditForm(Object $object, $entity)
     {
-        $entityClass = $this->doctrineService->getEntityClass($object->getTechnicalName());
+        $entityClass = $this->doctrineService->getDataEntityClass($object->getTechnicalName());
 
         $form = $this->formFactory->create(new FrontType($this->em, $entityClass, $this->objectService, $this->translator), $entity, array(
             'action' => $this->router->generate('front_update', array(
@@ -124,7 +124,7 @@ class FrontService
      */
     public function createDeleteForm(Object $object, $entity)
     {
-        $entityClass = $this->doctrineService->getEntityClass($object->getTechnicalName());
+        $entityClass = $this->doctrineService->getDataEntityClass($object->getTechnicalName());
 
         $form = $this->formFactory->create(new FrontType($this->em, $entityClass, $this->objectService, $this->translator), $entity, array(
             'action' => $this->router->generate('front_delete', array(
