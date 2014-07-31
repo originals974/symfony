@@ -220,12 +220,13 @@ stof_doctrine_extensions:
     default_locale: fr
     orm:
         default:
-            tree: true
             sortable: true
             softdeleteable: true
+            tree: true
+            timestampable: true
         database:
             softdeleteable: true
-
+            timestampable: true
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -289,42 +290,14 @@ fos_elastica:
         slcore:
             client: default
             types:
-                Object65:
+                Object70:
                     persistence:
                         driver: orm
-                        model:  SL\DataBundle\Entity\Object65
+                        model:  SL\DataBundle\Entity\Object70
                         provider: ~
                         listener: ~
                         finder: ~
-                Object66:
-                    persistence:
-                        driver: orm
-                        model:  SL\DataBundle\Entity\Object66
-                        provider: ~
-                        listener: ~
-                        finder: ~
-                Object67:
-                    persistence:
-                        driver: orm
-                        model:  SL\DataBundle\Entity\Object67
-                        provider: ~
-                        listener: ~
-                        finder: ~
-                Object68:
-                    persistence:
-                        driver: orm
-                        model:  SL\DataBundle\Entity\Object68
-                        provider: ~
-                        listener: ~
-                        finder: ~
-                Object69:
-                    persistence:
-                        driver: orm
-                        model:  SL\DataBundle\Entity\Object69
-                        provider: ~
-                        listener: ~
-                        finder: ~
-
+               
 #Shiva versionning
 shivas_versioning:
     version_parameter:    application_version

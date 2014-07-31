@@ -26,72 +26,91 @@
 				<span class="fa {{ object.icon() }} fa-3x"></span> 
 			</li>
 			<li>
-				<h3>{{ entity.displayName() }} <small>({{ path }})</small></h3>
+				<h3>{{ entity.displayName }}</h3>
 			</li>
 		</ul>
+
+		<div class="panel panel-default">
+  			<div class="panel-body">
+				<ul class="list-inline">
+				    <li>
+						<h4><i><small>{{ 'created_at'|trans }} {{ entity.createdAt|date("d/m/Y - H:i:s") }}</small></i></h4>
+						<h4><i><small>{{ 'updated_at'|trans }} {{ entity.updatedAt|date("d/m/Y - H:i:s") }}</small></i></h4>
+					</li>
+					<li>
+						
+					</li>
+				</ul>
+			</div>
+		</div>
+
 		{% for object in objects%}
-			<hr>
-			<h4>{{ object.displayName }} {{ object.deletedAt is not null ? 'deleted'|trans }}</h4>
+			<div class="panel panel-default">
+  				<div class="panel-body">
+			
+					<h4>{{ object.displayName }} {{ object.deletedAt is not null ? 'deleted'|trans }}</h4>
 
-			<dl class="dl-horizontal">
-				{% for property in object.properties %}
+					<dl class="dl-horizontal">
+						{% for property in object.properties %}
 
-					{# Display not soft deleted properties and soft deleted properties which is not empty#}
-					{% if 	(
-								attribute(entity, property.technicalName) is not null 
-									and 
-								property.deletedAt is not null
-							)
-							or property.deletedAt is null
-					%}
+							{# Display not soft deleted properties and soft deleted properties which is not empty#}
+							{% if 	(
+										attribute(entity, property.technicalName) is not null 
+											and 
+										property.deletedAt is not null
+									)
+									or property.deletedAt is null
+							%}
 
-					    <dt>{{ property.displayName}}</dt>
+							    <dt>{{ property.displayName}}</dt>
 
-					    <dd>
-						    {% if property.fieldType.FormType == 'genemu_jquerydate' %}
+							    <dd>
+								    {% if property.fieldType.FormType == 'genemu_jquerydate' %}
 
-						        {{ attribute(entity, property.technicalName)|date("d/m/Y") }}
+								        {{ attribute(entity, property.technicalName)|date("d/m/Y") }}
 
-						    {% elseif  property.fieldType.FormType == 'entity' %}
+								    {% elseif  property.fieldType.FormType == 'entity' %}
 
-					    		{% set entityProperties = attribute(entity, property.technicalName) %}
-					        	
-					        	{% if property.isMultiple %}
-							        {% for entityProperty in entityProperties %}
-							            {{ entityProperty.displayName }}
-							            {% if not loop.last %}
-							                ,
-							            {% endif %}
-							        {% endfor %}
-							    {% else %}
-							    	{{ entityProperties.displayName }}
-							    {% endif %}
+							    		{% set entityProperties = attribute(entity, property.technicalName) %}
+							        	
+							        	{% if property.isMultiple %}
+									        {% for entityProperty in entityProperties %}
+									            {{ entityProperty.displayName }}
+									            {% if not loop.last %}
+									                ,
+									            {% endif %}
+									        {% endfor %}
+									    {% else %}
+									    	{{ entityProperties.displayName }}
+									    {% endif %}
 
-						    {% elseif  property.fieldType.FormType == 'choice' %}
+								    {% elseif  property.fieldType.FormType == 'choice' %}
 
-					        	{% if property.isMultiple %}
-					        		{% set items = attribute(entity, property.technicalName) %}
-							        {% for item in items %}
-							            {{ item }}
-							            {% if not loop.last %}
-							                ,
-							            {% endif %}
-							        {% endfor %}
-							    {% else %}
-							    	{{ attribute(entity, property.technicalName) }}
-							    {% endif %}
+							        	{% if property.isMultiple %}
+							        		{% set items = attribute(entity, property.technicalName) %}
+									        {% for item in items %}
+									            {{ item }}
+									            {% if not loop.last %}
+									                ,
+									            {% endif %}
+									        {% endfor %}
+									    {% else %}
+									    	{{ attribute(entity, property.technicalName) }}
+									    {% endif %}
 
-						    {% else %}
+								    {% else %}
 
-						        {{ attribute(entity, property.technicalName) }}
-						        
-						    {% endif %}
-						    {{ property.deletedAt is not null ? 'deleted'|trans }}
-					    </dd>
+								        {{ attribute(entity, property.technicalName) }}
+								        
+								    {% endif %}
+								    {{ property.deletedAt is not null ? 'deleted'|trans }}
+							    </dd>
 
-					{% endif %}
-				{% endfor %}
-			</dl>
+							{% endif %}
+						{% endfor %}
+					</dl>
+				</div>
+			</div>
 
 		{% endfor %}
 
