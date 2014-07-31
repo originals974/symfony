@@ -15,6 +15,8 @@ use SL\CoreBundle\Entity\Object;
 use SL\CoreBundle\Form\FrontType;
 use SL\CoreBundle\Services\DoctrineService;
 use SL\CoreBundle\Services\ObjectService;
+use SL\CoreBundle\Services\FrontService;
+
 /**
  * Front controller.
  *
@@ -25,20 +27,23 @@ class FrontController extends Controller
     private $databaseEm;
     private $doctrineService;
     private $objectService;
+    private $frontService;
 
     /**
      * @DI\InjectParams({
      *     "registry" = @DI\Inject("doctrine"),
      *     "doctrineService" = @DI\Inject("sl_core.doctrine"),
-     *     "objectService" = @DI\Inject("sl_core.object")
+     *     "objectService" = @DI\Inject("sl_core.object"),
+     *     "frontService" = @DI\Inject("sl_core.front")
      * })
      */
-    public function __construct(RegistryInterface $registry, DoctrineService $doctrineService, ObjectService $objectService)
+    public function __construct(RegistryInterface $registry, DoctrineService $doctrineService, ObjectService $objectService, FrontService $frontService)
     { 
         $this->em = $registry->getManager();
         $this->databaseEm = $registry->getManager('database');
         $this->doctrineService = $doctrineService;
         $this->objectService = $objectService;
+        $this->frontService = $frontService;
     }
 
     /**
@@ -48,13 +53,10 @@ class FrontController extends Controller
     */
     public function newAction(Object $object)
     {
-        //$test = $this->databaseEm->getRepository('SLDataBundle:Object30')->findAll(); 
-        //var_dump($test[1]); 
-
         $class = $this->doctrineService->getEntityClass($object->getTechnicalName());
         $entity =  new $class(); 
 
-        $form   = $this->createCreateForm($object, $entity);
+        $form   = $this->frontService->createCreateForm($object, $entity);
 
         return $this->render('SLCoreBundle:Front:save.html.twig', array(
             'object' => $object,
@@ -73,7 +75,7 @@ class FrontController extends Controller
         $class = $this->doctrineService->getEntityClass($object->getTechnicalName());
         $entity =  new $class(); 
         
-        $form = $this->createCreateForm($object, $entity);
+        $form = $this->frontService->createCreateForm($object, $entity);
         
         $form->handleRequest($request);
 
@@ -120,48 +122,23 @@ class FrontController extends Controller
     }
 
     /**
-    * Creates entity form
-    *
-    * @param Object $object Object type of new entity
-    * @param Mixed $entity
-    *
-    * @return Form $form
-    */
-    private function createCreateForm(Object $object, $entity)
-    {
-        $entityClass = $this->doctrineService->getEntityClass($object->getTechnicalName());
-
-        $form = $this->createForm(new FrontType($this->em, $entityClass), $entity, array(
-            'action' => $this->generateUrl('front_create', array(
-                'id' => $object->getId(),
-                )
-            ),
-            'method' => 'POST',
-            'attr' => array(
-                'mode' => 'add',  
-                'valid-target' => '',  
-                'no-valid-target' => 'ajax-modal',
-                ),
-            'submit_label' => 'create',
-            'submit_color' => 'primary',
-            'object' => $object,
-            )
-        );
-
-        return $form;
-    }
-
-    /**
      * Display form to edit entity
      *
-     * @param Object $object Object type of update entity
-     * @param Int $entity_id
+     * @param integer $id Object type id of update entity
+     * @param integer $entity_id
      */
-    public function editAction(Object $object, $entity_id)
+    public function editAction($id, $entity_id)
     {
+        $filters = $this->em->getFilters();
+        $filters->disable('softdeleteable');
+
+        $object = $this->em->getRepository('SLCoreBundle:Object')->fullFindById($id); 
+
         $entity = $this->databaseEm->getRepository('SLDataBundle:'.$object->getTechnicalName())->find($entity_id);
 
-        $form = $this->createEditForm($object, $entity);
+        $form = $this->frontService->createEditForm($object, $entity);
+
+        $filters->enable('softdeleteable');
 
         return $this->render('SLCoreBundle:Front:save.html.twig', array(
             'object' => $object,
@@ -173,14 +150,19 @@ class FrontController extends Controller
     /**
      * Update entity
      *
-     * @param Object $object Object type of update entity
-     * @param Int $entity_id Id of update entity
+     * @param integer $id Object type id of update entity
+     * @param integer $entity_id Id of update entity
      */
-    public function updateAction(Request $request, Object $object, $entity_id)
+    public function updateAction(Request $request, $id, $entity_id)
     {
+        $filters = $this->em->getFilters();
+        $filters->disable('softdeleteable');
+
+        $object = $this->em->getRepository('SLCoreBundle:Object')->fullFindById($id); 
+
         $entity = $this->databaseEm->getRepository('SLDataBundle:'.$object->getTechnicalName())->find($entity_id);
 
-        $form = $this->createEditForm($object, $entity);
+        $form = $this->frontService->createEditForm($object, $entity);
         $form->handleRequest($request);
 
         if ($request->isXmlHttpRequest()) {
@@ -218,58 +200,32 @@ class FrontController extends Controller
             $response = $this->redirect($this->generateUrl('front_end'));
         }
 
+        $filters->enable('softdeleteable');
+
         return $response; 
-    }
-
-
-    /**
-    * Update entity form
-    *
-    * @param Object $object Object type of update entity
-    * @param Mixed $entity
-    *
-    * @return Form $form
-    */
-    private function createEditForm(Object $object, $entity)
-    {
-        $entityClass = $this->doctrineService->getEntityClass($object->getTechnicalName());
-
-        $form = $this->createForm(new FrontType($this->em, $entityClass), $entity, array(
-            'action' => $this->generateUrl('front_update', array(
-                'id' => $object->getId(),
-                'entity_id' => $entity->getId(),
-                )
-            ),
-            'method' => 'PUT',
-            'attr' => array(
-                'mode' => 'update',  
-                'valid-target' => '',  
-                'no-valid-target' => 'ajax-modal',
-                ),
-            'submit_label' => 'update',
-            'submit_color' => 'primary',
-            'object' => $object,
-            )
-        );
-        
-        return $form;
     }
 
     /**
      * Show entity
      *
-     * @param Object $object  Object type of show entity
-     * @param Int $entity_id Id of entity to show
+     * @param integer $id  Object type id
+     * @param integer $entity_id Id of entity to show
+     *
      */
-    public function showAction(Request $request,Object $object, $entity_id)
+    public function showAction(Request $request, $id, $entity_id)
     {
         if ($request->isXmlHttpRequest()) {
+
+            $filters = $this->em->getFilters();
+            $filters->disable('softdeleteable');
+
+            $object = $this->em->getRepository('SLCoreBundle:Object')->fullFindById($id); 
 
             $entity = $this->databaseEm->getRepository('SLDataBundle:'.$object->getTechnicalName())->find($entity_id);
 
             $path = $this->objectService->getObjectPath($object); 
 
-            $objects = $this->em->getRepository('SLCoreBundle:Object')->getPath($object); 
+            $objects = $this->objectService->getPath($object); 
 
             //Ordered property
             $orderedObjects = array(); 
@@ -277,6 +233,8 @@ class FrontController extends Controller
                 $object = $this->em->getRepository('SLCoreBundle:Object')->fullFindById($object);
                 array_push($orderedObjects, $object);
             }
+
+            $filters->enable('softdeleteable');
 
             $response = $this->render('SLCoreBundle:Front:show.html.twig', array(
                 'object' => $object, 
@@ -296,14 +254,21 @@ class FrontController extends Controller
     /**
     * Display form to remove entity
     *
-    * @param Object $object  Object type of remove entity
-    * @param Int $entity_id
+    * @param integer $id  Object type id of remove entity
+    * @param integer $entity_id
     */
-    public function removeAction(Object $object, $entity_id)
+    public function removeAction($id, $entity_id)
     {
+        $filters = $this->em->getFilters();
+        $filters->disable('softdeleteable');
+
+        $object = $this->em->getRepository('SLCoreBundle:Object')->fullFindById($id); 
+
         $entity = $this->databaseEm->getRepository('SLDataBundle:'.$object->getTechnicalName())->find($entity_id);
   
-        $form = $this->createDeleteForm($object, $entity);
+        $form = $this->frontService->createDeleteForm($object, $entity);
+
+        $filters->enable('softdeleteable');
 
         return $this->render('SLCoreBundle:Front:save.html.twig', array(
             'entity' => $entity,
@@ -316,11 +281,16 @@ class FrontController extends Controller
     /**
      * Delete entity
      *
-     * @param Object $object  Object type of remove entity
-     * @param Int $entity_id Id of entity to delete
+     * @param integer $id  Object type id of remove entity
+     * @param integer $entity_id Id of entity to delete
      */
-    public function deleteAction(Request $request, Object $object, $entity_id)
+    public function deleteAction(Request $request, $id, $entity_id)
     {
+        $filters = $this->em->getFilters();
+        $filters->disable('softdeleteable');
+
+        $object = $this->em->getRepository('SLCoreBundle:Object')->fullFindById($id); 
+
         $entity = $this->databaseEm->getRepository('SLDataBundle:'.$object->getTechnicalName())->find($entity_id);
 
         if ($request->isXmlHttpRequest()) {
@@ -341,39 +311,8 @@ class FrontController extends Controller
             $response = $this->redirect($this->generateUrl('front_end', array('object_id' => $object->getId())));
         }   
 
+        $filters->enable('softdeleteable');
+
         return $response;    
-    }
-
-    /**
-     * Delete entity form
-     *
-     * @param Object $object  Object type of remove entity
-     * @param Mixed $entity
-     *
-     * @return Form $form Delete form
-     */
-    private function createDeleteForm(Object $object, $entity)
-    {
-        $entityClass = $this->doctrineService->getEntityClass($object->getTechnicalName());
-
-        $form = $this->createForm(new FrontType($this->em, $entityClass), $entity, array(
-            'action' => $this->generateUrl('front_delete', array(
-                'id' => $object->getId(),
-                'entity_id' => $entity->getId(),
-                )
-            ),
-            'method' => 'DELETE',
-            'attr' => array(
-                'mode' => 'delete',  
-                'valid-target' => '',  
-                'no-valid-target' => 'ajax-modal',
-                ),
-            'submit_label' => 'delete',
-            'submit_color' => 'danger',
-            'object' => $object,
-            )
-        );
-
-        return $form;
     }
 }

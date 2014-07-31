@@ -30,6 +30,10 @@ services:
         class: SL\CoreBundle\Services\DataListValueService
         arguments: [@form.factory, @router]
 
+    sl_core.front:
+        class: SL\CoreBundle\Services\FrontService
+        arguments: [@form.factory, @router, @doctrine.orm.entity_manager, @sl_core.object, @sl_core.doctrine, @translator]
+
     sl_core.elastica:
         class: SL\CoreBundle\Services\ElasticaService
         arguments: [@doctrine.orm.entity_manager, @router, @sl_core.js_tree, %sl_data.bundle%, %symfony.config_path%]

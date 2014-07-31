@@ -293,8 +293,8 @@ class PropertyController extends Controller
             $this->em->flush();
 
             //Update database schema
-            $this->doctrineService->doctrineGenerateEntityFileByObject($property->getObject());  
-            $this->doctrineService->doctrineSchemaUpdateForce();
+            //$this->doctrineService->doctrineGenerateEntityFileByObject($property->getObject());  
+            //$this->doctrineService->doctrineSchemaUpdateForce();
 
             $object = $this->em->getRepository('SLCoreBundle:Object')->fullFindById($property->getObject()->getId()); 
 

@@ -68,7 +68,7 @@ class ObjectRepository extends NestedTreeRepository
                 ->setParameter('id', $objectId);
 
     return $qb->getQuery()
-              ->getSingleResult();
+              ->getSingleResult();    
   }
 
   /**

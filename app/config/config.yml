@@ -194,6 +194,10 @@ doctrine:
         entity_managers:
             default:
                 connection:       default
+                filters:
+                    softdeleteable:
+                        class: Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter
+                        enabled: true
                 mappings:
                     SLCoreBundle: ~
                     gedmo_tree:
@@ -204,6 +208,10 @@ doctrine:
                         is_bundle: false
             database:
                 connection:       database
+                # filters:
+                #     softdeleteable:
+                #         class: Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter
+                #         enabled: true
                 mappings:
                     SLDataBundle: ~
 
@@ -214,6 +222,8 @@ stof_doctrine_extensions:
         default:
             tree: true
             sortable: true
+            softdeleteable: true
+
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -277,25 +287,25 @@ fos_elastica:
         slcore:
             client: default
             types:
-                Object37:
+                Object57:
                     persistence:
                         driver: orm
-                        model:  SL\DataBundle\Entity\Object37
+                        model:  SL\DataBundle\Entity\Object57
                         provider: ~
                         listener: ~
                         finder: ~
                 
-                Object38:
+                Object58:
                     persistence:
                         driver: orm
-                        model:  SL\DataBundle\Entity\Object38
+                        model:  SL\DataBundle\Entity\Object58
                         provider: ~
                         listener: ~
                         finder: ~
-                Object39:
+                Object59:
                     persistence:
                         driver: orm
-                        model:  SL\DataBundle\Entity\Object39
+                        model:  SL\DataBundle\Entity\Object59
                         provider: ~
                         listener: ~
                         finder: ~

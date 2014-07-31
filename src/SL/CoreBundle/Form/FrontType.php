@@ -1,29 +1,39 @@
 <?php
-//TO COMPLETE
+
 namespace SL\CoreBundle\Form;
 
+//Symfony classes
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use SL\CoreBundle\Entity\Object;
 use SL\CoreBundle\Entity\Property;
-use Doctrine\ORM\EntityManager;   
+use Doctrine\ORM\EntityManager; 
+use Symfony\Component\Translation\Translator;  
+
+//Custom classes
+use SL\CoreBundle\Services\ObjectService;
 
 class FrontType extends AbstractType
 {
     protected $em;
     protected $entityClass;
+    protected $objectService;
 
     /**
      * Constructor
      *
      * @param EntityManager $em
      * @param String $entityClass
+     * @param ObjectService $objectService
+     * @param Translator $translator
      */
-    public function __construct (EntityManager $em, $entityClass)
+    public function __construct (EntityManager $em, $entityClass, ObjectService $objectService, Translator $translator)
     {
         $this->em = $em; 
         $this->entityClass = $entityClass; 
+        $this->objectService = $objectService; 
+        $this->translator = $translator; 
     }
 
     /**
@@ -33,13 +43,17 @@ class FrontType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if($options['method'] != 'DELETE'){
-            $objects = $this->em->getRepository('SLCoreBundle:Object')->getPath($options['object']); 
+
+            $objects = $this->objectService->getPath($options['object']); 
 
             foreach($objects as $object){
 
                 //Create one tab per object
+                $suffix = ($object->getDeletedAt() !== null)?$this->translator->trans('deleted'):'';
+                $tabLabel = $object->getDisplayName().' '.$suffix;
+
                 $tab = $builder->create($object->getTechnicalName().'Property', 'tab', array(
-                'label' => $object->getDisplayName(),
+                'label' => $tabLabel,
                 'icon' => $object->getIcon(),
                 'inherit_data' => true,
                 ));
@@ -59,6 +73,9 @@ class FrontType extends AbstractType
 
                 $builder->add($tab); 
             }
+
+
+
         }
 
         $builder->add('submit', 'submit', array(

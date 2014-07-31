@@ -33755,7 +33755,7 @@ define('jstree', function (require, exports, module) {
 				return false;
 			}
 		};
-	}(jQuery));
+	}($));
 
 	// include the dnd plugin by default
 	// $.jstree.defaults.plugins.push("dnd");
@@ -34110,7 +34110,7 @@ define('jstree', function (require, exports, module) {
 			};
 			return txt === true ? { 'search' : search } : search(txt);
 		};
-	}(jQuery));
+	}($));
 
 	// include the search plugin by default
 	// $.jstree.defaults.plugins.push("search");
@@ -34270,7 +34270,7 @@ define('jstree', function (require, exports, module) {
 			get : function (key) { return window.localStorage.getItem(key); },
 			del : function (key) { return window.localStorage.removeItem(key); }
 		};
-	}(jQuery));
+	}($));
 
 	// include the state plugin by default
 	// $.jstree.defaults.plugins.push("state");

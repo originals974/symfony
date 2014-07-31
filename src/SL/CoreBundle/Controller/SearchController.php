@@ -52,7 +52,12 @@ class SearchController extends Controller
         if ($request->isXmlHttpRequest()) {    
 
             //Get all active objects and documents
+            $filters = $this->em->getFilters();
+            $filters->disable('softdeleteable');
+            
             $objects = $this->em->getRepository('SLCoreBundle:Object')->fullFindAll();
+            
+            $filters->enable('softdeleteable');
 
             //Get number of results for each object
             $objectsArray = array(); 
@@ -103,10 +108,15 @@ class SearchController extends Controller
 
             $data = array(); 
 
+            $filters = $this->em->getFilters();
+            $filters->disable('softdeleteable');
+
             $entities = $this->getSearchResults($pattern, $objectTechnicalName, 50);
                     
             $data = array();             
             $this->elasticaService->EntitiesToJSTreeData($data, $entities);
+            
+            $filters->enable('softdeleteable');
             
             $response = new JsonResponse($data);
         }

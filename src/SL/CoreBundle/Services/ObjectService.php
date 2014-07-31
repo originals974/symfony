@@ -276,4 +276,33 @@ class ObjectService
 
         return $path; 
     }
+
+    /**
+     * Get parents of an object. Include soft delete objects
+     *
+     * @param Object $object
+     *
+     * @return array $parents
+     */
+    public function getPath(Object $object){
+
+        $parents = array($object); 
+        $this->getParent($object, $parents);
+
+        return $parents; 
+    }
+
+    /**
+     * Get direct parent of an object and add it to parents array
+     *
+     * @param Object $object
+     * @param array $parents
+     */
+    private function getParent(Object $object, array &$parents){
+
+        if($object->getParent() != null){
+            array_unshift($parents, $object->getParent()); 
+            $this->getParent($object->getParent(), $parents);
+        }
+    }
 }

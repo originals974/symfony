@@ -9,8 +9,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * DataList
  *
  * @ORM\Table(name="data_list",uniqueConstraints={
- *     @ORM\UniqueConstraint(name="unique_index_data_list_technical_name", columns={"technical_name"}),
- *     @ORM\UniqueConstraint(name="unique_index_data_list_display_name", columns={"display_name"})
+ *     @ORM\UniqueConstraint(name="unique_index_data_list_technical_name", columns={"technical_name"})
  * })
  * @ORM\Entity(repositoryClass="SL\CoreBundle\Entity\DataListRepository")
  * @UniqueEntity(fields="displayName")

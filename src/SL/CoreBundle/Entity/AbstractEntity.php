@@ -9,6 +9,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * AbstractEntity
  *
  * @ORM\MappedSuperclass
+ * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
  *
  */
 abstract class AbstractEntity
@@ -48,6 +49,11 @@ abstract class AbstractEntity
      * @ORM\Column(name="position", type="integer")
      */
     private $position;
+
+    /**
+     * @ORM\Column(name="deletedAt", type="datetime", nullable=true)
+     */
+    private $deletedAt;
 
     /**
      * Get id
@@ -148,6 +154,29 @@ abstract class AbstractEntity
     public function getPosition()
     {
         return $this->position;
+    }
+
+    /**
+     * Set deletedAt
+     *
+     * @param DateTime $deletedAt
+     * @return AbstractEntity
+     */
+    public function setDeletedAt($deletedAt)
+    {
+        $this->deletedAt = $deletedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get deletedAt
+     *
+     * @return integer 
+     */
+    public function getDeletedAt()
+    {
+        return $this->deletedAt;
     }
 
     /**

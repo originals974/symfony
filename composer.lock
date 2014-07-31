@@ -3405,12 +3405,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twbs/bootstrap.git",
-                "reference": "c2f4e5fef1e9f11fa532cb98ccf088e8890e25fc"
+                "reference": "fc1db2e74b16b355656512eafd39f667f383a8a9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/c2f4e5fef1e9f11fa532cb98ccf088e8890e25fc",
-                "reference": "c2f4e5fef1e9f11fa532cb98ccf088e8890e25fc",
+                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/fc1db2e74b16b355656512eafd39f667f383a8a9",
+                "reference": "fc1db2e74b16b355656512eafd39f667f383a8a9",
                 "shasum": ""
             },
             "replace": {
@@ -3448,7 +3448,7 @@
                 "responsive",
                 "web"
             ],
-            "time": "2014-07-25 18:02:30"
+            "time": "2014-07-29 00:47:51"
         },
         {
             "name": "twig/extensions",
@@ -3561,12 +3561,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/vakata/jstree.git",
-                "reference": "65a7f419700ab7a75756e99d6dd02fa916a17442"
+                "reference": "ca8a9e871b360beafe138a0b4232b769523614af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vakata/jstree/zipball/65a7f419700ab7a75756e99d6dd02fa916a17442",
-                "reference": "65a7f419700ab7a75756e99d6dd02fa916a17442",
+                "url": "https://api.github.com/repos/vakata/jstree/zipball/ca8a9e871b360beafe138a0b4232b769523614af",
+                "reference": "ca8a9e871b360beafe138a0b4232b769523614af",
                 "shasum": ""
             },
             "require": {
@@ -3608,27 +3608,28 @@
             ],
             "description": "jsTree is jquery plugin, that provides interactive trees.",
             "homepage": "http://jstree.com",
-            "time": "2014-07-21 05:42:54"
+            "time": "2014-07-30 12:41:40"
         },
         {
             "name": "willdurand/js-translation-bundle",
-            "version": "v2.1.0",
+            "version": "v2.1.1",
             "target-dir": "Bazinga/Bundle/JsTranslationBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/willdurand/BazingaJsTranslationBundle.git",
-                "reference": "c78a691faabb8d0933a8791217937a7052d890a9"
+                "reference": "6ee06b9e974b9b768544fbbd6e1432773d205ebd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/willdurand/BazingaJsTranslationBundle/zipball/c78a691faabb8d0933a8791217937a7052d890a9",
-                "reference": "c78a691faabb8d0933a8791217937a7052d890a9",
+                "url": "https://api.github.com/repos/willdurand/BazingaJsTranslationBundle/zipball/6ee06b9e974b9b768544fbbd6e1432773d205ebd",
+                "reference": "6ee06b9e974b9b768544fbbd6e1432773d205ebd",
                 "shasum": ""
             },
             "require": {
                 "symfony/console": "~2.3",
                 "symfony/finder": "~2.3",
-                "symfony/framework-bundle": "~2.3"
+                "symfony/framework-bundle": "~2.3",
+                "symfony/intl": "~2.3"
             },
             "replace": {
                 "willdurand/expose-translation-bundle": "2.1.*"
@@ -3656,8 +3657,7 @@
             "authors": [
                 {
                     "name": "William Durand",
-                    "email": "william.durand1@gmail.com",
-                    "homepage": "http://www.willdurand.fr"
+                    "email": "william.durand1@gmail.com"
                 }
             ],
             "description": "A pretty nice way to expose your translation messages to your JavaScript.",
@@ -3666,7 +3666,7 @@
                 "symfony",
                 "translation"
             ],
-            "time": "2014-04-25 07:37:14"
+            "time": "2014-07-29 09:19:11"
         },
         {
             "name": "willdurand/jsonp-callback-validator",

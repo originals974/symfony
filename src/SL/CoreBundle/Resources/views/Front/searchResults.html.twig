@@ -12,7 +12,7 @@
         <h4 class="panel-title">
           <a data-toggle="collapse" data-parent="#search_result_panel" href="#{{ object.technicalName }}">
             <span class="fa {{ object.icon }}"></span> 
-            {{ object.displayName }} ({{ nbResults }})
+            {{ object.displayName }} ({{ nbResults }}) {{ object.deletedAt is not null ? 'deleted'|trans }}
           </a>
         </h4>
       </div>

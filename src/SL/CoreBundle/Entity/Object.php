@@ -13,8 +13,7 @@ use SL\CoreBundle\Validator\Constraints as SLCoreAssert;
  *
  * @Gedmo\Tree(type="nested")
  * @ORM\Table(name="object",uniqueConstraints={
- *     @ORM\UniqueConstraint(name="unique_index_object_technical_name", columns={"technical_name"}),
- *     @ORM\UniqueConstraint(name="unique_index_object_display_name", columns={"display_name"})
+ *     @ORM\UniqueConstraint(name="unique_index_object_technical_name", columns={"technical_name"})
  *  })
  * @ORM\Entity(repositoryClass="SL\CoreBundle\Entity\ObjectRepository")
  * @UniqueEntity(fields="displayName")
@@ -63,6 +62,7 @@ class Object extends AbstractEntity
      * @Gedmo\TreeRight
      * @ORM\Column(name="rgt", type="integer")
      */
+
     private $rgt;
      /**
      * @Gedmo\TreeRoot
@@ -238,5 +238,15 @@ class Object extends AbstractEntity
     public function isDocument()
     {
         return $this->isDocument;
+    }
+
+    /**
+     * Get root
+     *
+     * @return boolean 
+     */
+    public function isRoot()
+    {
+        return $this->root;
     }
 }

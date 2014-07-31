@@ -10,8 +10,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * DataListValue
  *
  * @ORM\Table(name="data_list_value",uniqueConstraints={
- *      @ORM\UniqueConstraint(name="unique_index_data_list_value_data_list_id_technical_name", columns={"dataList_id", "technical_name"}),
- *      @ORM\UniqueConstraint(name="unique_index_data_list_value_data_list_id_display_name", columns={"dataList_id", "display_name"})
+ *      @ORM\UniqueConstraint(name="unique_index_data_list_value_data_list_id_technical_name", columns={"dataList_id", "technical_name"})
  * })
  * @ORM\Entity(repositoryClass="SL\CoreBundle\Entity\DataListValueRepository")
  * @UniqueEntity(fields={"dataList","displayName"})
