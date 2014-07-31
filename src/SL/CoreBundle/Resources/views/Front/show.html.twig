@@ -10,40 +10,42 @@
 %}
 
     {% block section_heading %}
-    	<div class="btn-group">   
-			<a class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('front_edit', { 'id' : object.id, 'entity_id': entity.id }) }}" data-target="#">
-		        <span class="fa fa-pencil"></span>  
-		    </a>
-		    <a class="btn btn-danger btn-xs" data-toggle="modal" href="{{ path('front_remove', { 'id' : object.id, 'entity_id': entity.id }) }}" data-target="#">
-		        <span class="fa fa-times"></span>  
-		    </a>
-		</div>
-    {% endblock %}
-
-    {% block section_body %}
-        <ul class="list-inline">
+		<ul class="list-inline">
 		    <li>
 				<span class="fa {{ object.icon() }} fa-3x"></span> 
 			</li>
 			<li>
 				<h3>{{ entity.displayName }}</h3>
 			</li>
+			<li class="btn-group pull-right">
+				<a class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('front_edit', { 'id' : object.id, 'entity_id': entity.id }) }}" data-target="#">
+		        <span class="fa fa-pencil"></span>  
+			    </a>
+			    <a class="btn btn-danger btn-xs" data-toggle="modal" href="{{ path('front_remove', { 'id' : object.id, 'entity_id': entity.id }) }}" data-target="#">
+			        <span class="fa fa-times"></span>  
+			    </a>
+			</li>
 		</ul>
+		<ul class="list-inline">
+			<li>
+				<i><small>ID {{ entity.guid }}</small></i>
+			</li>
+			<li class="pull-right">
+				<i><small>{{ 'created_at'|trans }} {{ entity.createdAt|date("d/m/Y - H:i:s") }}</small></i>
+			</li>
+		</ul>
+		<ul class="list-inline">
+			<li>
+				<i><small>Version 1</small></i>
+			</li>
+			<li class="pull-right">
+				<i><small>{{ 'updated_at'|trans }} {{ entity.updatedAt|date("d/m/Y - H:i:s") }}</small></i>
+			</li>
+		</ul>
+    {% endblock %}
 
-		<div class="panel panel-default">
-  			<div class="panel-body">
-				<ul class="list-inline">
-				    <li>
-						<h4><i><small>{{ 'created_at'|trans }} {{ entity.createdAt|date("d/m/Y - H:i:s") }}</small></i></h4>
-						<h4><i><small>{{ 'updated_at'|trans }} {{ entity.updatedAt|date("d/m/Y - H:i:s") }}</small></i></h4>
-					</li>
-					<li>
-						
-					</li>
-				</ul>
-			</div>
-		</div>
-
+    {% block section_body %}
+        
 		{% for object in objects%}
 			<div class="panel panel-default">
   				<div class="panel-body">
