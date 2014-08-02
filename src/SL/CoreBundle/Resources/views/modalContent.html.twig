@@ -1,4 +1,7 @@
-{{ form_stylesheet(form) }}
+
+{% if form is defined %}
+	{{ form_stylesheet(form) }}
+{% endif %}
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -7,6 +10,9 @@
 <div class="modal-body">
     {% block modal_body %}{% endblock %}
 </div>
+
 {% block modal_footer %}{% endblock %}
 
-{{ form_javascript(form) }}
+{% if form is defined %}
+	{{ form_javascript(form) }}
+{% endif %}

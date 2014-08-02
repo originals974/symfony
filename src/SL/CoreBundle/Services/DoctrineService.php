@@ -8,10 +8,11 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
-use Doctrine\ORM\Tools\EntityGenerator;
+//use Doctrine\ORM\Tools\EntityGenerator;
 
 //Custom classes
 use SL\CoreBundle\Entity\Object;
+use SL\CoreBundle\Doctrine\SLCoreEntityGenerator;
 
 /**
  * DoctrineService
@@ -108,6 +109,7 @@ class DoctrineService
                     $fieldMapping = array(
                         'fieldName' => $property->getTechnicalName(), 
                         'targetEntity' => $this->getDataEntityClass($property->getTargetObject()->getTechnicalName()),
+                        'versioned' => true,
                         );
 
                     if($property->isMultiple()){
@@ -125,7 +127,8 @@ class DoctrineService
                         'fieldName' => $property->getTechnicalName(), 
                         'type' => ($property->isMultiple())?'array':$property->getFieldType()->getDataType(),
                         'length' => $property->getFieldType()->getLength(),
-                        'nullable' => !$property->isRequired()
+                        'nullable' => !$property->isRequired(),
+                        'versioned' => true,
                         ); 
 
                     break;
@@ -165,7 +168,8 @@ class DoctrineService
      */
     private function initEntityGenerator(Object $object) {
 
-        $entityGenerator = new EntityGenerator();
+        //$entityGenerator = new EntityGenerator();
+        $entityGenerator = new SLCoreEntityGenerator();
 
         //Variable configuration
         $entityGenerator->setGenerateAnnotations(true);

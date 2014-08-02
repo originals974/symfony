@@ -1,0 +1,52 @@
+{% extends "SLCoreBundle::modalContent.html.twig" %}
+
+{% block modal_title %}
+	{{ 'front.version'|trans }}
+{% endblock %}
+
+{% block modal_body %}
+
+	<table style="height: 800px" class="table table-condensed table-bordered table-hover">
+		<thead>
+            <tr>
+            	<th style="width:60px;">
+            		{{ 'version'|trans }}
+            	</th>
+            	<th style="width:60px;">
+            		{{ 'action'|trans }}
+            	</th>
+            	<th style="width:60px;">
+            		{{ 'loggedAt'|trans }}
+            	</th>
+				{% for property in object.properties %}
+					<th>
+						{{ property.displayName }}
+					</th>
+				{% endfor %}
+			</tr>
+		</thead>
+		<tbody>
+			{% for formatLogEntry in formatLogEntries %}
+				<tr>
+					<td class="active">
+						{{ formatLogEntry['version']['value'] }}
+					</td>
+					<td class="active">
+						{{ formatLogEntry['action']['value'] }}
+					</td>
+					<td class="active">
+						{{ formatLogEntry['loggedAt']['value']|date("d/m/Y H:i:s") }}
+					</td>
+					{% for property in object.properties %}
+						<td {{ formatLogEntry[property.technicalName]['updated'] ? 'class="success"' }}>
+							{{ formatLogEntry[property.technicalName]['value'] }}
+						</td>
+					{% endfor %}
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+{% endblock %}
+
+{% block modal_footer %}{% endblock %}

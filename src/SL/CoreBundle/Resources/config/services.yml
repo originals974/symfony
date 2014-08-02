@@ -39,6 +39,9 @@ services:
         class: SL\CoreBundle\Services\ElasticaService
         arguments: [@doctrine.orm.entity_manager, @router, @sl_core.js_tree, %sl_data.bundle%, %symfony.config_path%]
 
+    sl_core.loggable:
+        class: SL\CoreBundle\Services\LoggableService
+
     sl_core.search:
         class: SL\CoreBundle\Services\SearchService
         arguments: [@form.factory, @router]

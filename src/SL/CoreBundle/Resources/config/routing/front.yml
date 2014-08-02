@@ -41,3 +41,9 @@ front_delete:
         id: \d+
         entity_id: \d+
         _method: DELETE
+front_version:
+    pattern: /{id}.{entity_id}/version
+    defaults: { _controller: SLCoreBundle:Front:version }
+    requirements:
+        id: \d+
+        entity_id: \d+

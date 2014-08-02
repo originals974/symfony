@@ -289,7 +289,7 @@ class ObjectService
         $parents = array($object); 
         $this->getParent($object, $parents);
 
-        return $parents; 
+        return $this->orderedObjectsProperties($parents); 
     }
 
     /**
@@ -304,5 +304,26 @@ class ObjectService
             array_unshift($parents, $object->getParent()); 
             $this->getParent($object->getParent(), $parents);
         }
+    }
+
+
+    /**
+     * Ordered properties for all objects in 
+     * $objects array
+     *
+     * @param array $objects
+     *
+     * @return array $orderedObjects
+     */
+    public function orderedObjectsProperties(array $objects){
+
+        $orderedObjects = array(); 
+
+        foreach($objects as $object){
+            $object = $this->em->getRepository('SLCoreBundle:Object')->fullFindById($object->getId());
+            $orderedObjects[] = $object;
+        }
+
+        return $orderedObjects; 
     }
 }

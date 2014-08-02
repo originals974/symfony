@@ -16,6 +16,7 @@ use SL\CoreBundle\Form\FrontType;
 use SL\CoreBundle\Services\DoctrineService;
 use SL\CoreBundle\Services\ObjectService;
 use SL\CoreBundle\Services\FrontService;
+use SL\CoreBundle\Services\LoggableService;
 
 /**
  * Front controller.
@@ -28,22 +29,25 @@ class FrontController extends Controller
     private $doctrineService;
     private $objectService;
     private $frontService;
+    private $loggableService;
 
     /**
      * @DI\InjectParams({
      *     "registry" = @DI\Inject("doctrine"),
      *     "doctrineService" = @DI\Inject("sl_core.doctrine"),
      *     "objectService" = @DI\Inject("sl_core.object"),
-     *     "frontService" = @DI\Inject("sl_core.front")
+     *     "frontService" = @DI\Inject("sl_core.front"),
+     *     "loggableService" = @DI\Inject("sl_core.loggable")
      * })
      */
-    public function __construct(RegistryInterface $registry, DoctrineService $doctrineService, ObjectService $objectService, FrontService $frontService)
+    public function __construct(RegistryInterface $registry, DoctrineService $doctrineService, ObjectService $objectService, FrontService $frontService, LoggableService $loggableService)
     { 
         $this->em = $registry->getManager();
         $this->databaseEm = $registry->getManager('database');
         $this->doctrineService = $doctrineService;
         $this->objectService = $objectService;
         $this->frontService = $frontService;
+        $this->loggableService = $loggableService;
     }
 
     /**
@@ -227,20 +231,16 @@ class FrontController extends Controller
 
             $objects = $this->objectService->getPath($object); 
 
-            //Ordered property
-            $orderedObjects = array(); 
-            foreach($objects as $object){
-                $object = $this->em->getRepository('SLCoreBundle:Object')->fullFindById($object);
-                array_push($orderedObjects, $object);
-            }
+            $currentVersion = $this->databaseEm->getRepository('SLDataBundle:LogEntry')->findCurrentVersion($entity);
 
             $filters->enable('softdeleteable');
 
             $response = $this->render('SLCoreBundle:Front:show.html.twig', array(
                 'object' => $object, 
-                'objects' => $orderedObjects,
+                'objects' => $objects,
                 'entity' => $entity, 
                 'path' => $path,
+                'currentVersion' => array_shift($currentVersion),
                 )
             );
         }
@@ -263,6 +263,7 @@ class FrontController extends Controller
         $filters->disable('softdeleteable');
 
         $object = $this->em->getRepository('SLCoreBundle:Object')->fullFindById($id); 
+        $objects = $this->objectService->getPath($object); 
 
         $entity = $this->databaseEm->getRepository('SLDataBundle:'.$object->getTechnicalName())->find($entity_id);
   
@@ -273,6 +274,7 @@ class FrontController extends Controller
         return $this->render('SLCoreBundle:Front:save.html.twig', array(
             'entity' => $entity,
             'object' => $object,
+            'objects' => $objects,
             'form'   => $form->createView(),
             )
         );
@@ -314,5 +316,44 @@ class FrontController extends Controller
         $filters->enable('softdeleteable');
 
         return $response;    
+    }
+
+    /**
+     * Show version management screen
+     *
+     * @param integer $id  Object type id
+     * @param integer $entity_id Id of entity to show
+     *
+     */
+    public function versionAction(Request $request, $id, $entity_id)
+    {
+        if ($request->isXmlHttpRequest()) {
+
+            $filters = $this->em->getFilters();
+            $filters->disable('softdeleteable');
+
+            $object = $this->em->getRepository('SLCoreBundle:Object')->fullFindById($id); 
+
+            $entity = $this->databaseEm->getRepository('SLDataBundle:'.$object->getTechnicalName())->find($entity_id);
+
+            //Get all data version for $entity
+            $logEntries = $this->databaseEm->getRepository('SLDataBundle:LogEntry')->getLogEntries($entity); 
+            $formatLogEntries = $this->loggableService->formatLogEntries($logEntries, $object); 
+            //var_dump($formatLogEntries); 
+
+            $filters->enable('softdeleteable');
+
+            $response = $this->render('SLCoreBundle:Front:version.html.twig', array(
+                'object' => $object, 
+                'entity' => $entity, 
+                'formatLogEntries' => $formatLogEntries,
+                )
+            );
+        }
+        else {
+            $response = $this->redirect($this->generateUrl('front_end'));
+        }
+
+        return $response; 
     }
 }

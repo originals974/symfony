@@ -214,6 +214,12 @@ doctrine:
                         enabled: true
                 mappings:
                     SLDataBundle: ~
+                    gedmo_loggable:
+                        type: annotation
+                        prefix: Gedmo\Loggable\Entity
+                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity"
+                        alias: GedmoLoggable # this one is optional and will default to the name set for the mapping
+                        is_bundle: false
 
 #Stof_doctrine_extension_bundle
 stof_doctrine_extensions:
@@ -225,6 +231,7 @@ stof_doctrine_extensions:
             tree: true
             timestampable: true
         database:
+            loggable: true
             softdeleteable: true
             timestampable: true
 
@@ -290,13 +297,41 @@ fos_elastica:
         slcore:
             client: default
             types:
-                Object70:
+                Object90:
                     persistence:
                         driver: orm
-                        model:  SL\DataBundle\Entity\Object70
+                        model:  SL\DataBundle\Entity\Object90
                         provider: ~
                         listener: ~
                         finder: ~
+                # Object88:
+                #     persistence:
+                #         driver: orm
+                #         model:  SL\DataBundle\Entity\Object88
+                #         provider: ~
+                #         listener: ~
+                #         finder: ~
+                # Object89:
+                #     persistence:
+                #         driver: orm
+                #         model:  SL\DataBundle\Entity\Object89
+                #         provider: ~
+                #         listener: ~
+                #         finder: ~
+                # Object81:
+                #     persistence:
+                #         driver: orm
+                #         model:  SL\DataBundle\Entity\Object81
+                #         provider: ~
+                #         listener: ~
+                #         finder: ~
+                # Object82:
+                #     persistence:
+                #         driver: orm
+                #         model:  SL\DataBundle\Entity\Object82
+                #         provider: ~
+                #         listener: ~
+                #         finder: ~
                
 #Shiva versionning
 shivas_versioning:

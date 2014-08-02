@@ -3,7 +3,8 @@
 namespace SL\CoreBundle\Listener;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
-use SL\CoreBundle\Entity\AbstractEntity; 
+use SL\CoreBundle\Entity\AbstractEntity as CoreAbstractEntity; 
+use SL\DataBundle\Entity\AbstractEntity as DataAbstractEntity;
 
 class DoctrineListener
 {   
@@ -17,13 +18,16 @@ class DoctrineListener
         $entity = $args->getEntity();
         $em = $args->getEntityManager();
 
-        $entity->setGuid(uniqid());
-
-        if ($entity instanceof AbstractEntity) {
-            //Init technical name of new entity
+        if ($entity instanceof CoreAbstractEntity) {
         	$entity->setTechnicalName(); 
+            $em->flush();
         }
 
-        $em->flush(); 
+        if($entity instanceof CoreAbstractEntity or $entity instanceof DataAbstractEntity ) {
+            $entity->setGuid(uniqid());
+            $em->flush();
+        }
+
+         
     }
 }

@@ -5,7 +5,8 @@
     'object':object,
     'objects':objects,
     'entity':entity,
-    'path':path
+    'path':path,
+    'currentVersion':currentVersion,
     } only
 %}
 
@@ -24,6 +25,9 @@
 			    <a class="btn btn-danger btn-xs" data-toggle="modal" href="{{ path('front_remove', { 'id' : object.id, 'entity_id': entity.id }) }}" data-target="#">
 			        <span class="fa fa-times"></span>  
 			    </a>
+			    <a class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('front_version', { 'id' : object.id, 'entity_id': entity.id }) }}" data-target="#" modal-class="modal container fade">
+			        <span class="fa fa-undo"></span>  
+			    </a>
 			</li>
 		</ul>
 		<ul class="list-inline">
@@ -36,7 +40,7 @@
 		</ul>
 		<ul class="list-inline">
 			<li>
-				<i><small>Version 1</small></i>
+				<i><small>Version {{ currentVersion }}</small></i>
 			</li>
 			<li class="pull-right">
 				<i><small>{{ 'updated_at'|trans }} {{ entity.updatedAt|date("d/m/Y - H:i:s") }}</small></i>

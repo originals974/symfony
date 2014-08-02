@@ -11,6 +11,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  *
  * @ORM\MappedSuperclass
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
+ * @Gedmo\Loggable(logEntryClass="SL\DataBundle\Entity\LogEntry")
  *
  */
 abstract class AbstractEntity
@@ -47,6 +48,7 @@ abstract class AbstractEntity
     /**
      * @var string
      *
+     * @Gedmo\Versioned
      * @ORM\Column(name="display_name", type="string", length=255)
      */
     private $displayName;
