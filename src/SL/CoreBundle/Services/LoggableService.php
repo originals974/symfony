@@ -3,7 +3,7 @@
 namespace SL\CoreBundle\Services;
 
 //Symfony classes
-
+use Symfony\Bridge\Doctrine\RegistryInterface;
 
 //Custom classes
 use SL\CoreBundle\Entity\Object;
@@ -14,77 +14,54 @@ use SL\CoreBundle\Entity\Object;
  */
 class LoggableService
 {
-	/**
-     * Convert $logEntries to an array 
-     * with all versions data for an entity
+    private $databaseEm;
+
+    /**
+     * Constructor
      *
-     * @param array $logEntries
-     * @param Object $object
+     * @param RegistryInterface $registry
      *
-     * @return array $formatLogEntries
      */
-	public function formatLogEntries(array $logEntries, Object $object)
+    public function __construct(RegistryInterface $registry)
+    {
+        $this->databaseEm = $registry->getManager('database');
+    }
+
+	/**
+     * Get last $limit versions for $entity. 
+     *
+     * @param array $objects All objects definition of $entity 
+     * @param Mixed $entity
+     * @param integer $limit
+     *
+     * @return array $formatedLogEntries
+     */
+	public function getFormatedLogEntries(array $objects, $entity, $limit = 5)
 	{
-		$formatLogEntries = array(); 
-		$formatLogEntry = array(); 
+		$logEntries = $this->databaseEm->getRepository('SLDataBundle:LogEntry')->getLogEntries($entity); 
+
+		$formatedLogEntries = array(); 
 		foreach(array_reverse($logEntries) as $logEntry){
-			
-			$formatLogEntry['version'] = array(
-				'updated' => false, 
-				'value' => $logEntry->getVersion(),
-				); 
-			$formatLogEntry['action'] = array(
-				'updated' => false, 
-				'value' => $logEntry->getAction(),
-				); 
-			
-			$formatLogEntry['loggedAt'] = array(
-				'updated' => false, 
-				'value' => $logEntry->getLoggedAt(),
-				); 
+
+			$entity = clone $entity; 
+
+			$formatedLogEntry = array(); 
+			$formatedLogEntry['version'] = $logEntry->getVersion();
+			$formatedLogEntry['action'] = $logEntry->getAction();
+			$formatedLogEntry['loggedAt'] = $logEntry->getLoggedAt();
 
 			$entityLogData = $logEntry->getData();
-			foreach($object->getProperties() as $property){
+			
+			foreach($entityLogData as $key => $value){ 
 
-				if(array_key_exists($property->getTechnicalName(), $entityLogData)) {
-					
-					if(array_key_exists($property->getTechnicalName(), $formatLogEntry)){
+				$entity->{"set".$key}($value);
+			}
 
-						if($formatLogEntry[$property->getTechnicalName()]['value'] === $entityLogData[$property->getTechnicalName()]){
+			$formatedLogEntry['data'] = $entity;
 
-							$formatLogEntry[$property->getTechnicalName()]['updated'] = false;
-						}
-						else{
-							$formatLogEntry[$property->getTechnicalName()] = array(
-								'updated' => true,
-								'value' => $entityLogData[$property->getTechnicalName()],
-							); 
-						}
-					}
-					else{
-						$formatLogEntry[$property->getTechnicalName()] = array(
-							'updated' => false,
-							'value' => $entityLogData[$property->getTechnicalName()],
-						); 
-					}
-				}
-				else {
-					if(array_key_exists($property->getTechnicalName(), $formatLogEntry)){
-						$formatLogEntry[$property->getTechnicalName()]['updated'] = false; 	 	
-					}
-					else {
-						$formatLogEntry[$property->getTechnicalName()] = array(
-							'updated' => false,
-							'value' => '',
-						);
-					}
-				}
-			}	
-
-			$formatLogEntries[] = $formatLogEntry;
+			$formatedLogEntries[] = $formatedLogEntry;
 		}
-
-		return array_reverse($formatLogEntries); 
+				
+		return array_slice(array_reverse($formatedLogEntries), 0, $limit); 
 	}
-
 }

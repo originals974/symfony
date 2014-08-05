@@ -79,6 +79,8 @@
                         modalId = '#'+$($form).parent().parent().attr('id');
                         selectedJsTree = $('#'+currentJsTreeReferenceId).jstree(true); 
 
+                        alert(mode); 
+
                         if(mode == 'add'){
                             //Refresh all search results
                             /*$('#search_result_panel').find('div[id*="jstree"]').each(function(){
@@ -142,6 +144,12 @@
                                 $('#'+jsTreeId).jstree(true).refresh();
 
                             });
+                        }
+                        else if(mode == 'revert') {
+                            selectedNode = selectedJsTree.get_selected(true);  
+                            reSelectedNode = selectedJsTree.get_node(selectedNode[0].id);
+                            selectedJsTree.deselect_node(selectedNode);
+                            selectedJsTree.select_node(reSelectedNode);
                         }
 
                         //Close the modal

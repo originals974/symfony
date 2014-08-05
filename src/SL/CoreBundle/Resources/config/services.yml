@@ -41,6 +41,7 @@ services:
 
     sl_core.loggable:
         class: SL\CoreBundle\Services\LoggableService
+        arguments: [@doctrine]
 
     sl_core.search:
         class: SL\CoreBundle\Services\SearchService
@@ -107,6 +108,11 @@ services:
         class: SL\CoreBundle\Form\SearchType
         tags:
             - { name: form.type, alias: sl_core_search }
+
+    sl_core.form.type.entity.version:
+        class: SL\CoreBundle\Form\EntityVersionType
+        tags:
+            - { name: form.type, alias: sl_core_entity_version }
 
     #Custom form validator service
     validator.unique.calculated_name_pattern:

@@ -6,46 +6,41 @@
 
 {% block modal_body %}
 
-	<table style="height: 800px" class="table table-condensed table-bordered table-hover">
-		<thead>
-            <tr>
-            	<th style="width:60px;">
-            		{{ 'version'|trans }}
-            	</th>
-            	<th style="width:60px;">
-            		{{ 'action'|trans }}
-            	</th>
-            	<th style="width:60px;">
-            		{{ 'loggedAt'|trans }}
-            	</th>
-				{% for property in object.properties %}
-					<th>
-						{{ property.displayName }}
-					</th>
-				{% endfor %}
-			</tr>
-		</thead>
-		<tbody>
-			{% for formatLogEntry in formatLogEntries %}
-				<tr>
-					<td class="active">
-						{{ formatLogEntry['version']['value'] }}
-					</td>
-					<td class="active">
-						{{ formatLogEntry['action']['value'] }}
-					</td>
-					<td class="active">
-						{{ formatLogEntry['loggedAt']['value']|date("d/m/Y H:i:s") }}
-					</td>
-					{% for property in object.properties %}
-						<td {{ formatLogEntry[property.technicalName]['updated'] ? 'class="success"' }}>
-							{{ formatLogEntry[property.technicalName]['value'] }}
-						</td>
-					{% endfor %}
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
+	{{ form_start(form) }}
+
+    	{{ form_errors(form) }}
+
+    	{{ form_label(form.version) }}
+	    {{ form_widget(form.version) }}
+        {{ form_widget(form.submit) }}
+	    
+	{{ form_end(form) }}
+
+	<hr/>
+
+	{% for formatedLogEntry in formatedLogEntries%}
+
+		{% set version = formatedLogEntry['version'] %}
+		{% set loggedAt = formatedLogEntry['loggedAt']|date("d/m/Y - H:i:s") %}
+
+		<div class="panel-group" id="collapse-version">
+		  	<div class="panel panel-default">
+			    <div class="panel-heading">
+				    <h4 class="panel-title">
+				        <a data-toggle="collapse" data-parent="#collapse-version" href="#collapse{{ version }}">
+				          	{{ 'version'|trans }} {{ version }} - <small>{{ loggedAt }}</small>
+				        </a>
+				    </h4>
+			    </div>
+			    <div id="collapse{{ version }}" class="panel-collapse collapse">
+			      	<div class="panel-body">
+			      		{% include "SLCoreBundle:Front:showBody.html.twig" with {'objects' : objects, 'entity' : formatedLogEntry['data']} only %} 
+			      	</div>
+			    </div>
+			</div>
+		</div>
+
+	{% endfor %}
 
 {% endblock %}
 

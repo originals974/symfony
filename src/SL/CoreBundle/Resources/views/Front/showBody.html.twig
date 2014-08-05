@@ -1,0 +1,71 @@
+{% for object in objects%}
+	<div class="panel panel-default">
+		<div class="panel-body">
+	
+			<h4>{{ object.displayName }} {{ object.deletedAt is not null ? 'deleted'|trans }}</h4>
+
+			<dl class="dl-horizontal">
+				{% for property in object.properties %}
+
+					{# Display not soft deleted properties and soft deleted properties which is not empty#}
+					{% if 	(
+								attribute(entity, property.technicalName) is not null 
+									and 
+								property.deletedAt is not null
+							)
+							or property.deletedAt is null
+					%}
+
+					    <dt>{{ property.displayName}}</dt>
+
+					    <dd>
+						    {% if property.fieldType.FormType == 'genemu_jquerydate' %}
+
+						        {{ attribute(entity, property.technicalName)|date("d/m/Y") }}
+
+						    {% elseif  property.fieldType.FormType == 'entity' %}
+
+					    		{% set entityProperties = attribute(entity, property.technicalName) %}
+					        	
+					        	{% if property.isMultiple %}
+							        {% for entityProperty in entityProperties %}
+							            {{ entityProperty.displayName }}
+							            {% if not loop.last %}
+							                ,
+							            {% endif %}
+							        {% endfor %}
+							    {% else %}
+							    	{{ entityProperties.displayName }}
+							    {% endif %}
+
+						    {% elseif  property.fieldType.FormType == 'choice' %}
+
+					        	{% if property.isMultiple %}
+					        		{% set items = attribute(entity, property.technicalName) %}
+							        {% for item in items %}
+							            {{ item }}
+							            {% if not loop.last %}
+							                ,
+							            {% endif %}
+							        {% endfor %}
+							    {% else %}
+							    	{{ attribute(entity, property.technicalName) }}
+							    {% endif %}
+
+						    {% else %}
+
+						        {{ attribute(entity, property.technicalName) }}
+						        
+						    {% endif %}
+						    {{ property.deletedAt is not null ? 'deleted'|trans }}
+					    </dd>
+
+					{% endif %}
+				{% endfor %}
+			</dl>
+		</div>
+	</div>
+
+{% endfor %}
+
+    

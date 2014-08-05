@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManager;
 
 //Custom classes
 use SL\CoreBundle\Entity\Object;
+use SL\DataBundle\Entity\LogEntry;
 use SL\CoreBundle\Form\FrontType;
 use SL\CoreBundle\Services\DoctrineService;
 use SL\CoreBundle\Services\ObjectService;
@@ -146,4 +147,30 @@ class FrontService
 
         return $form;
     }
+
+    /**
+    * Update entity version form
+    *
+    * @param Object $object 
+    * @param Mixed $entity
+    * @param integer $limit
+    *
+    * @return Form $form
+    */
+    public function createEditVersionForm(Object $object, $entity, LogEntry $logEntry, $limit = 5)
+    {   
+        $form = $this->formFactory->create('sl_core_entity_version', $logEntry, array(
+            'action' => $this->router->generate('front_update_version', array(
+                'id' => $object->getId(),
+                'entity_id' => $entity->getId(),
+                )
+            ),
+            'entity' => $entity,
+            'limit' => $limit,
+            )
+        );
+
+        return $form;
+    }
+
 }

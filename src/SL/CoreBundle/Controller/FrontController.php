@@ -12,6 +12,7 @@ use JMS\DiExtraBundle\Annotation as DI;
 
 //Custom classes
 use SL\CoreBundle\Entity\Object;
+use SL\DataBundle\Entity\LogEntry;
 use SL\CoreBundle\Form\FrontType;
 use SL\CoreBundle\Services\DoctrineService;
 use SL\CoreBundle\Services\ObjectService;
@@ -300,7 +301,6 @@ class FrontController extends Controller
             $this->databaseEm->remove($entity);
             $this->databaseEm->flush();
 
-            //Create the Json Response array
             $data = array(  
                 'isValid' => true,
                 'content' => null,
@@ -319,36 +319,84 @@ class FrontController extends Controller
     }
 
     /**
-     * Show version management screen
+     * Display form to revert to a specific entity version
      *
      * @param integer $id  Object type id
      * @param integer $entity_id Id of entity to show
      *
      */
-    public function versionAction(Request $request, $id, $entity_id)
+    public function editVersionAction(Request $request, $id, $entity_id)
     {
         if ($request->isXmlHttpRequest()) {
+
+            $limit = $this->container->getParameter('version_number');
 
             $filters = $this->em->getFilters();
             $filters->disable('softdeleteable');
 
             $object = $this->em->getRepository('SLCoreBundle:Object')->fullFindById($id); 
+            $objects = $this->objectService->getPath($object); 
 
             $entity = $this->databaseEm->getRepository('SLDataBundle:'.$object->getTechnicalName())->find($entity_id);
 
+            //Form creation
+            $logEntry = new LogEntry(); 
+            $form = $this->frontService->createEditVersionForm($object, $entity, $logEntry, $limit);
+
             //Get all data version for $entity
-            $logEntries = $this->databaseEm->getRepository('SLDataBundle:LogEntry')->getLogEntries($entity); 
-            $formatLogEntries = $this->loggableService->formatLogEntries($logEntries, $object); 
-            //var_dump($formatLogEntries); 
+            $formatedLogEntries = $this->loggableService->getFormatedLogEntries($objects, $entity, $limit); 
 
             $filters->enable('softdeleteable');
 
             $response = $this->render('SLCoreBundle:Front:version.html.twig', array(
-                'object' => $object, 
+                'objects' => $objects, 
                 'entity' => $entity, 
-                'formatLogEntries' => $formatLogEntries,
+                'formatedLogEntries' => $formatedLogEntries,
+                'form'   => $form->createView(),
                 )
+            ); 
+        }
+        else {
+            $response = $this->redirect($this->generateUrl('front_end'));
+        }
+
+        return $response; 
+    }
+
+     /**
+     * Revert to a specific version for $entity_id
+     *
+     * @param integer $id  Object type id
+     * @param integer $entity_id
+     *
+     * @return JsonResponse
+     */
+    public function updateVersionAction(Request $request, $id, $entity_id)
+    {
+        if ($request->isXmlHttpRequest()) {
+
+            $object = $this->em->getRepository('SLCoreBundle:Object')->fullFindById($id); 
+            $entity = $this->databaseEm->getRepository('SLDataBundle:'.$object->getTechnicalName())->find($entity_id);
+
+            //Form creation
+            $logEntry = new LogEntry(); 
+            $form = $this->frontService->createEditVersionForm($object, $entity, $logEntry);
+            $form->handleRequest($request);
+
+            $this->databaseEm->getRepository('SLDataBundle:LogEntry')->revert($entity, $logEntry->getVersion());
+
+            $displayName = $this->objectService->calculateDisplayName($entity, $object);
+            $entity->setDisplayName($displayName); 
+            $this->databaseEm->flush();
+
+            $data = array(  
+                'isValid' => true,
+                'content' => $displayName,
+                'mode' => 'revert',
             );
+
+            $response = new JsonResponse($data);
+            
         }
         else {
             $response = $this->redirect($this->generateUrl('front_end'));

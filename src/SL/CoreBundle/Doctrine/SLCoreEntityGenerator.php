@@ -30,8 +30,9 @@ class SLCoreEntityGenerator extends EntityGenerator
             $lastLine = array_pop ($lines);
             $lines[] = $this->spaces . ' * @Gedmo\Mapping\Annotation\Versioned';
             $lines[] = $lastLine;  
+            $lines = implode("\n", $lines);
         }
 
-        return implode("\n", $lines);
+        return $lines;
     }
 }

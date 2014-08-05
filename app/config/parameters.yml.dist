@@ -18,3 +18,4 @@ parameters:
     locale: fr
     secret: 1443237523556754187614
     application_version: 0.1.0_RC1
+    version_number: 5

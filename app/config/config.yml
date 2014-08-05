@@ -297,41 +297,27 @@ fos_elastica:
         slcore:
             client: default
             types:
-                Object90:
+                Object106:
                     persistence:
                         driver: orm
-                        model:  SL\DataBundle\Entity\Object90
+                        model:  SL\DataBundle\Entity\Object106
                         provider: ~
                         listener: ~
                         finder: ~
-                # Object88:
-                #     persistence:
-                #         driver: orm
-                #         model:  SL\DataBundle\Entity\Object88
-                #         provider: ~
-                #         listener: ~
-                #         finder: ~
-                # Object89:
-                #     persistence:
-                #         driver: orm
-                #         model:  SL\DataBundle\Entity\Object89
-                #         provider: ~
-                #         listener: ~
-                #         finder: ~
-                # Object81:
-                #     persistence:
-                #         driver: orm
-                #         model:  SL\DataBundle\Entity\Object81
-                #         provider: ~
-                #         listener: ~
-                #         finder: ~
-                # Object82:
-                #     persistence:
-                #         driver: orm
-                #         model:  SL\DataBundle\Entity\Object82
-                #         provider: ~
-                #         listener: ~
-                #         finder: ~
+                Object107:
+                    persistence:
+                        driver: orm
+                        model:  SL\DataBundle\Entity\Object107
+                        provider: ~
+                        listener: ~
+                        finder: ~
+                Object108:
+                    persistence:
+                        driver: orm
+                        model:  SL\DataBundle\Entity\Object108
+                        provider: ~
+                        listener: ~
+                        finder: ~
                
 #Shiva versionning
 shivas_versioning:
