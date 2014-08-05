@@ -54,17 +54,12 @@ class ObjectCRDController extends Controller
 
     /**
      * Display create screen
-     *
-     * @param boolean $isDocument True if object is a document
      */
-    public function indexAction(Request $request, $isDocument)
+    public function indexAction(Request $request)
     {   
         if ($request->isXmlHttpRequest()) {
 
-            $response = $this->render('SLCoreBundle:Object:index.html.twig',array(
-                'isDocument' => $isDocument,
-                )
-            );
+            $response = $this->render('SLCoreBundle:Object:index.html.twig');
         }
         else {
             $response = $this->redirect($this->generateUrl('back_end'));
@@ -76,14 +71,13 @@ class ObjectCRDController extends Controller
     /**
     * Display form to create object entity
     *
-    * @param boolean $isDocument True if object is a document
     * @param Object $parentObject Parent object of new object
     */
-    public function newAction(Request $request, $isDocument, Object $parentObject = null)
+    public function newAction(Request $request, Object $parentObject = null)
     {
         if ($request->isXmlHttpRequest()) {
 
-            $object = new Object($isDocument, null, $parentObject);
+            $object = new Object(null, $parentObject);
  
             $form = $this->objectService->createCreateForm($object);
 
@@ -103,10 +97,9 @@ class ObjectCRDController extends Controller
     /**
      * Create object entity
      *
-     * @param boolean $isDocument True if object is a document
      * @param Object $parentObject Parent object of new object
      */
-    public function createAction(Request $request, $isDocument, Object $parentObject = null)
+    public function createAction(Request $request, Object $parentObject = null)
     {
         //Get text fieldtype if necessary
         if($parentObject == null) {
@@ -116,7 +109,7 @@ class ObjectCRDController extends Controller
             $fieldType = null; 
         }
             
-        $object = new Object($isDocument, $fieldType, $parentObject);
+        $object = new Object($fieldType, $parentObject);
 
         $form = $this->objectService->createCreateForm($object);
 
@@ -137,7 +130,7 @@ class ObjectCRDController extends Controller
                 $this->doctrineService->doctrineSchemaUpdateForce();
 
                 $html = null; 
-                $jsTree = $this->jstreeService->createNewObjectNode($object, $object->isDocument());
+                $jsTree = $this->jstreeService->createNewObjectNode($object);
             
             }
             else {

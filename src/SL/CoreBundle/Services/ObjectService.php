@@ -67,11 +67,8 @@ class ObjectService
             $disabledParentField = false; 
         }
 
-        $formType = ($object->isDocument())?'document':'object';
-
-        $form = $this->formFactory->create($formType, $object, array(
+        $form = $this->formFactory->create('object', $object, array(
             'action' => $this->router->generate('object_create', array(
-                'isDocument' => $object->isDocument(),
                 'id' =>  ( $parentObject != null)?$parentObject->getId():0,
                 )
             ),
@@ -95,9 +92,7 @@ class ObjectService
     */
     public function createEditForm(Object $object)
     {    
-        $formService = ($object->isDocument())?'document':'object';
-        
-        $form = $this->formFactory->create($formService, $object, array(
+        $form = $this->formFactory->create('object', $object, array(
             'action' => $this->router->generate('object_update', array('id' => $object->getId())),
             'method' => 'PUT',
             'submit_label' => 'update',
@@ -138,10 +133,8 @@ class ObjectService
      * @return Form $form
      */
     public function createDeleteForm(Object $object)
-    {
-        $formType = ($object->isDocument())?'document':'object';
-        
-        $form = $this->formFactory->create($formType, $object, array(
+    {   
+        $form = $this->formFactory->create('object', $object, array(
             'action' => $this->router->generate('object_delete', array('id' => $object->getId())),
             'method' => 'DELETE',
             'submit_label' => 'delete',

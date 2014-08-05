@@ -27,18 +27,6 @@ class IconService
     }
 
     /**
-     * Get root Document icon
-     *
-     * @param String $option Option of icon
-     *
-     * @return String icon
-     */
-    public function getRootDocumentIcon($option=null)
-    {
-        return 'fa fa-file '.$option; 
-    }
-
-    /**
      * Get Object icon
      *
      * @param Object $object Object

@@ -7,19 +7,13 @@
     } only
 %}
 
-    {% if object.isDocument %}
-        {% set isDocument = 1 %}
-    {% else %}
-        {% set isDocument = 0 %}
-    {% endif %}
-
     {% block section_heading %}
         <ul class="list-inline">
             <li>
                 <div class="btn-group"> 
                     <button title="{{ 'object.choose.icon'|trans }}" class="btn btn-default btn-xs" role="iconpicker" data-iconset="fontawesome" data-icon="{{ object.icon }}" data-rows="6" data-cols="6" data-placement="bottom" ajax-action={{ path('object_update_icon', { 'id': object.id }) }}>
                     </button>
-                    <a title="{{ 'object.add'|trans }}" class="btn btn-default btn-xs" data-toggle="modal" data-target="#" href="{{ path('object_new', { 'isDocument': isDocument, 'id' : object.id }) }}">
+                    <a title="{{ 'object.add'|trans }}" class="btn btn-default btn-xs" data-toggle="modal" data-target="#" href="{{ path('object_new', { 'id' : object.id }) }}">
                         <span class="fa fa-plus"></span>  
                     </a>  
                     <a class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('object_edit', { 'id': object.id }) }}" data-target="#">

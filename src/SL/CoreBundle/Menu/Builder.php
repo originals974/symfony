@@ -76,31 +76,6 @@ class Builder extends ContainerAware
         return $menu;
     }
 
-
-    /**
-    * Create document FrontEnd Menu
-    *
-    * @return $menu
-    */    
-    public function newDocumentFrontMenu(FactoryInterface $factory, array $options)
-    {
-        $em = $this->container->get('Doctrine')->getManager();
-
-        //Menu configuration
-        $menu = $factory->createItem('root', array(
-            'subnavbar' => true,
-            'pills' => true,
-            'stacked' => true, 
-            )
-        );
-
-        $documents = $em->getRepository('SLCoreBundle:Object')->fullFindAll(true);
-
-        $menu = $this->addFrontChildrenObjectItems($menu, $documents);
- 
-        return $menu;
-    }
-
     /**
     * Add children item to menu for front end part
     *
@@ -159,34 +134,10 @@ class Builder extends ContainerAware
             )
         );
 
-        /************DOCUMENTS*************/
-        //Create Document node
-        $documentRoot = $server->addChild('document', array(
-            'route' => 'object', 
-            'routeParameters' => array(
-                'isDocument' => 1,
-            ),
-            'label' => 'document',
-            )
-        );
-        $documentRoot->setAttributes(array(
-            'data-jstree' => '{"icon":"'.$icon->getRootDocumentIcon('fa-lg text-primary').'"}',
-            )
-        );
-
-        //Select all root documents
-        $documents = $em->getRepository('SLCoreBundle:Object')->fullFindAll(true, 0);
-
-        $this->addBackChildrenObjectItems($documentRoot, $documents);
-
-
-         /************OBJECTS*************/
+        /************OBJECTS*************/
         //Create Object node
         $objectRoot = $server->addChild('object', array(
             'route' => 'object', 
-            'routeParameters' => array(
-                'isDocument' => 0,
-            ),
             'label' => 'object',
             )
         );

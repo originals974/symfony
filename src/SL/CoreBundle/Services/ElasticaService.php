@@ -192,6 +192,6 @@ class ElasticaService
                 }
             }
         }
-        array_push($data, $node);  
+        $data[] = $node;  
     }
 }

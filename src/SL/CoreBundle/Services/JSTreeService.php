@@ -42,11 +42,10 @@ class JSTreeService
      * Create new object node
      *
      * @param Object $object New object 
-     * @param Boolean $isDocument True if new object is a document
      *
      * @return Array $newNode Object node
      */
-    public function createNewObjectNode(Object $object, $isDocument)
+    public function createNewObjectNode(Object $object)
     {
         $newNode = array(
             'id' => $object->getTechnicalName(),

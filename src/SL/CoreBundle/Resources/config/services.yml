@@ -74,11 +74,6 @@ services:
         tags:
             - { name: form.type, alias: object }
 
-    sl_core.form.type.document:
-        class: SL\CoreBundle\Form\DocumentType
-        tags:
-            - { name: form.type, alias: document }
-
     sl_core.form.type.object.calculated.name:
         class: SL\CoreBundle\Form\ObjectCalculatedNameType
         tags:

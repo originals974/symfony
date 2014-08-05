@@ -2,21 +2,15 @@
 
 {% embed 'SLCoreBundle::sectionSkeleton.html.twig' with {
     'panelClass':panelClass,
-    'isDocument': isDocument
     } only
 %}
 
-    {% if isDocument %}
-        {% set title = 'document.index.title' %}
-        {% set description = 'document.index.description' %}
-    {% else %}
-        {% set title = 'object.index.title' %}
-        {% set description = 'object.index.description' %}
-    {% endif %}
+    {% set title = 'object.index.title' %}
+    {% set description = 'object.index.description' %}
 
     {% block section_heading %}
 	    <div class="btn-group">              
-            <a title="{{ 'object.add'|trans }}" class="btn btn-default btn-xs" data-toggle="modal" data-target="#" href="{{ path('object_new', { 'isDocument': isDocument }) }}">
+            <a title="{{ 'object.add'|trans }}" class="btn btn-default btn-xs" data-toggle="modal" data-target="#" href="{{ path('object_new') }}">
                 <span class="fa fa-plus"></span>  
             </a>       
         </div>

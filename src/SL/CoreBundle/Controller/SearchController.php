@@ -51,7 +51,7 @@ class SearchController extends Controller
 
         if ($request->isXmlHttpRequest()) {    
 
-            //Get all active objects and documents
+            //Get all active objects
             $filters = $this->em->getFilters();
             $filters->disable('softdeleteable');
             
@@ -72,7 +72,7 @@ class SearchController extends Controller
                         'object' => $object,
                         'nb_results' => count($entities), 
                         );
-                    array_push($objectsArray, $objectArray);
+                    $objectsArray[] = $objectArray;
                 }
             }
             $html = $this->renderView('SLCoreBundle:Front:searchResults.html.twig', array(

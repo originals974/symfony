@@ -133,7 +133,7 @@ class DoctrineService
 
                     break;
             }
-            array_push($mapping, $fieldMapping);
+            $mapping[] = $fieldMapping;
         }
 
         return $mapping;    

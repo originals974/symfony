@@ -33,18 +33,12 @@ class ObjectRepository extends NestedTreeRepository
   /**
    * Select all objects and properties 
    *
-   * @param boolean $isDocument
    * @param integer $level
    */
-  public function fullFindAll($isDocument = null, $level = null){
+  public function fullFindAll($level = null){
     
     $qb = $this->createQueryBuilder('o');
     $qb = $this->sharedQB($qb);
-               
-    if($isDocument !== null){
-      $qb->andWhere('o.isDocument = :isDocument')
-         ->setParameter('isDocument', $isDocument);
-    }
 
     if($level !== null){
       $qb->andWhere('o.lvl = :level')
@@ -72,16 +66,14 @@ class ObjectRepository extends NestedTreeRepository
   }
 
   /**
-   * Select other object that aren't document
+   * Select other objects
    *
    * @param Object $currentObject
    */
 	public function findOtherObject($currentObjectId)
   {
     $qb = $this->createQueryBuilder('o')
-              ->where('o.isDocument = :isDocument')
-              ->setParameter('isDocument', false)
-              ->andWhere('o.id <> :id')
+              ->where('o.id <> :id')
               ->setParameter('id', $currentObjectId)
               ->orderBy('o.position', 'ASC');
 
