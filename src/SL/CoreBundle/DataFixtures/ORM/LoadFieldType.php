@@ -85,13 +85,13 @@ class LoadFieldTypeData implements FixtureInterface
         $entityType->setFieldCategory($choiceCategory); 
         $entityType->setFormType('entity'); 
 
-        //Data_List
-        $dataList = new FieldType(); 
-        $dataList->setDisplayName('Liste');
-        $dataList->setDataType('string'); 
-        $dataList->setLength(255);
-        $dataList->setFieldCategory($choiceCategory); 
-        $dataList->setFormType('choice');
+        //choice_List
+        $choiceList = new FieldType(); 
+        $choiceList->setDisplayName('Liste');
+        $choiceList->setDataType('string'); 
+        $choiceList->setLength(255);
+        $choiceList->setFieldCategory($choiceCategory); 
+        $choiceList->setFormType('choice');
 
 
          /**********DATETIME********/ 
@@ -115,7 +115,7 @@ class LoadFieldTypeData implements FixtureInterface
         $manager->persist($urlType);
         $manager->persist($choiceCategory);
         $manager->persist($entityType);
-        $manager->persist($dataList);
+        $manager->persist($choiceList);
         $manager->persist($dateTimeCategory);
         $manager->persist($jqueryDateType);
         $manager->flush();

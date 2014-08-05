@@ -60,10 +60,10 @@
                                 {% set relation_type='one' %}
                             {% endif %}
 
-                            <b><i>{{ 'data_list.relation.description'|trans({
+                            <b><i>{{ 'choice_list.relation.description'|trans({
                             '%current_object%': property.object.displayName,
                             '%relation_type%' : relation_type|trans,
-                            '%linked_list%': property.datalist.displayName
+                            '%linked_list%': property.choicelist.displayName
                             })}}</i></b>
                         {% endif %}
                     </td>

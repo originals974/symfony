@@ -23,12 +23,12 @@ services:
         class: SL\CoreBundle\Services\PropertyService
         arguments: [@doctrine.orm.entity_manager, @translator, @form.factory, @router]
 
-    sl_core.data_list:
-        class: SL\CoreBundle\Services\DataListService
+    sl_core.choice_list:
+        class: SL\CoreBundle\Services\ChoiceListService
         arguments: [@doctrine.orm.entity_manager, @translator, @form.factory, @router]
 
-    sl_core.data_list_value:
-        class: SL\CoreBundle\Services\DataListValueService
+    sl_core.choice_item:
+        class: SL\CoreBundle\Services\ChoiceItemService
         arguments: [@form.factory, @router]
 
     sl_core.front:
@@ -59,15 +59,15 @@ services:
             - { name: doctrine.event_listener, event: postPersist }
 
     #Form Service
-    sl_core.form.type.data.list:
-        class: SL\CoreBundle\Form\DataListType
+    sl_core.form.type.choice.list:
+        class: SL\CoreBundle\Form\ChoiceListType
         tags:
-            - { name: form.type, alias: data_list }
+            - { name: form.type, alias: choice_list }
 
-    sl_core.form.type.data.list.value:
-        class: SL\CoreBundle\Form\DataListValueType
+    sl_core.form.type.choice.item:
+        class: SL\CoreBundle\Form\ChoiceItemType
         tags:
-            - { name: form.type, alias: data_list_value }
+            - { name: form.type, alias: choice_item }
 
     sl_core.form.type.object:
         class: SL\CoreBundle\Form\ObjectType

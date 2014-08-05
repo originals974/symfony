@@ -8,4 +8,4 @@
 /vendor/
 /app/config/parameters.yml
 /src/SL/DataBundle/Entity/Object*.php
-/components/
+/components/*

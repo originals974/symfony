@@ -5,8 +5,8 @@ namespace SL\CoreBundle\Services;
 //Custom classes
 use SL\CoreBundle\Entity\Object;
 use SL\CoreBundle\Entity\Property;
-use SL\CoreBundle\Entity\DataList;
-use SL\CoreBundle\Entity\DataListValue;
+use SL\CoreBundle\Entity\ChoiceList;
+use SL\CoreBundle\Entity\ChoiceItem;
 
 /**
  * Icon Service
@@ -63,39 +63,39 @@ class IconService
     }
 
     /**
-     * Get root DataList icon
+     * Get root choice list icon
      *
      * @param String $option Option of icon
      *
      * @return String icon
      */
-    public function getRootDataListIcon($option=null)
+    public function getRootChoiceListIcon($option=null)
     {
         return 'fa fa-list '.$option; 
     }
 
     /**
-     * Get DataList icon
+     * Get choice list icon
      *
-     * @param DataList $dataList DataList
+     * @param ChoiceList $choiceList
      *
      * @return String icon
      */
-    public function getDataListIcon(DataList $dataList)
+    public function getChoiceListIcon(ChoiceList $choiceList)
     { 
         return 'fa fa-list'; 
     }
 
     /**
-     * Get DataListValue icon
+     * Get choice item icon
      *
-     * @param DataListValue $dataListValue DataListValue
+     * @param ChoiceItem $choiceItem
      *
      * @return String icon
      */
-    public function getDataListValueIcon(DataListValue $dataListValue)
+    public function getChoiceItemIcon(ChoiceItem $choiceItem)
     {
-        return 'fa '.$dataListValue->getIcon(); 
+        return 'fa '.$choiceItem->getIcon(); 
     }
 
     /**
@@ -123,7 +123,7 @@ class IconService
             $icon = $this->getRootObjectIcon();
         }
         else if($property->getFieldType()->getFormType() == 'choice' ){
-            $icon = $this->getRootDataListIcon();
+            $icon = $this->getRootChoiceListIcon();
         }
         else{
             $icon = $this->getDefaultPropertyIcon();

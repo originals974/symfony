@@ -18,15 +18,15 @@ sl_core_property:
     resource: "@SLCoreBundle/Resources/config/routing/property.yml"
     prefix: /back_end/object/property
 
-#DataList
-sl_core_data_list:
-    resource: "@SLCoreBundle/Resources/config/routing/dataList.yml"
-    prefix: /back_end/data_list
+#ChoiceList
+sl_core_choice_list:
+    resource: "@SLCoreBundle/Resources/config/routing/choiceList.yml"
+    prefix: /back_end/choice_list
 
-#DataListValue
-sl_core_data_list_value:
-    resource: "@SLCoreBundle/Resources/config/routing/dataListValue.yml"
-    prefix: /back_end/data_list_value
+#ChoiceItem
+sl_core_choice_item:
+    resource: "@SLCoreBundle/Resources/config/routing/choiceItem.yml"
+    prefix: /back_end/choice_item
 
 #Front
 sl_core_font:

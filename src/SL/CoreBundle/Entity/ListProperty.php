@@ -9,37 +9,37 @@ use Symfony\Component\Validator\Constraints as Assert;
  * ListProperty
  *
  * @ORM\Table(name="list_property")
- * @ORM\Entity(repositoryClass="SL\CoreBundle\Entity\PropertyRepository")
+ * @ORM\Entity(repositoryClass="PropertyRepository")
  */
 class ListProperty extends Property
 { 
     /**
-     * @ORM\ManyToOne(targetEntity="SL\CoreBundle\Entity\DataList")
+     * @ORM\ManyToOne(targetEntity="ChoiceList")
      * @Assert\NotBlank()
      */
-    private $dataList;
+    private $choiceList;
 
 
     /**
-     * Set dataList
+     * Set choiceList
      *
-     * @param \SL\CoreBundle\Entity\DataList $dataList
-     * @return DataList
+     * @param ChoiceList $choiceList
+     * @return ChoiceList
      */
-    public function setDataList(\SL\CoreBundle\Entity\DataList $dataList = null)
+    public function setChoiceList(ChoiceList $choiceList = null)
     {
-        $this->dataList = $dataList;
+        $this->choiceList = $choiceList;
 
         return $this;
     }
 
     /**
-     * Get dataList
+     * Get choiceList
      *
-     * @return \SL\CoreBundle\Entity\DataList 
+     * @return ChoiceList 
      */
-    public function getDataList()
+    public function getChoiceList()
     {
-        return $this->dataList;
+        return $this->choiceList;
     }
 }

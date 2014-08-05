@@ -1,0 +1,41 @@
+{% if choiceList.choiceItems|length == 0 %}
+    <div class="text-center">
+        <i>{{ 'choiceItem.create.description'|trans }}</i>
+        <br/>
+        <a title="{{ 'choice_item.add'|trans }}" class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('choice_item_new', { 'id': choiceList.id }) }}" data-target="#">
+            <span class="fa fa-plus"></span>  
+        </a>   
+    </div>
+{% else %}
+    <table class="table table-striped table-condensed table-hover table-bordered">
+        <thead>
+            <tr>
+                <th style="width:100px;">
+                    <a title="{{ 'choice_item.add'|trans }}" class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('choice_item_new', { 'id': choiceList.id }) }}" data-target="#">
+                        <span class="fa fa-plus"></span>  
+                    </a>
+                </th>
+                <th>{{ 'displayName'|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for choiceItem in choiceList.choiceItems %}
+                <tr>
+                    <td>
+                        <div class="btn-group"> 
+                            <button title="{{ 'choice_item.change.icon'|trans }}" class="btn btn-default btn-xs" role="iconpicker" data-iconset="fontawesome" data-icon="{{ choiceItem.icon }}" data-rows="6" data-cols="6" data-placement="bottom" ajax-action={{ path('choice_item_update_icon', { 'id': choiceItem.id }) }}></button>
+                            <a title="{{ 'choice_item.delete'|trans }}" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#" href="{{ path('choice_item_remove', { 'id': choiceItem.id }) }}" >
+                                <span class="fa fa-times"></span>        
+                            </a>
+                        </div>
+                    </td>
+                    <td>
+                        <a title="{{ 'choice_item.update'|trans }}" data-toggle="modal" data-target="#" href="{{ path('choice_item_edit', { 'id': choiceItem.id }) }}">
+                            {{ choiceItem.displayName }}  
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}

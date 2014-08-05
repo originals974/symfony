@@ -1,0 +1,21 @@
+{% set panelClass = 'panel panel-info' %}
+
+{% embed 'SLCoreBundle::sectionSkeleton.html.twig' with {
+    'panelClass':panelClass,
+    } only
+%}
+
+    {% block section_heading %}
+    	<div class="btn-group">              
+            <a title="{{ 'choice_list.add'|trans }}" class="btn btn-default btn-xs" data-toggle="modal" data-target="#" href="{{ path('choice_list_new') }}">
+                <span class="fa fa-plus"></span>  
+            </a>       
+        </div>
+        <h4>{{ 'choice_list.index.title' | trans }}</h4>
+    {% endblock %}
+
+    {% block section_body %}
+       {{ 'choice_list.index.description' | trans }}
+    {% endblock %}
+
+{% endembed %}

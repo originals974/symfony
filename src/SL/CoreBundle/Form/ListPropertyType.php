@@ -22,14 +22,14 @@ class ListPropertyType extends PropertyType
                     )
                 )
             ) 
-            ->add('dataList', 'entity', array(
+            ->add('choiceList', 'entity', array(
                 'empty_value' => '',
-                'class' => 'SLCoreBundle:DataList',
+                'class' => 'SLCoreBundle:ChoiceList',
                 'property' => 'displayName',
                 'query_builder' => function(EntityRepository $er) {
                                       return $er->fullFindAllQb();
                                     },
-                'label' =>  'data_list',
+                'label' =>  'choice_list',
                 'attr' => array(
                         'class'       => 'col-lg-4'
                     ) 

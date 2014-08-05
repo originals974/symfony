@@ -151,35 +151,35 @@ class Builder extends ContainerAware
 
         $this->addBackChildrenObjectItems($objectRoot, $objects);
 
-         /************DATA LIST*************/
-        //Create node for DataLists
-        $dataListRoot = $server->addChild('dataList', array(
-            'route' => 'data_list',
+         /************CHOICE LIST*************/
+        //Create node for ChoiceLists
+        $choiceListRoot = $server->addChild('choiceList', array(
+            'route' => 'choice_list',
             'label' => 'list', 
             )
         );
-        $dataListRoot->setAttributes(array(
-            'data-jstree' => '{"icon":"'.$icon->getRootDataListIcon('fa-lg text-primary').'"}',
+        $choiceListRoot->setAttributes(array(
+            'data-jstree' => '{"icon":"'.$icon->getRootChoiceListIcon('fa-lg text-primary').'"}',
             )
         );    
 
-        //Select all datalists
-        $dataLists = $em->getRepository('SLCoreBundle:DataList')->fullFindAll();
+        //Select all choicelists
+        $choiceLists = $em->getRepository('SLCoreBundle:ChoiceList')->fullFindAll();
 
-        //Create a node for each datalist
-        foreach($dataLists as $dataList) {
+        //Create a node for each choicelist
+        foreach($choiceLists as $choiceList) {
 
-            $dataListItem = $dataListRoot->addChild($dataList->getTechnicalName(), array(
-                        'route' => 'data_list_show', 
+            $choiceListItem = $choiceListRoot->addChild($choiceList->getTechnicalName(), array(
+                        'route' => 'choice_list_show', 
                         'routeParameters' => array(
-                            'id' => $dataList->getId(),
+                            'id' => $choiceList->getId(),
                             ),
-                        'label' => $dataList->getDisplayName(),
+                        'label' => $choiceList->getDisplayName(),
                         )
                     );
-            $dataListItem->setAttributes(array(
-                'id' => $dataList->getTechnicalName(),
-                'data-jstree' => '{"icon":"'.$icon->getDataListIcon($dataList).'"}'
+            $choiceListItem->setAttributes(array(
+                'id' => $choiceList->getTechnicalName(),
+                'data-jstree' => '{"icon":"'.$icon->getChoiceListIcon($choiceList).'"}'
                 )
             );
         }

@@ -1,0 +1,34 @@
+{% set panelClass = 'panel panel-default' %}
+
+{% embed 'SLCoreBundle::sectionSkeleton.html.twig' with {
+    'panelClass':panelClass,
+    'choiceList' : choiceList
+    } only
+%}
+
+    {% block section_heading %}
+        <ul class="list-inline">
+            <li>
+                <div class="btn-group">  
+                    <a title="{{ 'choice_list.update'|trans }}" class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('choice_list_edit', { 'id': choiceList.id }) }}" data-target="#">
+                        <span class="fa fa-pencil"></span>  
+                    </a>
+                    <a title="{{ 'choice_list.delete'|trans }}" class="btn btn-danger btn-xs" data-toggle="modal" href="{{ path('choice_list_remove', { 'id': choiceList.id }) }}" data-target="#">
+                        <span class="fa fa-times"></span>  
+                    </a>
+                </div>
+            </li>
+        </ul>
+    {% endblock %}
+
+    {% block section_body %}
+        <div id="choice_item_content">
+            {% include "SLCoreBundle:ChoiceItem:choiceItemTable.html.twig" with {'choiceList' : choiceList} only %}
+        </div>
+    {% endblock %}
+
+{% endembed %}
+
+
+
+

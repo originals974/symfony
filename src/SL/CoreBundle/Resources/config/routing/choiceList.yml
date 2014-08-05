@@ -1,0 +1,53 @@
+choice_list:
+    pattern: /
+    defaults: { _controller: SLCoreBundle:ChoiceList:index }
+
+choice_list_new:
+    pattern: /new
+    defaults: { _controller: SLCoreBundle:ChoiceList:new }
+
+choice_list_create:
+    pattern: /create
+    defaults: { _controller: SLCoreBundle:ChoiceList:create }
+    requirements:
+        id: \d+
+        _method: POST
+
+choice_list_edit:
+    pattern: /{id}/edit
+    defaults: { _controller: SLCoreBundle:ChoiceList:edit }
+    requirements:
+        id: \d+
+
+choice_list_update:
+    pattern: /{id}/update
+    defaults: { _controller: SLCoreBundle:ChoiceList:update }
+    requirements:
+        id: \d+
+        _method: PUT
+
+choice_list_show:
+    pattern: /{id}/show
+    defaults: { _controller: SLCoreBundle:ChoiceList:show }
+    requirements:
+        id: \d+
+
+choice_list_remove:
+    pattern: /{id}/remove
+    defaults: { _controller: SLCoreBundle:ChoiceList:remove }
+    requirements:
+        id: \d+
+
+choice_list_delete:
+    pattern: /{id}/delete
+    defaults: { _controller: SLCoreBundle:ChoiceList:delete }
+    requirements:
+        id: \d+
+        _method: DELETE
+
+choice_list_update_checkbox:
+    pattern: /{id}/update_checkbox
+    defaults: { _controller: SLCoreBundle:ChoiceList:updateCheckbox }
+    requirements:
+        id: \d+
+        _method: PUT 

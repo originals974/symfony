@@ -9,8 +9,8 @@ use Symfony\Component\Translation\Translator;
 //Custom classes
 use SL\CoreBundle\Entity\Object;
 use SL\CoreBundle\Entity\Property;
-use SL\CoreBundle\Entity\DataList;
-use SL\CoreBundle\Entity\DataListValue;
+use SL\CoreBundle\Entity\ChoiceList;
+use SL\CoreBundle\Entity\ChoiceItem;
 use SL\CoreBundle\Services\IconService;
 
 /**
@@ -60,20 +60,20 @@ class JSTreeService
     }
 
     /**
-     * Create new dataList node
+     * Create new choice list node
      *
-     * @param DataList $dataList New DataList
+     * @param ChoiceList $choiceList
      *
-     * @return Array $newNode DataList node
+     * @return Array $newNode choice list node
      */
-    public function createNewDataListNode(DataList $dataList)
+    public function createNewChoiceListNode(ChoiceList $choiceList)
     {
         $newNode = array(
-            'id' => $dataList->getTechnicalName(),
-            'text' => $dataList->getDisplayName(),
-            'icon' => $this->icon->getDataListIcon($dataList),
+            'id' => $choiceList->getTechnicalName(),
+            'text' => $choiceList->getDisplayName(),
+            'icon' => $this->icon->getChoiceListIcon($choiceList),
             'a_attr' => array(
-                'href' => $this->router->generate('data_list_show', array('id' => $dataList->getId())),
+                'href' => $this->router->generate('choice_list_show', array('id' => $choiceList->getId())),
                 ),
             );
 
@@ -86,7 +86,7 @@ class JSTreeService
      * @param String $textToShorten
      * @param String $maxLength
      *
-     * @return Array $newNode DataList node
+     * @return Array $newNode ChoiceList node
      */
     public function shortenTextNode($textToShorten, $maxLength){
 
