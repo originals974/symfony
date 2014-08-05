@@ -13,8 +13,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 //Custom classes
 use SL\CoreBundle\Entity\ChoiceList;
 use SL\CoreBundle\Entity\ChoiceItem;
-use SL\CoreBundle\Services\JSTreeService;
-use SL\CoreBundle\Services\IconService;
 use SL\CoreBundle\Services\ChoiceItemService;
 
 /**
@@ -24,23 +22,17 @@ use SL\CoreBundle\Services\ChoiceItemService;
 class ChoiceItemController extends Controller
 {
     private $em;
-    private $jstreeService;
-    private $iconService;
     private $choiceItemService;
 
     /**
      * @DI\InjectParams({
      *     "em" = @DI\Inject("doctrine.orm.entity_manager"),
-     *     "jstreeService" = @DI\Inject("sl_core.js_tree"),
-     *     "iconService" = @DI\Inject("sl_core.icon"),
      *     "choiceItemService" = @DI\Inject("sl_core.choice_item")
      * })
      */
-    public function __construct(EntityManager $em, JSTreeService $jstreeService, IconService $iconService, ChoiceItemService $choiceItemService)
+    public function __construct(EntityManager $em, ChoiceItemService $choiceItemService)
     {
         $this->em = $em;
-        $this->jstreeService = $jstreeService;
-        $this->iconService = $iconService;
         $this->choiceItemService = $choiceItemService;
     }
 

@@ -3,7 +3,6 @@
 namespace SL\CoreBundle\Services;
 
 //Symfony classes
-use Doctrine\ORM\EntityManager;
 use Symfony\Component\Translation\Translator;
 use Symfony\Component\Form\Form; 
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -23,7 +22,6 @@ use SL\CoreBundle\Entity\ListProperty;
  */
 class PropertyService
 {
-    private $em;
     private $translator;
     private $formFactory;
     private $router;
@@ -31,15 +29,13 @@ class PropertyService
     /**
      * Constructor
      *
-     * @param EntityManager $em
      * @param Translator $translator
      * @param FormFactory $formFactory
      * @param Router $router
      *
      */
-    public function __construct(EntityManager $em, Translator $translator, FormFactory $formFactory, Router $router)
+    public function __construct(Translator $translator, FormFactory $formFactory, Router $router)
     {
-        $this->em = $em;
         $this->translator = $translator;
         $this->formFactory = $formFactory;
         $this->router = $router;

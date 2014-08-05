@@ -1,16 +1,15 @@
 parameters:
-    sl_core.bundle: SL/CoreBundle
     sl_data.bundle: SL/DataBundle
     symfony.config_path : %kernel.root_dir%/config/
 
 services:
     sl_core.doctrine:
         class: SL\CoreBundle\Services\DoctrineService
-        arguments: [@filesystem, @doctrine, @kernel, %sl_core.bundle%,%sl_data.bundle%]
+        arguments: [@filesystem, @doctrine, @kernel, %sl_data.bundle%]
 
     sl_core.js_tree:
         class: SL\CoreBundle\Services\JSTreeService
-        arguments: [@router, @translator, @sl_core.icon]
+        arguments: [@router, @sl_core.icon]
 
     sl_core.icon:
         class: SL\CoreBundle\Services\IconService
@@ -21,7 +20,7 @@ services:
 
     sl_core.property:
         class: SL\CoreBundle\Services\PropertyService
-        arguments: [@doctrine.orm.entity_manager, @translator, @form.factory, @router]
+        arguments: [@translator, @form.factory, @router]
 
     sl_core.choice_list:
         class: SL\CoreBundle\Services\ChoiceListService

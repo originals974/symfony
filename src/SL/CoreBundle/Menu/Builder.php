@@ -87,7 +87,6 @@ class Builder extends ContainerAware
     private function addFrontChildrenObjectItems(MenuItem $menu, array $objects)
     {
         $icon = $this->container->get('sl_core.icon');
-        $em = $this->container->get('Doctrine')->getManager();
 
         foreach($objects as $object) {
 

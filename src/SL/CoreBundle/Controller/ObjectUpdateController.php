@@ -12,9 +12,6 @@ use JMS\DiExtraBundle\Annotation as DI;
 //Custom classes
 use SL\CoreBundle\Entity\Object;
 use SL\CoreBundle\Services\ObjectService;
-use SL\CoreBundle\Services\JSTreeService;
-use SL\CoreBundle\Services\IconService;
-use SL\CoreBundle\Services\DoctrineService;
 
 /**
  * Object Update controller
@@ -24,26 +21,17 @@ class ObjectUpdateController extends Controller
 {
     private $em;
     private $objectService;
-    private $jstreeService;
-    private $iconService;
-    private $doctrineService; 
 
     /**
      * @DI\InjectParams({
      *     "em" = @DI\Inject("doctrine.orm.entity_manager"),
      *     "objectService" = @DI\Inject("sl_core.object"),
-     *     "jstreeService" = @DI\Inject("sl_core.js_tree"),
-     *     "iconService" = @DI\Inject("sl_core.icon"),
-     *     "doctrineService" = @DI\Inject("sl_core.doctrine")
      * })
      */
-    public function __construct(EntityManager $em, ObjectService $objectService, JSTreeService $jstreeService, IconService $iconService, DoctrineService $doctrineService)
+    public function __construct(EntityManager $em, ObjectService $objectService)
     {
         $this->em = $em;
         $this->objectService = $objectService;
-        $this->jstreeService = $jstreeService;
-        $this->iconService = $iconService;
-        $this->doctrineService = $doctrineService;
     }
 
      /**
@@ -69,14 +57,8 @@ class ObjectUpdateController extends Controller
     */
     public function updateAction(Request $request, Object $object)
     {
-        //Get initial parent of Object
-        $initParentId = ($object->getParent() != null)?$object->getParent()->getId():null; 
-
         $form = $this->objectService->createEditForm($object);
         $form->handleRequest($request);
-
-        //Get new parent of Object
-        $newParentId = ($object->getParent() != null)?$object->getParent()->getId():null; 
 
         if ($request->isXmlHttpRequest()) {
 

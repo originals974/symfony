@@ -14,9 +14,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use SL\CoreBundle\Entity\Object;
 use SL\CoreBundle\Entity\Property;
 use SL\CoreBundle\Services\ObjectService;
-use SL\CoreBundle\Services\PropertyService;
 use SL\CoreBundle\Services\JSTreeService;
-use SL\CoreBundle\Services\IconService;
 use SL\CoreBundle\Services\DoctrineService;
 
 /**
@@ -27,28 +25,22 @@ class ObjectCRDController extends Controller
 {
     private $em;
     private $objectService;
-    private $propertyService;
     private $jstreeService;
-    private $iconService;
     private $doctrineService;
 
     /**
      * @DI\InjectParams({
      *     "em" = @DI\Inject("doctrine.orm.entity_manager"),
      *     "objectService" = @DI\Inject("sl_core.object"),
-     *     "propertyService" = @DI\Inject("sl_core.property"),
      *     "jstreeService" = @DI\Inject("sl_core.js_tree"),
-     *     "iconService" = @DI\Inject("sl_core.icon"),
      *     "doctrineService" = @DI\Inject("sl_core.doctrine")
      * })
      */
-    public function __construct(EntityManager $em, ObjectService $objectService, PropertyService $propertyService, JSTreeService $jstreeService, IconService $iconService, DoctrineService $doctrineService)
+    public function __construct(EntityManager $em, ObjectService $objectService, JSTreeService $jstreeService, DoctrineService $doctrineService)
     {
         $this->em = $em;
         $this->objectService = $objectService;
-        $this->propertyService = $propertyService;
         $this->jstreeService = $jstreeService;
-        $this->iconService = $iconService;
         $this->doctrineService = $doctrineService;
     }
 

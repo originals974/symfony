@@ -30,13 +30,12 @@ class LoggableService
 	/**
      * Get last $limit versions for $entity. 
      *
-     * @param array $objects All objects definition of $entity 
      * @param Mixed $entity
      * @param integer $limit
      *
      * @return array $formatedLogEntries
      */
-	public function getFormatedLogEntries(array $objects, $entity, $limit = 5)
+	public function getFormatedLogEntries($entity, $limit = 5)
 	{
 		$logEntries = $this->databaseEm->getRepository('SLDataBundle:LogEntry')->getLogEntries($entity); 
 

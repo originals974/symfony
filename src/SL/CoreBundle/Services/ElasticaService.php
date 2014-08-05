@@ -8,7 +8,6 @@ use Symfony\Component\Routing\Router;
 use Symfony\Component\Yaml\Dumper;
 
 //Custom classes
-use SL\CoreBundle\Entity\Object;
 use SL\CoreBundle\Services\JSTreeService;
 
 /**
@@ -54,8 +53,6 @@ class ElasticaService
 
         //Get default elastica config
         $elasticaArrayConfig = $this->getElasticaDefaultConfigArray(); 
-
-        $objects = $this->em->getRepository('SLCoreBundle:Object')->findAll();
 
         $typeArray = array();
 
@@ -138,7 +135,7 @@ class ElasticaService
      *
      * @return array $array
      */
-    public function EntitiesToJSTreeData(array &$data, $entities) {
+    public function entitiesToJSTreeData(array &$data, $entities) {
 
         foreach($entities as $entity){
             $this->EntitieToJSTreeData($data, $entity);
@@ -181,7 +178,7 @@ class ElasticaService
                 $collection = $entity->{"get".$entityProperty->getTechnicalName()}();
                 if($collection != null) {
                     $node['children'] = array();  
-                    $this->EntitiesToJSTreeData($node['children'], $collection); 
+                    $this->entitiesToJSTreeData($node['children'], $collection); 
                 }
             }
             else {

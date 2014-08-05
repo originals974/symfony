@@ -21,8 +21,6 @@ class ObjectType extends AbstractType
     {
         if($options['method'] != 'DELETE'){
 
-            $object = $options['object']; 
-
             $builder
                 ->add('displayName' , 'text',  array(
                     'label' =>  'displayName',
@@ -61,7 +59,6 @@ class ObjectType extends AbstractType
             'submit_label',
             'submit_color',
             'disabled_parent_field',
-            'object'
             )
         );
     }

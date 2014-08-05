@@ -14,7 +14,6 @@ use Symfony\Component\Routing\Router;
 
 //Custom classes
 use SL\CoreBundle\Entity\Object;
-use SL\CoreBundle\Services\JSTreeService;
 
 /**
  * Object Service
@@ -22,7 +21,6 @@ use SL\CoreBundle\Services\JSTreeService;
  */
 class ObjectService
 {
-    private $registry; 
     private $em;
     private $databaseEm;
     private $translator;
@@ -40,7 +38,6 @@ class ObjectService
      */
     public function __construct(RegistryInterface $registry, Translator $translator, FormFactory $formFactory, Router $router)
     {
-        $this->registry = $registry;
         $this->em = $registry->getManager();
         $this->databaseEm = $registry->getManager('database');
         $this->translator = $translator;
@@ -75,8 +72,6 @@ class ObjectService
             'method' => 'POST',
             'submit_label' => 'create',
             'submit_color' => 'primary',
-            'disabled_parent_field' => $disabledParentField,
-            'object' => $object
             )
         );
 
@@ -97,8 +92,6 @@ class ObjectService
             'method' => 'PUT',
             'submit_label' => 'update',
             'submit_color' => 'primary',
-            'disabled_parent_field' => false,
-            'object' => $object
             )
         );
 
@@ -139,8 +132,6 @@ class ObjectService
             'method' => 'DELETE',
             'submit_label' => 'delete',
             'submit_color' => 'danger',
-            'disabled_parent_field' => false,
-            'object' => $object
             )
         );
 

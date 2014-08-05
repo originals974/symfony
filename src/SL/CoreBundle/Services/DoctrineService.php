@@ -8,7 +8,6 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
-//use Doctrine\ORM\Tools\EntityGenerator;
 
 //Custom classes
 use SL\CoreBundle\Entity\Object;
@@ -23,7 +22,6 @@ class DoctrineService
     private $filesystem;
     private $registry;
     private $kernel;
-    private $em;
     private $coreBundle;
     private $dataBundle; 
 
@@ -33,16 +31,14 @@ class DoctrineService
      * @param Filesystem $filesystem
      * @param RegistryInterface $registry
      * @param HttpKernelInterface $kernel
-     * @param String $bundlePath
+     * @param String $dataBundlePath
      */
-    public function __construct(Filesystem $filesystem, RegistryInterface $registry, HttpKernelInterface $kernel, $coreBundlePath, $dataBundlePath)
+    public function __construct(Filesystem $filesystem, RegistryInterface $registry, HttpKernelInterface $kernel, $dataBundlePath)
     {
         $this->filesystem = $filesystem;
         $this->registry = $registry;
         $this->kernel = $kernel; 
-        $this->em = $registry->getManager(); 
         $this->databaseEm = $registry->getManager('database');
-        $this->coreBundle = $this->kernel->getBundle(str_replace('/', '', $coreBundlePath)); 
         $this->dataBundle = $this->kernel->getBundle(str_replace('/', '', $dataBundlePath)); 
     }
 
@@ -168,7 +164,6 @@ class DoctrineService
      */
     private function initEntityGenerator(Object $object) {
 
-        //$entityGenerator = new EntityGenerator();
         $entityGenerator = new SLCoreEntityGenerator();
 
         //Variable configuration
@@ -228,32 +223,6 @@ class DoctrineService
         }
 
         return $class; 
-    }
-
-    /**
-     * Get namespace of a core bundle entity
-     *
-     * @param string $entityName
-     *
-     * @return string $entityClass
-     */
-    public function getCoreEntityClass($entityName)
-    {
-        $entityClass = $this->registry->getAliasNamespace($this->coreBundle->getName()).'\\'.$entityName;
-        return $entityClass; 
-    }
-
-    /**
-     * Get path of a core bundle entity file
-     *
-     * @param string $entityName
-     *
-     * @return string $entityPath
-     */
-    private function getCoreEntityPath($entityName)
-    {
-        $entityPath = $this->coreBundle->getPath().'/Entity/'.str_replace('\\', '/', $entityName).'.php';
-        return $entityPath; 
     }
 
     /**

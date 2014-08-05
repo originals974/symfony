@@ -114,7 +114,7 @@ class SearchController extends Controller
             $entities = $this->getSearchResults($pattern, $objectTechnicalName, 50);
                     
             $data = array();             
-            $this->elasticaService->EntitiesToJSTreeData($data, $entities);
+            $this->elasticaService->entitiesToJSTreeData($data, $entities);
             
             $filters->enable('softdeleteable');
             

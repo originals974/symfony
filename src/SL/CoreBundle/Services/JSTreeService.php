@@ -4,7 +4,6 @@ namespace SL\CoreBundle\Services;
 
 //Symfony classes
 use Symfony\Component\Routing\Router; 
-use Symfony\Component\Translation\Translator;
 
 //Custom classes
 use SL\CoreBundle\Entity\Object;
@@ -20,21 +19,18 @@ use SL\CoreBundle\Services\IconService;
 class JSTreeService
 {
     private $router; 
-    private $translator;
     private $icon;
 
     /**
      * Constructor
      *
      * @param Router $router
-     * @param Translator $translator
      * @param IconService $icon
      *
      */
-    public function __construct(Router $router, Translator $translator, IconService $icon)
+    public function __construct(Router $router, IconService $icon)
     {
         $this->router = $router;
-        $this->translator = $translator;
         $this->icon = $icon; 
     }
 

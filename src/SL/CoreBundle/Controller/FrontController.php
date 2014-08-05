@@ -344,7 +344,7 @@ class FrontController extends Controller
             $form = $this->frontService->createEditVersionForm($object, $entity, $logEntry, $limit);
 
             //Get all data version for $entity
-            $formatedLogEntries = $this->loggableService->getFormatedLogEntries($objects, $entity, $limit); 
+            $formatedLogEntries = $this->loggableService->getFormatedLogEntries($entity, $limit); 
 
             $filters->enable('softdeleteable');
 
