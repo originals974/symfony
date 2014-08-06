@@ -1,10 +1,8 @@
 <?php
 
-namespace SL\CoreBundle\Entity;
+namespace SL\CoreBundle\Entity\Repository;
 
-//Doctrine classes
 use Doctrine\ORM\EntityRepository;
-
 
 /**
  * ChoiceItemRepository
@@ -15,7 +13,7 @@ class ChoiceItemRepository extends EntityRepository
 	/**
 	 * Select all items of $choiceList
 	 *
-	 * @param ChoiceList $choiceList
+	 * @param SL\CoreBundle\Entity\ChoiceList $choiceList
 	 *
 	 * @return array
 	 */
@@ -25,10 +23,10 @@ class ChoiceItemRepository extends EntityRepository
 	    			->join('ci.choiceList','cl')
 	                ->where('cl.id = :id')
 	                ->setParameter('id', $choiceList->getId())
-	                ->orderBy('dlv.position', 'ASC'); 
+	                ->orderBy('cl.position', 'ASC'); 
 
-	    return $qb->getQuery()
-	              ->getResult();
+	    return $qb  ->getQuery()
+	                ->getResult();
 	}
 }
 

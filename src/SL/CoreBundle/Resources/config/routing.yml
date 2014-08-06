@@ -20,12 +20,12 @@ sl_core_property:
 
 #ChoiceList
 sl_core_choice_list:
-    resource: "@SLCoreBundle/Resources/config/routing/choiceList.yml"
+    resource: "@SLCoreBundle/Resources/config/routing/choice/choiceList.yml"
     prefix: /back_end/choice_list
 
 #ChoiceItem
 sl_core_choice_item:
-    resource: "@SLCoreBundle/Resources/config/routing/choiceItem.yml"
+    resource: "@SLCoreBundle/Resources/config/routing/choice/choiceItem.yml"
     prefix: /back_end/choice_item
 
 #Front

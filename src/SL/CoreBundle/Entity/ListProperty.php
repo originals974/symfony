@@ -9,12 +9,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  * ListProperty
  *
  * @ORM\Table(name="list_property")
- * @ORM\Entity(repositoryClass="PropertyRepository")
+ * @ORM\Entity(repositoryClass="SL\CoreBundle\Entity\Repository\PropertyRepository")
  */
 class ListProperty extends Property
 { 
     /**
-     * @ORM\ManyToOne(targetEntity="ChoiceList")
+     * @ORM\ManyToOne(targetEntity="SL\CoreBundle\Entity\ChoiceList")
      * @Assert\NotBlank()
      */
     private $choiceList;

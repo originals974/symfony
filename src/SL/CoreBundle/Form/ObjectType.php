@@ -57,7 +57,6 @@ class ObjectType extends AbstractType
         $resolver->setRequired(array(
             'submit_label',
             'submit_color',
-            'disabled_parent_field',
             )
         );
     }

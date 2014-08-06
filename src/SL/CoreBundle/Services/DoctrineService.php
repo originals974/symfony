@@ -22,6 +22,8 @@ class DoctrineService
     private $filesystem;
     private $registry;
     private $kernel;
+    private $em; 
+    private $databaseEm;
     private $dataBundle; 
 
     /**
@@ -37,6 +39,7 @@ class DoctrineService
         $this->filesystem = $filesystem;
         $this->registry = $registry;
         $this->kernel = $kernel; 
+        $this->em = $registry->getManager();
         $this->databaseEm = $registry->getManager('database');
         $this->dataBundle = $this->kernel->getBundle(str_replace('/', '', $dataBundlePath)); 
     }
@@ -248,5 +251,32 @@ class DoctrineService
     {
         $entityPath = $this->dataBundle->getPath().'/Entity/'.str_replace('\\', '/', $entityName).'.php';
         return $entityPath; 
+    }
+
+    /**
+     * Delete entity with id $entityId
+     *
+     * @param string $entityFullName <BundleName>:<EntityName>(Ex : 'SLCoreBundle:Property')
+     * @param integer $entityId
+     * @param boolean $hardDelete If true, remove entity from database
+     *
+     * @return void
+     */
+    public function entityDelete($entityFullName, $entityId, $hardDelete=false){
+
+        $entity = $this->em->getRepository($entityFullName)->find($entityId); 
+        $this->em->remove($entity);
+        $this->em->flush();
+
+        if($hardDelete) {
+            $filters = $this->em->getFilters();
+            $filters->disable('softdeleteable');
+
+            $entity = $this->em->getRepository($entityFullName)->find($entityId); 
+            $this->em->remove($entity);
+            $this->em->flush();
+            
+            $filters->enable('softdeleteable');
+        }
     }
 }

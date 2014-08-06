@@ -1,0 +1,52 @@
+choice_item_new:
+    pattern: /{id}/new
+    defaults: { _controller: SLCoreBundle:Choice\ChoiceItem:new }
+    requirements:
+        id: \d+
+        _method: GET
+
+choice_item_create:
+    pattern: /{id}/create
+    defaults: { _controller: SLCoreBundle:Choice\ChoiceItem:create }
+    requirements:
+        id: \d+
+        _method: POST 
+
+choice_item_edit:
+    pattern: /{choice_list_id}.{id}/edit
+    defaults: { _controller: SLCoreBundle:Choice\ChoiceItem:edit }
+    requirements:
+        choice_list_id: \d+
+        id: \d+
+        _method: GET 
+
+choice_item_update:
+    pattern: /{choice_list_id}.{id}/update
+    defaults: { _controller: SLCoreBundle:Choice\ChoiceItem:update }
+    requirements:
+        choice_list_id: \d+
+        id: \d+
+        _method: PUT
+
+choice_item_remove:
+    pattern:  /{choice_list_id}.{id}/remove
+    defaults: { _controller: SLCoreBundle:Choice\ChoiceItem:remove }
+    requirements:
+        choice_list_id: \d+
+        id: \d+
+        _method: GET 
+
+choice_item_delete:
+    pattern:  /{choice_list_id}.{id}/delete
+    defaults: { _controller: SLCoreBundle:Choice\ChoiceItem:delete }
+    requirements:
+        choice_list_id: \d+
+        id: \d+
+        _method: DELETE 
+
+choice_item_update_icon:
+    pattern:  /{id}/updateIcon
+    defaults: { _controller: SLCoreBundle:Choice\ChoiceItem:updateIcon }
+    requirements:
+        id: \d+
+        _method: PUT

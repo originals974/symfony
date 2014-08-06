@@ -6,6 +6,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 
+use SL\CoreBundle\Entity\MappedSuperclass\AbstractEntity;
+
 /**
  * Property
  *
@@ -13,7 +15,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="property",uniqueConstraints={
  *     @ORM\UniqueConstraint(name="unique_index_property_object_id_technical_name", columns={"object_id", "technical_name"})
  * })
- * @ORM\Entity(repositoryClass="SL\CoreBundle\Entity\PropertyRepository")
+ * @ORM\Entity(repositoryClass="SL\CoreBundle\Entity\Repository\PropertyRepository")
  * @ORM\HasLifecycleCallbacks()
  * @UniqueEntity(fields={"object", "displayName"}, repositoryMethod="findByObjectAndDisplayName")
  */

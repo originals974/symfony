@@ -14,7 +14,7 @@
 
 		    if($url != null && $url != '#' ) {
 		    	$target = '#backEndSection'; 
-		    	sendToAjaxBackEnd('POST', $url, null, $htmlTarget);		    			    	
+		    	sendToAjaxBackEnd('GET', $url, null, $htmlTarget);		    			    	
 		    }
 		})
 		//JsTree configuration init
@@ -50,16 +50,14 @@
 	     */
         function submitFormToAjaxBackEnd($form) {
 
-        	var method, validTarget, modalId, jsTree, selectedNode, newNode; 
+        	var validTarget, noValidTarget, mode, modalId, jsTree, selectedNode, newNode; 
         	
-        	method = $form.find('input[name="_method"]').attr('value'); 
-        	if(method == null) {
-        		method = $form.attr('method');	
-        	}
         	validTarget = '#'+$form.attr('valid-target'); 
+        	noValidTarget = '#'+$form.attr('no-valid-target'); 
+            mode = $form.attr('mode');
 
             $.ajax({
-                type : method,
+                type : $form.attr('method'),
                 url : $form.attr('action'),
                 data : $form.serializeArray(),
                 dataType : "json",    
@@ -77,7 +75,7 @@
             				jsTree = $('#jstree').jstree(true);
             				selectedNode = jsTree.get_selected();  
 
-            				if(method.toUpperCase() == 'POST') {
+            				if(mode == 'add') {
 
 								newNode = jsTree.create_node(selectedNode,data.content.js_tree);
 
@@ -86,10 +84,10 @@
 								jsTree.deselect_node(selectedNode);
 								jsTree.select_node(newNode); 
 							}
-							else if(method.toUpperCase() == 'PUT') {
+							else if(mode == 'update') {
 								jsTree.rename_node(selectedNode, data.content.js_tree);
 			            	}
-			            	else if(method.toUpperCase() == 'DELETE') {
+			            	else if(mode == 'delete') {
 			            		jsTree.delete_node(selectedNode); 
 			            	}
             			}
@@ -104,7 +102,7 @@
                         $(modalId).modal('hide'); 
 		            }
 		            else {
-						$('#ajax-modal').html(data.content.html);
+						$(noValidTarget).html(data.content.html);
 		            }
                 },
                 error: function(data) {

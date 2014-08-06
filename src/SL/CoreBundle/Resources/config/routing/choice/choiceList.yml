@@ -1,60 +1,53 @@
 choice_list:
     pattern: /
-    defaults: { _controller: SLCoreBundle:ChoiceList:index }
+    defaults: { _controller: SLCoreBundle:Choice\ChoiceList:index }
     requirements:
         _method: GET
 
 choice_list_new:
     pattern: /new
-    defaults: { _controller: SLCoreBundle:ChoiceList:new }
+    defaults: { _controller: SLCoreBundle:Choice\ChoiceList:new }
     requirements:
         _method: GET
 
 choice_list_create:
     pattern: /create
-    defaults: { _controller: SLCoreBundle:ChoiceList:create }
+    defaults: { _controller: SLCoreBundle:Choice\ChoiceList:create }
     requirements:
         id: \d+
         _method: POST
 
 choice_list_edit:
     pattern: /{id}/edit
-    defaults: { _controller: SLCoreBundle:ChoiceList:edit }
+    defaults: { _controller: SLCoreBundle:Choice\ChoiceList:edit }
     requirements:
         id: \d+
         _method: GET
 
 choice_list_update:
     pattern: /{id}/update
-    defaults: { _controller: SLCoreBundle:ChoiceList:update }
+    defaults: { _controller: SLCoreBundle:Choice\ChoiceList:update }
     requirements:
         id: \d+
         _method: PUT
 
 choice_list_show:
     pattern: /{id}/show
-    defaults: { _controller: SLCoreBundle:ChoiceList:show }
+    defaults: { _controller: SLCoreBundle:Choice\ChoiceList:show }
     requirements:
         id: \d+
         _method: GET
 
 choice_list_remove:
     pattern: /{id}/remove
-    defaults: { _controller: SLCoreBundle:ChoiceList:remove }
+    defaults: { _controller: SLCoreBundle:Choice\ChoiceList:remove }
     requirements:
         id: \d+
         _method: GET
 
 choice_list_delete:
     pattern: /{id}/delete
-    defaults: { _controller: SLCoreBundle:ChoiceList:delete }
+    defaults: { _controller: SLCoreBundle:Choice\ChoiceList:delete }
     requirements:
         id: \d+
         _method: DELETE
-
-choice_list_update_checkbox:
-    pattern: /{id}/update_checkbox
-    defaults: { _controller: SLCoreBundle:ChoiceList:updateCheckbox }
-    requirements:
-        id: \d+
-        _method: PUT 

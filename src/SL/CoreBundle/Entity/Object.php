@@ -6,7 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+
 use SL\CoreBundle\Validator\Constraints as SLCoreAssert;
+use SL\CoreBundle\Entity\MappedSuperclass\AbstractEntity;
 
 /**
  * Object
@@ -15,7 +17,7 @@ use SL\CoreBundle\Validator\Constraints as SLCoreAssert;
  * @ORM\Table(name="object",uniqueConstraints={
  *     @ORM\UniqueConstraint(name="unique_index_object_technical_name", columns={"technical_name"})
  *  })
- * @ORM\Entity(repositoryClass="SL\CoreBundle\Entity\ObjectRepository")
+ * @ORM\Entity(repositoryClass="SL\CoreBundle\Entity\Repository\ObjectRepository")
  * @UniqueEntity(fields="displayName")
  */
 class Object extends AbstractEntity

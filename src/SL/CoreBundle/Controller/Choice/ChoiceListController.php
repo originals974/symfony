@@ -1,8 +1,7 @@
 <?php
 
-namespace SL\CoreBundle\Controller;
+namespace SL\CoreBundle\Controller\Choice;
 
-//Symfony classes
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -10,9 +9,9 @@ use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
-//Custom classes
 use SL\CoreBundle\Entity\ChoiceList;
-use SL\CoreBundle\Services\ChoiceListService;
+use SL\CoreBundle\Services\Choice\ChoiceListService;
+use SL\CoreBundle\Services\DoctrineService;
 use SL\CoreBundle\Services\JSTreeService;
 
 /**
@@ -23,29 +22,36 @@ class ChoiceListController extends Controller
 {
     private $em;
     private $choiceListService;
+    private $doctrineService;
     private $jstreeService;
 
      /**
      * @DI\InjectParams({
      *     "em" = @DI\Inject("doctrine.orm.entity_manager"),
      *     "choiceListService" = @DI\Inject("sl_core.choice_list"),
+     *     "doctrineService" = @DI\Inject("sl_core.doctrine"),
      *     "jstreeService" = @DI\Inject("sl_core.js_tree"),
      * })
      */
-    public function __construct(EntityManager $em, ChoiceListService $choiceListService, JSTreeService $jstreeService)
+    public function __construct(EntityManager $em, ChoiceListService $choiceListService, DoctrineService $doctrineService, JSTreeService $jstreeService)
     {
         $this->em = $em;
         $this->choiceListService = $choiceListService;
+        $this->doctrineService = $doctrineService;
         $this->jstreeService = $jstreeService;
     }
 
     /**
-     * Display choicelist create screen
+     * Display choice list main screen
+     *
+     * @param Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return Symfony\Component\HttpFoundation\Response $response 
      */
     public function indexAction(Request $request)
     {   
         if ($request->isXmlHttpRequest()) {
-            $response = $this->render('SLCoreBundle:ChoiceList:index.html.twig');
+            $response = $this->render('SLCoreBundle:Choice/ChoiceList:index.html.twig');
         }
         else {
             $response = $this->redirect($this->generateUrl('back_end'));
@@ -55,14 +61,17 @@ class ChoiceListController extends Controller
     }
 
     /**
-    * Display form to create choicelist entity
+    * Display form to create a choice list
+    *
+    * @param Symfony\Component\HttpFoundation\Request $request
+    *
+    * @return Symfony\Component\HttpFoundation\Response $response
     */
     public function newAction(Request $request)
     {
         if ($request->isXmlHttpRequest()) {
 
             $choiceList = new ChoiceList();
-
             $form = $this->choiceListService->createCreateForm($choiceList);
 
             $response = $this->render('SLCoreBundle::save.html.twig', array(
@@ -79,7 +88,11 @@ class ChoiceListController extends Controller
     }
 
     /**
-     * Create choicelist entity
+     * Create a choice list
+     *
+     * @param Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return Symfony\Component\HttpFoundation\JsonResponse $jsonResponse
      */
     public function createAction(Request $request)
     { 
@@ -89,9 +102,8 @@ class ChoiceListController extends Controller
         $form->handleRequest($request);
 
         if ($request->isXmlHttpRequest()) {
-            
-            $isValid = $form->isValid();
-            if ($isValid) {
+
+            if ($form->isValid()) {
 
                 $this->em->persist($choiceList);
                 $this->em->flush();
@@ -109,26 +121,29 @@ class ChoiceListController extends Controller
             } 
 
             $arrayResponse = array(
-                'isValid' => $isValid,
+                'isValid' => $form->isValid(),
                 'content' => array(
                     'html' => $html,
                     'js_tree' => $jsTree,
                     ),
                 );
  
-            $response = new JsonResponse($arrayResponse); 
+            $jsonResponse = new JsonResponse($arrayResponse); 
         }
         else {
-            $response = $this->redirect($this->generateUrl('back_end'));
+            $jsonResponse = $this->redirect($this->generateUrl('back_end'));
         }
 
-        return $response; 
+        return $jsonResponse; 
     }
 
     /**
-    * Display form to edit choicelist entity
+    * Display form to edit $choiceList
     *
-    * @param ChoiceList $choiceList 
+    * @param Symfony\Component\HttpFoundation\Request $request
+    * @param SL\CoreBundle\Entity\ChoiceList $choiceList 
+    *
+    * @return Symfony\Component\HttpFoundation\Response $response
     */
     public function editAction(Request $request, ChoiceList $choiceList)
     {
@@ -150,9 +165,12 @@ class ChoiceListController extends Controller
     }
 
     /**
-    * Update choicelist entity
+    * Update $choiceList
     *
-    * @param ChoiceList $choiceList Choicelist to update
+    * @param Symfony\Component\HttpFoundation\Request $request
+    * @param SL\CoreBundle\Entity\ChoiceList $choiceList
+    *
+    * @return Symfony\Component\HttpFoundation\JsonResponse $jsonResponse
     */
     public function updateAction(Request $request, ChoiceList $choiceList)
     {
@@ -161,8 +179,7 @@ class ChoiceListController extends Controller
 
         if ($request->isXmlHttpRequest()) {
 
-            $isValid = $form->isValid();
-            if ($isValid) {
+            if ($form->isValid()) {
 
                 $this->em->flush();
 
@@ -179,26 +196,29 @@ class ChoiceListController extends Controller
             }
 
             $arrayResponse = array(
-                'isValid' => $isValid,
+                'isValid' => $form->isValid(),
                 'content' => array(
                     'html' => $html,
                     'js_tree' => $jsTree,
                     ),
                 );
  
-            $response = new JsonResponse($arrayResponse); 
+            $jsonResponse = new JsonResponse($arrayResponse); 
         }
         else {
-            $response = $this->redirect($this->generateUrl('back_end'));
+            $jsonResponse = $this->redirect($this->generateUrl('back_end'));
         }
 
-        return $response; 
+        return $jsonResponse; 
     }
 
      /**
-     * Show choicelist entity
+     * Show $choiceList and its items
      *
-     * @param ChoiceList $choiceList Choicelist to show
+     * @param Symfony\Component\HttpFoundation\Request $request
+     * @param SL\CoreBundle\Entity\ChoiceList $choiceList
+     *
+     * @return Symfony\Component\HttpFoundation\Response $response
      *
      * @ParamConverter("choiceList", options={"repository_method" = "fullFindById"})
      */
@@ -206,7 +226,7 @@ class ChoiceListController extends Controller
     {
         if ($request->isXmlHttpRequest()) {
 
-            $response = $this->render('SLCoreBundle:ChoiceList:show.html.twig', array(
+            $response = $this->render('SLCoreBundle:Choice/ChoiceList:show.html.twig', array(
                 'choiceList' => $choiceList, 
                 )
             );
@@ -219,15 +239,18 @@ class ChoiceListController extends Controller
     }
 
     /**
-    * Display form to remove choicelist entity
+    * Display form to remove $choiceList
     *
-    * @param ChoiceList $choiceList
+    * @param Symfony\Component\HttpFoundation\Request $request
+    * @param SL\CoreBundle\Entity\ChoiceList $choiceList
+    *
+    * @return Symfony\Component\HttpFoundation\Response $response
     */
     public function removeAction(Request $request, ChoiceList $choiceList)
     {
         if ($request->isXmlHttpRequest()) {
 
-            //ChoiceList integrity control before delete
+            //Choice list integrity control before delete
             $integrityError = $this->choiceListService->integrityControlBeforeDelete($choiceList); 
             if($integrityError == null) {
                   
@@ -256,17 +279,18 @@ class ChoiceListController extends Controller
     }
 
     /**
-     * Delete choicelist entity
+     * Delete choice list identified by $id
      *
-     * @param ChoiceList $choiceList Choicelist to delete
+     * @param Symfony\Component\HttpFoundation\Request $request
+     * @param integer $id
      *
+     * @return Symfony\Component\HttpFoundation\JsonResponse $jsonResponse
      */
-    public function deleteAction(Request $request, ChoiceList $choiceList)
+    public function deleteAction(Request $request, $id)
     {
         if ($request->isXmlHttpRequest()) {
 
-            $this->em->remove($choiceList);
-            $this->em->flush();
+            $this->doctrineService->entityDelete('SLCoreBundle:ChoiceList', $id, true);
 
             $arrayResponse = array(
                 'isValid' => true,
@@ -276,36 +300,12 @@ class ChoiceListController extends Controller
                     ),
                 );
 
-            $response = new JsonResponse($arrayResponse); 
+            $jsonResponse = new JsonResponse($arrayResponse); 
         }
         else {
-            $response = $this->redirect($this->generateUrl('back_end'));
+            $jsonResponse = $this->redirect($this->generateUrl('back_end'));
         }
 
-        return $response; 
-    }
-
-    /**
-     * Update choicelist checkbox
-     *
-     * @param ChoiceList $choiceList Choicelist to update
-     */
-    public function updateCheckboxAction(Request $request, ChoiceList $choiceList)
-    {
-        if ($request->isXmlHttpRequest()) {
-
-            $value = ($request->request->get('value')=='true')?true:false;
-
-            $choiceList->setEnabled($value);     
- 
-            $this->em->flush();
-
-            $response = new JsonResponse(null);
-        }
-        else {
-            $response = $this->redirect($this->generateUrl('back_end'));
-        }   
-
-        return $response;    
+        return $jsonResponse; 
     }
 }

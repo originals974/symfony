@@ -22,8 +22,8 @@
     {% endblock %}
 
     {% block section_body %}
-        <div id="choice_item_content">
-            {% include "SLCoreBundle:ChoiceItem:choiceItemTable.html.twig" with {'choiceList' : choiceList} only %}
+        <div id="choice-item-panel-body">
+            {% include "SLCoreBundle:Choice/ChoiceItem:table.html.twig" with {'choiceList' : choiceList} only %}
         </div>
     {% endblock %}
 

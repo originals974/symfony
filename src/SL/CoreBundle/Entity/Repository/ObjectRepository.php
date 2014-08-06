@@ -1,6 +1,6 @@
 <?php
 
-namespace SL\CoreBundle\Entity;
+namespace SL\CoreBundle\Entity\Repository;
 
 //Symfony classes
 use Doctrine\ORM\QueryBuilder;

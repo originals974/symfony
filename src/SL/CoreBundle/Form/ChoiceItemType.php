@@ -43,9 +43,6 @@ class ChoiceItemType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'SL\CoreBundle\Entity\ChoiceItem',
-            'attr' => array(
-                'valid-target' => 'choice_item_content', 
-                ),
             'show_legend' => false,
             )
         );
@@ -62,6 +59,6 @@ class ChoiceItemType extends AbstractType
      */
     public function getName()
     {
-        return 'choice_item';
+        return 'sl_core_choice_item';
     }
 }

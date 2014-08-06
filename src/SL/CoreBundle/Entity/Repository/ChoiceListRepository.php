@@ -1,6 +1,6 @@
 <?php
 
-namespace SL\CoreBundle\Entity;
+namespace SL\CoreBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -12,16 +12,15 @@ use Doctrine\ORM\QueryBuilder;
 class ChoiceListRepository extends EntityRepository
 {
    /**
-   * Select all choice lists with their items
+   * Shared QueryBuilder
    *
-   * @param QueryBuilder $qb
+   * @param Doctrine\ORM\QueryBuilder $qb
    *
-   * @return QueryBuilder
+   * @return Doctrine\ORM\QueryBuilder $qb
    */
 	private function sharedQB(QueryBuilder $qb){
 
-		$qb ->createQueryBuilder('cl')
-			->leftJoin('cl.choiceItems','ci')
+		$qb ->leftJoin('cl.choiceItems','ci')
 	        ->addSelect('ci')
 	        ->orderBy('cl.position, ci.position', 'ASC');
 
@@ -31,11 +30,11 @@ class ChoiceListRepository extends EntityRepository
 	/**
      * Find all choice lists with their items
      *
-     * @return QueryBuilder
+     * @return Doctrine\ORM\QueryBuilder $qb
      */ 
 	public function fullFindAllQb()
 	{
-		$qb = $this->createQueryBuilder('dl');
+		$qb = $this->createQueryBuilder('cl');
 		$qb = $this->sharedQB($qb);
 
 	    return $qb;
@@ -56,7 +55,7 @@ class ChoiceListRepository extends EntityRepository
 	}
 
 	/**
-     * Find choice list with $choiceListId
+     * Find choice list identified by $choiceListId
      * and its items
      *
      * @param integer $choiceListId

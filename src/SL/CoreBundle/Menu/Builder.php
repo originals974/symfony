@@ -152,7 +152,7 @@ class Builder extends ContainerAware
         //Create node for ChoiceLists
         $choiceListRoot = $server->addChild('choiceList', array(
             'route' => 'choice_list',
-            'label' => 'list', 
+            'label' => 'choice_list', 
             )
         );
         $choiceListRoot->setAttributes(array(

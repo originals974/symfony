@@ -277,10 +277,10 @@ class PropertyController extends Controller
     public function deleteAction(Request $request, Property $property)
     {
         if ($request->isXmlHttpRequest()) {
-
+            
             $this->em->remove($property);
             $this->em->flush();
-
+           
             $object = $this->em->getRepository('SLCoreBundle:Object')->fullFindById($property->getObject()->getId()); 
 
             $html = $this->renderView('SLCoreBundle:Property:propertyTable.html.twig', array(

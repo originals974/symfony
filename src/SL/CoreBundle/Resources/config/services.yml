@@ -23,11 +23,11 @@ services:
         arguments: [@translator, @form.factory, @router]
 
     sl_core.choice_list:
-        class: SL\CoreBundle\Services\ChoiceListService
+        class: SL\CoreBundle\Services\Choice\ChoiceListService
         arguments: [@doctrine.orm.entity_manager, @translator, @form.factory, @router]
 
     sl_core.choice_item:
-        class: SL\CoreBundle\Services\ChoiceItemService
+        class: SL\CoreBundle\Services\Choice\ChoiceItemService
         arguments: [@form.factory, @router]
 
     sl_core.front:
@@ -61,12 +61,12 @@ services:
     sl_core.form.type.choice.list:
         class: SL\CoreBundle\Form\ChoiceListType
         tags:
-            - { name: form.type, alias: choice_list }
+            - { name: form.type, alias: sl_core_choice_list }
 
     sl_core.form.type.choice.item:
         class: SL\CoreBundle\Form\ChoiceItemType
         tags:
-            - { name: form.type, alias: choice_item }
+            - { name: form.type, alias: sl_core_choice_item }
 
     sl_core.form.type.object:
         class: SL\CoreBundle\Form\ObjectType
