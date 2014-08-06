@@ -30,13 +30,6 @@ class MainController extends Controller
         $this->searchService = $searchService;
     }
 
-    /**
-     * Test
-     */
-    public function testAction(Request $request)
-    {
-        return new Response(var_dump('coucou')); 
-    }
 
     /**
      * Init application cutom file

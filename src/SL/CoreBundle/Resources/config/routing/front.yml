@@ -3,6 +3,7 @@ front_new:
     defaults: { _controller: SLCoreBundle:Front:new }
     requirements:
         id: \d+
+        _method: GET 
 front_create:
     pattern: /{id}/create
     defaults: { _controller: SLCoreBundle:Front:create }
@@ -15,12 +16,14 @@ front_show:
     requirements:
         id: \d+ 
         entity_id: \d+ 
+        _method: GET
 front_edit:
     pattern: /{id}.{entity_id}/edit
     defaults: { _controller: SLCoreBundle:Front:edit }
     requirements:
         id: \d+
         entity_id: \d+
+        _method: GET
 front_update:
     pattern: /{id}.{entity_id}/update
     defaults: { _controller: SLCoreBundle:Front:update }
@@ -34,6 +37,7 @@ front_remove:
     requirements:
         id: \d+
         entity_id: \d+
+        _method: GET
 front_delete:
     pattern: /{id}.{entity_id}/delete
     defaults: { _controller: SLCoreBundle:Front:delete }
@@ -47,9 +51,11 @@ front_edit_version:
     requirements:
         id: \d+
         entity_id: \d+
+        _method: GET
 front_update_version:
     pattern: /{id}.{entity_id}/update_version
     defaults: { _controller: SLCoreBundle:Front:updateVersion }
     requirements:
         id: \d+
         entity_id: \d+
+        _method: PUT

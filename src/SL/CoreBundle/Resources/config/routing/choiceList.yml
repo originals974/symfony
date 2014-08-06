@@ -1,10 +1,14 @@
 choice_list:
     pattern: /
     defaults: { _controller: SLCoreBundle:ChoiceList:index }
+    requirements:
+        _method: GET
 
 choice_list_new:
     pattern: /new
     defaults: { _controller: SLCoreBundle:ChoiceList:new }
+    requirements:
+        _method: GET
 
 choice_list_create:
     pattern: /create
@@ -18,6 +22,7 @@ choice_list_edit:
     defaults: { _controller: SLCoreBundle:ChoiceList:edit }
     requirements:
         id: \d+
+        _method: GET
 
 choice_list_update:
     pattern: /{id}/update
@@ -31,12 +36,14 @@ choice_list_show:
     defaults: { _controller: SLCoreBundle:ChoiceList:show }
     requirements:
         id: \d+
+        _method: GET
 
 choice_list_remove:
     pattern: /{id}/remove
     defaults: { _controller: SLCoreBundle:ChoiceList:remove }
     requirements:
         id: \d+
+        _method: GET
 
 choice_list_delete:
     pattern: /{id}/delete

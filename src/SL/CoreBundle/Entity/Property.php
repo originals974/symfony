@@ -75,7 +75,7 @@ class Property extends AbstractEntity
      * @param boolean $isMultiple
      * @return Property
      */
-    public function setIsMultiple($isMultiple)
+    public function setMultiple($isMultiple)
     {
         $this->isMultiple = $isMultiple;
 

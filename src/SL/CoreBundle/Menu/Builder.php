@@ -8,8 +8,6 @@ use Symfony\Component\DependencyInjection\ContainerAware;
 use Knp\Menu\MenuItem; 
 
 //Custom classes
-use SL\CoreBundle\Entity\Object;
-use SL\CoreBundle\Entity\Property;
 
 class Builder extends ContainerAware
 {

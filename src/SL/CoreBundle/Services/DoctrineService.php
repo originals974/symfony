@@ -22,7 +22,6 @@ class DoctrineService
     private $filesystem;
     private $registry;
     private $kernel;
-    private $coreBundle;
     private $dataBundle; 
 
     /**

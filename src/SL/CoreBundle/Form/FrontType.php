@@ -6,13 +6,12 @@ namespace SL\CoreBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use SL\CoreBundle\Entity\Object;
-use SL\CoreBundle\Entity\Property;
 use Doctrine\ORM\EntityManager; 
 use Symfony\Component\Translation\Translator;  
 
 //Custom classes
 use SL\CoreBundle\Services\ObjectService;
+use SL\CoreBundle\Entity\Property;
 
 class FrontType extends AbstractType
 {

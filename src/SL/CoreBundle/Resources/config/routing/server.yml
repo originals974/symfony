@@ -1,3 +1,5 @@
 server:
     pattern: /
     defaults: { _controller: SLCoreBundle:Server:index }
+    requirements:
+        _method: GET

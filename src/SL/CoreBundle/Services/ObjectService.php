@@ -3,11 +3,8 @@
 namespace SL\CoreBundle\Services;
 
 //Symfony classes
-use Doctrine\ORM\EntityManager;
 use Symfony\Component\Translation\Translator;
-use Symfony\Component\Form\Form; 
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Bundle\TwigBundle\Debug\TimedTwigEngine;  
+use Symfony\Component\Form\Form;   
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Routing\Router; 
@@ -55,14 +52,6 @@ class ObjectService
     public function createCreateForm(Object $object)
     {
         $parentObject = $object->getParent();
-
-        //Disable parent combobox if object has a parent object
-        if($object->getParent() != null) {
-            $disabledParentField = true; 
-        }
-        else{
-            $disabledParentField = false; 
-        }
 
         $form = $this->formFactory->create('object', $object, array(
             'action' => $this->router->generate('object_create', array(
@@ -244,7 +233,7 @@ class ObjectService
      *
      * @return String $path Hierarchy path of object
      */
-    public function getObjectPath($object){
+    public function getObjectPath(Object $object){
 
         $objects = $this->getPath($object); 
 

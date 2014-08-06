@@ -1,10 +1,14 @@
 object:
     pattern: /
     defaults: { _controller: SLCoreBundle:ObjectCRD:index }
+    requirements:
+        _method: GET
 
 object_new:
     pattern: /new/{id}
     defaults: { _controller: SLCoreBundle:ObjectCRD:new, id:0 }
+    requirements:
+        _method: GET 
 
 object_create:
     pattern: /create/{id}
@@ -17,6 +21,7 @@ object_edit:
     defaults: { _controller: SLCoreBundle:ObjectUpdate:edit }
     requirements:
         id: \d+
+        _method: GET
 
 object_update:
     pattern: /{id}/update
@@ -30,12 +35,14 @@ object_show:
     defaults: { _controller: SLCoreBundle:ObjectCRD:show }
     requirements:
         id: \d+
+        _method: GET 
 
 object_remove:
     pattern: /{id}/remove
     defaults: { _controller: SLCoreBundle:ObjectCRD:remove }
     requirements:
         id: \d+
+        _method: GET 
 
 object_delete:
     pattern: /{id}/delete

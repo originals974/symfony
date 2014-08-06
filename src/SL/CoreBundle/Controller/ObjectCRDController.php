@@ -12,7 +12,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 //Custom classes
 use SL\CoreBundle\Entity\Object;
-use SL\CoreBundle\Entity\Property;
 use SL\CoreBundle\Services\ObjectService;
 use SL\CoreBundle\Services\JSTreeService;
 use SL\CoreBundle\Services\DoctrineService;

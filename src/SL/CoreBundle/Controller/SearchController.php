@@ -3,10 +3,8 @@ namespace SL\CoreBundle\Controller;
 
 //Symfony classes
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use FOS\ElasticaBundle\Elastica\Index;
 use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
 

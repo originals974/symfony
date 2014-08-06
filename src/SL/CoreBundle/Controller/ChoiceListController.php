@@ -13,6 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 //Custom classes
 use SL\CoreBundle\Entity\ChoiceList;
 use SL\CoreBundle\Services\ChoiceListService;
+SL\CoreBundle\Services\JSTreeService
 
 /**
  * ChoiceList controller

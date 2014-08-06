@@ -6,7 +6,6 @@ namespace SL\CoreBundle\Services;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 //Custom classes
-use SL\CoreBundle\Entity\Object;
 
 /**
  * Search Service

@@ -3,12 +3,14 @@ property_new:
     defaults: { _controller: SLCoreBundle:Property:new }
     requirements:
         id: \d+
+        _method: GET
 
 property_choice_form:
     pattern: /{id}/choice_form
     defaults: { _controller: SLCoreBundle:Property:choiceForm }
     requirements:
         id: \d+
+        _method: GET
 
 property_create:
     pattern: /{id}/create/{formMode}
@@ -22,6 +24,7 @@ property_edit:
     defaults: { _controller: SLCoreBundle:Property:edit }
     requirements:
         id: \d+
+        _method: GET
 
 property_update:
     pattern: /{id}/update
@@ -35,6 +38,7 @@ property_remove:
     defaults: { _controller: SLCoreBundle:Property:remove }
     requirements:
         id: \d+
+        _method: GET
 
 property_delete:
     pattern:  /{id}/delete

@@ -6,14 +6,12 @@ namespace SL\CoreBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Doctrine\ORM\EntityManager;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 
 //Custom classes
 use SL\CoreBundle\Entity\Object;
 use SL\DataBundle\Entity\LogEntry;
-use SL\CoreBundle\Form\FrontType;
 use SL\CoreBundle\Services\DoctrineService;
 use SL\CoreBundle\Services\ObjectService;
 use SL\CoreBundle\Services\FrontService;

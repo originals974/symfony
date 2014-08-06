@@ -5,9 +5,7 @@ namespace SL\CoreBundle\Services;
 //Symfony classes
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Translation\Translator;
-use Symfony\Component\Form\Form; 
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Bundle\TwigBundle\Debug\TimedTwigEngine;  
+use Symfony\Component\Form\Form;   
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Routing\Router;
 

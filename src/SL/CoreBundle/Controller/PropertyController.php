@@ -284,10 +284,6 @@ class PropertyController extends Controller
             $this->em->remove($property);
             $this->em->flush();
 
-            //Update database schema
-            //$this->doctrineService->doctrineGenerateEntityFileByObject($property->getObject());  
-            //$this->doctrineService->doctrineSchemaUpdateForce();
-
             $object = $this->em->getRepository('SLCoreBundle:Object')->fullFindById($property->getObject()->getId()); 
 
             $html = $this->renderView('SLCoreBundle:Property:propertyTable.html.twig', array(

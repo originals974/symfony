@@ -3,7 +3,6 @@
 namespace SL\CoreBundle\Entity;
 
 //Symfony classes
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
 

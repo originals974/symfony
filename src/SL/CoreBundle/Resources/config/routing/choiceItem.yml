@@ -16,6 +16,7 @@ choice_item_edit:
     defaults: { _controller: SLCoreBundle:ChoiceItem:edit }
     requirements:
         id: \d+
+        _method: GET 
 
 choice_item_update:
     pattern: /{id}/update
@@ -29,6 +30,7 @@ choice_item_remove:
     defaults: { _controller: SLCoreBundle:ChoiceItem:remove }
     requirements:
         id: \d+
+        _method: GET 
 
 choice_item_delete:
     pattern:  /{id}/delete

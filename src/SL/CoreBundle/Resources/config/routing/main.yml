@@ -1,12 +1,14 @@
-test:
-    pattern: /test
-    defaults: { _controller: SLCoreBundle:Main:test }
 init:
     pattern: /init
     defaults: { _controller: SLCoreBundle:Main:init }
+    _method: GET 
 front_end:
     pattern: /front_end
     defaults: { _controller: SLCoreBundle:Main:indexFrontEnd }
+    requirements:
+        _method: GET 
 back_end:
     pattern: /back_end
     defaults: { _controller: SLCoreBundle:Main:indexBackEnd }
+    requirements:
+        _method: GET 

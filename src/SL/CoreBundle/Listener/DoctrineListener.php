@@ -23,7 +23,7 @@ class DoctrineListener
             $em->flush();
         }
 
-        if($entity instanceof CoreAbstractEntity or $entity instanceof DataAbstractEntity ) {
+        if($entity instanceof CoreAbstractEntity || $entity instanceof DataAbstractEntity ) {
             $entity->setGuid(uniqid());
             $em->flush();
         }

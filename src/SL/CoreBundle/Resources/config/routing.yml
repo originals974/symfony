@@ -39,10 +39,10 @@ sl_core_search:
     prefix: /front_end/search
 
 #Authentification
-login:
-    pattern:   /login
-    defaults:  { _controller: SLCoreBundle:Default:login }
+# login:
+#     pattern:   /login
+#     defaults:  { _controller: SLCoreBundle:Default:login }
 
-login_check:
-    pattern:   /login_check
+# login_check:
+#     pattern:   /login_check
 

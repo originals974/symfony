@@ -6,10 +6,9 @@ namespace SL\CoreBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Doctrine\ORM\EntityRepository;
 
 //Custom classes
-use SL\CoreBundle\Entity\Object;
+
 
 class ObjectType extends AbstractType
 {

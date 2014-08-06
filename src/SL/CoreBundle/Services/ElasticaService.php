@@ -138,7 +138,7 @@ class ElasticaService
     public function entitiesToJSTreeData(array &$data, $entities) {
 
         foreach($entities as $entity){
-            $this->EntitieToJSTreeData($data, $entity);
+            $this->entitieToJSTreeData($data, $entity);
         }
     }
 
@@ -150,7 +150,7 @@ class ElasticaService
      *
      * @return array $array
      */
-    public function EntitieToJSTreeData(array &$data, $entity) {
+    public function entitieToJSTreeData(array &$data, $entity) {
 
         $object = $this->em->getRepository('SLCoreBundle:Object')->find($entity->getObjectId());
 
@@ -185,7 +185,7 @@ class ElasticaService
                 $subEntity = $entity->{"get".$entityProperty->getTechnicalName()}();
                 if($subEntity != null) {
                     $node['children'] = array();  
-                    $this->EntitieToJSTreeData($node['children'], $subEntity); 
+                    $this->entitieToJSTreeData($node['children'], $subEntity); 
                 }
             }
         }

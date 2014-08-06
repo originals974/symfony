@@ -1,11 +1,14 @@
 search:
     pattern:  /
     defaults: { _controller: SLCoreBundle:Search:search }
+    requirements:
+        _method: POST 
     options:
         expose: true
-
 search_result:
     pattern:  /search_result/{pattern}.{objectTechnicalName}
-    defaults: { _controller: SLCoreBundle:Search:refreshJsTreeSearchResults }
+    defaults: { _controller: SLCoreBundle:Search:refreshJsTreeSearchResults } 
+    requirements:
+        _method: GET 
     options:
         expose: true

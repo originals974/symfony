@@ -7,7 +7,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Doctrine\ORM\EntityRepository;
 
 //Custom classes
-use SL\CoreBundle\Entity\Object;
 
 class EntityPropertyType extends PropertyType
 {
