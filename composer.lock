@@ -4,57 +4,8 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9bdbf638ab50a58bb1c29f7f494ffe0f",
+    "hash": "949d62fb5365c5b7d4153030805ac012",
     "packages": [
-        {
-            "name": "components/bootstrap-switch",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/tubssp/bootstrap-switch.git",
-                "reference": "7c2d069a98cba7e7b24ec605a761f8c0685e0be9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/tubssp/bootstrap-switch/zipball/7c2d069a98cba7e7b24ec605a761f8c0685e0be9",
-                "reference": "7c2d069a98cba7e7b24ec605a761f8c0685e0be9",
-                "shasum": ""
-            },
-            "type": "component",
-            "extra": {
-                "component": {
-                    "name": "bootstrap-switch",
-                    "files": [
-                        "dist/**"
-                    ],
-                    "scripts": [
-                        "dist/js/bootstrap-switch.js"
-                    ],
-                    "shim": {
-                        "exports": "BootstrapSwitch"
-                    }
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache License Version 2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Mattia Larentis",
-                    "homepage": "http://www.larentis.eu"
-                }
-            ],
-            "description": "Turn checkboxes and radio buttons in toggle switches.",
-            "homepage": "http://www.bootstrap-switch.org",
-            "keywords": [
-                "JS",
-                "bootstrap",
-                "javascript",
-                "switch"
-            ],
-            "time": "2014-06-25 18:28:03"
-        },
         {
             "name": "components/jquery",
             "version": "2.1.1",
@@ -103,16 +54,16 @@
         },
         {
             "name": "components/jqueryui",
-            "version": "dev-master",
+            "version": "1.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/components/jqueryui.git",
-                "reference": "fd092d7721db56ea6785c5a1697f96c5615dd8c7"
+                "reference": "a024ef6de51ccd4bc0cfeea470cde113d33a59a8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/components/jqueryui/zipball/fd092d7721db56ea6785c5a1697f96c5615dd8c7",
-                "reference": "fd092d7721db56ea6785c5a1697f96c5615dd8c7",
+                "url": "https://api.github.com/repos/components/jqueryui/zipball/a024ef6de51ccd4bc0cfeea470cde113d33a59a8",
+                "reference": "a024ef6de51ccd4bc0cfeea470cde113d33a59a8",
                 "shasum": ""
             },
             "require": {
@@ -180,11 +131,11 @@
                 }
             ],
             "description": "jQuery UI is a curated set of user interface interactions, effects, widgets, and themes built on top of the jQuery JavaScript Library. Whether you're building highly interactive web applications or you just need to add a date picker to a form control, jQuery UI is the perfect choice.",
-            "time": "2014-07-19 12:16:06"
+            "time": "2014-07-19 12:11:30"
         },
         {
             "name": "coresphere/console-bundle",
-            "version": "dev-stable",
+            "version": "0.1.0",
             "target-dir": "CoreSphere/ConsoleBundle",
             "source": {
                 "type": "git",
@@ -220,7 +171,7 @@
                     "email": "coresphere@laszlokorte.de"
                 },
                 {
-                    "name": "Marmus Ullman",
+                    "name": "Markus Ullmann",
                     "email": "mail@markus-ullmann.de"
                 }
             ],
@@ -3770,7 +3721,6 @@
         "knplabs/knp-menu-bundle": 20,
         "knplabs/knp-menu": 20,
         "leafo/lessphp": 20,
-        "coresphere/console-bundle": 20,
         "jms/translation-bundle": 20,
         "jms/di-extra-bundle": 20,
         "symfony/yaml": 20,
@@ -3781,9 +3731,7 @@
         "friendsofsymfony/jsrouting-bundle": 0,
         "willdurand/js-translation-bundle": 0,
         "doctrine/doctrine-fixtures-bundle": 20,
-        "components/jqueryui": 20,
-        "vakata/jstree": 20,
-        "components/bootstrap-switch": 20
+        "vakata/jstree": 20
     },
     "prefer-stable": false,
     "platform": {

@@ -25,7 +25,7 @@
         "knplabs/knp-menu-bundle": "2.0.*@dev",
         "knplabs/knp-menu": "2.0.*@dev",
         "leafo/lessphp": "0.4.*@dev",
-        "coresphere/console-bundle": "0.1.*",
+        "coresphere/console-bundle": "0.1.0",
         "jms/translation-bundle": "1.1.*@dev",
         "jms/di-extra-bundle": "1.4.*@dev",
         "symfony/yaml": "2.5.*@dev",
@@ -42,7 +42,7 @@
         "components/jquery": "2.1.*",
         "components/jqueryui": "1.11.*",
         "fortawesome/font-awesome": "4.1.*",
-        "vakata/jstree": "3.2.*"
+        "vakata/jstree": "dev-master"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

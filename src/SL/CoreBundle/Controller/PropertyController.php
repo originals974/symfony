@@ -119,15 +119,12 @@ class PropertyController extends Controller
         $object->addProperty($property); 
 
         $formArray = $this->propertyService->createCreateForm($object, $property, $formMode);
-        $formChoice = $formArray['choiceForm'];
-        $form = $formArray['mainForm'];
 
         $form->handleRequest($request);
 
         if ($request->isXmlHttpRequest()) {
 
-            $isValid = $form->isValid();
-            if ($isValid) {
+            if ($form->isValid()) {
 
                 if($formMode == 'entity' || $formMode == 'choice') {
                     $fieldType = $this->em->getRepository('SLCoreBundle:FieldType')->findOneByFormType($formMode);
@@ -149,14 +146,14 @@ class PropertyController extends Controller
             else {
                 $html = $this->renderView('SLCoreBundle::save.html.twig', array(
                     'entity' => $property,
-                    'formChoice' => $formChoice->createView(),
-                    'form'   => $form->createView(),
+                    'formChoice' => $formArray['choiceForm']->createView(),
+                    'form'   => $formArray['mainForm']->createView(),
                     )
                 ); 
             }
             
             $arrayResponse = array(
-                'isValid' => $isValid,
+                'isValid' => $form->isValid(),
                 'content' => array(
                     'html' => $html,
                     'js_tree' => null,

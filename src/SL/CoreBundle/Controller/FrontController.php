@@ -79,18 +79,14 @@ class FrontController extends Controller
         $entity =  new $class(); 
         
         $form = $this->frontService->createCreateForm($object, $entity);
-        
         $form->handleRequest($request);
 
         if ($request->isXmlHttpRequest()) {
 
-            $isValid = $form->isValid();
-            if ($isValid) {
+            if ($form->isValid()) {
 
-                //Calculate displayName
                 $displayName = $this->objectService->calculateDisplayName($entity, $object);
                 $entity->setDisplayName($displayName); 
-
                 $entity->setObjectId($object->getId()); 
                
                 $this->databaseEm->persist($entity);
@@ -111,7 +107,7 @@ class FrontController extends Controller
 
             //Create the Json Response array
             $data = array(  
-                'isValid' => $isValid,
+                'isValid' => $form->isValid(),
                 'content' => $content,
             );
 
