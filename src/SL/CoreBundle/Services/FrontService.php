@@ -9,11 +9,11 @@ use Symfony\Component\Translation\Translator;
 use Doctrine\ORM\EntityManager;
 
 //Custom classes
-use SL\CoreBundle\Entity\Object;
+use SL\CoreBundle\Entity\EntityClass;
 use SL\DataBundle\Entity\LogEntry;
 use SL\CoreBundle\Form\FrontType;
 use SL\CoreBundle\Services\DoctrineService;
-use SL\CoreBundle\Services\ObjectService;
+use SL\CoreBundle\Services\EntityClassService;
 
 /**
  * Front Service
@@ -24,7 +24,7 @@ class FrontService
     private $formFactory;
     private $router;
     private $em;
-    private $objectService;
+    private $entityClassService;
     private $doctrineService;
     private $translator;
 
@@ -34,17 +34,17 @@ class FrontService
      * @param FormFactory $formFactory
      * @param Router $router
      * @param EntityManager $em
-     * @param ObjectService $objectService
+     * @param EntityClassService $entityClassService
      * @param DoctrineService $doctrineService
      * @param Translator $translator
      *
      */
-    public function __construct(FormFactory $formFactory, Router $router, EntityManager $em, ObjectService $objectService, DoctrineService $doctrineService, Translator $translator)
+    public function __construct(FormFactory $formFactory, Router $router, EntityManager $em, EntityClassService $entityClassService, DoctrineService $doctrineService, Translator $translator)
     {
         $this->formFactory = $formFactory;
         $this->router = $router;
         $this->em = $em;
-        $this->objectService = $objectService;
+        $this->entityClassService = $entityClassService;
         $this->doctrineService = $doctrineService;
         $this->translator = $translator;
     }
@@ -52,18 +52,18 @@ class FrontService
     /**
     * Creates entity form
     *
-    * @param Object $object Object type of new entity
+    * @param EntityClass $entityClass EntityClass type of new entity
     * @param Mixed $entity
     *
     * @return Form $form
     */
-    public function createCreateForm(Object $object, $entity)
+    public function createCreateForm(EntityClass $entityClass, $entity)
     {
-        $entityClass = $this->doctrineService->getDataEntityClass($object->getTechnicalName());
+        $entityClass = $this->doctrineService->getDataEntityClass($entityClass->getTechnicalName());
 
-        $form = $this->formFactory->create(new FrontType($this->em, $entityClass, $this->objectService, $this->translator), $entity, array(
+        $form = $this->formFactory->create(new FrontType($this->em, $entityClass, $this->entityClassService, $this->translator), $entity, array(
             'action' => $this->router->generate('front_create', array(
-                'id' => $object->getId(),
+                'id' => $entityClass->getId(),
                 )
             ),
             'method' => 'POST',
@@ -74,7 +74,7 @@ class FrontService
                 ),
             'submit_label' => 'create',
             'submit_color' => 'primary',
-            'object' => $object,
+            'entityClass' => $entityClass,
             )
         );
 
@@ -84,18 +84,18 @@ class FrontService
     /**
     * Update entity form
     *
-    * @param Object $object Object type of update entity
+    * @param EntityClass $entityClass EntityClass type of update entity
     * @param Mixed $entity
     *
     * @return Form $form
     */
-    public function createEditForm(Object $object, $entity)
+    public function createEditForm(EntityClass $entityClass, $entity)
     {
-        $entityClass = $this->doctrineService->getDataEntityClass($object->getTechnicalName());
+        $entityClass = $this->doctrineService->getDataEntityClass($entityClass->getTechnicalName());
 
-        $form = $this->formFactory->create(new FrontType($this->em, $entityClass, $this->objectService, $this->translator), $entity, array(
+        $form = $this->formFactory->create(new FrontType($this->em, $entityClass, $this->entityClassService, $this->translator), $entity, array(
             'action' => $this->router->generate('front_update', array(
-                'id' => $object->getId(),
+                'id' => $entityClass->getId(),
                 'entity_id' => $entity->getId(),
                 )
             ),
@@ -107,7 +107,7 @@ class FrontService
                 ),
             'submit_label' => 'update',
             'submit_color' => 'primary',
-            'object' => $object,
+            'entityClass' => $entityClass,
             )
         );
         
@@ -118,18 +118,18 @@ class FrontService
     /**
      * Delete entity form
      *
-     * @param Object $object  Object type of remove entity
+     * @param EntityClass $entityClass  EntityClass type of remove entity
      * @param Mixed $entity
      *
      * @return Form $form Delete form
      */
-    public function createDeleteForm(Object $object, $entity)
+    public function createDeleteForm(EntityClass $entityClass, $entity)
     {
-        $entityClass = $this->doctrineService->getDataEntityClass($object->getTechnicalName());
+        $entityClass = $this->doctrineService->getDataEntityClass($entityClass->getTechnicalName());
 
-        $form = $this->formFactory->create(new FrontType($this->em, $entityClass, $this->objectService, $this->translator), $entity, array(
+        $form = $this->formFactory->create(new FrontType($this->em, $entityClass, $this->entityClassService, $this->translator), $entity, array(
             'action' => $this->router->generate('front_delete', array(
-                'id' => $object->getId(),
+                'id' => $entityClass->getId(),
                 'entity_id' => $entity->getId(),
                 )
             ),
@@ -141,7 +141,7 @@ class FrontService
                 ),
             'submit_label' => 'delete',
             'submit_color' => 'danger',
-            'object' => $object,
+            'entityClass' => $entityClass,
             )
         );
 
@@ -151,17 +151,17 @@ class FrontService
     /**
     * Update entity version form
     *
-    * @param Object $object 
+    * @param EntityClass $entityClass 
     * @param Mixed $entity
     * @param integer $limit
     *
     * @return Form $form
     */
-    public function createEditVersionForm(Object $object, $entity, LogEntry $logEntry, $limit = 5)
+    public function createEditVersionForm(EntityClass $entityClass, $entity, LogEntry $logEntry, $limit = 5)
     {   
         $form = $this->formFactory->create('sl_core_entity_version', $logEntry, array(
             'action' => $this->router->generate('front_update_version', array(
-                'id' => $object->getId(),
+                'id' => $entityClass->getId(),
                 'entity_id' => $entity->getId(),
                 )
             ),

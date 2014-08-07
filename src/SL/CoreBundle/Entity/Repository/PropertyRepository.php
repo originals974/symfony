@@ -6,7 +6,7 @@ namespace SL\CoreBundle\Entity\Repository;
 use Doctrine\ORM\EntityRepository;
 
 //Custom classes
-use SL\CoreBundle\Entity\Object;
+use SL\CoreBundle\Entity\EntityClass;
 
 /**
  * PropertyRepository
@@ -15,20 +15,20 @@ use SL\CoreBundle\Entity\Object;
 class PropertyRepository extends EntityRepository
 {
 	/**
-	 * Select a property by object
+	 * Select a property by entityClass
 	 *
 	 * @param Array $criteria Associated array with : 
-	 *	- Integer object An object id
+	 *	- Integer entityClass An entityClass id
 	 *	- String displayName The display name of Property
 	 */
-	public function findByObjectAndDisplayName($criteria)
+	public function findByEntityClassAndDisplayName($criteria)
 	{
 		$qb = $this	->getEntityManager()
 			 		->getRepository('SLCoreBundle:Property')->createQueryBuilder('p')
 					->select('p')
-		           	->join('p.object','o')
-		           	->where('o.id = :objectId')
-		           	->setParameter('objectId', $criteria['object'])
+		           	->join('p.entityClass','o')
+		           	->where('o.id = :entityClassId')
+		           	->setParameter('entityClassId', $criteria['entityClass'])
 		           	->andWhere('p.displayName = :displayName')
 		           	->setParameter('displayName', $criteria['displayName']);
 
@@ -37,17 +37,17 @@ class PropertyRepository extends EntityRepository
 	}
 
   	/**
-	 * Select only entity property of an object
+	 * Select only entity property of an entityClass
 	 *
-	 * @param Object $object 
+	 * @param EntityClass $entityClass 
 	 */
-  	public function findEntityPropertyByObject(Object $object){
+  	public function findEntityPropertyByEntityClass(EntityClass $entityClass){
 
 		$qb = $this ->createQueryBuilder('p')
-					->join('p.object', 'o')
+					->join('p.entityClass', 'o')
 					->where('p INSTANCE OF SLCoreBundle:EntityProperty')
 					->andWhere('o.id = :id')
-					->setParameter('id', $object->getId());
+					->setParameter('id', $entityClass->getId());
 
 		return $qb->getQuery()
 	              ->getResult();

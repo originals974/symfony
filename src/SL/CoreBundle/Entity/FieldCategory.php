@@ -35,7 +35,7 @@ class FieldCategory extends AbstractEntity
      * Add fieldType
      *
      * @param \SL\CoreBundle\Entity\FieldType $fieldType
-     * @return Object
+     * @return FieldType
      */
     public function addFieldType(\SL\CoreBundle\Entity\FieldType $fieldType)
     {

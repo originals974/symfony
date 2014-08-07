@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 //Custom classes
-use SL\CoreBundle\Entity\Object;
+use SL\CoreBundle\Entity\EntityClass;
 use SL\CoreBundle\Entity\Property;
 use SL\CoreBundle\Services\PropertyService;
 use SL\CoreBundle\Services\DoctrineService;
@@ -44,15 +44,15 @@ class PropertyController extends Controller
     /**
      * Display form to create property entity
      *
-     * @param Object $object Parent object of new property
+     * @param EntityClass $entityClass Parent entityClass of new property
      */
-    public function newAction(Request $request, Object $object)
+    public function newAction(Request $request, EntityClass $entityClass)
     {
         if ($request->isXmlHttpRequest()) {
 
             $property = new Property();
  
-            $formArray = $this->propertyService->createCreateForm($object, $property, 'default');
+            $formArray = $this->propertyService->createCreateForm($entityClass, $property, 'default');
             $formChoice = $formArray['choiceForm']; 
             $form = $formArray['mainForm'];
 
@@ -74,19 +74,19 @@ class PropertyController extends Controller
     /**
      * Display form to choose property type (default, entity, list) 
      *
-     * @param Object $object Parent object of new property
+     * @param EntityClass $entityClass Parent entityClass of new property
      */
-    public function choiceFormAction(Request $request, Object $object)
+    public function choiceFormAction(Request $request, EntityClass $entityClass)
     {
         if ($request->isXmlHttpRequest()) {
 
             $formMode = $request->request->get('formMode'); 
 
             //Create property 
-            $property = $this->propertyService->getPropertyObjectByFormMode($formMode); 
-            $property->setObject($object); 
+            $property = $this->propertyService->getPropertyEntityClassByFormMode($formMode); 
+            $property->setEntityClass($entityClass); 
 
-            $formArray = $this->propertyService->createCreateForm($object, $property, $formMode);
+            $formArray = $this->propertyService->createCreateForm($entityClass, $property, $formMode);
             $formChoice = $formArray['choiceForm']; 
             $form = $formArray['mainForm'];
 
@@ -107,18 +107,18 @@ class PropertyController extends Controller
     /**
      * Create property entity
      *
-     * @param Object $object Parent object of new property
+     * @param EntityClass $entityClass Parent entityClass of new property
      * @param String $formMode Property type to create (Default | Entity | List) 
      * 
-     * @ParamConverter("object", options={"repository_method" = "fullFindById"})
+     * @ParamConverter("entityClass", options={"repository_method" = "fullFindById"})
      */
-    public function createAction(Request $request, Object $object, $formMode)
+    public function createAction(Request $request, EntityClass $entityClass, $formMode)
     {
-        $property = $this->propertyService->getPropertyObjectByFormMode($formMode); 
-        $property->setObject($object);
-        $object->addProperty($property); 
+        $property = $this->propertyService->getPropertyEntityClassByFormMode($formMode); 
+        $property->setEntityClass($entityClass);
+        $entityClass->addProperty($property); 
 
-        $formArray = $this->propertyService->createCreateForm($object, $property, $formMode);
+        $formArray = $this->propertyService->createCreateForm($entityClass, $property, $formMode);
 
         $form->handleRequest($request);
 
@@ -135,11 +135,11 @@ class PropertyController extends Controller
                 $this->em->flush();
 
                 //Update database schema
-                $this->doctrineService->doctrineGenerateEntityFileByObject($object);  
+                $this->doctrineService->doctrineGenerateEntityFileByEntityClass($entityClass);  
                 $this->doctrineService->doctrineSchemaUpdateForce();
 
                 $html = $this->renderView('SLCoreBundle:Property:propertyTable.html.twig', array(
-                    'object' => $object, 
+                    'entityClass' => $entityClass, 
                     )
                 );
             }
@@ -204,13 +204,13 @@ class PropertyController extends Controller
                 $this->em->flush();
                       
                 //Update database schema
-                $this->doctrineService->doctrineGenerateEntityFileByObject($property->getObject());  
+                $this->doctrineService->doctrineGenerateEntityFileByEntityClass($property->getEntityClass());  
                 $this->doctrineService->doctrineSchemaUpdateForce();
 
-                $object = $this->em->getRepository('SLCoreBundle:Object')->fullFindById($property->getObject()->getId()); 
+                $entityClass = $this->em->getRepository('SLCoreBundle:EntityClass')->fullFindById($property->getEntityClass()->getId()); 
 
                 $html = $this->renderView('SLCoreBundle:Property:propertyTable.html.twig', array(
-                    'object' => $object, 
+                    'entityClass' => $entityClass, 
                     )
                 );
             }
@@ -281,10 +281,10 @@ class PropertyController extends Controller
             $this->em->remove($property);
             $this->em->flush();
            
-            $object = $this->em->getRepository('SLCoreBundle:Object')->fullFindById($property->getObject()->getId()); 
+            $entityClass = $this->em->getRepository('SLCoreBundle:EntityClass')->fullFindById($property->getEntityClass()->getId()); 
 
             $html = $this->renderView('SLCoreBundle:Property:propertyTable.html.twig', array(
-                'object' => $object, 
+                'entityClass' => $entityClass, 
                 )
             );
 
@@ -327,7 +327,7 @@ class PropertyController extends Controller
 
             if($name == 'isRequired') {
                 //Update database schema
-                $this->doctrineService->doctrineGenerateEntityFileByObject($property->getObject());  
+                $this->doctrineService->doctrineGenerateEntityFileByEntityClass($property->getEntityClass());  
                 $this->doctrineService->doctrineSchemaUpdateForce();
             }
 

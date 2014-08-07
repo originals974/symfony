@@ -6,7 +6,7 @@ namespace SL\CoreBundle\Services;
 use Symfony\Component\Routing\Router; 
 
 //Custom classes
-use SL\CoreBundle\Entity\Object;
+use SL\CoreBundle\Entity\EntityClass;
 use SL\CoreBundle\Entity\Choice\ChoiceList;
 use SL\CoreBundle\Services\IconService;
 
@@ -33,20 +33,20 @@ class JSTreeService
     }
 
     /**
-     * Create new object node
+     * Create new entityClass node
      *
-     * @param Object $object New object 
+     * @param EntityClass $entityClass New entityClass 
      *
-     * @return Array $newNode Object node
+     * @return Array $newNode EntityClass node
      */
-    public function createNewObjectNode(Object $object)
+    public function createNewEntityClassNode(EntityClass $entityClass)
     {
         $newNode = array(
-            'id' => $object->getTechnicalName(),
-            'text' => $object->getDisplayName(),
-            'icon' => 'fa '.$object->getIcon(),
+            'id' => $entityClass->getTechnicalName(),
+            'text' => $entityClass->getDisplayName(),
+            'icon' => 'fa '.$entityClass->getIcon(),
             'a_attr' => array(
-                'href' => $this->router->generate('object_show', array('id' => $object->getId())),
+                'href' => $this->router->generate('entity_class_show', array('id' => $entityClass->getId())),
             ),
         );
 

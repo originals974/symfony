@@ -51,11 +51,11 @@ class Builder extends ContainerAware
     }
 
     /**
-    * Create object FrontEnd Menu
+    * Create entityClass FrontEnd Menu
     *
     * @return $menu
     */    
-    public function newObjectFrontMenu(FactoryInterface $factory, array $options)
+    public function newEntityClassFrontMenu(FactoryInterface $factory, array $options)
     {
         $em = $this->container->get('Doctrine')->getManager();
 
@@ -67,9 +67,9 @@ class Builder extends ContainerAware
             )
         );
 
-        $objects = $em->getRepository('SLCoreBundle:Object')->fullFindAll(false);
+        $entityClasses = $em->getRepository('SLCoreBundle:EntityClass')->fullFindAll(false);
 
-        $menu = $this->addFrontChildrenObjectItems($menu, $objects);
+        $menu = $this->addFrontChildrenEntityClassItems($menu, $entityClasses);
 
         return $menu;
     }
@@ -78,27 +78,27 @@ class Builder extends ContainerAware
     * Add children item to menu for front end part
     *
     * @param MenuItem $menu
-    * @param Array $objects
+    * @param Array $entityClasses
     *
     * @return MenuItem $menu
     */
-    private function addFrontChildrenObjectItems(MenuItem $menu, array $objects)
+    private function addFrontChildrenEntityClassItems(MenuItem $menu, array $entityClasses)
     {
         $icon = $this->container->get('sl_core.icon');
 
-        foreach($objects as $object) {
+        foreach($entityClasses as $entityClass) {
 
-            $objectLink = $menu->addChild(
-                $object->getTechnicalName(), 
+            $entityClassLink = $menu->addChild(
+                $entityClass->getTechnicalName(), 
                 array(
                     'route' => 'front_new', 
-                    'routeParameters' => array('id' => $object->getId()),
-                    'label' => $object->getDisplayName(),
-                    'icon' => $icon->getObjectIcon($object),
+                    'routeParameters' => array('id' => $entityClass->getId()),
+                    'label' => $entityClass->getDisplayName(),
+                    'icon' => $icon->getEntityClassIcon($entityClass),
                     )
                 );
 
-            $objectLink->setLinkAttributes(array(
+            $entityClassLink->setLinkAttributes(array(
                 'data-toggle' => 'modal',
                 'data-target' => '#',
                 )
@@ -131,22 +131,22 @@ class Builder extends ContainerAware
             )
         );
 
-        /************OBJECTS*************/
-        //Create Object node
-        $objectRoot = $server->addChild('object', array(
-            'route' => 'object', 
-            'label' => 'object',
+        /************ENTITY_CLASSES*************/
+        //Create EntityClass node
+        $entityClassRoot = $server->addChild('entityClass', array(
+            'route' => 'entity_class', 
+            'label' => 'entity_class',
             )
         );
-        $objectRoot->setAttributes(array(
-            'data-jstree' => '{"icon":"'.$icon->getRootObjectIcon('fa-lg text-primary').'"}',
+        $entityClassRoot->setAttributes(array(
+            'data-jstree' => '{"icon":"'.$icon->getRootEntityClassIcon('fa-lg text-primary').'"}',
             )
         );
         
-        //Select all root objects
-        $objects = $em->getRepository('SLCoreBundle:Object')->fullFindAll(false, 0);
+        //Select all root entityClasses
+        $entityClasses = $em->getRepository('SLCoreBundle:EntityClass')->fullFindAll(false, 0);
 
-        $this->addBackChildrenObjectItems($objectRoot, $objects);
+        $this->addBackChildrenEntityClassItems($entityClassRoot, $entityClasses);
 
          /************CHOICE LIST*************/
         //Create node for ChoiceLists
@@ -188,34 +188,34 @@ class Builder extends ContainerAware
     * Add children item to menu for back end part
     *
     * @param MenuItem $parent
-    * @param Array $objects
+    * @param Array $entityClasses
     *
     * @return boolean true
     */
-    private function addBackChildrenObjectItems(&$parent, array $objects)
+    private function addBackChildrenEntityClassItems(&$parent, array $entityClasses)
     {
         $icon = $this->container->get('sl_core.icon');
         $em = $this->container->get('Doctrine')->getManager();
 
-        foreach ($objects as $object) {
+        foreach ($entityClasses as $entityClass) {
             
-            $objectItem = $parent->addChild($object->getTechnicalName(), array(
-                        'route' => 'object_show', 
+            $entityClassItem = $parent->addChild($entityClass->getTechnicalName(), array(
+                        'route' => 'entity_class_show', 
                         'routeParameters' => array(
-                            'id' => $object->getId(),
+                            'id' => $entityClass->getId(),
                             ),
-                        'label' => $object->getDisplayName(),
+                        'label' => $entityClass->getDisplayName(),
                         )
                     );
-            $objectItem->setAttributes(array(
-                'id' => $object->getTechnicalName(), 
-                'data-jstree' => '{"icon":"'.$icon->getObjectIcon($object).'"}'
+            $entityClassItem->setAttributes(array(
+                'id' => $entityClass->getTechnicalName(), 
+                'data-jstree' => '{"icon":"'.$icon->getEntityClassIcon($entityClass).'"}'
                 )
             );
 
-            $objects = $em->getRepository('SLCoreBundle:Object')->children($object, true); 
+            $entityClasses = $em->getRepository('SLCoreBundle:EntityClass')->children($entityClass, true); 
 
-            $this->addBackChildrenObjectItems($objectItem, $objects); 
+            $this->addBackChildrenEntityClassItems($entityClassItem, $entityClasses); 
 
         }
 

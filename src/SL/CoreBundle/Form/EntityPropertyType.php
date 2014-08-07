@@ -16,7 +16,7 @@ class EntityPropertyType extends PropertyType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $objectId = $options['object_id'];
+        $entityClassId = $options['entityClass_id'];
 
         $builder
             ->add('displayName' , 'text',  array(
@@ -26,14 +26,14 @@ class EntityPropertyType extends PropertyType
                     )
                 )
             ) 
-            ->add('targetObject', 'entity', array(
+            ->add('targetEntityClass', 'entity', array(
                 'empty_value' => '',
-                'class' => 'SLCoreBundle:Object',
+                'class' => 'SLCoreBundle:EntityClass',
                 'property' => 'displayName',
-                'query_builder' => function(EntityRepository $er) use($objectId) {
-                                      return $er->findOtherObject($objectId);
+                'query_builder' => function(EntityRepository $er) use($entityClassId) {
+                                      return $er->findOtherEntityClass($entityClassId);
                                     },
-                'label' =>  'object',
+                'label' =>  'entity_class',
                 'attr' => array(
                         'class'       => 'col-lg-4'
                     ) 

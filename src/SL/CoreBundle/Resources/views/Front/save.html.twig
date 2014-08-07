@@ -4,7 +4,7 @@
 {% set delete_message = form.vars.full_name ~ '.' ~ form.vars.method|lower ~ '.message' %}
 
 {% block modal_title %}
-	<h2>{{ object.displayName }} | <small>{{ form.vars.method|lower|trans}}</small></h2>
+	<h2>{{ entity_class.displayName }} | <small>{{ form.vars.method|lower|trans}}</small></h2>
 {% endblock %}
 
 {% block modal_body %}

@@ -10,28 +10,28 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Component\Translation\Translator;  
 
 //Custom classes
-use SL\CoreBundle\Services\ObjectService;
+use SL\CoreBundle\Services\EntityClassService;
 use SL\CoreBundle\Entity\Property;
 
 class FrontType extends AbstractType
 {
     protected $em;
     protected $entityClass;
-    protected $objectService;
+    protected $entityClassService;
 
     /**
      * Constructor
      *
      * @param EntityManager $em
      * @param String $entityClass
-     * @param ObjectService $objectService
+     * @param EntityClassService $entityClassService
      * @param Translator $translator
      */
-    public function __construct (EntityManager $em, $entityClass, ObjectService $objectService, Translator $translator)
+    public function __construct (EntityManager $em, $entityClass, EntityClassService $entityClassService, Translator $translator)
     {
         $this->em = $em; 
         $this->entityClass = $entityClass; 
-        $this->objectService = $objectService; 
+        $this->entityClassService = $entityClassService; 
         $this->translator = $translator; 
     }
 
@@ -43,23 +43,23 @@ class FrontType extends AbstractType
     {
         if($options['method'] != 'DELETE'){
 
-            $objects = $this->objectService->getPath($options['object']); 
+            $entityClasses = $this->entityClassService->getPath($options['entityClass']); 
 
-            foreach($objects as $object){
+            foreach($entityClasses as $entityClass){
 
-                //Create one tab per object
-                $suffix = ($object->getDeletedAt() !== null)?$this->translator->trans('deleted'):'';
-                $tabLabel = $object->getDisplayName().' '.$suffix;
+                //Create one tab per entityClass
+                $suffix = ($entityClass->getDeletedAt() !== null)?$this->translator->trans('deleted'):'';
+                $tabLabel = $entityClass->getDisplayName().' '.$suffix;
 
-                $tab = $builder->create($object->getTechnicalName().'Property', 'tab', array(
+                $tab = $builder->create($entityClass->getTechnicalName().'Property', 'tab', array(
                 'label' => $tabLabel,
-                'icon' => $object->getIcon(),
+                'icon' => $entityClass->getIcon(),
                 'inherit_data' => true,
                 ));
 
-                $object = $this->em->getRepository('SLCoreBundle:Object')->fullFindById($object->getId());
+                $entityClass = $this->em->getRepository('SLCoreBundle:EntityClass')->fullFindById($entityClass->getId());
 
-                foreach ($object->getProperties() as $property) {
+                foreach ($entityClass->getProperties() as $property) {
                     
                     $fieldOptions = $this->getFieldConfiguration($property); 
 
@@ -112,7 +112,7 @@ class FrontType extends AbstractType
                 break;
             case 'entity':
 
-                $fieldOptions['class'] = 'SLDataBundle:'.$property->getTargetObject()->getTechnicalName();
+                $fieldOptions['class'] = 'SLDataBundle:'.$property->getTargetEntityClass()->getTechnicalName();
                 $fieldOptions['property'] = 'displayName';
                 $fieldOptions['multiple'] = $property->isMultiple();
 
@@ -159,7 +159,7 @@ class FrontType extends AbstractType
         $resolver->setRequired(array(
             'submit_label',
             'submit_color',
-            'object',
+            'entity_class',
             )
         );
     }

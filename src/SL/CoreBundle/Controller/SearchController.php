@@ -49,32 +49,32 @@ class SearchController extends Controller
 
         if ($request->isXmlHttpRequest()) {    
 
-            //Get all active objects
+            //Get all active entityClasses
             $filters = $this->em->getFilters();
             $filters->disable('softdeleteable');
             
-            $objects = $this->em->getRepository('SLCoreBundle:Object')->fullFindAll();
+            $entityClasses = $this->em->getRepository('SLCoreBundle:EntityClass')->fullFindAll();
             
             $filters->enable('softdeleteable');
             
-            //Get number of results for each object
-            $objectsArray = array(); 
-            foreach($objects as $object){
+            //Get number of results for each entityClass
+            $entityClassesArray = array(); 
+            foreach($entityClasses as $entityClass){
 
                 //Search in Elactica index
-                $entities = $this->getSearchResults($search->getSearchField(), $object->getTechnicalName(), 100);
+                $entities = $this->getSearchResults($search->getSearchField(), $entityClass->getTechnicalName(), 100);
 
-                //Include object only if it has results
+                //Include entityClass only if it has results
                 if(!empty($entities)){
-                    $objectArray = array(
-                        'object' => $object,
+                    $entityClassArray = array(
+                        'entityClass' => $entityClass,
                         'nb_results' => count($entities), 
                         );
-                    $objectsArray[] = $objectArray;
+                    $entityClassesArray[] = $entityClassArray;
                 }
             }
             $html = $this->renderView('SLCoreBundle:Front:searchResults.html.twig', array(
-                    'objectsArray' => $objectsArray,
+                    'entityClassesArray' => $entityClassesArray,
                     )
                 );
 
@@ -95,12 +95,12 @@ class SearchController extends Controller
     }
 
     /**
-    * Refresh JsTree Results for an object
+    * Refresh JsTree Results for an entityClass
     *
     * @param String $pattern Search pattern
-    * @param String $objectTechnicalName
+    * @param String $entityClassTechnicalName
     */
-    public function refreshJsTreeSearchResultsAction(Request $request, $pattern, $objectTechnicalName)
+    public function refreshJsTreeSearchResultsAction(Request $request, $pattern, $entityClassTechnicalName)
     {
         if ($request->isXmlHttpRequest()) {    
 
@@ -109,7 +109,7 @@ class SearchController extends Controller
             $filters = $this->em->getFilters();
             $filters->disable('softdeleteable');
 
-            $entities = $this->getSearchResults($pattern, $objectTechnicalName, 50);
+            $entities = $this->getSearchResults($pattern, $entityClassTechnicalName, 50);
                     
             $data = array();             
             $this->elasticaService->entitiesToJSTreeData($data, $entities);
@@ -128,17 +128,17 @@ class SearchController extends Controller
     }
 
     /**
-    * Get search results for an object 
+    * Get search results for an entityClass 
     *
     * @param String $pattern Search pattern
-    * @param String $objectTechnicalName
+    * @param String $entityClassTechnicalName
     * @param Integer $limit Max results number 
     *
     * @return array $entities Array of results
     */
-    private function getSearchResults($pattern, $objectTechnicalName, $limit){
+    private function getSearchResults($pattern, $entityClassTechnicalName, $limit){
 
-        $finderName = 'fos_elastica.finder.slcore.'.$objectTechnicalName; 
+        $finderName = 'fos_elastica.finder.slcore.'.$entityClassTechnicalName; 
         $finder = $this->get($finderName); 
         $entities = $finder->find($pattern, $limit);
 

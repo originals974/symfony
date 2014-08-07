@@ -131,8 +131,8 @@
 			jsTree = $('#jstree').jstree(true);
 			selectedNode = String(jsTree.get_selected());  
 
-			//Update icon for object node
-			if(selectedNode.search("Object") != -1) {	
+			//Update icon for entity class node
+			if(selectedNode.search("EntityClass") != -1) {	
 				jsTree.set_icon(selectedNode, 'fa '+event.icon); 
 			}    
 
@@ -146,18 +146,18 @@
 		});
 
         //When click on a button of calculated name form
-        $(document).on('click', '#object_name_designer_button button', function(event) {
+        $(document).on('click', '#entity_class_name_designer_button button', function(event) {
         	
         	var $button, $input, $initialValue; 
  
         	$button = $(this); 
-        	$input = $('#object_calculated_name_calculatedName');
+        	$input = $('#entity_class_calculated_name_calculatedName');
         	$input.insertAtCaret('%'+$button.attr('title')+'%');
 
 		});
 
-        //When an option of choice list with entity_property_targetObject id is select 
-        $(document).on("change", '#entity_property_targetObject', function(event){
+        //When an option of choice list with entity_property_targetEntityClass id is select 
+        $(document).on("change", '#entity_property_targetEntityClass', function(event){
 		   	copySelectedValueToInput($(this).attr('id'), 'entity_property_displayName')
 		});
 

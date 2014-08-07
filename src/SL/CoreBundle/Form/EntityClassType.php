@@ -10,7 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 //Custom classes
 
 
-class ObjectType extends AbstractType
+class EntityClassType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -46,7 +46,7 @@ class ObjectType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'SL\CoreBundle\Entity\Object',
+            'data_class' => 'SL\CoreBundle\Entity\EntityClass',
             'attr' => array(
                 'valid-target' => '',  
                 ),
@@ -66,6 +66,6 @@ class ObjectType extends AbstractType
      */
     public function getName()
     {
-        return 'object';
+        return 'sl_core_entity_class';
     }
 }

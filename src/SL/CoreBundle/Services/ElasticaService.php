@@ -42,8 +42,8 @@ class ElasticaService
     /**
      * Update app/config/elastica.yml file
      *
-     * @param Int $start Object id start
-     * @param Int $end Object id end
+     * @param Int $start EntityClass id start
+     * @param Int $end EntityClass id end
      *
      * @return String $elasticaYamlConfig
      */
@@ -58,12 +58,12 @@ class ElasticaService
 
         for ($i = $start; $i <=$end; $i++) {
 
-            $objectName = 'Object'.$i; 
+            $entityClassName = 'EntityClass'.$i; 
             
             //Get types elastica config
-            $typeArray = $this->getElasticaTypeConfigArray($objectName);
+            $typeArray = $this->getElasticaTypeConfigArray($entityClassName);
 
-            $elasticaArrayConfig['fos_elastica']['indexes']['slcore']['types'][$objectName] = $typeArray;
+            $elasticaArrayConfig['fos_elastica']['indexes']['slcore']['types'][$entityClassName] = $typeArray;
         }
 
         //Update elastica config file
@@ -108,16 +108,16 @@ class ElasticaService
     /**
      * Get elastica type config 
      *
-     * @param String $objectName
+     * @param String $entityClassName
      *
      * @return array $elasticaArrayConfig
      */
-    private function getElasticaTypeConfigArray($objectName) {
+    private function getElasticaTypeConfigArray($entityClassName) {
 
         $typeArray = array(
                     'persistence' => array(
                         'driver' => 'orm',
-                        'model' => $this->bundlePath.'\\Entity\\'.$objectName,
+                        'model' => $this->bundlePath.'\\Entity\\'.$entityClassName,
                         'provider' => 'chr(126)',
                         'listener' => 'chr(126)',
                         'finder' => 'chr(126)',
@@ -152,24 +152,24 @@ class ElasticaService
      */
     public function entitieToJSTreeData(array &$data, $entity) {
 
-        $object = $this->em->getRepository('SLCoreBundle:Object')->find($entity->getObjectId());
+        $entityClass = $this->em->getRepository('SLCoreBundle:EntityClass')->find($entity->getEntityClassId());
 
         $node = array(); 
         $node['text'] = $this->jsTreeService->shortenTextNode($entity->getDisplayName(),50); 
-        $node['icon'] = 'fa '.$object->getIcon();
+        $node['icon'] = 'fa '.$entityClass->getIcon();
         $node['li_attr'] = array(
             'guid' => $entity->getGuid(),
         );
         $node['a_attr'] = array(
             'href' => $this->router->generate('front_show', array(
-                'id' => $entity->getObjectId(),
+                'id' => $entity->getEntityClassId(),
                 'entity_id' => $entity->getId(),
                 )
             ),
         );
 
         $entityProperties = $this->em->getRepository('SLCoreBundle:Property')
-                               ->findEntityPropertyByObject($object);
+                               ->findEntityPropertyByEntityClass($entityClass);
 
         foreach($entityProperties as $entityProperty){
 

@@ -1,0 +1,73 @@
+entity_class:
+    pattern: /
+    defaults: { _controller: SLCoreBundle:EntityClass:index }
+    requirements:
+        _method: GET
+
+entity_class_new:
+    pattern: /new/{id}
+    defaults: { _controller: SLCoreBundle:EntityClass:new, id:0 }
+    requirements:
+        _method: GET 
+
+entity_class_create:
+    pattern: /create/{id}
+    defaults: { _controller: SLCoreBundle:EntityClass:create }
+    requirements:
+        _method: POST 
+
+entity_class_edit:
+    pattern: /{id}/edit
+    defaults: { _controller: SLCoreBundle:EntityClass:edit }
+    requirements:
+        id: \d+
+        _method: GET
+
+entity_class_update:
+    pattern: /{id}/update
+    defaults: { _controller: SLCoreBundle:EntityClass:update }
+    requirements:
+        id: \d+
+        _method: PUT
+
+entity_class_show:
+    pattern: /{id}/show
+    defaults: { _controller: SLCoreBundle:EntityClass:show }
+    requirements:
+        id: \d+
+        _method: GET 
+
+entity_class_remove:
+    pattern: /{id}/remove
+    defaults: { _controller: SLCoreBundle:EntityClass:remove }
+    requirements:
+        id: \d+
+        _method: GET 
+
+entity_class_delete:
+    pattern: /{id}/delete
+    defaults: { _controller: SLCoreBundle:EntityClass:delete }
+    requirements:
+        id: \d+
+        _method: DELETE
+
+entity_class_update_icon:
+    pattern: /{id}/updateIcon
+    defaults: { _controller: SLCoreBundle:EntityClass:updateIcon }
+    requirements:
+        id: \d+
+        _method: PUT 
+
+entity_class_edit_calculated_name:
+    pattern: /{id}/edit_calculated_name
+    defaults: { _controller: SLCoreBundle:EntityClass:editCalculatedName }
+    requirements:
+        id: \d+
+        _method: GET 
+
+entity_class_update_calculated_name:
+    pattern:  /{id}/update_calculated_name
+    defaults: { _controller: SLCoreBundle:EntityClass:updateCalculatedName }
+    requirements:
+        id: \d+
+        _method: PUT

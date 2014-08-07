@@ -14,32 +14,32 @@ use Symfony\Component\Validator\Constraints as Assert;
 class EntityProperty extends Property
 {
     /**
-     * @ORM\ManyToOne(targetEntity="SL\CoreBundle\Entity\Object")
+     * @ORM\ManyToOne(targetEntity="SL\CoreBundle\Entity\EntityClass")
      * @Assert\NotBlank()
      */
-    private $targetObject;
+    private $targetEntityClass;
 
 
     /**
-     * Set targetObject
+     * Set targetEntityClass
      *
-     * @param \SL\CoreBundle\Entity\Object $targetObject
+     * @param \SL\CoreBundle\Entity\EntityClass $targetEntityClass
      * @return EntityProperty
      */
-    public function setTargetObject(\SL\CoreBundle\Entity\Object $targetObject = null)
+    public function setTargetEntityClass(\SL\CoreBundle\Entity\EntityClass $targetEntityClass = null)
     {
-        $this->targetObject = $targetObject;
+        $this->targetEntityClass = $targetEntityClass;
 
         return $this;
     }
 
     /**
-     * Get targetObject
+     * Get targetEntityClass
      *
-     * @return \SL\CoreBundle\Entity\Object 
+     * @return \SL\CoreBundle\Entity\EntityClass 
      */
-    public function getTargetObject()
+    public function getTargetEntityClass()
     {
-        return $this->targetObject;
+        return $this->targetEntityClass;
     }
 }

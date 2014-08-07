@@ -9,7 +9,7 @@ use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Routing\Router;   
 
 //Custom classes
-use SL\CoreBundle\Entity\Object;
+use SL\CoreBundle\Entity\EntityClass;
 use SL\CoreBundle\Entity\Property;
 use SL\CoreBundle\Entity\EntityProperty;
 use SL\CoreBundle\Entity\ListProperty;
@@ -42,19 +42,19 @@ class PropertyService
      /**
     * Create property form
     *
-    * @param Object $object Parent object of new property
+    * @param EntityClass $entityClass Parent entityClass of new property
     * @param Property $property 
     * @param String $formMode Depending of the property type to create (Default | Entity | List) 
     *
     * @return Array $form Array of form
     */
-    public function createCreateForm(Object $object, Property $property, $formMode)
+    public function createCreateForm(EntityClass $entityClass, Property $property, $formMode)
     {   
         $form = array(); 
 
         $choiceForm = $this->formFactory->create('property_choice', null, array(
             'action' => $this->router->generate('property_choice_form', array(
-                'id' => $object->getId(),
+                'id' => $entityClass->getId(),
                 )
             ),
             'method' => 'POST',
@@ -70,12 +70,12 @@ class PropertyService
 
         $mainForm = $this->formFactory->create($formService, $property, array(
             'action' => $this->router->generate('property_create', array(
-                    'id' => $object->getId(),
+                    'id' => $entityClass->getId(),
                     'formMode' => $formMode,
                 )
             ),
             'method' => 'POST',
-            'object_id' => $object->getId(),
+            'entityClass_id' => $entityClass->getId(),
             'submit_label' => 'create',
             'submit_color' => 'primary',
             )
@@ -105,7 +105,7 @@ class PropertyService
                 )
             ),
             'method' => 'PUT',
-            'object_id' => $property->getObject()->getId(),
+            'entityClass_id' => $property->getEntityClass()->getId(),
             'submit_label' => 'update',
             'submit_color' => 'primary',
             )
@@ -129,7 +129,7 @@ class PropertyService
                 )
             ),
             'method' => 'DELETE',
-            'object_id' => $property->getObject()->getId(),
+            'entityClass_id' => $property->getEntityClass()->getId(),
             'submit_label' => 'delete',
             'submit_color' => 'danger',
             )
@@ -168,7 +168,7 @@ class PropertyService
      *
      * @return Mixed $property
      */
-    public function getPropertyObjectByFormMode($formMode) 
+    public function getPropertyEntityClassByFormMode($formMode) 
     {
         switch($formMode) {
             case 'entity' : 
@@ -218,8 +218,8 @@ class PropertyService
     {
         $integrityError = null;
 
-        //Check if property is used in Object calculatedName pattern
-        $calculatedNamePattern = $property->getObject()->getCalculatedName(); 
+        //Check if property is used in EntityClass calculatedName pattern
+        $calculatedNamePattern = $property->getEntityClass()->getCalculatedName(); 
 
         if(strpos(strtolower($calculatedNamePattern), strtolower($property->getTechnicalName())) !== false) {
 

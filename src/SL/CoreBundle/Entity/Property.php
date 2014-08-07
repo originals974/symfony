@@ -13,11 +13,11 @@ use SL\CoreBundle\Entity\MappedSuperclass\AbstractEntity;
  *
  * @ORM\InheritanceType("JOINED")
  * @ORM\Table(name="property",uniqueConstraints={
- *     @ORM\UniqueConstraint(name="unique_index_property_object_id_technical_name", columns={"object_id", "technical_name"})
+ *     @ORM\UniqueConstraint(name="unique_index_property_entity_class_id_technical_name", columns={"entityClass_id", "technical_name"})
  * })
  * @ORM\Entity(repositoryClass="SL\CoreBundle\Entity\Repository\PropertyRepository")
  * @ORM\HasLifecycleCallbacks()
- * @UniqueEntity(fields={"object", "displayName"}, repositoryMethod="findByObjectAndDisplayName")
+ * @UniqueEntity(fields={"entityClass", "displayName"}, repositoryMethod="findByEntityClassAndDisplayName")
  */
 class Property extends AbstractEntity
 {
@@ -37,10 +37,10 @@ class Property extends AbstractEntity
 
     /**
      * @Gedmo\SortableGroup
-     * @ORM\ManyToOne(targetEntity="SL\CoreBundle\Entity\Object", inversedBy="properties")
+     * @ORM\ManyToOne(targetEntity="SL\CoreBundle\Entity\EntityClass", inversedBy="properties")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $object;
+    private $entityClass;
 
     /**
      * @ORM\ManyToOne(targetEntity="SL\CoreBundle\Entity\FieldType")
@@ -95,26 +95,26 @@ class Property extends AbstractEntity
     }
 
     /**
-     * Set object
+     * Set entityClass
      *
-     * @param \SL\CoreBundle\Entity\Object $object
-     * @return Object
+     * @param \SL\CoreBundle\Entity\EntityClass $entityClass
+     * @return EntityClass
      */
-    public function setObject(\SL\CoreBundle\Entity\Object $object = null)
+    public function setEntityClass(\SL\CoreBundle\Entity\EntityClass $entityClass = null)
     {
-        $this->object = $object;
+        $this->entityClass = $entityClass;
 
         return $this;
     }
 
     /**
-     * Get object
+     * Get entityClass
      *
-     * @return \SL\CoreBundle\Entity\Object 
+     * @return \SL\CoreBundle\Entity\EntityClass 
      */
-    public function getObject()
+    public function getEntityClass()
     {
-        return $this->object;
+        return $this->entityClass;
     }
 
     /**

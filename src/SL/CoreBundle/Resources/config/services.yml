@@ -14,8 +14,8 @@ services:
     sl_core.icon:
         class: SL\CoreBundle\Services\IconService
 
-    sl_core.object:
-        class: SL\CoreBundle\Services\ObjectService
+    sl_core.entity.class:
+        class: SL\CoreBundle\Services\EntityClassService
         arguments: [@doctrine, @translator, @form.factory, @router]
 
     sl_core.property:
@@ -32,7 +32,7 @@ services:
 
     sl_core.front:
         class: SL\CoreBundle\Services\FrontService
-        arguments: [@form.factory, @router, @doctrine.orm.entity_manager, @sl_core.object, @sl_core.doctrine, @translator]
+        arguments: [@form.factory, @router, @doctrine.orm.entity_manager, @sl_core.entity.class, @sl_core.doctrine, @translator]
 
     sl_core.elastica:
         class: SL\CoreBundle\Services\ElasticaService
@@ -68,15 +68,15 @@ services:
         tags:
             - { name: form.type, alias: sl_core_choice_item }
 
-    sl_core.form.type.object:
-        class: SL\CoreBundle\Form\ObjectType
+    sl_core.form.type.entity.class:
+        class: SL\CoreBundle\Form\EntityClassType
         tags:
-            - { name: form.type, alias: object }
+            - { name: form.type, alias: sl_core_entity_class }
 
-    sl_core.form.type.object.calculated.name:
-        class: SL\CoreBundle\Form\ObjectCalculatedNameType
+    sl_core.form.type.entity.class.calculated.name:
+        class: SL\CoreBundle\Form\EntityClassCalculatedNameType
         tags:
-            - { name: form.type, alias: object_calculated_name }
+            - { name: form.type, alias: sl_core_entity_class_calculated_name }
 
     sl_core.form.type.property.choice:
         class: SL\CoreBundle\Form\PropertyChoiceType

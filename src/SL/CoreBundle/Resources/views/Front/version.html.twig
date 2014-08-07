@@ -34,7 +34,7 @@
 			    </div>
 			    <div id="collapse{{ version }}" class="panel-collapse collapse">
 			      	<div class="panel-body">
-			      		{% include "SLCoreBundle:Front:showBody.html.twig" with {'objects' : objects, 'entity' : formatedLogEntry['data']} only %} 
+			      		{% include "SLCoreBundle:Front:showBody.html.twig" with {'entityClasses' : entityClasses, 'entity' : formatedLogEntry['data']} only %} 
 			      	</div>
 			    </div>
 			</div>

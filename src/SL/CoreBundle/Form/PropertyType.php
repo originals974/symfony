@@ -68,7 +68,7 @@ class PropertyType extends AbstractType
         $resolver->setRequired(array(
             'submit_label',
             'submit_color',
-            'object_id',
+            'entityClass_id',
             )
         );
     }

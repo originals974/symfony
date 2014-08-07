@@ -129,7 +129,7 @@ class ChoiceListService
     {
         $integrityError = null;
 
-        //Check if choice list is not associated with an object property
+        //Check if choice list is not associated with an entity class property
         $property = $this->em->getRepository('SLCoreBundle:ListProperty')->findByChoiceList($choiceList);
 
         if($property != null){

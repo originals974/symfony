@@ -3,8 +3,8 @@
 namespace SL\CoreBundle\Listener;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
-use SL\CoreBundle\Entity\AbstractEntity as CoreAbstractEntity; 
-use SL\DataBundle\Entity\AbstractEntity as DataAbstractEntity;
+use SL\CoreBundle\Entity\MappedSuperclass\AbstractEntity as CoreAbstractEntity; 
+use SL\DataBundle\Entity\MappedSuperclass\AbstractEntity as DataAbstractEntity;
 
 class DoctrineListener
 {   

@@ -7,16 +7,16 @@ use Doctrine\ORM\QueryBuilder;
 use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
 
 //Custom classes
-use SL\CoreBundle\Entity\Object;
+use SL\CoreBundle\Entity\EntityClass;
 
 /**
- * ObjectRepository
+ * EntityClassRepository
  *
  */
-class ObjectRepository extends NestedTreeRepository
+class EntityClassRepository extends NestedTreeRepository
 {
   /**
-   * Select all objects and properties 
+   * Select all entityClasses and properties 
    *
    * @param QueryBuilder $qb
    */
@@ -30,7 +30,7 @@ class ObjectRepository extends NestedTreeRepository
 	}
 
   /**
-   * Select all objects and properties 
+   * Select all entityClasses and properties 
    *
    * @param integer $level
    */
@@ -49,31 +49,31 @@ class ObjectRepository extends NestedTreeRepository
   }
 
   /**
-   * Select object and properties by object id
+   * Select entityClass and properties by entityClass id
    *
-   * @param int $objectId
+   * @param int $entityClassId
    */
-  public function fullFindById($objectId){
+  public function fullFindById($entityClassId){
     
     $qb = $this->createQueryBuilder('o');
     $qb = $this->sharedQB($qb)
                 ->where('o.id = :id')
-                ->setParameter('id', $objectId);
+                ->setParameter('id', $entityClassId);
 
     return $qb->getQuery()
               ->getSingleResult();    
   }
 
   /**
-   * Select other objects
+   * Select other entityClasses
    *
-   * @param Object $currentObject
+   * @param EntityClass $currentEntityClass
    */
-	public function findOtherObject($currentObjectId)
+	public function findOtherEntityClass($currentEntityClassId)
   {
     $qb = $this->createQueryBuilder('o')
               ->where('o.id <> :id')
-              ->setParameter('id', $currentObjectId)
+              ->setParameter('id', $currentEntityClassId)
               ->orderBy('o.position', 'ASC');
 
     return  $qb;

@@ -8,15 +8,15 @@ sl_core_server:
     resource: "@SLCoreBundle/Resources/config/routing/server.yml"
     prefix: /back_end/server
 
-#Object
-sl_core_object:
-    resource: "@SLCoreBundle/Resources/config/routing/object.yml"
-    prefix: /back_end/object
+#EntityClass
+sl_core_entity_class:
+    resource: "@SLCoreBundle/Resources/config/routing/entity_class.yml"
+    prefix: /back_end/entity_class
 
 #Property
 sl_core_property:
     resource: "@SLCoreBundle/Resources/config/routing/property.yml"
-    prefix: /back_end/object/property
+    prefix: /back_end/entity_class/property
 
 #ChoiceList
 sl_core_choice_list:
@@ -38,11 +38,4 @@ sl_core_search:
     resource: "@SLCoreBundle/Resources/config/routing/search.yml"
     prefix: /front_end/search
 
-#Authentification
-# login:
-#     pattern:   /login
-#     defaults:  { _controller: SLCoreBundle:Default:login }
-
-# login_check:
-#     pattern:   /login_check
 

@@ -5,12 +5,12 @@
     } only
 %}
 
-    {% set title = 'object.index.title' %}
-    {% set description = 'object.index.description' %}
+    {% set title = 'entity_class.index.title' %}
+    {% set description = 'entity_class.index.description' %}
 
     {% block section_heading %}
 	    <div class="btn-group">              
-            <a title="{{ 'object.add'|trans }}" class="btn btn-default btn-xs" data-toggle="modal" data-target="#" href="{{ path('object_new') }}">
+            <a title="{{ 'entity_class.add'|trans }}" class="btn btn-default btn-xs" data-toggle="modal" data-target="#" href="{{ path('entity_class_new') }}">
                 <span class="fa fa-plus"></span>  
             </a>       
         </div>

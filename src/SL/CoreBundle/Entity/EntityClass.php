@@ -11,16 +11,16 @@ use SL\CoreBundle\Validator\Constraints as SLCoreAssert;
 use SL\CoreBundle\Entity\MappedSuperclass\AbstractEntity;
 
 /**
- * Object
+ * EntityClass
  *
  * @Gedmo\Tree(type="nested")
- * @ORM\Table(name="object",uniqueConstraints={
- *     @ORM\UniqueConstraint(name="unique_index_object_technical_name", columns={"technical_name"})
+ * @ORM\Table(name="entity_class",uniqueConstraints={
+ *     @ORM\UniqueConstraint(name="unique_index_entity_class_technical_name", columns={"technical_name"})
  *  })
- * @ORM\Entity(repositoryClass="SL\CoreBundle\Entity\Repository\ObjectRepository")
+ * @ORM\Entity(repositoryClass="SL\CoreBundle\Entity\Repository\EntityClassRepository")
  * @UniqueEntity(fields="displayName")
  */
-class Object extends AbstractEntity
+class EntityClass extends AbstractEntity
 {
     /**
      * @var string
@@ -44,7 +44,7 @@ class Object extends AbstractEntity
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="SL\CoreBundle\Entity\Property", mappedBy="object", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="SL\CoreBundle\Entity\Property", mappedBy="entityClass", cascade={"persist"})
      */
     private $properties;
 
@@ -74,13 +74,13 @@ class Object extends AbstractEntity
 
     /**
      * @Gedmo\TreeParent
-     * @ORM\ManyToOne(targetEntity="Object", inversedBy="children")
+     * @ORM\ManyToOne(targetEntity="EntityClass", inversedBy="children")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $parent;
 
     /**
-     * @ORM\OneToMany(targetEntity="Object", mappedBy="parent")
+     * @ORM\OneToMany(targetEntity="EntityClass", mappedBy="parent")
      * @ORM\OrderBy({"lft" = "ASC"})
      */
     private $children;
@@ -95,9 +95,9 @@ class Object extends AbstractEntity
     /**
      * Constructor
      * @param FieldType $fieldType Fieldtype of default property
-     * @param Object $parentObject Parent object of new object
+     * @param EntityClass $parentEntityClass Parent entityClass of new entityClass
      */
-    public function __construct(FieldType  $fieldType = null, Object $parent = null)
+    public function __construct(FieldType  $fieldType = null, EntityClass $parent = null)
     {
         $this->properties = new \Doctrine\Common\Collections\ArrayCollection();
 
@@ -107,11 +107,11 @@ class Object extends AbstractEntity
             $defaultProperty->setFieldType($fieldType);
             $defaultProperty->setDisplayName('Nom');
             $defaultProperty->setRequired(true);
-            $defaultProperty->setObject($this);
+            $defaultProperty->setEntityClass($this);
             $this->addProperty($defaultProperty);
         }
         
-        //Associate created object with its parent
+        //Associate created entityClass with its parent
         if($parent != null) {
             $this->setParent($parent);
         }
@@ -121,7 +121,7 @@ class Object extends AbstractEntity
      * Set calculatedName
      *
      * @param string $calculatedName
-     * @return Object
+     * @return EntityClass
      */
     public function setCalculatedName($calculatedName)
     {
@@ -144,7 +144,7 @@ class Object extends AbstractEntity
      * Set icon
      *
      * @param string $icon
-     * @return Object
+     * @return EntityClass
      */
     public function setIcon($icon)
     {
@@ -167,7 +167,7 @@ class Object extends AbstractEntity
      * Add property
      *
      * @param \SL\CoreBundle\Entity\Property $property
-     * @return Object
+     * @return EntityClass
      */
     public function addProperty(\SL\CoreBundle\Entity\Property $property)
     {
@@ -197,12 +197,12 @@ class Object extends AbstractEntity
     }
 
     /**
-     * Set Object parent 
+     * Set EntityClass parent 
      *
-     * @param Object $parent
-     * @return Object
+     * @param EntityClass $parent
+     * @return EntityClass
      */
-    public function setParent(Object $parent = null)
+    public function setParent(EntityClass $parent = null)
     {
         $this->parent = $parent;
     }
@@ -210,7 +210,7 @@ class Object extends AbstractEntity
     /**
      * Get parent
      *
-     * @return Object 
+     * @return EntityClass 
      */
     public function getParent()
     {
@@ -221,7 +221,7 @@ class Object extends AbstractEntity
      * Set isDocument
      *
      * @param boolean $isDocument
-     * @return Object
+     * @return EntityClass
      */
     public function setDocument($isDocument)
     {

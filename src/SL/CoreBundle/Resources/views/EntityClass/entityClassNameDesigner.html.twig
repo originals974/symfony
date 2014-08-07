@@ -1,0 +1,34 @@
+{% extends "SLCoreBundle::modalContent.html.twig" %}
+
+{% block modal_title %}
+	{{ 'entity_class.name.designer'|trans }}
+{% endblock %}
+
+{% block modal_body %}
+	
+  <div class="panel-group" id="entity_class_name_designer_accordion">
+    <div class="panel panel-default" id="entity_class_name_designer_button">
+        {% for entityClass in entityClasses%}
+          <div class="panel-heading">
+              <h4 class="panel-title">
+                  <a data-toggle="collapse" data-parent="#entity_class_name_designer_accordion" href="#entity_class_name_designer_entity_class_{{ entityClass.id }}">
+                    {{ entityClass.displayName }}
+                  </a>
+              </h4>
+          </div>
+          <div id="entity_class_name_designer_entity_class_{{ entityClass.id }}" class="panel-collapse collapse">
+            {% for property in entityClass.properties %}
+              <button title="{{ property.technicalName }}" type="button" class="btn btn-default">{{ property.displayName }}</button>
+            {% endfor %}
+          </div>
+        {% endfor %}
+    </div>
+  </div>
+
+	{{ form(form) }}
+
+{% endblock %}
+
+{% block modal_footer %}
+	
+{% endblock %}

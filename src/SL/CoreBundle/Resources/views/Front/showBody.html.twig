@@ -1,11 +1,11 @@
-{% for object in objects%}
+{% for entityClass in entityClasses%}
 	<div class="panel panel-default">
 		<div class="panel-body">
 	
-			<h4>{{ object.displayName }} {{ object.deletedAt is not null ? 'deleted'|trans }}</h4>
+			<h4>{{ entityClass.displayName }} {{ entityClass.deletedAt is not null ? 'deleted'|trans }}</h4>
 
 			<dl class="dl-horizontal">
-				{% for property in object.properties %}
+				{% for property in entityClass.properties %}
 
 					{# Display not soft deleted properties and soft deleted properties which is not empty#}
 					{% if 	(

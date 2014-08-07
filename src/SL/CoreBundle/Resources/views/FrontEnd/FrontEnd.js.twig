@@ -4,7 +4,7 @@
         var currentJsTreeReferenceId; 
 
         //JsTree init configuration
-        function initJsTree(jsTreeId, objectTechnicalName) {
+        function initJsTree(jsTreeId, entityClassTechnicalName) {
             $('#'+jsTreeId)
             .jstree({
                 'core' : {
@@ -14,7 +14,7 @@
                         'url' :  function (node) {
                                         var pattern; 
                                         pattern = $('#sl_core_search_searchField').val(); 
-                                        return Routing.generate('search_result', { pattern : pattern, objectTechnicalName : objectTechnicalName });
+                                        return Routing.generate('search_result', { pattern : pattern, entityClassTechnicalName : entityClassTechnicalName });
                         },
                         'data' : function (data) {
                             return data;
@@ -60,7 +60,7 @@
 	     */
         function submitFormToAjaxFrontEnd($form) {
 
-        	var validTarget, noValidTarget, method, modalId, selectedNode, reSelectedNode, guid, mode, objectsTechnicalName, n;
+        	var validTarget, noValidTarget, method, modalId, selectedNode, reSelectedNode, guid, mode, entityClassesTechnicalName, n;
             var selectedJsTree, jsTree, jsTreeId, jsTreeIds;  
 
         	validTarget = '#'+$form.attr('valid-target'); 
@@ -135,11 +135,11 @@
 
                                 jsTreeId = $(this).attr('id'); 
 
-                                //Extract object technical name
+                                //Extract entityClass technical name
                                 n =  jsTreeId.search("_"); 
-                                objectsTechnicalName = jsTreeId.substring(n);
+                                entityClassesTechnicalName = jsTreeId.substring(n);
 
-                                initJsTree(jsTreeId, objectsTechnicalName);
+                                initJsTree(jsTreeId, entityClassesTechnicalName);
 
                                 $('#'+jsTreeId).jstree(true).refresh();
 

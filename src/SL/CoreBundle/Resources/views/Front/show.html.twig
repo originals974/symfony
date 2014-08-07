@@ -2,8 +2,8 @@
 
 {% embed 'SLCoreBundle::sectionSkeleton.html.twig' with {
     'panelClass':panelClass,
-    'object':object,
-    'objects':objects,
+    'entityClass':entityClass,
+    'entityClasses':entityClasses,
     'entity':entity,
     'path':path,
     'currentVersion':currentVersion,
@@ -13,19 +13,19 @@
     {% block section_heading %}
 		<ul class="list-inline">
 		    <li>
-				<span class="fa {{ object.icon() }} fa-3x"></span> 
+				<span class="fa {{ entityClass.icon() }} fa-3x"></span> 
 			</li>
 			<li>
 				<h3>{{ entity.displayName }}</h3>
 			</li>
 			<li class="btn-group pull-right">
-				<a class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('front_edit', { 'id' : object.id, 'entity_id': entity.id }) }}" data-target="#">
+				<a class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('front_edit', { 'id' : entityClass.id, 'entity_id': entity.id }) }}" data-target="#">
 		        <span class="fa fa-pencil"></span>  
 			    </a>
-			    <a class="btn btn-danger btn-xs" data-toggle="modal" href="{{ path('front_remove', { 'id' : object.id, 'entity_id': entity.id }) }}" data-target="#">
+			    <a class="btn btn-danger btn-xs" data-toggle="modal" href="{{ path('front_remove', { 'id' : entityClass.id, 'entity_id': entity.id }) }}" data-target="#">
 			        <span class="fa fa-times"></span>  
 			    </a>
-			    <a class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('front_edit_version', { 'id' : object.id, 'entity_id': entity.id }) }}" data-target="#">
+			    <a class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('front_edit_version', { 'id' : entityClass.id, 'entity_id': entity.id }) }}" data-target="#">
 			        <span class="fa fa-undo"></span>  
 			    </a>
 			</li>
@@ -50,7 +50,7 @@
 
     {% block section_body %}
         
-		{% include "SLCoreBundle:Front:showBody.html.twig" with {'objects' : objects, 'entity' : entity} only %} 
+		{% include "SLCoreBundle:Front:showBody.html.twig" with {'entityClasses' : entityClasses, 'entity' : entity} only %} 
 
     {% endblock %}
 

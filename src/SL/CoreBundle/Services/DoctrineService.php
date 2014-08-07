@@ -10,7 +10,7 @@ use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 
 //Custom classes
-use SL\CoreBundle\Entity\Object;
+use SL\CoreBundle\Entity\EntityClass;
 use SL\CoreBundle\Doctrine\SLCoreEntityGenerator;
 
 /**
@@ -45,29 +45,29 @@ class DoctrineService
     }
 
     /**
-     * Create mapping and entity file for object
+     * Create mapping and entity file for entityClass
      *
-     * @param Object $object Object
+     * @param EntityClass $entityClass EntityClass
      *
-     * @return Array $mapping Mapping array for object
+     * @return Array $mapping Mapping array for entityClass
      */
-    public function doctrineGenerateEntityFileByObject(Object $object)
+    public function doctrineGenerateEntityFileByEntityClass(EntityClass $entityClass)
     {
-        $mapping = $this->doctrineGenerateMappingByObject($object);
-        $this->doctrineGenerateEntityFileByMapping($object, $mapping);
+        $mapping = $this->doctrineGenerateMappingByEntityClass($entityClass);
+        $this->doctrineGenerateEntityFileByMapping($entityClass, $mapping);
 
         return $mapping;
     }
 
     /**
-    * Remove entity file for object
+    * Remove entity file for entityClass
     *
-    * @param Object $object Object
+    * @param EntityClass $entityClass EntityClass
     */
-    public function removeDoctrineFiles(Object $object)
+    public function removeDoctrineFiles(EntityClass $entityClass)
     {
         //Get path of entity class file
-        $entityPath = $this->getDataEntityPath($object->getTechnicalName());
+        $entityPath = $this->getDataEntityPath($entityClass->getTechnicalName());
 
         //Remove entity class file
         $this->filesystem->remove(array($entityPath));
@@ -90,23 +90,23 @@ class DoctrineService
     }
 
     /**
-     * Create mapping for object
+     * Create mapping for entityClass
      *
-     * @param Object $object Object
+     * @param EntityClass $entityClass EntityClass
      */
-    public function doctrineGenerateMappingByObject(Object $object) 
+    public function doctrineGenerateMappingByEntityClass(EntityClass $entityClass) 
     {
         $mapping = array(); 
 
         //Create a mapping array
-        foreach ($object->getProperties() as $property) {  
+        foreach ($entityClass->getProperties() as $property) {  
 
             switch ($property->getFieldType()->getFormType()) {
                 case 'entity':
 
                     $fieldMapping = array(
                         'fieldName' => $property->getTechnicalName(), 
-                        'targetEntity' => $this->getDataEntityClass($property->getTargetObject()->getTechnicalName()),
+                        'targetEntity' => $this->getDataEntityNamespace($property->getTargetEntityClass()->getTechnicalName()),
                         'versioned' => true,
                         );
 
@@ -138,20 +138,20 @@ class DoctrineService
     }
 
     /**
-     * Create entity file for object
+     * Create entity file for entityClass
      *
-     * @param Object $object
+     * @param EntityClass $entityClass
      * @param array $mapping
      */
-    public function doctrineGenerateEntityFileByMapping(Object $object, array $mapping = array())
+    public function doctrineGenerateEntityFileByMapping(EntityClass $entityClass, array $mapping = array())
     {
-        //Define entity path and class path for the entity 
-        $entityClass = $this->getDataEntityClass($object->getTechnicalName());
-        $entityPath = $this->getDataEntityPath($object->getTechnicalName());
+        //Define entity path and namespace for the entity 
+        $entityNamespace = $this->getDataEntityNamespace($entityClass->getTechnicalName());
+        $entityPath = $this->getDataEntityPath($entityClass->getTechnicalName());
 
         //Create entity code
-        $entityGenerator = $this->initEntityGenerator($object);
-        $class = $this->initClassMetadataInfo($object, $entityClass, $mapping);
+        $entityGenerator = $this->initEntityGenerator($entityClass);
+        $class = $this->initClassMetadataInfo($entityClass, $entityNamespace, $mapping);
         $entityCode = $entityGenerator->generateEntityClass($class);
         
         //Create entity file
@@ -162,9 +162,9 @@ class DoctrineService
     /**
      * Initialize EntityGenerator
      *
-     * @param Object $object
+     * @param EntityClass $entityClass
      */
-    private function initEntityGenerator(Object $object) {
+    private function initEntityGenerator(EntityClass $entityClass) {
 
         $entityGenerator = new SLCoreEntityGenerator();
 
@@ -177,13 +177,13 @@ class DoctrineService
         $entityGenerator->setAnnotationPrefix('ORM\\');
         $entityGenerator->setGenerateAnnotations(true);
 
-        if($object->getParent() === null){
-            $entityClass = $this->getDataEntityClass('AbstractEntity');
-            $entityGenerator->setClassToExtend($entityClass); 
+        if($entityClass->getParent() === null){
+            $entityNamespace = $this->getDataEntityNamespace('AbstractEntity');
+            $entityGenerator->setClassToExtend($entityNamespace); 
         }
         else{
-            $entityClass = $this->getDataEntityClass($object->getParent()->getTechnicalName());
-            $entityGenerator->setClassToExtend($entityClass); 
+            $entityNamespace = $this->getDataEntityNamespace($entityClass->getParent()->getTechnicalName());
+            $entityGenerator->setClassToExtend($entityNamespace); 
         }
 
         return $entityGenerator;
@@ -192,15 +192,15 @@ class DoctrineService
     /**
      * Initialize ClassMetadataInfo
      *
-     * @param Object $object
-     * @param string $entityClass
+     * @param EntityClass $entityClass
+     * @param string $entityNamespace
      * @param array $mapping
      */
-    private function initClassMetadataInfo(Object $object, $entityClass, array $mapping = array()) {
+    private function initClassMetadataInfo(EntityClass $entityClass, $entityNamespace, array $mapping = array()) {
 
-        $class = new ClassMetadataInfo($entityClass);
+        $class = new ClassMetadataInfo($entityNamespace);
 
-        if($object->getParent() === null){
+        if($entityClass->getParent() === null){
             $class->setInheritanceType(ClassMetadataInfo::INHERITANCE_TYPE_JOINED);
             $class->setDiscriminatorColumn(array(
                 'name' => 'discr',
@@ -232,12 +232,12 @@ class DoctrineService
      *
      * @param string $entityName
      *
-     * @return string $entityClass
+     * @return string $entityNamespace
      */
-    public function getDataEntityClass($entityName)
+    public function getDataEntityNamespace($entityName)
     {
-        $entityClass = $this->registry->getAliasNamespace($this->dataBundle->getName()).'\\'.$entityName;
-        return $entityClass; 
+        $entityNamespace = $this->registry->getAliasNamespace($this->dataBundle->getName()).'\\'.$entityName;
+        return $entityNamespace; 
     }
 
     /**

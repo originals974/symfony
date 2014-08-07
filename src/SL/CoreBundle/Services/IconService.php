@@ -3,7 +3,7 @@
 namespace SL\CoreBundle\Services;
 
 //Custom classes
-use SL\CoreBundle\Entity\Object;
+use SL\CoreBundle\Entity\EntityClass;
 use SL\CoreBundle\Entity\Property;
 use SL\CoreBundle\Entity\Choice\ChoiceList;
 use SL\CoreBundle\Entity\Choice\ChoiceItem;
@@ -27,37 +27,37 @@ class IconService
     }
 
     /**
-     * Get Object icon
+     * Get EntityClass icon
      *
-     * @param Object $object Object
+     * @param EntityClass $entityClass EntityClass
      *
      * @return String icon
      */
-    public function getObjectIcon(Object $object)
+    public function getEntityClassIcon(EntityClass $entityClass)
     {
-        return 'fa '.$object->getIcon(); 
+        return 'fa '.$entityClass->getIcon(); 
     }
 
     /**
-     * Get root Object icon
+     * Get root EntityClass icon
      *
      * @param String $option Option of icon
      *
      * @return String icon
      */
-    public function getRootObjectIcon($option=null)
+    public function getRootEntityClassIcon($option=null)
     {
         return 'fa fa-archive '.$option; 
     }
 
     /**
-     * Get root Sub Object icon
+     * Get root Sub EntityClass icon
      *
      * @param String $option Option of icon
      *
      * @return String icon
      */
-    public function getRootSubObjectIcon($option=null)
+    public function getRootSubEntityClassIcon($option=null)
     {
         return 'fa fa-sitemap '.$option; 
     }
@@ -120,7 +120,7 @@ class IconService
     public function getPropertyIcon(Property $property=null)
     {
         if($property->getFieldType()->getFormType() == 'entity' ){
-            $icon = $this->getRootObjectIcon();
+            $icon = $this->getRootEntityClassIcon();
         }
         else if($property->getFieldType()->getFormType() == 'choice' ){
             $icon = $this->getRootChoiceListIcon();

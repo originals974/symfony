@@ -41,9 +41,9 @@ abstract class AbstractEntity
     /**
      * @var integer
      *
-     * @ORM\Column(name="object_id", type="integer")
+     * @ORM\Column(name="entity_class_id", type="integer")
      */
-    private $objectId;
+    private $entityClassId;
 
     /**
      * @var string
@@ -92,24 +92,24 @@ abstract class AbstractEntity
     }
 
     /**
-     * Get objectId
+     * Get entityClassId
      *
      * @return integer 
      */
-    public function getObjectId()
+    public function getEntityClassId()
     {
-        return $this->objectId;
+        return $this->entityClassId;
     }
 
     /**
-     * Get objectId
+     * Get entityClassId
      *
-     * @param integer $objectId
+     * @param integer $entityClassId
      * @return AbstractEntity
      */
-    public function setObjectId($objectId)
+    public function setEntityClassId($entityClassId)
     {
-        $this->objectId = $objectId;
+        $this->entityClassId = $entityClassId;
 
         return $this;
     }

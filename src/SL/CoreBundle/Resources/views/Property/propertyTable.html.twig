@@ -1,8 +1,8 @@
-{% if object.properties|length == 0 %}
+{% if entityClass.properties|length == 0 %}
     <div class="text-center">
         <i>{{ 'property.create.description'|trans }}</i>
         <br/>
-        <a title="{{ 'property.add'|trans }}" class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('property_new', { 'id': object.id }) }}" data-target="#">
+        <a title="{{ 'property.add'|trans }}" class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('property_new', { 'id': entityClass.id }) }}" data-target="#">
             <span class="fa fa-plus"></span>  
         </a>   
     </div>
@@ -11,7 +11,7 @@
         <thead>
             <tr>
                 <th style="width:60px;">
-                    <a title="{{ 'property.add'|trans }}" class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('property_new', { 'id': object.id }) }}" data-target="#">
+                    <a title="{{ 'property.add'|trans }}" class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('property_new', { 'id': entityClass.id }) }}" data-target="#">
                         <span class="fa fa-plus"></span>  
                     </a>
                 </th>
@@ -22,7 +22,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for property in object.properties %}
+            {% for property in entityClass.properties %}
                 <tr>
                     <td>
                         <a title="{{ 'property.delete'|trans }}" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#" href="{{ path('property_remove', { 'id': property.id }) }}" >
@@ -49,9 +49,9 @@
                             {% endif %}
 
                             <b><i>{{ 'property.relation.description'|trans({
-                            '%current_object%': property.object.displayName,
+                            '%current_entity_class%': property.entityClass.displayName,
                             '%relation_type%' : relation_type|trans,
-                            '%linked_object%': property.targetObject.displayName
+                            '%linked_entity_class%': property.targetEntityClass.displayName
                             })}}</i></b>
                         {% elseif property.fieldType.formType == 'choice'%}
                             {% if property.isMultiple %}
@@ -61,7 +61,7 @@
                             {% endif %}
 
                             <b><i>{{ 'choice_list.relation.description'|trans({
-                            '%current_object%': property.object.displayName,
+                            '%current_entity_class%': property.entityClass.displayName,
                             '%relation_type%' : relation_type|trans,
                             '%linked_list%': property.choicelist.displayName
                             })}}</i></b>
