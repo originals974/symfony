@@ -139,8 +139,8 @@
 		    sendToAjaxBackEnd('PUT', $button.attr('ajax-action'), {icon : event.icon}, null);
 		});
 
-        //When change the state of a checkbox
-        $(document).on("change", 'input[type="checkbox"]', function(event){
+        //When change the state of a checkbox of property_content div 
+        $(document).on("change", '#property_content input[type="checkbox"]', function(event){
 		    $checkbox = $(this); 
 		    sendToAjaxBackEnd('PUT', $checkbox.attr('ajax-action'), {name : $checkbox.attr("name"), value : $checkbox.is(':checked')}, null);
 		});
@@ -151,18 +151,18 @@
         	var $button, $input, $initialValue; 
  
         	$button = $(this); 
-        	$input = $('#entity_class_calculated_name_calculatedName');
+        	$input = $('#sl_core_entity_class_calculated_name_calculatedName');
         	$input.insertAtCaret('%'+$button.attr('title')+'%');
 
 		});
 
         //When an option of choice list with entity_property_targetEntityClass id is select 
-        $(document).on("change", '#entity_property_targetEntityClass', function(event){
+        $(document).on("change", '#sl_core_entity_property_targetEntityClass', function(event){
 		   	copySelectedValueToInput($(this).attr('id'), 'entity_property_displayName')
 		});
 
         //When an option of choice list with choice_property_choiceList id is select
-        $(document).on("change", '#choice_property_choiceList', function(event){
+        $(document).on("change", '#sl_core_choice_property_choiceList', function(event){
 		   	copySelectedValueToInput($(this).attr('id'), 'choice_property_displayName')
 		});
 

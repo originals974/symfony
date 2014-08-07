@@ -15,6 +15,7 @@ use SL\CoreBundle\Entity\EntityClass;
 use SL\CoreBundle\Services\EntityClassService;
 use SL\CoreBundle\Services\JSTreeService;
 use SL\CoreBundle\Services\DoctrineService;
+use SL\CoreBundle\Services\FrontService;
 
 /**
  * EntityClass controller
@@ -26,21 +27,24 @@ class EntityClassController extends Controller
     private $entityClassService;
     private $jstreeService;
     private $doctrineService;
+    private $frontService;
 
     /**
      * @DI\InjectParams({
      *     "em" = @DI\Inject("doctrine.orm.entity_manager"),
      *     "entityClassService" = @DI\Inject("sl_core.entity.class"),
      *     "jstreeService" = @DI\Inject("sl_core.js_tree"),
-     *     "doctrineService" = @DI\Inject("sl_core.doctrine")
+     *     "doctrineService" = @DI\Inject("sl_core.doctrine"),
+     *     "frontService" = @DI\Inject("sl_core.front")
      * })
      */
-    public function __construct(EntityManager $em, EntityClassService $entityClassService, JSTreeService $jstreeService, DoctrineService $doctrineService)
+    public function __construct(EntityManager $em, EntityClassService $entityClassService, JSTreeService $jstreeService, DoctrineService $doctrineService, FrontService $frontService)
     {
         $this->em = $em;
         $this->entityClassService = $entityClassService;
         $this->jstreeService = $jstreeService;
         $this->doctrineService = $doctrineService;
+        $this->frontService = $frontService;
     }
 
     /**
@@ -279,24 +283,24 @@ class EntityClassController extends Controller
     {
         if ($request->isXmlHttpRequest()) {
 
-            //Remove all properties of deleted entityClass
-            foreach ($entityClass->getProperties() as $property) {
-                $this->em->remove($property); 
+            $entitiesExist = $this->frontService->entitiesExist($entityClass); 
+
+            if($entitiesExist){
+                $this->em->remove($entityClass);
+                $this->em->flush(); 
             }
+            else{
+                $this->doctrineService->removeDoctrineFiles($entityClass);
 
-            $this->em->flush(); 
+                $children = $this->em->getRepository('SLCoreBundle:EntityClass')->children($entityClass); 
 
-            $this->em->remove($entityClass);
-            $this->em->flush(); 
+                foreach ($children as $child) {
+                    $this->doctrineService->removeDoctrineFiles($child);
+                }
 
-            //Get direct children of parent EntityClass
-            $directChildren = $this->em->getRepository('SLCoreBundle:EntityClass')->children($entityClass->getParent(), true); 
-
-            foreach ($directChildren as $entityClassChild) {
-                $this->doctrineService->doctrineGenerateEntityFileByEntityClass($entityClassChild);  
+                $this->doctrineService->doctrineSchemaUpdateForce();
+                $this->doctrineService->entityDelete('SLCoreBundle:EntityClass', $entityClass->getId(), true);
             }
-            
-            $this->doctrineService->doctrineSchemaUpdateForce();
 
             $arrayResponse = array(
                 'isValid' => true,

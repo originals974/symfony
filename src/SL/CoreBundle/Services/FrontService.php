@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Routing\Router;
 use Symfony\Component\Translation\Translator;
 use Doctrine\ORM\EntityManager;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 
 //Custom classes
 use SL\CoreBundle\Entity\EntityClass;
@@ -24,6 +25,7 @@ class FrontService
     private $formFactory;
     private $router;
     private $em;
+    private $databaseEm;
     private $entityClassService;
     private $doctrineService;
     private $translator;
@@ -33,17 +35,18 @@ class FrontService
      *
      * @param FormFactory $formFactory
      * @param Router $router
-     * @param EntityManager $em
+     * @param RegistryInterface $registry
      * @param EntityClassService $entityClassService
      * @param DoctrineService $doctrineService
      * @param Translator $translator
      *
      */
-    public function __construct(FormFactory $formFactory, Router $router, EntityManager $em, EntityClassService $entityClassService, DoctrineService $doctrineService, Translator $translator)
+    public function __construct(FormFactory $formFactory, Router $router, RegistryInterface $registry, EntityClassService $entityClassService, DoctrineService $doctrineService, Translator $translator)
     {
         $this->formFactory = $formFactory;
         $this->router = $router;
-        $this->em = $em;
+        $this->em = $registry->getManager();
+        $this->databaseEm = $registry->getManager('database');
         $this->entityClassService = $entityClassService;
         $this->doctrineService = $doctrineService;
         $this->translator = $translator;
@@ -171,6 +174,20 @@ class FrontService
         );
 
         return $form;
+    }
+
+    public function entitiesExist(EntityClass $entityClass){
+
+        $entities = $this->databaseEm ->getRepository('SLDataBundle:'.$entityClass->getTechnicalName())->findAll();
+
+        if(count($entities) != 0){
+            $entitiesExist = true; 
+        } 
+        else {
+            $entitiesExist = false;  
+        }
+
+        return $entitiesExist; 
     }
 
 }

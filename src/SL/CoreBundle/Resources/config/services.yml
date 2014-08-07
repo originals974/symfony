@@ -32,7 +32,7 @@ services:
 
     sl_core.front:
         class: SL\CoreBundle\Services\FrontService
-        arguments: [@form.factory, @router, @doctrine.orm.entity_manager, @sl_core.entity.class, @sl_core.doctrine, @translator]
+        arguments: [@form.factory, @router, @doctrine, @sl_core.entity.class, @sl_core.doctrine, @translator]
 
     sl_core.elastica:
         class: SL\CoreBundle\Services\ElasticaService

@@ -57,6 +57,6 @@ class EntityClassCalculatedNameType extends AbstractType
      */
     public function getName()
     {
-        return 'entity_class_calculated_name';
+        return 'sl_core_entity_class_calculated_name';
     }
 }

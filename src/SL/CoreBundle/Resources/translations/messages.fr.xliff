@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2014-08-07T11:38:04Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+  <file date="2014-08-07T12:08:17Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -86,7 +86,7 @@
       </trans-unit>
       <trans-unit id="78dd9abd7c6b6cdb5176c66e4cfe2cca4012e021" resname="choice_list.update">
         <source>choice_list.update</source>
-        <target state="new">choice_list.update</target>
+        <target>choice_list.update</target>
         <jms:reference-file line="13">Choice/ChoiceList/show.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="b5639f7983c557cf9485f9144174801412d34a36" resname="choice_property">
@@ -122,12 +122,12 @@
       <trans-unit id="55fb4aee3a335e72cfcce470ea2f0a97bcb4254b" resname="delete.entity_class.reference.error.message">
         <source>delete.entity_class.reference.error.message</source>
         <target>delete.entity_class.reference.error.message</target>
-        <jms:reference-file line="146">CoreBundle/Services/EntityClassService.php</jms:reference-file>
+        <jms:reference-file line="161">CoreBundle/Services/EntityClassService.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="86d059f7476d99616a1b30569e3aeda3df8fd4af" resname="delete.error.title">
         <source>delete.error.title</source>
         <target>Suppression impossible</target>
-        <jms:reference-file line="145">CoreBundle/Services/EntityClassService.php</jms:reference-file>
+        <jms:reference-file line="160">CoreBundle/Services/EntityClassService.php</jms:reference-file>
         <jms:reference-file line="226">CoreBundle/Services/PropertyService.php</jms:reference-file>
         <jms:reference-file line="136">Services/Choice/ChoiceListService.php</jms:reference-file>
       </trans-unit>
@@ -185,12 +185,12 @@
       </trans-unit>
       <trans-unit id="67eef962037439b7ebbc0f7cc03d757e60ea0052" resname="entity_class.name.designer">
         <source>entity_class.name.designer</source>
-        <target>entity_class.name.designer</target>
+        <target>Définition du nom calculé</target>
         <jms:reference-file line="4">views/EntityClass/entityClassNameDesigner.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="e061846d3a06ac14087c11d2856351b68f615e65" resname="entity_class.update.calculate_name.existing_name.label">
         <source>entity_class.update.calculate_name.existing_name.label</source>
-        <target state="new">entity_class.update.calculate_name.existing_name.label</target>
+        <target>Forcer la mise à jour</target>
         <jms:reference-file line="26">CoreBundle/Form/EntityClassCalculatedNameType.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="bb5233df461e75b283c970d88877a8d98511de2c" resname="entity_property">
@@ -388,12 +388,12 @@
       </trans-unit>
       <trans-unit id="4aa9dd4e570047d92a03fee4c408f3acf07ac527" resname="sl_core_entity_class.delete.message">
         <source>sl_core_entity_class.delete.message</source>
-        <target state="new">sl_core_entity_class.delete.message</target>
+        <target>sl_core_entity_class.delete.message</target>
         <jms:reference-file line="19">Resources/views/toTranslate.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="b10ad9d1bfde282caaef3f91d7a2d93df17f8d92" resname="sl_core_entity_class.update.calculate_name.existing_name.help">
         <source>sl_core_entity_class.update.calculate_name.existing_name.help</source>
-        <target state="new">sl_core_entity_class.update.calculate_name.existing_name.help</target>
+        <target>Met à jour le nom des données déjà créées</target>
         <jms:reference-file line="18">Resources/views/toTranslate.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="210911297cd02eda511fe0cd22029a9471a0b3a3" resname="technical_name.help">

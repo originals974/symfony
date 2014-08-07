@@ -47,9 +47,6 @@ class EntityClassType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'SL\CoreBundle\Entity\EntityClass',
-            'attr' => array(
-                'valid-target' => '',  
-                ),
             'show_legend' => false,
             )
         );

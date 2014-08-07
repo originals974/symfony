@@ -83,7 +83,7 @@ class DoctrineService
         $schemaTool = new SchemaTool($this->databaseEm);
 
         $metadatas = $this->databaseEm->getMetadataFactory()->getAllMetadata();
-        
+
         $schemaTool->UpdateSchema($metadatas);  
 
         return $schemaTool->getUpdateSchemaSql($metadatas, true);

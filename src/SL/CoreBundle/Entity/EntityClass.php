@@ -44,7 +44,7 @@ class EntityClass extends AbstractEntity
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="SL\CoreBundle\Entity\Property", mappedBy="entityClass", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="SL\CoreBundle\Entity\Property", mappedBy="entityClass", cascade={"persist","remove"})
      */
     private $properties;
 

@@ -59,6 +59,11 @@ class EntityClassService
                 )
             ),
             'method' => 'POST',
+            'attr' => array(
+                'valid-target' => '', 
+                'no-valid-target' => 'ajax-modal',
+                'mode' => 'add',  
+                ),
             'submit_label' => 'create',
             'submit_color' => 'primary',
             )
@@ -79,6 +84,11 @@ class EntityClassService
         $form = $this->formFactory->create('sl_core_entity_class', $entityClass, array(
             'action' => $this->router->generate('entity_class_update', array('id' => $entityClass->getId())),
             'method' => 'PUT',
+            'attr' => array(
+                'valid-target' => '', 
+                'no-valid-target' => 'ajax-modal',
+                'mode' => 'update', 
+                ),
             'submit_label' => 'update',
             'submit_color' => 'primary',
             )
@@ -119,6 +129,11 @@ class EntityClassService
         $form = $this->formFactory->create('sl_core_entity_class', $entityClass, array(
             'action' => $this->router->generate('entity_class_delete', array('id' => $entityClass->getId())),
             'method' => 'DELETE',
+            'attr' => array(
+                'valid-target' => '', 
+                'no-valid-target' => 'ajax-modal',
+                'mode' => 'delete',  
+                ),
             'submit_label' => 'delete',
             'submit_color' => 'danger',
             )
@@ -262,7 +277,7 @@ class EntityClassService
         $parents = array($entityClass); 
         $this->getParent($entityClass, $parents);
 
-        return $this->orderedEntityClasssProperties($parents); 
+        return $this->orderedEntityClassesProperties($parents); 
     }
 
     /**
@@ -288,7 +303,7 @@ class EntityClassService
      *
      * @return array $orderedEntityClasss
      */
-    public function orderedEntityClasssProperties(array $entityClasses){
+    private function orderedEntityClassesProperties(array $entityClasses){
 
         $orderedEntityClasses = array(); 
 

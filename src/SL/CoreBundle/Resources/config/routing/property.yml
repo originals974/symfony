@@ -46,3 +46,10 @@ property_delete:
     requirements:
         id: \d+
         _method: DELETE
+
+property_update_checkbox:
+    pattern:  /{id}/updateCheckbox
+    defaults: { _controller: SLCoreBundle:Property:updateCheckbox }
+    requirements:
+        id: \d+
+        _method: PUT
