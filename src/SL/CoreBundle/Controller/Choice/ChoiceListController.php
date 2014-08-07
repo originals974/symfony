@@ -9,7 +9,7 @@ use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
-use SL\CoreBundle\Entity\ChoiceList;
+use SL\CoreBundle\Entity\Choice\ChoiceList;
 use SL\CoreBundle\Services\Choice\ChoiceListService;
 use SL\CoreBundle\Services\DoctrineService;
 use SL\CoreBundle\Services\JSTreeService;
@@ -141,7 +141,7 @@ class ChoiceListController extends Controller
     * Display form to edit $choiceList
     *
     * @param Symfony\Component\HttpFoundation\Request $request
-    * @param SL\CoreBundle\Entity\ChoiceList $choiceList 
+    * @param SL\CoreBundle\Entity\Choice\ChoiceList $choiceList 
     *
     * @return Symfony\Component\HttpFoundation\Response $response
     */
@@ -168,7 +168,7 @@ class ChoiceListController extends Controller
     * Update $choiceList
     *
     * @param Symfony\Component\HttpFoundation\Request $request
-    * @param SL\CoreBundle\Entity\ChoiceList $choiceList
+    * @param SL\CoreBundle\Entity\Choice\ChoiceList $choiceList
     *
     * @return Symfony\Component\HttpFoundation\JsonResponse $jsonResponse
     */
@@ -216,7 +216,7 @@ class ChoiceListController extends Controller
      * Show $choiceList and its items
      *
      * @param Symfony\Component\HttpFoundation\Request $request
-     * @param SL\CoreBundle\Entity\ChoiceList $choiceList
+     * @param SL\CoreBundle\Entity\Choice\ChoiceList $choiceList
      *
      * @return Symfony\Component\HttpFoundation\Response $response
      *
@@ -242,7 +242,7 @@ class ChoiceListController extends Controller
     * Display form to remove $choiceList
     *
     * @param Symfony\Component\HttpFoundation\Request $request
-    * @param SL\CoreBundle\Entity\ChoiceList $choiceList
+    * @param SL\CoreBundle\Entity\Choice\ChoiceList $choiceList
     *
     * @return Symfony\Component\HttpFoundation\Response $response
     */
@@ -290,7 +290,7 @@ class ChoiceListController extends Controller
     {
         if ($request->isXmlHttpRequest()) {
 
-            $this->doctrineService->entityDelete('SLCoreBundle:ChoiceList', $id, true);
+            $this->doctrineService->entityDelete('SLCoreBundle:Choice\ChoiceList', $id, true);
 
             $arrayResponse = array(
                 'isValid' => true,

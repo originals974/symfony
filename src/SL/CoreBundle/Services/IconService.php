@@ -5,8 +5,8 @@ namespace SL\CoreBundle\Services;
 //Custom classes
 use SL\CoreBundle\Entity\Object;
 use SL\CoreBundle\Entity\Property;
-use SL\CoreBundle\Entity\ChoiceList;
-use SL\CoreBundle\Entity\ChoiceItem;
+use SL\CoreBundle\Entity\Choice\ChoiceList;
+use SL\CoreBundle\Entity\Choice\ChoiceItem;
 
 /**
  * Icon Service

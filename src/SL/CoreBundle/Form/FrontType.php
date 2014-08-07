@@ -121,7 +121,7 @@ class FrontType extends AbstractType
             case 'choice':
 
                 $choice = array(); 
-                $choiceItems = $this->em ->getRepository('SLCoreBundle:ChoiceItem')
+                $choiceItems = $this->em ->getRepository('SLCoreBundle:Choice\ChoiceItem')
                                             ->fullFindByChoiceList($property->getChoiceList());
 
                 if($choiceItems) {

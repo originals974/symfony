@@ -5,8 +5,8 @@ namespace SL\CoreBundle\Services\Choice;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Routing\Router;
 
-use SL\CoreBundle\Entity\ChoiceList;
-use SL\CoreBundle\Entity\ChoiceItem;
+use SL\CoreBundle\Entity\Choice\ChoiceList;
+use SL\CoreBundle\Entity\Choice\ChoiceItem;
 
 /**
  * ChoiceItem Service
@@ -34,8 +34,8 @@ class ChoiceItemService
     * Create create form for $choiceItem
     * associated to $choiceList
     *
-    * @param SL\CoreBundle\Entity\ChoiceList $choiceList
-    * @param SL\CoreBundle\Entity\ChoiceItem $choiceItem
+    * @param SL\CoreBundle\Entity\Choice\ChoiceList $choiceList
+    * @param SL\CoreBundle\Entity\Choice\ChoiceItem $choiceItem
     *
     * @return Symfony\Component\Form\Form $form
     */
@@ -64,8 +64,8 @@ class ChoiceItemService
     * Create update form for $choiceItem
     * associated to $choiceList
     *
-    * @param SL\CoreBundle\Entity\ChoiceList $choiceList
-    * @param SL\CoreBundle\Entity\ChoiceItem $choiceItem
+    * @param SL\CoreBundle\Entity\Choice\ChoiceList $choiceList
+    * @param SL\CoreBundle\Entity\Choice\ChoiceItem $choiceItem
     *
     * @return Symfony\Component\Form\Form $form
     */
@@ -95,8 +95,8 @@ class ChoiceItemService
      * Create delete form for $choiceItem
      * associated to $choiceList
      *
-     * @param SL\CoreBundle\Entity\ChoiceList $choiceList
-     * @param SL\CoreBundle\Entity\ChoiceItem $choiceItem
+     * @param SL\CoreBundle\Entity\Choice\ChoiceList $choiceList
+     * @param SL\CoreBundle\Entity\Choice\ChoiceItem $choiceItem
      *
      * @return Symfony\Component\Form\Form $form
      */

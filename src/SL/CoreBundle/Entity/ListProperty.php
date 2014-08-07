@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class ListProperty extends Property
 { 
     /**
-     * @ORM\ManyToOne(targetEntity="SL\CoreBundle\Entity\ChoiceList")
+     * @ORM\ManyToOne(targetEntity="SL\CoreBundle\Entity\Choice\ChoiceList")
      * @Assert\NotBlank()
      */
     private $choiceList;

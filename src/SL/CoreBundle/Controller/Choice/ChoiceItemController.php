@@ -9,8 +9,8 @@ use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
-use SL\CoreBundle\Entity\ChoiceList;
-use SL\CoreBundle\Entity\ChoiceItem;
+use SL\CoreBundle\Entity\Choice\ChoiceList;
+use SL\CoreBundle\Entity\Choice\ChoiceItem;
 use SL\CoreBundle\Services\Choice\ChoiceItemService;
 use SL\CoreBundle\Services\DoctrineService;
 
@@ -43,7 +43,7 @@ class ChoiceItemController extends Controller
      * associated to $choiceList
      *
      * @param Symfony\Component\HttpFoundation\Request $request
-     * @param SL\CoreBundle\Entity\ChoiceList $choiceList
+     * @param SL\CoreBundle\Entity\Choice\ChoiceList $choiceList
      *
      * @return Symfony\Component\HttpFoundation\Response $response
      */
@@ -72,7 +72,7 @@ class ChoiceItemController extends Controller
      * associated to $choiceList
      *
      * @param Symfony\Component\HttpFoundation\Request $request
-     * @param SL\CoreBundle\Entity\ChoiceList $choiceList
+     * @param SL\CoreBundle\Entity\Choice\ChoiceList $choiceList
      *
      * @return Symfony\Component\HttpFoundation\JsonResponse $jsonResponse
      *
@@ -131,8 +131,8 @@ class ChoiceItemController extends Controller
      * associated to $choiceList
      *
      * @param Symfony\Component\HttpFoundation\Request $request
-     * @param SL\CoreBundle\Entity\ChoiceList $choiceList
-     * @param SL\CoreBundle\Entity\ChoiceItem $choiceItem
+     * @param SL\CoreBundle\Entity\Choice\ChoiceList $choiceList
+     * @param SL\CoreBundle\Entity\Choice\ChoiceItem $choiceItem
      *
      * @return Symfony\Component\HttpFoundation\Response $response
      *
@@ -162,8 +162,8 @@ class ChoiceItemController extends Controller
      * associated to $choiceList
      *
      * @param Symfony\Component\HttpFoundation\Request $request
-     * @param SL\CoreBundle\Entity\ChoiceList $choiceList
-     * @param SL\CoreBundle\Entity\ChoiceItem $choiceItem
+     * @param SL\CoreBundle\Entity\Choice\ChoiceList $choiceList
+     * @param SL\CoreBundle\Entity\Choice\ChoiceItem $choiceItem
      *
      * @return Symfony\Component\HttpFoundation\JsonResponse $jsonResponse
      *
@@ -215,8 +215,8 @@ class ChoiceItemController extends Controller
      * associated to $choiceList
      *
      * @param Symfony\Component\HttpFoundation\Request $request
-     * @param SL\CoreBundle\Entity\ChoiceList $choiceList
-     * @param SL\CoreBundle\Entity\ChoiceItem $choiceItem
+     * @param SL\CoreBundle\Entity\Choice\ChoiceList $choiceList
+     * @param SL\CoreBundle\Entity\Choice\ChoiceItem $choiceItem
      *
      * @return Symfony\Component\HttpFoundation\Response $response
      *
@@ -246,8 +246,8 @@ class ChoiceItemController extends Controller
      * associated to $choiceList
      *
      * @param Symfony\Component\HttpFoundation\Request $request
-     * @param SL\CoreBundle\Entity\ChoiceList $choiceList
-     * @param SL\CoreBundle\Entity\ChoiceItem $choiceItem
+     * @param SL\CoreBundle\Entity\Choice\ChoiceList $choiceList
+     * @param SL\CoreBundle\Entity\Choice\ChoiceItem $choiceItem
      *
      * @return Symfony\Component\HttpFoundation\JsonResponse $jsonResponse 
      *
@@ -257,7 +257,7 @@ class ChoiceItemController extends Controller
     {
         if ($request->isXmlHttpRequest()) {
 
-            $this->doctrineService->entityDelete('SLCoreBundle:ChoiceItem', $choiceItem->getId(), true);
+            $this->doctrineService->entityDelete('SLCoreBundle:Choice\ChoiceItem', $choiceItem->getId(), true);
 
             $html = $this->renderView('SLCoreBundle:Choice/ChoiceItem:table.html.twig', array(
                 'choiceList' => $choiceList, 
@@ -285,7 +285,7 @@ class ChoiceItemController extends Controller
      * Update $choiceItem icon
      *
      * @param Symfony\Component\HttpFoundation\Request $request
-     * @param SL\CoreBundle\Entity\ChoiceItem $choiceItem
+     * @param SL\CoreBundle\Entity\Choice\ChoiceItem $choiceItem
      *
      * @return Symfony\Component\HttpFoundation\JsonResponse $jsonResponse
      */

@@ -1,6 +1,6 @@
 <?php
 
-namespace SL\CoreBundle\Form;
+namespace SL\CoreBundle\Form\Choice;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -42,7 +42,7 @@ class ChoiceListType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'SL\CoreBundle\Entity\ChoiceList',
+            'data_class' => 'SL\CoreBundle\Entity\Choice\ChoiceList',
             'show_legend' => false,
             )
         );

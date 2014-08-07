@@ -3,6 +3,7 @@
 namespace SL\CoreBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use SL\CoreBundle\Entity\Choice\ChoiceList; 
 
 /**
  * ChoiceItemRepository
@@ -13,7 +14,7 @@ class ChoiceItemRepository extends EntityRepository
 	/**
 	 * Select all items of $choiceList
 	 *
-	 * @param SL\CoreBundle\Entity\ChoiceList $choiceList
+	 * @param SL\CoreBundle\Entity\Choice\ChoiceList $choiceList
 	 *
 	 * @return array
 	 */

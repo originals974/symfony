@@ -70,6 +70,7 @@ object_edit_calculated_name:
     defaults: { _controller: SLCoreBundle:ObjectUpdate:editCalculatedName }
     requirements:
         id: \d+
+        _method: GET 
 
 object_update_calculated_name:
     pattern:  /{id}/update_calculated_name

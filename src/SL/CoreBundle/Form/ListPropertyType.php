@@ -24,7 +24,7 @@ class ListPropertyType extends PropertyType
             ) 
             ->add('choiceList', 'entity', array(
                 'empty_value' => '',
-                'class' => 'SLCoreBundle:ChoiceList',
+                'class' => 'SLCoreBundle:Choice/ChoiceList',
                 'property' => 'displayName',
                 'query_builder' => function(EntityRepository $er) {
                                       return $er->fullFindAllQb();

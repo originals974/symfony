@@ -7,7 +7,7 @@ use Symfony\Component\Routing\Router;
 
 //Custom classes
 use SL\CoreBundle\Entity\Object;
-use SL\CoreBundle\Entity\ChoiceList;
+use SL\CoreBundle\Entity\Choice\ChoiceList;
 use SL\CoreBundle\Services\IconService;
 
 /**

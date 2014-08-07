@@ -59,12 +59,12 @@ services:
 
     #Form Service
     sl_core.form.type.choice.list:
-        class: SL\CoreBundle\Form\ChoiceListType
+        class: SL\CoreBundle\Form\Choice\ChoiceListType
         tags:
             - { name: form.type, alias: sl_core_choice_list }
 
     sl_core.form.type.choice.item:
-        class: SL\CoreBundle\Form\ChoiceItemType
+        class: SL\CoreBundle\Form\Choice\ChoiceItemType
         tags:
             - { name: form.type, alias: sl_core_choice_item }
 

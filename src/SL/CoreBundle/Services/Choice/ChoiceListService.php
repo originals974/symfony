@@ -7,7 +7,7 @@ use Symfony\Component\Translation\Translator;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Routing\Router;
 
-use SL\CoreBundle\Entity\ChoiceList;
+use SL\CoreBundle\Entity\Choice\ChoiceList;
 
 /**
  * ChoiceList Service
@@ -40,7 +40,7 @@ class ChoiceListService
     /**
     * Create create form for $choiceList
     *
-    * @param SL\CoreBundle\Entity\ChoiceList $choiceList
+    * @param SL\CoreBundle\Entity\Choice\ChoiceList $choiceList
     *
     * @return Symfony\Component\Form\Form $form
     */
@@ -65,7 +65,7 @@ class ChoiceListService
     /**
     * Create update form for $choiceList
     *
-    * @param SL\CoreBundle\Entity\ChoiceList $choiceList
+    * @param SL\CoreBundle\Entity\Choice\ChoiceList $choiceList
     *
     * @return Symfony\Component\Form\Form $form
     */
@@ -93,7 +93,7 @@ class ChoiceListService
     /**
      * Create delete form for $choiceList
      *
-     * @param SL\CoreBundle\Entity\ChoiceList $choiceList
+     * @param SL\CoreBundle\Entity\Choice\ChoiceList $choiceList
      *
      * @return Symfony\Component\Form\Form $form
      */
@@ -121,7 +121,7 @@ class ChoiceListService
    /**
      * Verify $choiceList could be delete
      *
-     * @param SL\CoreBundle\Entity\ChoiceList $choiceList
+     * @param SL\CoreBundle\Entity\Choice\ChoiceList $choiceList
      *
      * @return array $integrityError Title and error message
      */

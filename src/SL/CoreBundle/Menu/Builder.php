@@ -161,7 +161,7 @@ class Builder extends ContainerAware
         );    
 
         //Select all choicelists
-        $choiceLists = $em->getRepository('SLCoreBundle:ChoiceList')->fullFindAll();
+        $choiceLists = $em->getRepository('SLCoreBundle:Choice\ChoiceList')->fullFindAll();
 
         //Create a node for each choicelist
         foreach($choiceLists as $choiceList) {

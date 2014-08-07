@@ -1,6 +1,6 @@
 <?php
 
-namespace SL\CoreBundle\Entity;
+namespace SL\CoreBundle\Entity\Choice;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -20,9 +20,9 @@ use SL\CoreBundle\Entity\MappedSuperclass\AbstractEntity;
 class ChoiceList extends AbstractEntity
 {
     /**
-     * @var ArrayCollection
+     * @var Doctrine\Common\Collections\ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="ChoiceItem", mappedBy="choiceList", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="SL\CoreBundle\Entity\Choice\ChoiceItem", mappedBy="choiceList", cascade={"remove"})
      */
     private $choiceItems;
 
@@ -38,8 +38,9 @@ class ChoiceList extends AbstractEntity
     /**
      * Add choiceItem
      *
-     * @param ChoiceItem $choiceItem
-     * @return ChoiceList
+     * @param SL\CoreBundle\Entity\Choice\ChoiceItem $choiceItem
+     *
+     * @return SL\CoreBundle\EntityChoiceList
      */
     public function addChoiceItem(ChoiceItem $choiceItem)
     {
@@ -51,7 +52,9 @@ class ChoiceList extends AbstractEntity
     /**
      * Remove choiceItem
      *
-     * @param ChoiceItem $choiceItem
+     * @param SL\CoreBundle\Entity\Choice\ChoiceItem $choiceItem
+     *
+     * @return void 
      */
     public function removeChoiceItem(ChoiceItem $choiceItem)
     {
@@ -61,7 +64,7 @@ class ChoiceList extends AbstractEntity
     /**
      * Get choiceItems
      *
-     * @return Collection 
+     * @return Doctrine\Common\Collections\ArrayCollection
      */
     public function getChoiceItems()
     {

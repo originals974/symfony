@@ -1,6 +1,6 @@
 <?php
 
-namespace SL\CoreBundle\Entity;
+namespace SL\CoreBundle\Entity\Choice;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -28,7 +28,7 @@ class ChoiceItem extends AbstractEntity
 
     /**
      * @Gedmo\SortableGroup
-     * @ORM\ManyToOne(targetEntity="ChoiceList", inversedBy="choiceItems")
+     * @ORM\ManyToOne(targetEntity="SL\CoreBundle\Entity\Choice\ChoiceList", inversedBy="choiceItems")
      * @ORM\JoinColumn(nullable=false)
      */
     private $choiceList;
@@ -37,7 +37,8 @@ class ChoiceItem extends AbstractEntity
      * Set icon
      *
      * @param string $icon
-     * @return ChoiceItem
+     *
+     * @return SL\CoreBundle\Entity\Choice\ChoiceItem
      */
     public function setIcon($icon)
     {
@@ -59,8 +60,9 @@ class ChoiceItem extends AbstractEntity
      /**
      * Set choiceList
      *
-     * @param ChoiceList $choiceList
-     * @return ChoiceList
+     * @param SL\CoreBundle\Entity\Choice\ChoiceList $choiceList
+     *
+     * @return SL\CoreBundle\Entity\Choice\ChoiceList
      */
     public function setChoiceList(ChoiceList $choiceList = null)
     {
@@ -72,7 +74,7 @@ class ChoiceItem extends AbstractEntity
     /**
      * Get choiceList
      *
-     * @return ChoiceList 
+     * @return SL\CoreBundle\Entity\Choice\ChoiceList 
      */
     public function getChoiceList()
     {
