@@ -41,11 +41,11 @@ class PropertyRepository extends EntityRepository
 	 *
 	 * @param EntityClass $entityClass 
 	 */
-  	public function findEntityPropertyByEntityClass(EntityClass $entityClass){
+  	public function findPropertyEntityByEntityClass(EntityClass $entityClass){
 
 		$qb = $this ->createQueryBuilder('p')
 					->join('p.entityClass', 'o')
-					->where('p INSTANCE OF SLCoreBundle:EntityProperty')
+					->where('p INSTANCE OF SLCoreBundle:PropertyEntity')
 					->andWhere('o.id = :id')
 					->setParameter('id', $entityClass->getId());
 

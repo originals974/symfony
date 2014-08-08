@@ -2,15 +2,13 @@
 
 namespace SL\CoreBundle\Controller;
 
-//Symfony classes
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
-//Custom classes
 use SL\CoreBundle\Entity\EntityClass;
 use SL\CoreBundle\Services\EntityClassService;
 use SL\CoreBundle\Services\JSTreeService;
@@ -48,7 +46,11 @@ class EntityClassController extends Controller
     }
 
     /**
-     * Display create screen
+     * Display entity class main screen
+     *
+     * @param Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return Symfony\Component\HttpFoundation\Response $response 
      */
     public function indexAction(Request $request)
     {   
@@ -64,16 +66,19 @@ class EntityClassController extends Controller
     }
 
     /**
-    * Display form to create 
+    * Display form to create an entity class
+    * associated with $parentEntityClass
     *
-    * @param EntityClass $parentEntityClass
+    * @param Symfony\Component\HttpFoundation\Request $request
+    * @param SL\CoreBundle\Entity\EntityClass $parentEntityClass|null
+    *
+    * @return Symfony\Component\HttpFoundation\Response $response
     */
     public function newAction(Request $request, EntityClass $parentEntityClass = null)
     {
         if ($request->isXmlHttpRequest()) {
 
             $entityClass = new EntityClass(null, $parentEntityClass);
- 
             $form = $this->entityClassService->createCreateForm($entityClass);
 
             $response = $this->render('SLCoreBundle::save.html.twig', array(
@@ -90,37 +95,39 @@ class EntityClassController extends Controller
     }
 
     /**
-     * Create entityClass entity
+     * Create an entity class
+     * associated with $parentEntityClass
      *
-     * @param EntityClass $parentEntityClass Parent entityClass of new entityClass
+     * @param Symfony\Component\HttpFoundation\Request $request
+     * @param SL\CoreBundle\Entity\EntityClass $parentEntityClass|null
+     *
+     * @return Mixed $response
      */
     public function createAction(Request $request, EntityClass $parentEntityClass = null)
     {
-        //Get text fieldtype if necessary
+        //Get field type of default property associated to new entity class
+        //Create a default property only for root entity class
         if($parentEntityClass == null) {
             $fieldType = $this->em->getRepository('SLCoreBundle:FieldType')->findOneByFormType('text');
         }
         else{
             $fieldType = null; 
         }
-            
         $entityClass = new EntityClass($fieldType, $parentEntityClass);
-
         $form = $this->entityClassService->createCreateForm($entityClass);
-
         $form->handleRequest($request);
  
         if ($request->isXmlHttpRequest()) {
-            
-            $isValid = $form->isValid();
-            if ($isValid) {
+
+            if ($form->isValid()) {
 
                 $this->em->persist($entityClass);
                 $this->em->flush();
 
+                //Init calculated name with default created property
                 $this->entityClassService->initCalculatedName($entityClass); 
 
-                //Update database schema
+                //Update doctrine entity and schema
                 $this->doctrineService->doctrineGenerateEntityFileByEntityClass($entityClass);  
                 $this->doctrineService->doctrineSchemaUpdateForce();
 
@@ -138,7 +145,7 @@ class EntityClassController extends Controller
             }
  
             $arrayResponse = array(
-                'isValid' => $isValid,
+                'isValid' => $form->isValid(),
                 'content' => array(
                     'html' => $html,
                     'js_tree' => $jsTree,
@@ -154,26 +161,39 @@ class EntityClassController extends Controller
         return $response; 
     }
 
-      /**
-    * Display form to edit entityClass entity
+    /**
+    * Display form to edit $entityClass
     *
-    * @param EntityClass $entityClass
+    * @param Symfony\Component\HttpFoundation\Request $request
+    * @param SL\CoreBundle\Entity\EntityClass $entityClass 
+    *
+    * @return Symfony\Component\HttpFoundation\Response $response
     */
-    public function editAction(EntityClass $entityClass)
+    public function editAction(Request $request, EntityClass $entityClass)
     {
-        $form = $this->entityClassService->createEditForm($entityClass);
- 
-        return $this->render('SLCoreBundle::save.html.twig', array(
-            'entity' => $entityClass,
-            'form'   => $form->createView(),
-            )
-        );
+        if ($request->isXmlHttpRequest()) {
+            $form = $this->entityClassService->createEditForm($entityClass);
+     
+            $response = $this->render('SLCoreBundle::save.html.twig', array(
+                'entity' => $entityClass,
+                'form'   => $form->createView(),
+                )
+            );
+        }
+        else{
+            $response = $this->redirect($this->generateUrl('back_end'));
+        }
+
+        return $response;
     }
 
     /**
-    * Update entityClass entity
+    * Update $entityClass
     *
-    * @param EntityClass $entityClass EntityClass to update
+    * @param Symfony\Component\HttpFoundation\Request $request
+    * @param SL\CoreBundle\Entity\EntityClass $entityClass
+    *
+    * @return Mixed $response
     */
     public function updateAction(Request $request, EntityClass $entityClass)
     {
@@ -182,8 +202,7 @@ class EntityClassController extends Controller
 
         if ($request->isXmlHttpRequest()) {
 
-            $isValid = $form->isValid();
-            if ($isValid) {
+            if ($form->isValid()) {
 
                 $this->em->flush();
                 
@@ -201,7 +220,7 @@ class EntityClassController extends Controller
             }
             
             $arrayResponse = array(
-                'isValid' => $isValid,
+                'isValid' => $form->isValid(),
                 'content' => array(
                     'html' => $html,
                     'js_tree' => $jsTree,
@@ -219,13 +238,16 @@ class EntityClassController extends Controller
 
 
      /**
-     * Show entityClass entity
+     * Show $entityClass and its property
      *
-     * @param EntityClass $entityClass EntityClass to show
+     * @param Symfony\Component\HttpFoundation\Request $request
+     * @param SL\CoreBundle\Entity\EntityClass $entityClass
+     *
+     * @return Symfony\Component\HttpFoundation\Response $response
      *
      * @ParamConverter("entityClass", options={"repository_method" = "fullFindById"})
      */
-    public function showAction(Request $request,EntityClass $entityClass)
+    public function showAction(Request $request, EntityClass $entityClass)
     {
         if ($request->isXmlHttpRequest()) {
 
@@ -242,63 +264,76 @@ class EntityClassController extends Controller
     }
 
     /**
-    * Display form to remove entityClass entity
+    * Display form to remove $entityClass
     *
-    * @param EntityClass $entityClass
+    * @param Symfony\Component\HttpFoundation\Request $request
+    * @param SL\CoreBundle\Entity\EntityClass $entityClass
+    *
+    * @return Symfony\Component\HttpFoundation\Response $response
     */
-    public function removeAction(EntityClass $entityClass)
+    public function removeAction(Request $request, EntityClass $entityClass)
     {
-        //EntityClass integrity control before delete
-        $integrityError = $this->entityClassService->integrityControlBeforeDelete($entityClass); 
-        if($integrityError == null) {
-                   
-            $form = $this->entityClassService->createDeleteForm($entityClass);
+        if ($request->isXmlHttpRequest()) {
 
-            $response = $this->render('SLCoreBundle::save.html.twig', array(
-                'entity' => $entityClass,
-                'form'   => $form->createView(),
-                )
-            );
+            //Entity class integrity control before delete
+            $integrityError = $this->entityClassService->integrityControlBeforeDelete($entityClass); 
+            if($integrityError === null) {
+                       
+                $form = $this->entityClassService->createDeleteForm($entityClass);
+
+                $response = $this->render('SLCoreBundle::save.html.twig', array(
+                    'entity' => $entityClass,
+                    'form'   => $form->createView(),
+                    )
+                );
+            }
+            else {
+
+                $response = $this->render('SLCoreBundle::errorModal.html.twig', array(
+                    'title' => $integrityError['title'],
+                    'message'   => $integrityError['message'],
+                    )
+                );
+            }
         }
         else {
-
-            //Create error modal window
-            $response = $this->render('SLCoreBundle::errorModal.html.twig', array(
-                'title' => $integrityError['title'],
-                'message'   => $integrityError['message'],
-                )
-            );
+            $response = $this->redirect($this->generateUrl('back_end'));
         }
 
-        return $response;
+        return $response; 
     }
 
     /**
-     * Delete entityClass entity
+     * Delete $entityClass
      *
-     * @param EntityClass $entityClass EntityClass to delete
+     * @param Symfony\Component\HttpFoundation\Request $request
+     * @param SL\CoreBundle\Entity\EntityClass $entityClass
      *
+     * @return Mixed $response
      */
     public function deleteAction(Request $request, EntityClass $entityClass)
     {
         if ($request->isXmlHttpRequest()) {
 
+            // If entities exist for entity class, entity class is soft delete
+            // Entity and database table associated with entity class aren't deleted 
             $entitiesExist = $this->frontService->entitiesExist($entityClass); 
-
             if($entitiesExist){
-                $this->em->remove($entityClass);
-                $this->em->flush(); 
+               $this->doctrineService->entityDelete('SLCoreBundle:EntityClass', $entityClass->getId(), false);
             }
+            // Otherwise entity class is hard delete
+            // Entity and database table associated with entity class are deleted too
             else{
                 $this->doctrineService->removeDoctrineFiles($entityClass);
 
+                //Remove children entities and database tables of deleted entity class
                 $children = $this->em->getRepository('SLCoreBundle:EntityClass')->children($entityClass); 
-
                 foreach ($children as $child) {
                     $this->doctrineService->removeDoctrineFiles($child);
                 }
 
                 $this->doctrineService->doctrineSchemaUpdateForce();
+
                 $this->doctrineService->entityDelete('SLCoreBundle:EntityClass', $entityClass->getId(), true);
             }
 
@@ -320,51 +355,60 @@ class EntityClassController extends Controller
     }
 
     /**
-    * Display form to edit calculated name
+    * Display form to edit $entityClass calculated name
     *
-    * @param EntityClass $entityClass
+    * @param Symfony\Component\HttpFoundation\Request $request
+    * @param SL\CoreBundle\Entity\EntityClass $entityClass
+    *
+    * @return Symfony\Component\HttpFoundation\Response $response
     */
-    public function editCalculatedNameAction(EntityClass $entityClass)
+    public function editCalculatedNameAction(Request $request, EntityClass $entityClass)
     {
-        $form = $this->entityClassService->createEditCalculatedNameForm($entityClass);
- 
-        $entityClasses = $this->em->getRepository('SLCoreBundle:EntityClass')->getPath($entityClass); 
+        if ($request->isXmlHttpRequest()) {
+            $form = $this->entityClassService->createEditCalculatedNameForm($entityClass);
+     
+            $entityClasses = $this->em->getRepository('SLCoreBundle:EntityClass')->getPath($entityClass); 
+            $response = $this->render('SLCoreBundle:EntityClass:calculatedNameDesigner.html.twig', array(
+                'entityClasses' => $entityClasses,
+                'form'   => $form->createView(),
+                )
+            );
+        }
+        else {
+            $response = $this->redirect($this->generateUrl('back_end'));
+        }
 
-        return $this->render('SLCoreBundle:EntityClass:entityClassNameDesigner.html.twig', array(
-            'entityClasses' => $entityClasses,
-            'form'   => $form->createView(),
-            )
-        );
+        return $response; 
     }
 
     /**
-    * Update entityClass entity
+    * Update $entityClass calculated name
     *
-    * @param EntityClass $entityClass EntityClass to update
+    * @param Symfony\Component\HttpFoundation\Request $request
+    * @param SL\CoreBundle\Entity\EntityClass $entityClass
+    *
+    * @return Mixed $response
     */
     public function updateCalculatedNameAction(Request $request, EntityClass $entityClass)
     {
         $form = $this->entityClassService->createEditCalculatedNameForm($entityClass);
-
         $form->handleRequest($request);
 
         if ($request->isXmlHttpRequest()) {
 
-            $isValid = $form->isValid();
-            if ($isValid) {
+            if ($form->isValid()) {
 
-                if($form->get('updateExistingName')->getData()) {
-                    //Refresh display name of existing data
-                    $this->entityClassService->refreshCalculatedName($entityClass); 
+                if($form->get('updateExistingDisplayName')->getData()) {
+                    //Refresh display name of existing entity
+                    $this->frontService->refreshCalculatedName($entityClass); 
                 }
 
                 $this->em->flush();
-
                 $html = null; 
             }
             else {
                 $entityClasses = $this->em->getRepository('SLCoreBundle:EntityClass')->getPath($entityClass); 
-                $html = $this->renderView('SLCoreBundle:EntityClass:entityClassNameDesigner.html.twig', array(
+                $html = $this->renderView('SLCoreBundle:EntityClass:calculatedNameDesigner.html.twig', array(
                     'entityClasses' => $entityClasses,
                     'form'   => $form->createView(),
                     )
@@ -372,7 +416,7 @@ class EntityClassController extends Controller
             }
             
             $arrayResponse = array(
-                'isValid' => $isValid,
+                'isValid' => $form->isValid(),
                 'content' => array(
                     'html' => $html,
                     'js_tree' => null,
@@ -389,9 +433,12 @@ class EntityClassController extends Controller
     }
 
      /**
-     * Update entityClass icon
+     * Update $entityClass icon
      *
-     * @param EntityClass $entityClass EntityClass to update
+     * @param Symfony\Component\HttpFoundation\Request $request
+     * @param SL\CoreBundle\Entity\EntityClass $entityClass
+     *
+     * @return Mixed $response
      */
     public function updateIconAction(Request $request, EntityClass $entityClass)
     {

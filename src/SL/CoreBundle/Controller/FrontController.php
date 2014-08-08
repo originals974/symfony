@@ -85,7 +85,7 @@ class FrontController extends Controller
 
             if ($form->isValid()) {
 
-                $displayName = $this->entityClassService->calculateDisplayName($entity, $entityClass);
+                $displayName = $this->frontService->calculateDisplayName($entity, $entityClass);
                 $entity->setDisplayName($displayName); 
                 $entity->setEntityClassId($entityClass->getId()); 
                
@@ -170,7 +170,7 @@ class FrontController extends Controller
             if ($isValid) {
 
                 //Calculate displayName value
-                $displayName = $this->entityClassService->calculateDisplayName($entity, $entityClass);
+                $displayName = $this->frontService->calculateDisplayName($entity, $entityClass);
                 $entity->setDisplayName($displayName); 
                 $this->databaseEm->flush();
 
@@ -379,7 +379,7 @@ class FrontController extends Controller
 
             $this->databaseEm->getRepository('SLDataBundle:LogEntry')->revert($entity, $logEntry->getVersion());
 
-            $displayName = $this->entityClassService->calculateDisplayName($entity, $entityClass);
+            $displayName = $this->frontService->calculateDisplayName($entity, $entityClass);
             $entity->setDisplayName($displayName); 
             $this->databaseEm->flush();
 

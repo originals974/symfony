@@ -53,12 +53,12 @@ class PropertyController extends Controller
             $property = new Property();
  
             $formArray = $this->propertyService->createCreateForm($entityClass, $property, 'default');
-            $formChoice = $formArray['choiceForm']; 
+            $selectForm = $formArray['selectForm']; 
             $form = $formArray['mainForm'];
 
             $response = $this->render('SLCoreBundle::save.html.twig', array(
                 'entity' => $property,
-                'formChoice' => $formChoice->createView(),
+                'selectForm' => $selectForm->createView(),
                 'form'   => $form->createView(),
                 )
             );
@@ -76,7 +76,7 @@ class PropertyController extends Controller
      *
      * @param EntityClass $entityClass Parent entityClass of new property
      */
-    public function choiceFormAction(Request $request, EntityClass $entityClass)
+    public function selectFormAction(Request $request, EntityClass $entityClass)
     {
         if ($request->isXmlHttpRequest()) {
 
@@ -87,12 +87,12 @@ class PropertyController extends Controller
             $property->setEntityClass($entityClass); 
 
             $formArray = $this->propertyService->createCreateForm($entityClass, $property, $formMode);
-            $formChoice = $formArray['choiceForm']; 
+            $selectForm = $formArray['selectForm']; 
             $form = $formArray['mainForm'];
 
             $response = $this->render('SLCoreBundle::save.html.twig', array(
                 'entity' => $property,
-                'formChoice' => $formChoice->createView(),
+                'selectForm' => $selectForm->createView(),
                 'form'   => $form->createView(),
                 )
             );
@@ -119,6 +119,8 @@ class PropertyController extends Controller
         $entityClass->addProperty($property); 
 
         $formArray = $this->propertyService->createCreateForm($entityClass, $property, $formMode);
+        $selectForm = $formArray['selectForm'];
+        $form = $formArray['mainForm'];
 
         $form->handleRequest($request);
 
@@ -146,8 +148,8 @@ class PropertyController extends Controller
             else {
                 $html = $this->renderView('SLCoreBundle::save.html.twig', array(
                     'entity' => $property,
-                    'formChoice' => $formArray['choiceForm']->createView(),
-                    'form'   => $formArray['mainForm']->createView(),
+                    'selectForm' => $selectForm,
+                    'form'   => $form,
                     )
                 ); 
             }
@@ -173,41 +175,48 @@ class PropertyController extends Controller
      * Display form to edit property entity
      *
      * @param Property $property
+     * @ParamConverter("entityClass", options={"id" = "entity_class_id", "repository_method" = "fullFindById"})
      */
-    public function editAction(Property $property)
+    public function editAction(Request $request, EntityClass $entityClass, Property $property)
     {
-        $form = $this->propertyService->createEditForm($property);
- 
-        return $this->render('SLCoreBundle::save.html.twig', array(
-            'entity' => $property,
-            'form'   => $form->createView(),
-            )
-        );
+        if ($request->isXmlHttpRequest()) {
+            $form = $this->propertyService->createEditForm($entityClass, $property);
+     
+            return $this->render('SLCoreBundle::save.html.twig', array(
+                'entity' => $property,
+                'form'   => $form->createView(),
+                )
+            );
+        }
+        else {
+            $response = $this->redirect($this->generateUrl('back_end'));
+        }
+
+        return $response; 
     }
 
     /**
      * Update property entity
      *
      * @param Property $property Property to update
+     *
+     * @ParamConverter("entityClass", options={"id" = "entity_class_id", "repository_method" = "fullFindById"})
      */
-    public function updateAction(Request $request, Property $property)
+    public function updateAction(Request $request, EntityClass $entityClass, Property $property)
     {
-        $form = $this->propertyService->createEditForm($property);
+        $form = $this->propertyService->createEditForm($entityClass, $property);
 
         $form->handleRequest($request);
 
         if ($request->isXmlHttpRequest()) {
 
-            $isValid = $form->isValid();
-            if ($isValid) {
+            if ($form->isValid()) {
 
                 $this->em->flush();
                       
                 //Update database schema
                 $this->doctrineService->doctrineGenerateEntityFileByEntityClass($property->getEntityClass());  
                 $this->doctrineService->doctrineSchemaUpdateForce();
-
-                $entityClass = $this->em->getRepository('SLCoreBundle:EntityClass')->fullFindById($property->getEntityClass()->getId()); 
 
                 $html = $this->renderView('SLCoreBundle:Property:propertyTable.html.twig', array(
                     'entityClass' => $entityClass, 
@@ -223,7 +232,7 @@ class PropertyController extends Controller
             }
 
             $arrayResponse = array(
-                'isValid' => $isValid,
+                'isValid' => $form->isValid(),
                 'content' => array(
                     'html' => $html,
                     'js_tree' => null,
@@ -243,27 +252,33 @@ class PropertyController extends Controller
      * Display form to remove property entity
      *
      * @param Property $property
+     * @ParamConverter("entityClass", options={"id" = "entity_class_id", "repository_method" = "fullFindById"})
      */
-    public function removeAction(Property $property)
+    public function removeAction(Request $request, EntityClass $entityClass, Property $property)
     {
-        //Property integrity control before delete
-        $integrityError = $this->propertyService->integrityControlBeforeDelete($property); 
-        if($integrityError == null) {
-                   
-            $form = $this->propertyService->createDeleteForm($property);
+        if ($request->isXmlHttpRequest()) {
+            //Property integrity control before delete
+            $integrityError = $this->propertyService->integrityControlBeforeDelete($property); 
+            if($integrityError == null) {
+                       
+                $form = $this->propertyService->createDeleteForm($entityClass, $property);
 
-            return $this->render('SLCoreBundle::save.html.twig', array(
-                'entity' => $property,
-                'form'   => $form->createView(),
-                )
-            );
+                return $this->render('SLCoreBundle::save.html.twig', array(
+                    'entity' => $property,
+                    'form'   => $form->createView(),
+                    )
+                );
+            }
+            else {
+                $response = $this->render('SLCoreBundle::errorModal.html.twig', array(
+                    'title' => $integrityError['title'],
+                    'message'   => $integrityError['message'],
+                    )
+                );
+            }
         }
         else {
-            $response = $this->render('SLCoreBundle::errorModal.html.twig', array(
-                'title' => $integrityError['title'],
-                'message'   => $integrityError['message'],
-                )
-            );
+            $response = $this->redirect($this->generateUrl('back_end'));
         }
 
         return $response;
@@ -273,16 +288,15 @@ class PropertyController extends Controller
      * Delete property entity
      *
      * @param Property $property Property to delete
+     * @ParamConverter("entityClass", options={"id" = "entity_class_id", "repository_method" = "fullFindById"})
      */
-    public function deleteAction(Request $request, Property $property)
+    public function deleteAction(Request $request, EntityClass $entityClass, Property $property)
     {
         if ($request->isXmlHttpRequest()) {
             
             $this->em->remove($property);
             $this->em->flush();
            
-            $entityClass = $this->em->getRepository('SLCoreBundle:EntityClass')->fullFindById($property->getEntityClass()->getId()); 
-
             $html = $this->renderView('SLCoreBundle:Property:propertyTable.html.twig', array(
                 'entityClass' => $entityClass, 
                 )

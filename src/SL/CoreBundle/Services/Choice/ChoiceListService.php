@@ -119,7 +119,7 @@ class ChoiceListService
     }
 
    /**
-     * Verify $choiceList could be delete
+     * Verify if $choiceList could be delete
      *
      * @param SL\CoreBundle\Entity\Choice\ChoiceList $choiceList
      *
@@ -130,7 +130,7 @@ class ChoiceListService
         $integrityError = null;
 
         //Check if choice list is not associated with an entity class property
-        $property = $this->em->getRepository('SLCoreBundle:ListProperty')->findByChoiceList($choiceList);
+        $property = $this->em->getRepository('SLCoreBundle:PropertyChoice')->findByChoiceList($choiceList);
 
         if($property != null){
             $title = $this->translator->trans('delete.error.title');

@@ -92,7 +92,7 @@ class ChoiceListController extends Controller
      *
      * @param Symfony\Component\HttpFoundation\Request $request
      *
-     * @return Symfony\Component\HttpFoundation\JsonResponse $jsonResponse
+     * @return Mixed $response
      */
     public function createAction(Request $request)
     { 
@@ -128,13 +128,13 @@ class ChoiceListController extends Controller
                     ),
                 );
  
-            $jsonResponse = new JsonResponse($arrayResponse); 
+            $response = new JsonResponse($arrayResponse); 
         }
         else {
-            $jsonResponse = $this->redirect($this->generateUrl('back_end'));
+            $response = $this->redirect($this->generateUrl('back_end'));
         }
 
-        return $jsonResponse; 
+        return $response; 
     }
 
     /**
@@ -170,7 +170,7 @@ class ChoiceListController extends Controller
     * @param Symfony\Component\HttpFoundation\Request $request
     * @param SL\CoreBundle\Entity\Choice\ChoiceList $choiceList
     *
-    * @return Symfony\Component\HttpFoundation\JsonResponse $jsonResponse
+    * @return Mixed $response
     */
     public function updateAction(Request $request, ChoiceList $choiceList)
     {
@@ -203,13 +203,13 @@ class ChoiceListController extends Controller
                     ),
                 );
  
-            $jsonResponse = new JsonResponse($arrayResponse); 
+            $response = new JsonResponse($arrayResponse); 
         }
         else {
-            $jsonResponse = $this->redirect($this->generateUrl('back_end'));
+            $response = $this->redirect($this->generateUrl('back_end'));
         }
 
-        return $jsonResponse; 
+        return $response; 
     }
 
      /**
@@ -252,7 +252,7 @@ class ChoiceListController extends Controller
 
             //Choice list integrity control before delete
             $integrityError = $this->choiceListService->integrityControlBeforeDelete($choiceList); 
-            if($integrityError == null) {
+            if($integrityError === null) {
                   
                 $form = $this->choiceListService->createDeleteForm($choiceList);
 
@@ -284,7 +284,7 @@ class ChoiceListController extends Controller
      * @param Symfony\Component\HttpFoundation\Request $request
      * @param integer $id
      *
-     * @return Symfony\Component\HttpFoundation\JsonResponse $jsonResponse
+     * @return Mixed $response
      */
     public function deleteAction(Request $request, $id)
     {
@@ -300,12 +300,12 @@ class ChoiceListController extends Controller
                     ),
                 );
 
-            $jsonResponse = new JsonResponse($arrayResponse); 
+            $response = new JsonResponse($arrayResponse); 
         }
         else {
-            $jsonResponse = $this->redirect($this->generateUrl('back_end'));
+            $response = $this->redirect($this->generateUrl('back_end'));
         }
 
-        return $jsonResponse; 
+        return $response; 
     }
 }

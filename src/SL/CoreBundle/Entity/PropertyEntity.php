@@ -6,12 +6,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * EntityProperty
+ * PropertyEntity
  *
- * @ORM\Table(name="entity_property")
+ * @ORM\Table(name="property_entity")
  * @ORM\Entity(repositoryClass="SL\CoreBundle\Entity\Repository\PropertyRepository")
  */
-class EntityProperty extends Property
+class PropertyEntity extends Property
 {
     /**
      * @ORM\ManyToOne(targetEntity="SL\CoreBundle\Entity\EntityClass")
@@ -24,7 +24,7 @@ class EntityProperty extends Property
      * Set targetEntityClass
      *
      * @param \SL\CoreBundle\Entity\EntityClass $targetEntityClass
-     * @return EntityProperty
+     * @return PropertyEntity
      */
     public function setTargetEntityClass(\SL\CoreBundle\Entity\EntityClass $targetEntityClass = null)
     {

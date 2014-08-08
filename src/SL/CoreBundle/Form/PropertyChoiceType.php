@@ -2,11 +2,11 @@
 
 namespace SL\CoreBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
+//Symfony classes
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Doctrine\ORM\EntityRepository;
 
-class PropertyChoiceType extends AbstractType
+class PropertyChoiceType extends PropertyType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -14,31 +14,40 @@ class PropertyChoiceType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('formMode', 'choice', array(
-                'label_render' => false,
-                'expanded'     => true,
-                'choices'      => array(
-                    'default' => 'property', 
-                    'entity' => 'entity_property',
-                    'choice' => 'choice_property',
-                    ),
-                'widget_type'  => 'inline',
+         $builder
+            ->add('displayName' , 'text',  array(
+                'label' =>  'displayName',
+                'attr' => array(
+                    'max_length' => '255',
+                    )
+                )
+            ) 
+            ->add('choiceList', 'entity', array(
+                'empty_value' => '',
+                'class' => 'SLCoreBundle:Choice/ChoiceList',
+                'property' => 'displayName',
+                'query_builder' => function(EntityRepository $er) {
+                                      return $er->fullFindAllQb();
+                                    },
+                'label' =>  'choice_list',
+                'attr' => array(
+                        'class'       => 'col-lg-4'
+                    ) 
+                )
             )
-        );
-    }
-    
-    /**
-     * @param OptionsResolverInterface $resolver
-     */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
-        $resolver->setDefaults(array(
-            'attr' => array(
-                'valid-target' => '', 
-                ),
-            'show_legend' => false,
-        ));
+            ->add('isMultiple' , 'checkbox', array(
+                'label' =>  'isMultiple',
+                'required' => false,
+                )
+            )
+            ->add('submit', 'submit', array(
+                'label' => $options['submit_label'],
+                'attr' => array(
+                    'class'=>'btn btn-'.$options['submit_color'].' btn-sm'
+                    ),
+                )
+            )
+        ;
     }
 
     /**
@@ -46,6 +55,6 @@ class PropertyChoiceType extends AbstractType
      */
     public function getName()
     {
-        return 'property_choice';
+        return 'sl_core_property_choice';
     }
 }

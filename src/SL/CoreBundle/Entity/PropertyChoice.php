@@ -7,12 +7,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 use SL\CoreBundle\Entity\Choice\ChoiceList;
 
 /**
- * ListProperty
+ * PropertyChoice
  *
- * @ORM\Table(name="list_property")
+ * @ORM\Table(name="property_choice")
  * @ORM\Entity(repositoryClass="SL\CoreBundle\Entity\Repository\PropertyRepository")
  */
-class ListProperty extends Property
+class PropertyChoice extends Property
 { 
     /**
      * @ORM\ManyToOne(targetEntity="SL\CoreBundle\Entity\Choice\ChoiceList")

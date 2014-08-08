@@ -78,25 +78,25 @@ services:
         tags:
             - { name: form.type, alias: sl_core_entity_class_calculated_name }
 
-    sl_core.form.type.property.choice:
-        class: SL\CoreBundle\Form\PropertyChoiceType
+    sl_core.form.type.property.select:
+        class: SL\CoreBundle\Form\PropertySelectType
         tags:
-            - { name: form.type, alias: property_choice }
+            - { name: form.type, alias: sl_core_property_select }
 
     sl_core.form.type.property:
         class: SL\CoreBundle\Form\PropertyType
         tags:
-            - { name: form.type, alias: property }
+            - { name: form.type, alias: sl_core_property }
 
-    sl_core.form.type.entity.property:
-        class: SL\CoreBundle\Form\EntityPropertyType
+    sl_core.form.type.property.entity:
+        class: SL\CoreBundle\Form\PropertyEntityType
         tags:
-            - { name: form.type, alias: entity_property }
+            - { name: form.type, alias: sl_core_property_entity }
 
-    sl_core.form.type.choice.property:
-        class: SL\CoreBundle\Form\ListPropertyType
+    sl_core.form.type.property.choice:
+        class: SL\CoreBundle\Form\PropertyChoiceType
         tags:
-            - { name: form.type, alias: choice_property }
+            - { name: form.type, alias: sl_core_property_choice }
     
     sl_core.form.type.search:
         class: SL\CoreBundle\Form\SearchType

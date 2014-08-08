@@ -2,7 +2,6 @@
 
 namespace SL\CoreBundle\Validator\Constraints;
 
-//Symfony classes
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Doctrine\ORM\EntityManager;
@@ -22,14 +21,13 @@ class CalculatedNamePatternValidator extends ConstraintValidator
         $this->em = $em;
     }
 
-
     public function validate($value, Constraint $constraint)
     {
         if($value != null) {
             $patternArray = explode("%", $value);
             $propertyFound = false; 
 
-            //Check if Properties associated to calculatedName pattern exist 
+            //Check if properties associated to calculated name pattern exist 
             foreach($patternArray as $key => $pattern) {
                 
                 if(strpos(strtolower($pattern), 'property') !== false){
@@ -44,7 +42,7 @@ class CalculatedNamePatternValidator extends ConstraintValidator
                 }
             }
 
-            //Check if at least one Property is found in calculatedName pattern 
+            //Check if at least one property is found in calculated name pattern 
             if(!$propertyFound){
             	$this->context->addViolation($constraint->NoPropertyFoundMessage);
             }

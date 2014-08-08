@@ -68,7 +68,6 @@ class PropertyType extends AbstractType
         $resolver->setRequired(array(
             'submit_label',
             'submit_color',
-            'entityClass_id',
             )
         );
     }
@@ -78,6 +77,6 @@ class PropertyType extends AbstractType
      */
     public function getName()
     {
-        return 'property';
+        return 'sl_core_property';
     }
 }

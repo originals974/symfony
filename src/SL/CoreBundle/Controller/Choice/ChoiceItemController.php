@@ -74,7 +74,7 @@ class ChoiceItemController extends Controller
      * @param Symfony\Component\HttpFoundation\Request $request
      * @param SL\CoreBundle\Entity\Choice\ChoiceList $choiceList
      *
-     * @return Symfony\Component\HttpFoundation\JsonResponse $jsonResponse
+     * @return Mixed $response
      *
      * @ParamConverter("choiceList", options={"repository_method" = "fullFindById"})
      */
@@ -117,13 +117,13 @@ class ChoiceItemController extends Controller
                     ),
                 );
  
-            $jsonResponse = new JsonResponse($arrayResponse); 
+            $response = new JsonResponse($arrayResponse); 
         }
         else {
-            $jsonResponse = $this->redirect($this->generateUrl('back_end'));
+            $response = $this->redirect($this->generateUrl('back_end'));
         }
 
-        return $jsonResponse; 
+        return $response; 
     }
 
     /**
@@ -165,7 +165,7 @@ class ChoiceItemController extends Controller
      * @param SL\CoreBundle\Entity\Choice\ChoiceList $choiceList
      * @param SL\CoreBundle\Entity\Choice\ChoiceItem $choiceItem
      *
-     * @return Symfony\Component\HttpFoundation\JsonResponse $jsonResponse
+     * @return Mixed $response
      *
      * @ParamConverter("choiceList", options={"id" = "choice_list_id", "repository_method" = "fullFindById"})
      */
@@ -201,13 +201,13 @@ class ChoiceItemController extends Controller
                     ),
                 );
  
-            $jsonResponse = new JsonResponse($arrayResponse); 
+            $response = new JsonResponse($arrayResponse); 
         }
         else {
-            $jsonResponse = $this->redirect($this->generateUrl('back_end'));
+            $response = $this->redirect($this->generateUrl('back_end'));
         }
 
-        return $jsonResponse;
+        return $response;
     }
 
     /**
@@ -249,7 +249,7 @@ class ChoiceItemController extends Controller
      * @param SL\CoreBundle\Entity\Choice\ChoiceList $choiceList
      * @param SL\CoreBundle\Entity\Choice\ChoiceItem $choiceItem
      *
-     * @return Symfony\Component\HttpFoundation\JsonResponse $jsonResponse 
+     * @return Mixed $response 
      *
      * @ParamConverter("choiceList", options={"id" = "choice_list_id", "repository_method" = "fullFindById"})
      */
@@ -272,13 +272,13 @@ class ChoiceItemController extends Controller
                     ),
                 );
  
-            $jsonResponse = new JsonResponse($arrayResponse); 
+            $response = new JsonResponse($arrayResponse); 
         }
         else {
-            $jsonResponse = $this->redirect($this->generateUrl('back_end'));
+            $response = $this->redirect($this->generateUrl('back_end'));
         }
 
-        return $jsonResponse; 
+        return $response; 
     }
 
     /**
@@ -287,7 +287,7 @@ class ChoiceItemController extends Controller
      * @param Symfony\Component\HttpFoundation\Request $request
      * @param SL\CoreBundle\Entity\Choice\ChoiceItem $choiceItem
      *
-     * @return Symfony\Component\HttpFoundation\JsonResponse $jsonResponse
+     * @return Mixed $response
      */
     public function updateIconAction(Request $request, ChoiceItem $choiceItem)
     {

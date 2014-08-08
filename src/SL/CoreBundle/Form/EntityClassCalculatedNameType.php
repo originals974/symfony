@@ -22,7 +22,7 @@ class EntityClassCalculatedNameType extends AbstractType
                     )
                 )
             )
-            ->add('updateExistingName' , 'checkbox',  array(
+            ->add('updateExistingDisplayName' , 'checkbox',  array(
                 'label'        => 'entity_class.update.calculate_name.existing_name.label',
                 'help_block'  => 'entity_class.update.calculate_name.existing_name.help',
                 'required' => false,
@@ -47,6 +47,8 @@ class EntityClassCalculatedNameType extends AbstractType
             'method' => 'PUT',
             'attr' => array(
                 'valid-target' => '', 
+                'no-valid-target' => 'ajax-modal',
+                'mode' => '',  
                 ),
             'show_legend' => false,
         ));

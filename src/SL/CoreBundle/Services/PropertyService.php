@@ -11,8 +11,8 @@ use Symfony\Component\Routing\Router;
 //Custom classes
 use SL\CoreBundle\Entity\EntityClass;
 use SL\CoreBundle\Entity\Property;
-use SL\CoreBundle\Entity\EntityProperty;
-use SL\CoreBundle\Entity\ListProperty;
+use SL\CoreBundle\Entity\PropertyEntity;
+use SL\CoreBundle\Entity\PropertyChoice;
 
 /**
  * Property Service
@@ -52,8 +52,8 @@ class PropertyService
     {   
         $form = array(); 
 
-        $choiceForm = $this->formFactory->create('property_choice', null, array(
-            'action' => $this->router->generate('property_choice_form', array(
+        $selectForm = $this->formFactory->create('sl_core_property_select', null, array(
+            'action' => $this->router->generate('property_select_form', array(
                 'id' => $entityClass->getId(),
                 )
             ),
@@ -61,9 +61,9 @@ class PropertyService
             )
         );
 
-        $choiceForm->get('formMode')->setData($formMode);
+        $selectForm->get('formMode')->setData($formMode);
 
-        $form['choiceForm'] = $choiceForm; 
+        $form['selectForm'] = $selectForm; 
 
         //Select formType depending to formMode
         $formService = $this->selectFormService($formMode); 
@@ -75,7 +75,6 @@ class PropertyService
                 )
             ),
             'method' => 'POST',
-            'entityClass_id' => $entityClass->getId(),
             'submit_label' => 'create',
             'submit_color' => 'primary',
             )
@@ -93,7 +92,7 @@ class PropertyService
     *
     * @return Form $form
     */
-    public function createEditForm(Property $property)
+    public function createEditForm(EntityClass $entityClass, Property $property)
     {
         //Select formtype depending to fieldtype
         $formMode = $this->getFormModeByProperty($property); 
@@ -101,11 +100,11 @@ class PropertyService
 
         $form = $this->formFactory->create($formService, $property, array(
             'action' => $this->router->generate('property_update', array(
+                'entity_class_id' => $entityClass->getId(),
                 'id' => $property->getId(),
                 )
             ),
             'method' => 'PUT',
-            'entityClass_id' => $property->getEntityClass()->getId(),
             'submit_label' => 'update',
             'submit_color' => 'primary',
             )
@@ -121,15 +120,15 @@ class PropertyService
      *
      * @return Form $form
      */
-    public function createDeleteForm(Property $property)
+    public function createDeleteForm(EntityClass $entityClass, Property $property)
     {
-        $form = $this->formFactory->create('property', $property, array(
+        $form = $this->formFactory->create('sl_core_property', $property, array(
             'action' => $this->router->generate('property_delete', array(
+                'entity_class_id' => $entityClass->getId(),
                 'id' => $property->getId(),
                 )
             ),
             'method' => 'DELETE',
-            'entityClass_id' => $property->getEntityClass()->getId(),
             'submit_label' => 'delete',
             'submit_color' => 'danger',
             )
@@ -149,13 +148,13 @@ class PropertyService
     {
         switch($formMode) {
             case 'entity' : 
-                $formService = 'entity_property';
+                $formService = 'sl_core_property_entity';
                 break; 
             case 'choice' : 
-                $formService = 'choice_property';
+                $formService = 'sl_core_property_choice';
                 break; 
             default:
-                $formService = 'property';
+                $formService = 'sl_core_property';
         }
 
         return $formService ; 
@@ -172,10 +171,10 @@ class PropertyService
     {
         switch($formMode) {
             case 'entity' : 
-                $property = new EntityProperty();
+                $property = new PropertyEntity();
                 break; 
             case 'choice' : 
-                $property = new ListProperty();
+                $property = new PropertyChoice();
                 break;
             default:
                 $property = new Property();

@@ -2,13 +2,9 @@
 
 namespace SL\CoreBundle\Form;
 
-//Symfony classes
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-
-//Custom classes
-
 
 class EntityClassType extends AbstractType
 {

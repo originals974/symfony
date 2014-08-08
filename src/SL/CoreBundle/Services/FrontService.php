@@ -6,7 +6,6 @@ namespace SL\CoreBundle\Services;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Routing\Router;
 use Symfony\Component\Translation\Translator;
-use Doctrine\ORM\EntityManager;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 //Custom classes
@@ -188,6 +187,58 @@ class FrontService
         }
 
         return $entitiesExist; 
+    }
+
+    /**
+     * Calculate displayName of a new entity 
+     * by using calculatedName attribute of entityClass
+     *
+     * @param Mixed $entity
+     * @param EntityClass $entityClass
+     *
+     * @return String $displayName DisplayName of new entity
+     */
+    public function calculateDisplayName($entity, EntityClass $entityClass) 
+    { 
+        $patternString = $entityClass->getCalculatedName();
+
+        $patternArray = explode("%", $patternString);
+
+        foreach($patternArray as $key => $pattern) {
+            
+            if(strpos(strtolower($pattern), 'property') !== false){
+
+                $methodName = 'get'.ucfirst($pattern);
+                $patternArray[$key] = $entity->$methodName(); 
+            }
+        }
+
+        $displayName = implode($patternArray);
+
+        return $displayName; 
+    }
+
+    /**
+    * Refresh displayName of entity linked to entityClass
+    *
+    * @param EntityClass $entityClass 
+    *
+    */
+    public function refreshCalculatedName(EntityClass $entityClass){
+
+        $entities = $this->databaseEm ->getRepository('SLDataBundle:'.$entityClass->getTechnicalName())
+                                ->findAll(); 
+
+        foreach($entities as $entity) {
+
+            $displayName = $this->calculateDisplayName($entity, $entityClass); 
+            $entity->setDisplayName($displayName); 
+
+        }
+
+        $this->databaseEm->flush();
+
+        return true; 
     }
 
 }

@@ -25,17 +25,17 @@
 
 						    {% elseif  property.fieldType.FormType == 'entity' %}
 
-					    		{% set entityProperties = attribute(entity, property.technicalName) %}
+					    		{% set propertiesEntity = attribute(entity, property.technicalName) %}
 					        	
 					        	{% if property.isMultiple %}
-							        {% for entityProperty in entityProperties %}
-							            {{ entityProperty.displayName }}
+							        {% for propertyEntity in propertiesEntity %}
+							            {{ propertyEntity.displayName }}
 							            {% if not loop.last %}
 							                ,
 							            {% endif %}
 							        {% endfor %}
 							    {% else %}
-							    	{{ entityProperties.displayName }}
+							    	{{ propertiesEntity.displayName }}
 							    {% endif %}
 
 						    {% elseif  property.fieldType.FormType == 'choice' %}

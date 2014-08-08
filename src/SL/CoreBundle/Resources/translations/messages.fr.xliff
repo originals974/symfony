@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2014-08-07T12:08:17Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+  <file date="2014-08-08T08:58:17Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -122,12 +122,12 @@
       <trans-unit id="55fb4aee3a335e72cfcce470ea2f0a97bcb4254b" resname="delete.entity_class.reference.error.message">
         <source>delete.entity_class.reference.error.message</source>
         <target>delete.entity_class.reference.error.message</target>
-        <jms:reference-file line="161">CoreBundle/Services/EntityClassService.php</jms:reference-file>
+        <jms:reference-file line="159">CoreBundle/Services/EntityClassService.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="86d059f7476d99616a1b30569e3aeda3df8fd4af" resname="delete.error.title">
         <source>delete.error.title</source>
         <target>Suppression impossible</target>
-        <jms:reference-file line="160">CoreBundle/Services/EntityClassService.php</jms:reference-file>
+        <jms:reference-file line="158">CoreBundle/Services/EntityClassService.php</jms:reference-file>
         <jms:reference-file line="226">CoreBundle/Services/PropertyService.php</jms:reference-file>
         <jms:reference-file line="136">Services/Choice/ChoiceListService.php</jms:reference-file>
       </trans-unit>
@@ -154,7 +154,7 @@
         <jms:reference-file line="22">CoreBundle/Form/PropertyType.php</jms:reference-file>
         <jms:reference-file line="19">CoreBundle/Form/ListPropertyType.php</jms:reference-file>
         <jms:reference-file line="23">CoreBundle/Form/EntityPropertyType.php</jms:reference-file>
-        <jms:reference-file line="25">CoreBundle/Form/EntityClassType.php</jms:reference-file>
+        <jms:reference-file line="21">CoreBundle/Form/EntityClassType.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="4872e7722e35b19d1330c42c58132bb47479e5bd" resname="entityClass.choose.icon">
         <source>entityClass.choose.icon</source>
@@ -186,7 +186,7 @@
       <trans-unit id="67eef962037439b7ebbc0f7cc03d757e60ea0052" resname="entity_class.name.designer">
         <source>entity_class.name.designer</source>
         <target>Définition du nom calculé</target>
-        <jms:reference-file line="4">views/EntityClass/entityClassNameDesigner.html.twig</jms:reference-file>
+        <jms:reference-file line="4">views/EntityClass/calculatedNameDesigner.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="e061846d3a06ac14087c11d2856351b68f615e65" resname="entity_class.update.calculate_name.existing_name.label">
         <source>entity_class.update.calculate_name.existing_name.label</source>

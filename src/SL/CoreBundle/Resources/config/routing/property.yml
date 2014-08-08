@@ -5,9 +5,9 @@ property_new:
         id: \d+
         _method: GET
 
-property_choice_form:
-    pattern: /{id}/choice_form
-    defaults: { _controller: SLCoreBundle:Property:choiceForm }
+property_select_form:
+    pattern: /{id}/select_form
+    defaults: { _controller: SLCoreBundle:Property:selectForm }
     requirements:
         id: \d+
         _method: GET
@@ -20,30 +20,34 @@ property_create:
         _method: POST
 
 property_edit:
-    pattern: /{id}/edit
+    pattern: /{entity_class_id}.{id}/edit
     defaults: { _controller: SLCoreBundle:Property:edit }
     requirements:
+        entity_class_id: \d+
         id: \d+
         _method: GET
 
 property_update:
-    pattern: /{id}/update
+    pattern: /{entity_class_id}.{id}/update
     defaults: { _controller: SLCoreBundle:Property:update }
     requirements:
+        entity_class_id: \d+
         id: \d+
         _method: PUT
 
 property_remove:
-    pattern: /{id}/remove
+    pattern: /{entity_class_id}.{id}/remove
     defaults: { _controller: SLCoreBundle:Property:remove }
     requirements:
+        entity_class_id: \d+
         id: \d+
         _method: GET
 
 property_delete:
-    pattern:  /{id}/delete
+    pattern:  /{entity_class_id}.{id}/delete
     defaults: { _controller: SLCoreBundle:Property:delete }
     requirements:
+        entity_class_id: \d+
         id: \d+
         _method: DELETE
 

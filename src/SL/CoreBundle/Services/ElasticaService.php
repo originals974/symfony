@@ -168,21 +168,21 @@ class ElasticaService
             ),
         );
 
-        $entityProperties = $this->em->getRepository('SLCoreBundle:Property')
-                               ->findEntityPropertyByEntityClass($entityClass);
+        $propertiesEntity = $this->em->getRepository('SLCoreBundle:Property')
+                               ->findPropertyEntityByEntityClass($entityClass);
 
-        foreach($entityProperties as $entityProperty){
+        foreach($propertiesEntity as $propertyEntity){
 
-            if($entityProperty->isMultiple()){
+            if($propertyEntity->isMultiple()){
 
-                $collection = $entity->{"get".$entityProperty->getTechnicalName()}();
+                $collection = $entity->{"get".$propertyEntity->getTechnicalName()}();
                 if($collection != null) {
                     $node['children'] = array();  
                     $this->entitiesToJSTreeData($node['children'], $collection); 
                 }
             }
             else {
-                $subEntity = $entity->{"get".$entityProperty->getTechnicalName()}();
+                $subEntity = $entity->{"get".$propertyEntity->getTechnicalName()}();
                 if($subEntity != null) {
                     $node['children'] = array();  
                     $this->entitieToJSTreeData($node['children'], $subEntity); 

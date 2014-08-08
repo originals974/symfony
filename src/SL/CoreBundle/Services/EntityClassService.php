@@ -2,14 +2,12 @@
 
 namespace SL\CoreBundle\Services;
 
-//Symfony classes
-use Symfony\Component\Translation\Translator;
-use Symfony\Component\Form\Form;   
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\Translation\Translator;
 use Symfony\Component\Form\FormFactory;
-use Symfony\Component\Routing\Router; 
+use Symfony\Component\Routing\Router;
+use Symfony\Component\Form\Form;   
 
-//Custom classes
 use SL\CoreBundle\Entity\EntityClass;
 
 /**
@@ -27,10 +25,10 @@ class EntityClassService
     /**
      * Constructor
      *
-     * @param RegistryInterface $registry
-     * @param Translator $translator
-     * @param FormFactory $formFactory
-     * @param Router $router
+     * @param Symfony\Bridge\Doctrine\RegistryInterface $registry
+     * @param Symfony\Component\Translation\Translator $translator
+     * @param Symfony\Component\Form\FormFactory $formFactory
+     * @param Symfony\Component\Routing\Router $router
      *
      */
     public function __construct(RegistryInterface $registry, Translator $translator, FormFactory $formFactory, Router $router)
@@ -43,11 +41,11 @@ class EntityClassService
     }
 
     /**
-    * Create entityClass form
+    * Create create form for $entityClass
     *
-    * @param EntityClass $entityClass
+    * @param SL\CoreBundle\Entity\EntityClass $entityClass
     *
-    * @return Form $form
+    * @return Symfony\Component\Form\Form $form
     */
     public function createCreateForm(EntityClass $entityClass)
     {
@@ -55,7 +53,7 @@ class EntityClassService
 
         $form = $this->formFactory->create('sl_core_entity_class', $entityClass, array(
             'action' => $this->router->generate('entity_class_create', array(
-                'id' =>  ( $parentEntityClass != null)?$parentEntityClass->getId():0,
+                'id' =>  ( $parentEntityClass !== null)?$parentEntityClass->getId():0,
                 )
             ),
             'method' => 'POST',
@@ -73,11 +71,11 @@ class EntityClassService
     }
 
     /**
-    * Update entityClass form
+    * Create update form for $entityClass
     *
-    * @param EntityClass $entityClass
+    * @param SL\CoreBundle\Entity\EntityClass $entityClass
     *
-    * @return Form $form
+    * @return Symfony\Component\Form\Form $form
     */
     public function createEditForm(EntityClass $entityClass)
     {    
@@ -98,31 +96,11 @@ class EntityClassService
     }
 
     /**
-    * Update Calculated name form 
-    *
-    * @param EntityClass $entityClass
-    *
-    * @return Form $form
-    */
-    public function createEditCalculatedNameForm(EntityClass $entityClass)
-    {      
-        $form = $this->formFactory->create('sl_core_entity_class_calculated_name', $entityClass, array(
-            'action' => $this->router->generate('entity_class_update_calculated_name', array(
-                'id' => $entityClass->getId(),
-                )
-            ),
-            )
-        );
-
-        return $form;
-    }
-
-    /**
-     * Delete entityClass Form
+     * Create delete form for $entityClass
      *
-     * @param EntityClass $entityClass
+     * @param SL\CoreBundle\Entity\EntityClass $entityClass
      *
-     * @return Form $form
+     * @return Symfony\Component\Form\Form $form
      */
     public function createDeleteForm(EntityClass $entityClass)
     {   
@@ -142,19 +120,39 @@ class EntityClassService
         return $form;
     }
 
+    /**
+     * Create update form for calculated name of $entityClass
+     *
+     * @param SL\CoreBundle\Entity\EntityClass $entityClass
+     *
+     * @return Symfony\Component\Form\Form $form
+     */
+    public function createEditCalculatedNameForm(EntityClass $entityClass)
+    {      
+        $form = $this->formFactory->create('sl_core_entity_class_calculated_name', $entityClass, array(
+            'action' => $this->router->generate('entity_class_update_calculated_name', array(
+                'id' => $entityClass->getId(),
+                )),
+            )
+        );
+
+        return $form;
+    }
+
+
    /**
-     * Verify integrity of an entityClass before delete
+     * Verify if $entityClass could be delete
      *
-     * @param EntityClass $entityClass EntityClass to delete
+     * @param SL\CoreBundle\Entity\EntityClass $entityClass
      *
-     * @return Array $integrityError Title and error message
+     * @return array $integrityError Title and error message
      */
     public function integrityControlBeforeDelete(EntityClass $entityClass) 
     {
         $integrityError = null;
 
-        //Check if entityClass is link to another
-        $targetEntityClass = $this->em->getRepository('SLCoreBundle:EntityProperty')->findByTargetEntityClass($entityClass);
+        //Check if entity class is associated to another entity class
+        $targetEntityClass = $this->em->getRepository('SLCoreBundle:PropertyEntity')->findByTargetEntityClass($entityClass);
 
         if($targetEntityClass != null){
             $title = $this->translator->trans('delete.error.title');
@@ -171,39 +169,12 @@ class EntityClassService
         return $integrityError; 
     }
 
-    /**
-     * Calculate displayName attribute of a new entity 
-     * by using calculatedName attribute of entityClass
-     *
-     * @param Mixed $entity
-     * @param EntityClass $entityClass
-     *
-     * @return String $displayName DisplayName of new entity
-     */
-    public function calculateDisplayName($entity, EntityClass $entityClass) 
-    { 
-        $patternString = $entityClass->getCalculatedName();
-
-        $patternArray = explode("%", $patternString);
-
-        foreach($patternArray as $key => $pattern) {
-            
-            if(strpos(strtolower($pattern), 'property') !== false){
-
-                $methodName = 'get'.ucfirst($pattern);
-                $patternArray[$key] = $entity->$methodName(); 
-            }
-        }
-
-        $displayName = implode($patternArray);
-
-        return $displayName; 
-    }
-
      /**
-     * Init calculated name for a new entityClass
+     * Init calculated name for $entityClass
      *
-     * @param EntityClass $entityClass EntityClass
+     * @param SL\CoreBundle\Entity\EntityClass $entityClass
+     *
+     * @return void
      */
     public function initCalculatedName(EntityClass $entityClass){
 
@@ -219,34 +190,42 @@ class EntityClassService
     }
 
     /**
-    * Refresh displayName of entity linked to entityClass
-    *
-    * @param EntityClass $entityClass 
-    *
-    */
-    public function refreshCalculatedName(EntityClass $entityClass){
+     * Get $entityClass and all of its parents
+     *
+     * @param SL\CoreBundle\Entity\EntityClass $entityClass
+     *
+     * @return array $parents
+     */
+    public function getPath(EntityClass $entityClass){
 
-        $entities = $this->databaseEm ->getRepository('SLDataBundle:'.$entityClass->getTechnicalName())
-                                ->findAll(); 
+        $parents = array($entityClass); 
+        $this->getParent($entityClass, $parents);
 
-        foreach($entities as $entity) {
-
-            $displayName = $this->calculateDisplayName($entity, $entityClass); 
-            $entity->setDisplayName($displayName); 
-
-        }
-
-        $this->databaseEm->flush();
-
-        return true; 
+        return $this->orderedEntityClassesProperties($parents); 
     }
 
     /**
-     * Get hierarchy path of an entityClass  
+     * Get direct parent of $entityClass and add it to $parents
      *
-     * @param EntityClass $entityClass
+     * @param SL\CoreBundle\Entity\EntityClass $entityClass
+     * @param array $parents
      *
-     * @return String $path Hierarchy path of entityClass
+     * @return void
+     */
+    private function getParent(EntityClass $entityClass, array &$parents){
+
+        if($entityClass->getParent() != null){
+            array_unshift($parents, $entityClass->getParent()); 
+            $this->getParent($entityClass->getParent(), $parents);
+        }
+    }
+
+    /**
+     * Get $path of $entityClass  
+     *
+     * @param SL\CoreBundle\Entity\EntityClass $entityClass
+     *
+     * @return string $path Ex : EntityClass1->EntityClass2->EntityClass3->...
      */
     public function getEntityClassPath(EntityClass $entityClass){
 
@@ -265,41 +244,11 @@ class EntityClassService
         return $path; 
     }
 
-    /**
-     * Get parents of an entityClass. Include soft delete entityClasses
-     *
-     * @param EntityClass $entityClass
-     *
-     * @return array $parents
-     */
-    public function getPath(EntityClass $entityClass){
-
-        $parents = array($entityClass); 
-        $this->getParent($entityClass, $parents);
-
-        return $this->orderedEntityClassesProperties($parents); 
-    }
 
     /**
-     * Get direct parent of an entityClass and add it to parents array
+     * Ordered properties for $entityClasses
      *
-     * @param EntityClass $entityClass
-     * @param array $parents
-     */
-    private function getParent(EntityClass $entityClass, array &$parents){
-
-        if($entityClass->getParent() != null){
-            array_unshift($parents, $entityClass->getParent()); 
-            $this->getParent($entityClass->getParent(), $parents);
-        }
-    }
-
-
-    /**
-     * Ordered properties for all entityClasses in 
-     * $entityClasses array
-     *
-     * @param array $entityClasses
+     * @param array $entityClasses Array of entity class
      *
      * @return array $orderedEntityClasss
      */

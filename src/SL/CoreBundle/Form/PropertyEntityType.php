@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityRepository;
 
 //Custom classes
 
-class EntityPropertyType extends PropertyType
+class PropertyEntityType extends PropertyType
 {
     /**
      * @param FormBuilderInterface $builder
