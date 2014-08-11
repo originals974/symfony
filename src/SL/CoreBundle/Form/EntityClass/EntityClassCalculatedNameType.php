@@ -1,6 +1,6 @@
 <?php
 
-namespace SL\CoreBundle\Form;
+namespace SL\CoreBundle\Form\EntityClass;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -43,7 +43,7 @@ class EntityClassCalculatedNameType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'SL\CoreBundle\Entity\EntityClass',
+            'data_class' => 'SL\CoreBundle\Entity\EntityClass\EntityClass',
             'method' => 'PUT',
             'attr' => array(
                 'valid-target' => '', 

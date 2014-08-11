@@ -152,7 +152,7 @@ class ElasticaService
      */
     public function entitieToJSTreeData(array &$data, $entity) {
 
-        $entityClass = $this->em->getRepository('SLCoreBundle:EntityClass')->find($entity->getEntityClassId());
+        $entityClass = $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')->find($entity->getEntityClassId());
 
         $node = array(); 
         $node['text'] = $this->jsTreeService->shortenTextNode($entity->getDisplayName(),50); 
@@ -168,7 +168,7 @@ class ElasticaService
             ),
         );
 
-        $propertiesEntity = $this->em->getRepository('SLCoreBundle:Property')
+        $propertiesEntity = $this->em->getRepository('SLCoreBundle:EntityClass\Property')
                                ->findPropertyEntityByEntityClass($entityClass);
 
         foreach($propertiesEntity as $propertyEntity){

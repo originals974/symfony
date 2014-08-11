@@ -10,12 +10,12 @@ sl_core_server:
 
 #EntityClass
 sl_core_entity_class:
-    resource: "@SLCoreBundle/Resources/config/routing/entity_class.yml"
+    resource: "@SLCoreBundle/Resources/config/routing/entity_class/entity_class.yml"
     prefix: /back_end/entity_class
 
 #Property
 sl_core_property:
-    resource: "@SLCoreBundle/Resources/config/routing/property.yml"
+    resource: "@SLCoreBundle/Resources/config/routing/entity_class/property.yml"
     prefix: /back_end/entity_class/property
 
 #ChoiceList

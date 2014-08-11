@@ -1,12 +1,13 @@
 <?php
 
-namespace SL\CoreBundle\Form;
+namespace SL\CoreBundle\Form\EntityClass;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Doctrine\ORM\EntityRepository;
 
-class EntityClassType extends AbstractType
+class PropertyType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -15,7 +16,7 @@ class EntityClassType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if($options['method'] != 'DELETE'){
-
+            
             $builder
                 ->add('displayName' , 'text',  array(
                     'label' =>  'displayName',
@@ -23,6 +24,20 @@ class EntityClassType extends AbstractType
                         'max_length' => '255',
                         )
                     )
+                ) 
+                ->add('fieldType' , 'entity',  array(
+                    'class' =>  'SLCoreBundle:FieldType',
+                    'property' => 'displayName',
+                    'query_builder' => function(EntityRepository $er) {
+                                            return $er->createQueryBuilder('ft')
+                                                      ->join('ft.fieldCategory', 'fg');
+                                        },
+                    'group_by' => 'fieldCategory.displayName',
+                    'label' =>  'fieldType',
+                    'attr' => array(
+                        'class'       => 'col-lg-4'
+                        ) 
+                    ) 
                 )
             ;
         }
@@ -42,7 +57,10 @@ class EntityClassType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'SL\CoreBundle\Entity\EntityClass',
+            'data_class' => 'SL\CoreBundle\Entity\EntityClass\Property',
+            'attr' => array(
+                'valid-target' => 'property_content', 
+                ),
             'show_legend' => false,
             )
         );
@@ -50,6 +68,7 @@ class EntityClassType extends AbstractType
         $resolver->setRequired(array(
             'submit_label',
             'submit_color',
+            'entity_class_id',
             )
         );
     }
@@ -59,6 +78,6 @@ class EntityClassType extends AbstractType
      */
     public function getName()
     {
-        return 'sl_core_entity_class';
+        return 'sl_core_property';
     }
 }

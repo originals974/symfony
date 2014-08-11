@@ -9,11 +9,12 @@ use Symfony\Component\Translation\Translator;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 //Custom classes
-use SL\CoreBundle\Entity\EntityClass;
+use SL\CoreBundle\Entity\EntityClass\EntityClass;
+use SL\CoreBundle\Entity\EntityClass\Property;
 use SL\DataBundle\Entity\LogEntry;
 use SL\CoreBundle\Form\FrontType;
 use SL\CoreBundle\Services\DoctrineService;
-use SL\CoreBundle\Services\EntityClassService;
+use SL\CoreBundle\Services\EntityClass\EntityClassService;
 
 /**
  * Front Service
@@ -54,7 +55,7 @@ class FrontService
     /**
     * Creates entity form
     *
-    * @param EntityClass $entityClass EntityClass type of new entity
+    * @param EntityClass\EntityClass $entityClass EntityClass type of new entity
     * @param Mixed $entity
     *
     * @return Form $form
@@ -86,7 +87,7 @@ class FrontService
     /**
     * Update entity form
     *
-    * @param EntityClass $entityClass EntityClass type of update entity
+    * @param EntityClass\EntityClass $entityClass EntityClass type of update entity
     * @param Mixed $entity
     *
     * @return Form $form
@@ -120,7 +121,7 @@ class FrontService
     /**
      * Delete entity form
      *
-     * @param EntityClass $entityClass  EntityClass type of remove entity
+     * @param EntityClass\EntityClass $entityClass  EntityClass type of remove entity
      * @param Mixed $entity
      *
      * @return Form $form Delete form
@@ -153,7 +154,7 @@ class FrontService
     /**
     * Update entity version form
     *
-    * @param EntityClass $entityClass 
+    * @param EntityClass\EntityClass $entityClass 
     * @param Mixed $entity
     * @param integer $limit
     *
@@ -177,7 +178,7 @@ class FrontService
 
     public function entitiesExist(EntityClass $entityClass){
 
-        $entities = $this->databaseEm ->getRepository('SLDataBundle:'.$entityClass->getTechnicalName())->findAll();
+        $entities = $this->databaseEm->getRepository('SLDataBundle:'.$entityClass->getTechnicalName())->findAll();
 
         if(count($entities) != 0){
             $entitiesExist = true; 
@@ -189,12 +190,27 @@ class FrontService
         return $entitiesExist; 
     }
 
+    public function propertyHasNotNullValues(Property $property){
+
+        $entityCount = $this->databaseEm->getRepository('SLDataBundle:'.$property->getEntityClass()->getTechnicalName())
+                                        ->findNotNullValuesByProperty($property);
+
+        if(array_shift($entityCount) == 0){
+            $propertyHasNotNullValues = false; 
+        } 
+        else {
+            $propertyHasNotNullValues = true;  
+        }
+
+        return $propertyHasNotNullValues; 
+    }
+
     /**
      * Calculate displayName of a new entity 
      * by using calculatedName attribute of entityClass
      *
      * @param Mixed $entity
-     * @param EntityClass $entityClass
+     * @param EntityClass\EntityClass $entityClass
      *
      * @return String $displayName DisplayName of new entity
      */
@@ -221,7 +237,7 @@ class FrontService
     /**
     * Refresh displayName of entity linked to entityClass
     *
-    * @param EntityClass $entityClass 
+    * @param EntityClass\EntityClass $entityClass 
     *
     */
     public function refreshCalculatedName(EntityClass $entityClass){

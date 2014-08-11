@@ -130,7 +130,7 @@ class ChoiceListService
         $integrityError = null;
 
         //Check if choice list is not associated with an entity class property
-        $property = $this->em->getRepository('SLCoreBundle:PropertyChoice')->findByChoiceList($choiceList);
+        $property = $this->em->getRepository('SLCoreBundle:EntityClass\PropertyChoice')->findByChoiceList($choiceList);
 
         if($property != null){
             $title = $this->translator->trans('delete.error.title');

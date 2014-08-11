@@ -10,10 +10,10 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 
 //Custom classes
-use SL\CoreBundle\Entity\EntityClass;
+use SL\CoreBundle\Entity\EntityClass\EntityClass;
 use SL\DataBundle\Entity\LogEntry;
 use SL\CoreBundle\Services\DoctrineService;
-use SL\CoreBundle\Services\EntityClassService;
+use SL\CoreBundle\Services\EntityClass\EntityClassService;
 use SL\CoreBundle\Services\FrontService;
 use SL\CoreBundle\Services\LoggableService;
 
@@ -52,7 +52,7 @@ class FrontController extends Controller
     /**
     * Display form to create entity
     *
-    * @param EntityClass $entityClass EntityClass type of new entity
+    * @param EntityClass\EntityClass $entityClass EntityClass type of new entity
     */
     public function newAction(EntityClass $entityClass)
     {
@@ -71,7 +71,7 @@ class FrontController extends Controller
     /**
      * Create entity
      *
-     * @param EntityClass $entityClass EntityClass type of new entity
+     * @param EntityClass\EntityClass $entityClass EntityClass type of new entity
      */
     public function createAction(Request $request, EntityClass $entityClass)
     {
@@ -131,7 +131,7 @@ class FrontController extends Controller
         $filters = $this->em->getFilters();
         $filters->disable('softdeleteable');
 
-        $entityClass = $this->em->getRepository('SLCoreBundle:EntityClass')->fullFindById($id); 
+        $entityClass = $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')->fullFindById($id); 
 
         $entity = $this->databaseEm->getRepository('SLDataBundle:'.$entityClass->getTechnicalName())->find($entity_id);
 
@@ -157,7 +157,7 @@ class FrontController extends Controller
         $filters = $this->em->getFilters();
         $filters->disable('softdeleteable');
 
-        $entityClass = $this->em->getRepository('SLCoreBundle:EntityClass')->fullFindById($id); 
+        $entityClass = $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')->fullFindById($id); 
 
         $entity = $this->databaseEm->getRepository('SLDataBundle:'.$entityClass->getTechnicalName())->find($entity_id);
 
@@ -218,7 +218,7 @@ class FrontController extends Controller
             $filters = $this->em->getFilters();
             $filters->disable('softdeleteable');
 
-            $entityClass = $this->em->getRepository('SLCoreBundle:EntityClass')->fullFindById($id); 
+            $entityClass = $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')->fullFindById($id); 
 
             $entity = $this->databaseEm->getRepository('SLDataBundle:'.$entityClass->getTechnicalName())->find($entity_id);
 
@@ -257,7 +257,7 @@ class FrontController extends Controller
         $filters = $this->em->getFilters();
         $filters->disable('softdeleteable');
 
-        $entityClass = $this->em->getRepository('SLCoreBundle:EntityClass')->fullFindById($id); 
+        $entityClass = $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')->fullFindById($id); 
         $entityClasses = $this->entityClassService->getPath($entityClass); 
 
         $entity = $this->databaseEm->getRepository('SLDataBundle:'.$entityClass->getTechnicalName())->find($entity_id);
@@ -286,7 +286,7 @@ class FrontController extends Controller
         $filters = $this->em->getFilters();
         $filters->disable('softdeleteable');
 
-        $entityClass = $this->em->getRepository('SLCoreBundle:EntityClass')->fullFindById($id); 
+        $entityClass = $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')->fullFindById($id); 
 
         $entity = $this->databaseEm->getRepository('SLDataBundle:'.$entityClass->getTechnicalName())->find($entity_id);
 
@@ -328,7 +328,7 @@ class FrontController extends Controller
             $filters = $this->em->getFilters();
             $filters->disable('softdeleteable');
 
-            $entityClass = $this->em->getRepository('SLCoreBundle:EntityClass')->fullFindById($id); 
+            $entityClass = $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')->fullFindById($id); 
             $entityClasses = $this->entityClassService->getPath($entityClass); 
 
             $entity = $this->databaseEm->getRepository('SLDataBundle:'.$entityClass->getTechnicalName())->find($entity_id);
@@ -369,7 +369,7 @@ class FrontController extends Controller
     {
         if ($request->isXmlHttpRequest()) {
 
-            $entityClass = $this->em->getRepository('SLCoreBundle:EntityClass')->fullFindById($id); 
+            $entityClass = $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')->fullFindById($id); 
             $entity = $this->databaseEm->getRepository('SLDataBundle:'.$entityClass->getTechnicalName())->find($entity_id);
 
             //Form creation

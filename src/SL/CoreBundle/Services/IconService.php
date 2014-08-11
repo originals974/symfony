@@ -3,8 +3,8 @@
 namespace SL\CoreBundle\Services;
 
 //Custom classes
-use SL\CoreBundle\Entity\EntityClass;
-use SL\CoreBundle\Entity\Property;
+use SL\CoreBundle\Entity\EntityClass\EntityClass;
+use SL\CoreBundle\Entity\EntityClass\Property;
 use SL\CoreBundle\Entity\Choice\ChoiceList;
 use SL\CoreBundle\Entity\Choice\ChoiceItem;
 
@@ -29,7 +29,7 @@ class IconService
     /**
      * Get EntityClass icon
      *
-     * @param EntityClass $entityClass EntityClass
+     * @param EntityClass\EntityClass $entityClass EntityClass
      *
      * @return String icon
      */
@@ -113,7 +113,7 @@ class IconService
     /**
      * Get Property icon
      *
-     * @param Property $property Property
+     * @param EntityClass\Property $property Property
      *
      * @return String icon
      */

@@ -33,7 +33,7 @@ class CalculatedNamePatternValidator extends ConstraintValidator
                 if(strpos(strtolower($pattern), 'property') !== false){
                 	$propertyFound = true; 
 
-    	            $property = $this->em->getRepository('SLCoreBundle:Property')->findByTechnicalName($pattern);
+    	            $property = $this->em->getRepository('SLCoreBundle:EntityClass\Property')->findByTechnicalName($pattern);
 
     	            if($property == null) {
     	            	$this->context->addViolation($constraint->WrongPropertiesMessage);

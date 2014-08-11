@@ -1,13 +1,12 @@
 <?php
 
-namespace SL\CoreBundle\Form;
+namespace SL\CoreBundle\Form\EntityClass;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Doctrine\ORM\EntityRepository;
 
-class PropertyType extends AbstractType
+class EntityClassType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -16,7 +15,7 @@ class PropertyType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if($options['method'] != 'DELETE'){
-            
+
             $builder
                 ->add('displayName' , 'text',  array(
                     'label' =>  'displayName',
@@ -24,20 +23,6 @@ class PropertyType extends AbstractType
                         'max_length' => '255',
                         )
                     )
-                ) 
-                ->add('fieldType' , 'entity',  array(
-                    'class' =>  'SLCoreBundle:FieldType',
-                    'property' => 'displayName',
-                    'query_builder' => function(EntityRepository $er) {
-                                            return $er->createQueryBuilder('ft')
-                                                      ->join('ft.fieldCategory', 'fg');
-                                        },
-                    'group_by' => 'fieldCategory.displayName',
-                    'label' =>  'fieldType',
-                    'attr' => array(
-                        'class'       => 'col-lg-4'
-                        ) 
-                    ) 
                 )
             ;
         }
@@ -57,10 +42,7 @@ class PropertyType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'SL\CoreBundle\Entity\Property',
-            'attr' => array(
-                'valid-target' => 'property_content', 
-                ),
+            'data_class' => 'SL\CoreBundle\Entity\EntityClass\EntityClass',
             'show_legend' => false,
             )
         );
@@ -77,6 +59,6 @@ class PropertyType extends AbstractType
      */
     public function getName()
     {
-        return 'sl_core_property';
+        return 'sl_core_entity_class';
     }
 }

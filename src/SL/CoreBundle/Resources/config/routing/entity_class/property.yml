@@ -1,27 +1,27 @@
 property_new:
     pattern: /{id}/new
-    defaults: { _controller: SLCoreBundle:Property:new }
+    defaults: { _controller: SLCoreBundle:EntityClass\Property:new }
     requirements:
         id: \d+
         _method: GET
 
 property_select_form:
     pattern: /{id}/select_form
-    defaults: { _controller: SLCoreBundle:Property:selectForm }
+    defaults: { _controller: SLCoreBundle:EntityClass\Property:selectForm }
     requirements:
         id: \d+
         _method: GET
 
 property_create:
     pattern: /{id}/create/{formMode}
-    defaults: { _controller: SLCoreBundle:Property:create }
+    defaults: { _controller: SLCoreBundle:EntityClass\Property:create }
     requirements: 
         id: \d+
         _method: POST
 
 property_edit:
     pattern: /{entity_class_id}.{id}/edit
-    defaults: { _controller: SLCoreBundle:Property:edit }
+    defaults: { _controller: SLCoreBundle:EntityClass\Property:edit }
     requirements:
         entity_class_id: \d+
         id: \d+
@@ -29,7 +29,7 @@ property_edit:
 
 property_update:
     pattern: /{entity_class_id}.{id}/update
-    defaults: { _controller: SLCoreBundle:Property:update }
+    defaults: { _controller: SLCoreBundle:EntityClass\Property:update }
     requirements:
         entity_class_id: \d+
         id: \d+
@@ -37,7 +37,7 @@ property_update:
 
 property_remove:
     pattern: /{entity_class_id}.{id}/remove
-    defaults: { _controller: SLCoreBundle:Property:remove }
+    defaults: { _controller: SLCoreBundle:EntityClass\Property:remove }
     requirements:
         entity_class_id: \d+
         id: \d+
@@ -45,7 +45,7 @@ property_remove:
 
 property_delete:
     pattern:  /{entity_class_id}.{id}/delete
-    defaults: { _controller: SLCoreBundle:Property:delete }
+    defaults: { _controller: SLCoreBundle:EntityClass\Property:delete }
     requirements:
         entity_class_id: \d+
         id: \d+
@@ -53,7 +53,7 @@ property_delete:
 
 property_update_checkbox:
     pattern:  /{id}/updateCheckbox
-    defaults: { _controller: SLCoreBundle:Property:updateCheckbox }
+    defaults: { _controller: SLCoreBundle:EntityClass\Property:updateCheckbox }
     requirements:
         id: \d+
         _method: PUT

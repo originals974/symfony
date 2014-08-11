@@ -1,6 +1,6 @@
 <?php
 
-namespace SL\CoreBundle\Entity;
+namespace SL\CoreBundle\Entity\EntityClass;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -37,7 +37,7 @@ class Property extends AbstractEntity
 
     /**
      * @Gedmo\SortableGroup
-     * @ORM\ManyToOne(targetEntity="SL\CoreBundle\Entity\EntityClass", inversedBy="properties")
+     * @ORM\ManyToOne(targetEntity="SL\CoreBundle\Entity\EntityClass\EntityClass", inversedBy="properties")
      * @ORM\JoinColumn(nullable=false)
      */
     private $entityClass;
@@ -77,7 +77,7 @@ class Property extends AbstractEntity
      * @param boolean $isMultiple
      * @return Property
      */
-    public function setMultiple($isMultiple)
+    public function setIsMultiple($isMultiple)
     {
         $this->isMultiple = $isMultiple;
 
@@ -97,10 +97,10 @@ class Property extends AbstractEntity
     /**
      * Set entityClass
      *
-     * @param \SL\CoreBundle\Entity\EntityClass $entityClass
+     * @param \SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
      * @return EntityClass
      */
-    public function setEntityClass(\SL\CoreBundle\Entity\EntityClass $entityClass = null)
+    public function setEntityClass(\SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass = null)
     {
         $this->entityClass = $entityClass;
 
@@ -110,7 +110,7 @@ class Property extends AbstractEntity
     /**
      * Get entityClass
      *
-     * @return \SL\CoreBundle\Entity\EntityClass 
+     * @return \SL\CoreBundle\Entity\EntityClass\EntityClass 
      */
     public function getEntityClass()
     {

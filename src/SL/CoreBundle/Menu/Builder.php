@@ -67,7 +67,7 @@ class Builder extends ContainerAware
             )
         );
 
-        $entityClasses = $em->getRepository('SLCoreBundle:EntityClass')->fullFindAll(false);
+        $entityClasses = $em->getRepository('SLCoreBundle:EntityClass\EntityClass')->fullFindAll(false);
 
         $menu = $this->addFrontChildrenEntityClassItems($menu, $entityClasses);
 
@@ -144,7 +144,7 @@ class Builder extends ContainerAware
         );
         
         //Select all root entityClasses
-        $entityClasses = $em->getRepository('SLCoreBundle:EntityClass')->fullFindAll(false, 0);
+        $entityClasses = $em->getRepository('SLCoreBundle:EntityClass\EntityClass')->fullFindAll(false, 0);
 
         $this->addBackChildrenEntityClassItems($entityClassRoot, $entityClasses);
 
@@ -213,7 +213,7 @@ class Builder extends ContainerAware
                 )
             );
 
-            $entityClasses = $em->getRepository('SLCoreBundle:EntityClass')->children($entityClass, true); 
+            $entityClasses = $em->getRepository('SLCoreBundle:EntityClass\EntityClass')->children($entityClass, true); 
 
             $this->addBackChildrenEntityClassItems($entityClassItem, $entityClasses); 
 

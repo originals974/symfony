@@ -1,6 +1,6 @@
 <?php
 
-namespace SL\CoreBundle\Entity;
+namespace SL\CoreBundle\Entity\EntityClass;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class PropertyEntity extends Property
 {
     /**
-     * @ORM\ManyToOne(targetEntity="SL\CoreBundle\Entity\EntityClass")
+     * @ORM\ManyToOne(targetEntity="SL\CoreBundle\Entity\EntityClass\EntityClass")
      * @Assert\NotBlank()
      */
     private $targetEntityClass;
@@ -23,10 +23,10 @@ class PropertyEntity extends Property
     /**
      * Set targetEntityClass
      *
-     * @param \SL\CoreBundle\Entity\EntityClass $targetEntityClass
+     * @param \SL\CoreBundle\Entity\EntityClass\EntityClass $targetEntityClass
      * @return PropertyEntity
      */
-    public function setTargetEntityClass(\SL\CoreBundle\Entity\EntityClass $targetEntityClass = null)
+    public function setTargetEntityClass(\SL\CoreBundle\Entity\EntityClass\EntityClass $targetEntityClass = null)
     {
         $this->targetEntityClass = $targetEntityClass;
 
@@ -36,7 +36,7 @@ class PropertyEntity extends Property
     /**
      * Get targetEntityClass
      *
-     * @return \SL\CoreBundle\Entity\EntityClass 
+     * @return \SL\CoreBundle\Entity\EntityClass\EntityClass 
      */
     public function getTargetEntityClass()
     {

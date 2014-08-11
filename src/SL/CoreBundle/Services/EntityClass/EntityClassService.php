@@ -1,6 +1,6 @@
 <?php
 
-namespace SL\CoreBundle\Services;
+namespace SL\CoreBundle\Services\EntityClass;
 
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Translation\Translator;
@@ -8,7 +8,7 @@ use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Routing\Router;
 use Symfony\Component\Form\Form;   
 
-use SL\CoreBundle\Entity\EntityClass;
+use SL\CoreBundle\Entity\EntityClass\EntityClass;
 
 /**
  * EntityClass Service
@@ -43,7 +43,7 @@ class EntityClassService
     /**
     * Create create form for $entityClass
     *
-    * @param SL\CoreBundle\Entity\EntityClass $entityClass
+    * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
     *
     * @return Symfony\Component\Form\Form $form
     */
@@ -73,7 +73,7 @@ class EntityClassService
     /**
     * Create update form for $entityClass
     *
-    * @param SL\CoreBundle\Entity\EntityClass $entityClass
+    * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
     *
     * @return Symfony\Component\Form\Form $form
     */
@@ -98,7 +98,7 @@ class EntityClassService
     /**
      * Create delete form for $entityClass
      *
-     * @param SL\CoreBundle\Entity\EntityClass $entityClass
+     * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
      *
      * @return Symfony\Component\Form\Form $form
      */
@@ -123,7 +123,7 @@ class EntityClassService
     /**
      * Create update form for calculated name of $entityClass
      *
-     * @param SL\CoreBundle\Entity\EntityClass $entityClass
+     * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
      *
      * @return Symfony\Component\Form\Form $form
      */
@@ -143,7 +143,7 @@ class EntityClassService
    /**
      * Verify if $entityClass could be delete
      *
-     * @param SL\CoreBundle\Entity\EntityClass $entityClass
+     * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
      *
      * @return array $integrityError Title and error message
      */
@@ -152,7 +152,7 @@ class EntityClassService
         $integrityError = null;
 
         //Check if entity class is associated to another entity class
-        $targetEntityClass = $this->em->getRepository('SLCoreBundle:PropertyEntity')->findByTargetEntityClass($entityClass);
+        $targetEntityClass = $this->em->getRepository('SLCoreBundle:EntityClass\PropertyEntity')->findByTargetEntityClass($entityClass);
 
         if($targetEntityClass != null){
             $title = $this->translator->trans('delete.error.title');
@@ -172,7 +172,7 @@ class EntityClassService
      /**
      * Init calculated name for $entityClass
      *
-     * @param SL\CoreBundle\Entity\EntityClass $entityClass
+     * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
      *
      * @return void
      */
@@ -192,7 +192,7 @@ class EntityClassService
     /**
      * Get $entityClass and all of its parents
      *
-     * @param SL\CoreBundle\Entity\EntityClass $entityClass
+     * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
      *
      * @return array $parents
      */
@@ -207,7 +207,7 @@ class EntityClassService
     /**
      * Get direct parent of $entityClass and add it to $parents
      *
-     * @param SL\CoreBundle\Entity\EntityClass $entityClass
+     * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
      * @param array $parents
      *
      * @return void
@@ -223,7 +223,7 @@ class EntityClassService
     /**
      * Get $path of $entityClass  
      *
-     * @param SL\CoreBundle\Entity\EntityClass $entityClass
+     * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
      *
      * @return string $path Ex : EntityClass1->EntityClass2->EntityClass3->...
      */
@@ -257,7 +257,7 @@ class EntityClassService
         $orderedEntityClasses = array(); 
 
         foreach($entityClasses as $entityClass){
-            $entityClass = $this->em->getRepository('SLCoreBundle:EntityClass')->fullFindById($entityClass->getId());
+            $entityClass = $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')->fullFindById($entityClass->getId());
             $orderedEntityClasses[] = $entityClass;
         }
 

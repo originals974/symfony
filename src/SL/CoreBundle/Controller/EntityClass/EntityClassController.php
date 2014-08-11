@@ -1,6 +1,6 @@
 <?php
 
-namespace SL\CoreBundle\Controller;
+namespace SL\CoreBundle\Controller\EntityClass;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -9,8 +9,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
 
-use SL\CoreBundle\Entity\EntityClass;
-use SL\CoreBundle\Services\EntityClassService;
+use SL\CoreBundle\Entity\EntityClass\EntityClass;
+use SL\CoreBundle\Services\EntityClass\EntityClassService;
 use SL\CoreBundle\Services\JSTreeService;
 use SL\CoreBundle\Services\DoctrineService;
 use SL\CoreBundle\Services\FrontService;
@@ -56,7 +56,7 @@ class EntityClassController extends Controller
     {   
         if ($request->isXmlHttpRequest()) {
 
-            $response = $this->render('SLCoreBundle:EntityClass:index.html.twig');
+            $response = $this->render('SLCoreBundle:EntityClass/EntityClass:index.html.twig');
         }
         else {
             $response = $this->redirect($this->generateUrl('back_end'));
@@ -70,7 +70,7 @@ class EntityClassController extends Controller
     * associated with $parentEntityClass
     *
     * @param Symfony\Component\HttpFoundation\Request $request
-    * @param SL\CoreBundle\Entity\EntityClass $parentEntityClass|null
+    * @param SL\CoreBundle\Entity\EntityClass\EntityClass $parentEntityClass|null
     *
     * @return Symfony\Component\HttpFoundation\Response $response
     */
@@ -99,7 +99,7 @@ class EntityClassController extends Controller
      * associated with $parentEntityClass
      *
      * @param Symfony\Component\HttpFoundation\Request $request
-     * @param SL\CoreBundle\Entity\EntityClass $parentEntityClass|null
+     * @param SL\CoreBundle\Entity\EntityClass\EntityClass $parentEntityClass|null
      *
      * @return Mixed $response
      */
@@ -165,7 +165,7 @@ class EntityClassController extends Controller
     * Display form to edit $entityClass
     *
     * @param Symfony\Component\HttpFoundation\Request $request
-    * @param SL\CoreBundle\Entity\EntityClass $entityClass 
+    * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass 
     *
     * @return Symfony\Component\HttpFoundation\Response $response
     */
@@ -191,7 +191,7 @@ class EntityClassController extends Controller
     * Update $entityClass
     *
     * @param Symfony\Component\HttpFoundation\Request $request
-    * @param SL\CoreBundle\Entity\EntityClass $entityClass
+    * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
     *
     * @return Mixed $response
     */
@@ -241,7 +241,7 @@ class EntityClassController extends Controller
      * Show $entityClass and its property
      *
      * @param Symfony\Component\HttpFoundation\Request $request
-     * @param SL\CoreBundle\Entity\EntityClass $entityClass
+     * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
      *
      * @return Symfony\Component\HttpFoundation\Response $response
      *
@@ -251,7 +251,7 @@ class EntityClassController extends Controller
     {
         if ($request->isXmlHttpRequest()) {
 
-            $response = $this->render('SLCoreBundle:EntityClass:show.html.twig', array(
+            $response = $this->render('SLCoreBundle:EntityClass/EntityClass:show.html.twig', array(
                 'entityClass' => $entityClass, 
                 )
             );
@@ -267,7 +267,7 @@ class EntityClassController extends Controller
     * Display form to remove $entityClass
     *
     * @param Symfony\Component\HttpFoundation\Request $request
-    * @param SL\CoreBundle\Entity\EntityClass $entityClass
+    * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
     *
     * @return Symfony\Component\HttpFoundation\Response $response
     */
@@ -307,7 +307,7 @@ class EntityClassController extends Controller
      * Delete $entityClass
      *
      * @param Symfony\Component\HttpFoundation\Request $request
-     * @param SL\CoreBundle\Entity\EntityClass $entityClass
+     * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
      *
      * @return Mixed $response
      */
@@ -319,7 +319,7 @@ class EntityClassController extends Controller
             // Entity and database table associated with entity class aren't deleted 
             $entitiesExist = $this->frontService->entitiesExist($entityClass); 
             if($entitiesExist){
-               $this->doctrineService->entityDelete('SLCoreBundle:EntityClass', $entityClass->getId(), false);
+               $this->doctrineService->entityDelete('SLCoreBundle:EntityClass\EntityClass', $entityClass->getId(), false);
             }
             // Otherwise entity class is hard delete
             // Entity and database table associated with entity class are deleted too
@@ -327,14 +327,14 @@ class EntityClassController extends Controller
                 $this->doctrineService->removeDoctrineFiles($entityClass);
 
                 //Remove children entities and database tables of deleted entity class
-                $children = $this->em->getRepository('SLCoreBundle:EntityClass')->children($entityClass); 
+                $children = $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')->children($entityClass); 
                 foreach ($children as $child) {
                     $this->doctrineService->removeDoctrineFiles($child);
                 }
 
                 $this->doctrineService->doctrineSchemaUpdateForce();
 
-                $this->doctrineService->entityDelete('SLCoreBundle:EntityClass', $entityClass->getId(), true);
+                $this->doctrineService->entityDelete('SLCoreBundle:EntityClass\EntityClass', $entityClass->getId(), true);
             }
 
             $arrayResponse = array(
@@ -358,7 +358,7 @@ class EntityClassController extends Controller
     * Display form to edit $entityClass calculated name
     *
     * @param Symfony\Component\HttpFoundation\Request $request
-    * @param SL\CoreBundle\Entity\EntityClass $entityClass
+    * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
     *
     * @return Symfony\Component\HttpFoundation\Response $response
     */
@@ -367,8 +367,8 @@ class EntityClassController extends Controller
         if ($request->isXmlHttpRequest()) {
             $form = $this->entityClassService->createEditCalculatedNameForm($entityClass);
      
-            $entityClasses = $this->em->getRepository('SLCoreBundle:EntityClass')->getPath($entityClass); 
-            $response = $this->render('SLCoreBundle:EntityClass:calculatedNameDesigner.html.twig', array(
+            $entityClasses = $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')->getPath($entityClass); 
+            $response = $this->render('SLCoreBundle:EntityClass/EntityClass:calculatedNameDesigner.html.twig', array(
                 'entityClasses' => $entityClasses,
                 'form'   => $form->createView(),
                 )
@@ -385,7 +385,7 @@ class EntityClassController extends Controller
     * Update $entityClass calculated name
     *
     * @param Symfony\Component\HttpFoundation\Request $request
-    * @param SL\CoreBundle\Entity\EntityClass $entityClass
+    * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
     *
     * @return Mixed $response
     */
@@ -407,8 +407,8 @@ class EntityClassController extends Controller
                 $html = null; 
             }
             else {
-                $entityClasses = $this->em->getRepository('SLCoreBundle:EntityClass')->getPath($entityClass); 
-                $html = $this->renderView('SLCoreBundle:EntityClass:calculatedNameDesigner.html.twig', array(
+                $entityClasses = $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')->getPath($entityClass); 
+                $html = $this->renderView('SLCoreBundle:EntityClass/EntityClass:calculatedNameDesigner.html.twig', array(
                     'entityClasses' => $entityClasses,
                     'form'   => $form->createView(),
                     )
@@ -436,7 +436,7 @@ class EntityClassController extends Controller
      * Update $entityClass icon
      *
      * @param Symfony\Component\HttpFoundation\Request $request
-     * @param SL\CoreBundle\Entity\EntityClass $entityClass
+     * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
      *
      * @return Mixed $response
      */

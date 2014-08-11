@@ -1,6 +1,6 @@
 <?php
 
-namespace SL\CoreBundle\Form;
+namespace SL\CoreBundle\Form\EntityClass;
 
 //Symfony classes
 use Symfony\Component\Form\FormBuilderInterface;
@@ -24,7 +24,7 @@ class PropertyChoiceType extends PropertyType
             ) 
             ->add('choiceList', 'entity', array(
                 'empty_value' => '',
-                'class' => 'SLCoreBundle:Choice/ChoiceList',
+                'class' => 'SLCoreBundle:Choice\ChoiceList',
                 'property' => 'displayName',
                 'query_builder' => function(EntityRepository $er) {
                                       return $er->fullFindAllQb();

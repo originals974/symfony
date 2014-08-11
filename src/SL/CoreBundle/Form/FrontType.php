@@ -10,8 +10,8 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Component\Translation\Translator;  
 
 //Custom classes
-use SL\CoreBundle\Services\EntityClassService;
-use SL\CoreBundle\Entity\Property;
+use SL\CoreBundle\Services\EntityClass\EntityClassService;
+use SL\CoreBundle\Entity\EntityClass\Property;
 
 class FrontType extends AbstractType
 {
@@ -57,7 +57,7 @@ class FrontType extends AbstractType
                 'inherit_data' => true,
                 ));
 
-                $entityClass = $this->em->getRepository('SLCoreBundle:EntityClass')->fullFindById($entityClass->getId());
+                $entityClass = $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')->fullFindById($entityClass->getId());
 
                 foreach ($entityClass->getProperties() as $property) {
                     
@@ -90,7 +90,7 @@ class FrontType extends AbstractType
     /**
      * Get type and options of a form field
      *
-     * @param Property $property Property used to create form field
+     * @param EntityClass\Property $property Property used to create form field
      *
      * @return Array $fieldConfiguration
      */

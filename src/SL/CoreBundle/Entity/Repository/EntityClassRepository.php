@@ -7,7 +7,7 @@ use Doctrine\ORM\QueryBuilder;
 use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
 
 //Custom classes
-use SL\CoreBundle\Entity\EntityClass;
+use SL\CoreBundle\Entity\EntityClass\EntityClass;
 
 /**
  * EntityClassRepository
@@ -67,7 +67,7 @@ class EntityClassRepository extends NestedTreeRepository
   /**
    * Select other entityClasses
    *
-   * @param EntityClass $currentEntityClass
+   * @param EntityClass\EntityClass $currentEntityClass
    */
 	public function findOtherEntityClass($currentEntityClassId)
   {

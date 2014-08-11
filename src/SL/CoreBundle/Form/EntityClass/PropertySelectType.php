@@ -1,6 +1,6 @@
 <?php
 
-namespace SL\CoreBundle\Form;
+namespace SL\CoreBundle\Form\EntityClass;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;

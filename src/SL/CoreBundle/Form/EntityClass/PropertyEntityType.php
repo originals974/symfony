@@ -1,6 +1,6 @@
 <?php
 
-namespace SL\CoreBundle\Form;
+namespace SL\CoreBundle\Form\EntityClass;
 
 //Symfony classes
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,7 +16,7 @@ class PropertyEntityType extends PropertyType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $entityClassId = $options['entityClass_id'];
+        $entityClassId = $options['entity_class_id'];
 
         $builder
             ->add('displayName' , 'text',  array(
@@ -28,7 +28,7 @@ class PropertyEntityType extends PropertyType
             ) 
             ->add('targetEntityClass', 'entity', array(
                 'empty_value' => '',
-                'class' => 'SLCoreBundle:EntityClass',
+                'class' => 'SLCoreBundle:EntityClass\EntityClass',
                 'property' => 'displayName',
                 'query_builder' => function(EntityRepository $er) use($entityClassId) {
                                       return $er->findOtherEntityClass($entityClassId);
@@ -59,6 +59,6 @@ class PropertyEntityType extends PropertyType
      */
     public function getName()
     {
-        return 'entity_property';
+        return 'sl_core_property_entity';
     }
 }

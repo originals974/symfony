@@ -6,7 +6,7 @@ namespace SL\CoreBundle\Services;
 use Symfony\Component\Routing\Router; 
 
 //Custom classes
-use SL\CoreBundle\Entity\EntityClass;
+use SL\CoreBundle\Entity\EntityClass\EntityClass;
 use SL\CoreBundle\Entity\Choice\ChoiceList;
 use SL\CoreBundle\Services\IconService;
 
@@ -35,7 +35,7 @@ class JSTreeService
     /**
      * Create new entityClass node
      *
-     * @param EntityClass $entityClass New entityClass 
+     * @param EntityClass\EntityClass $entityClass New entityClass 
      *
      * @return Array $newNode EntityClass node
      */

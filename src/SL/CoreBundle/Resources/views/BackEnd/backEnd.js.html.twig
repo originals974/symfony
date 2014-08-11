@@ -111,8 +111,8 @@
             });
         };
 
-        //When choose property type in property choice form
-        $(document).on("change", 'form[name="property_choice"]', function(event){
+        //When choose property type in property select form
+        $(document).on("change", 'form[name="sl_core_property_select"]', function(event){
 		    var $data, $form, $htmlTarget; 
 
 		    $data = { formMode : $(this).find('input[type="radio"]:checked').val()}; 
@@ -156,14 +156,14 @@
 
 		});
 
-        //When an option of choice list with entity_property_targetEntityClass id is select 
-        $(document).on("change", '#sl_core_entity_property_targetEntityClass', function(event){
-		   	copySelectedValueToInput($(this).attr('id'), 'entity_property_displayName')
+        //When an option of choice list with sl_core_property_entity_targetEntityClass id is select 
+        $(document).on("change", '#sl_core_property_entity_targetEntityClass', function(event){
+		   	copySelectedValueToInput($(this).attr('id'), 'sl_core_property_entity_displayName')
 		});
 
-        //When an option of choice list with choice_property_choiceList id is select
-        $(document).on("change", '#sl_core_choice_property_choiceList', function(event){
-		   	copySelectedValueToInput($(this).attr('id'), 'choice_property_displayName')
+        //When an option of choice list with sl_core_property_choice_choiceList id is select
+        $(document).on("change", '#sl_core_property_choice_choiceList', function(event){
+		   	copySelectedValueToInput($(this).attr('id'), 'sl_core_property_choice_displayName')
 		});
 
         /**

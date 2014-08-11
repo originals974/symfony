@@ -1,12 +1,13 @@
 <?php
 
-namespace SL\CoreBundle\Entity;
+namespace SL\CoreBundle\Entity\EntityClass;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
+use SL\CoreBundle\Entity\FieldType; 
 use SL\CoreBundle\Validator\Constraints as SLCoreAssert;
 use SL\CoreBundle\Entity\MappedSuperclass\AbstractEntity;
 
@@ -44,7 +45,7 @@ class EntityClass extends AbstractEntity
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="SL\CoreBundle\Entity\Property", mappedBy="entityClass", cascade={"persist","remove"})
+     * @ORM\OneToMany(targetEntity="SL\CoreBundle\Entity\EntityClass\Property", mappedBy="entityClass", cascade={"persist","remove"})
      */
     private $properties;
 
@@ -74,13 +75,13 @@ class EntityClass extends AbstractEntity
 
     /**
      * @Gedmo\TreeParent
-     * @ORM\ManyToOne(targetEntity="EntityClass", inversedBy="children")
+     * @ORM\ManyToOne(targetEntity="SL\CoreBundle\Entity\EntityClass\EntityClass", inversedBy="children")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $parent;
 
     /**
-     * @ORM\OneToMany(targetEntity="EntityClass", mappedBy="parent")
+     * @ORM\OneToMany(targetEntity="SL\CoreBundle\Entity\EntityClass\EntityClass", mappedBy="parent")
      * @ORM\OrderBy({"lft" = "ASC"})
      */
     private $children;
@@ -98,7 +99,7 @@ class EntityClass extends AbstractEntity
      * and with a default $fieldType property
      *
      * @param SL\CoreBundle\Entity\FieldType $fieldType|null 
-     * @param SL\CoreBundle\Entity\EntityClass $parent|null 
+     * @param SL\CoreBundle\Entity\EntityClass\EntityClass $parent|null 
      *
      * @return void 
      */
@@ -127,7 +128,7 @@ class EntityClass extends AbstractEntity
      *
      * @param string $calculatedName
      *
-     * @return SL\CoreBundle\Entity\EntityClass
+     * @return SL\CoreBundle\Entity\EntityClass\EntityClass
      */
     public function setCalculatedName($calculatedName)
     {
@@ -151,7 +152,7 @@ class EntityClass extends AbstractEntity
      *
      * @param string $icon
      *
-     * @return SL\CoreBundle\Entity\EntityClass
+     * @return SL\CoreBundle\Entity\EntityClass\EntityClass
      */
     public function setIcon($icon)
     {
@@ -173,11 +174,11 @@ class EntityClass extends AbstractEntity
     /**
      * Add property
      *
-     * @param SL\CoreBundle\Entity\Property $property
+     * @param SL\CoreBundle\Entity\EntityClass\Property $property
      *
-     * @return SL\CoreBundle\Entity\EntityClass
+     * @return SL\CoreBundle\Entity\EntityClass\EntityClass
      */
-    public function addProperty(\SL\CoreBundle\Entity\Property $property)
+    public function addProperty(\SL\CoreBundle\Entity\EntityClass\Property $property)
     {
         $this->properties[] = $property;
 
@@ -191,7 +192,7 @@ class EntityClass extends AbstractEntity
      *
      * @return void
      */
-    public function removeProperty(\SL\CoreBundle\Entity\Property $property)
+    public function removeProperty(\SL\CoreBundle\Entity\EntityClass\Property $property)
     {
         $this->properties->removeElement($property);
     }
@@ -209,9 +210,9 @@ class EntityClass extends AbstractEntity
     /**
      * Set EntityClass parent 
      *
-     * @param SL\CoreBundle\Entity\EntityClass $parent|null
+     * @param SL\CoreBundle\Entity\EntityClass\EntityClass $parent|null
      *
-     * @return SL\CoreBundle\Entity\EntityClass
+     * @return SL\CoreBundle\Entity\EntityClass\EntityClass
      */
     public function setParent(EntityClass $parent = null)
     {
@@ -221,7 +222,7 @@ class EntityClass extends AbstractEntity
     /**
      * Get parent
      *
-     * @return SL\CoreBundle\Entity\EntityClass 
+     * @return SL\CoreBundle\Entity\EntityClass\EntityClass 
      */
     public function getParent()
     {
@@ -233,7 +234,7 @@ class EntityClass extends AbstractEntity
      *
      * @param boolean $isDocument
      *
-     * @return SL\CoreBundle\Entity\EntityClass
+     * @return SL\CoreBundle\Entity\EntityClass\EntityClass
      */
     public function setDocument($isDocument)
     {

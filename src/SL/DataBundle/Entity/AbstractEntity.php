@@ -9,7 +9,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 /**
  * AbstractEntity
  *
- * @ORM\MappedSuperclass
+ * @ORM\MappedSuperclass()
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
  * @Gedmo\Loggable(logEntryClass="SL\DataBundle\Entity\LogEntry")
  *

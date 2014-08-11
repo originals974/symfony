@@ -53,7 +53,7 @@ class SearchController extends Controller
             $filters = $this->em->getFilters();
             $filters->disable('softdeleteable');
             
-            $entityClasses = $this->em->getRepository('SLCoreBundle:EntityClass')->fullFindAll();
+            $entityClasses = $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')->fullFindAll();
             
             $filters->enable('softdeleteable');
             

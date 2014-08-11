@@ -10,7 +10,7 @@ use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 
 //Custom classes
-use SL\CoreBundle\Entity\EntityClass;
+use SL\CoreBundle\Entity\EntityClass\EntityClass;
 use SL\CoreBundle\Doctrine\SLCoreEntityGenerator;
 
 /**
@@ -47,7 +47,7 @@ class DoctrineService
     /**
      * Create mapping and entity file for entityClass
      *
-     * @param EntityClass $entityClass EntityClass
+     * @param EntityClass\EntityClass $entityClass EntityClass
      *
      * @return Array $mapping Mapping array for entityClass
      */
@@ -62,7 +62,7 @@ class DoctrineService
     /**
     * Remove entity file for entityClass
     *
-    * @param EntityClass $entityClass EntityClass
+    * @param EntityClass\EntityClass $entityClass EntityClass
     */
     public function removeDoctrineFiles(EntityClass $entityClass)
     {
@@ -92,7 +92,7 @@ class DoctrineService
     /**
      * Create mapping for entityClass
      *
-     * @param EntityClass $entityClass EntityClass
+     * @param EntityClass\EntityClass $entityClass EntityClass
      */
     public function doctrineGenerateMappingByEntityClass(EntityClass $entityClass) 
     {
@@ -140,7 +140,7 @@ class DoctrineService
     /**
      * Create entity file for entityClass
      *
-     * @param EntityClass $entityClass
+     * @param EntityClass\EntityClass $entityClass
      * @param array $mapping
      */
     public function doctrineGenerateEntityFileByMapping(EntityClass $entityClass, array $mapping = array())
@@ -162,7 +162,7 @@ class DoctrineService
     /**
      * Initialize EntityGenerator
      *
-     * @param EntityClass $entityClass
+     * @param EntityClass\EntityClass $entityClass
      */
     private function initEntityGenerator(EntityClass $entityClass) {
 
@@ -192,13 +192,14 @@ class DoctrineService
     /**
      * Initialize ClassMetadataInfo
      *
-     * @param EntityClass $entityClass
+     * @param EntityClass\EntityClass $entityClass
      * @param string $entityNamespace
      * @param array $mapping
      */
     private function initClassMetadataInfo(EntityClass $entityClass, $entityNamespace, array $mapping = array()) {
 
         $class = new ClassMetadataInfo($entityNamespace);
+        $class->customRepositoryClassName = 'SL\DataBundle\Entity\Repository\SharedEntityRepository';
 
         if($entityClass->getParent() === null){
             $class->setInheritanceType(ClassMetadataInfo::INHERITANCE_TYPE_JOINED);
@@ -256,7 +257,7 @@ class DoctrineService
     /**
      * Delete entity with id $entityId
      *
-     * @param string $entityFullName <BundleName>:<EntityName>(Ex : 'SLCoreBundle:Property')
+     * @param string $entityFullName <BundleName>:<EntityName>(Ex : 'SLCoreBundle:EntityClass\Property')
      * @param integer $entityId
      * @param boolean $hardDelete If true, remove entity from database
      *

@@ -1,6 +1,6 @@
 <?php
 
-namespace SL\CoreBundle\Services;
+namespace SL\CoreBundle\Services\EntityClass;
 
 //Symfony classes
 use Symfony\Component\Translation\Translator;
@@ -9,10 +9,10 @@ use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Routing\Router;   
 
 //Custom classes
-use SL\CoreBundle\Entity\EntityClass;
-use SL\CoreBundle\Entity\Property;
-use SL\CoreBundle\Entity\PropertyEntity;
-use SL\CoreBundle\Entity\PropertyChoice;
+use SL\CoreBundle\Entity\EntityClass\EntityClass;
+use SL\CoreBundle\Entity\EntityClass\Property;
+use SL\CoreBundle\Entity\EntityClass\PropertyEntity;
+use SL\CoreBundle\Entity\EntityClass\PropertyChoice;
 
 /**
  * Property Service
@@ -42,8 +42,8 @@ class PropertyService
      /**
     * Create property form
     *
-    * @param EntityClass $entityClass Parent entityClass of new property
-    * @param Property $property 
+    * @param EntityClass\EntityClass $entityClass Parent entityClass of new property
+    * @param EntityClass\Property $property 
     * @param String $formMode Depending of the property type to create (Default | Entity | List) 
     *
     * @return Array $form Array of form
@@ -57,7 +57,7 @@ class PropertyService
                 'id' => $entityClass->getId(),
                 )
             ),
-            'method' => 'POST',
+            'method' => 'GET',
             )
         );
 
@@ -77,6 +77,7 @@ class PropertyService
             'method' => 'POST',
             'submit_label' => 'create',
             'submit_color' => 'primary',
+            'entity_class_id' => $entityClass->getId(),
             )
         );
 
@@ -88,7 +89,7 @@ class PropertyService
     /**
     * Update property form
     *
-    * @param Property $property
+    * @param EntityClass\Property $property
     *
     * @return Form $form
     */
@@ -107,6 +108,7 @@ class PropertyService
             'method' => 'PUT',
             'submit_label' => 'update',
             'submit_color' => 'primary',
+            'entity_class_id' => $entityClass->getId(),
             )
         );
 
@@ -116,7 +118,7 @@ class PropertyService
      /**
      * Delete property form
      *
-     * @param Property $property
+     * @param EntityClass\Property $property
      *
      * @return Form $form
      */
@@ -131,6 +133,7 @@ class PropertyService
             'method' => 'DELETE',
             'submit_label' => 'delete',
             'submit_color' => 'danger',
+            'entity_class_id' => $entityClass->getId(),
             )
         );
 
@@ -186,7 +189,7 @@ class PropertyService
     /**
      * Find the formMode for a property
      *
-     * @param Property $property
+     * @param EntityClass\Property $property
      *
      * @return String $formMode Default|Entity|List
      */
@@ -209,7 +212,7 @@ class PropertyService
     /**
      * Verify integrity of a property before delete
      *
-     * @param Property $property Property to delete
+     * @param EntityClass\Property $property Property to delete
      *
      * @return Array $integrityError Title and error message
      */

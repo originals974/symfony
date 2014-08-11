@@ -15,11 +15,11 @@ services:
         class: SL\CoreBundle\Services\IconService
 
     sl_core.entity.class:
-        class: SL\CoreBundle\Services\EntityClassService
+        class: SL\CoreBundle\Services\EntityClass\EntityClassService
         arguments: [@doctrine, @translator, @form.factory, @router]
 
     sl_core.property:
-        class: SL\CoreBundle\Services\PropertyService
+        class: SL\CoreBundle\Services\EntityClass\PropertyService
         arguments: [@translator, @form.factory, @router]
 
     sl_core.choice_list:
@@ -69,32 +69,32 @@ services:
             - { name: form.type, alias: sl_core_choice_item }
 
     sl_core.form.type.entity.class:
-        class: SL\CoreBundle\Form\EntityClassType
+        class: SL\CoreBundle\Form\EntityClass\EntityClassType
         tags:
             - { name: form.type, alias: sl_core_entity_class }
 
     sl_core.form.type.entity.class.calculated.name:
-        class: SL\CoreBundle\Form\EntityClassCalculatedNameType
+        class: SL\CoreBundle\Form\EntityClass\EntityClassCalculatedNameType
         tags:
             - { name: form.type, alias: sl_core_entity_class_calculated_name }
 
     sl_core.form.type.property.select:
-        class: SL\CoreBundle\Form\PropertySelectType
+        class: SL\CoreBundle\Form\EntityClass\PropertySelectType
         tags:
             - { name: form.type, alias: sl_core_property_select }
 
     sl_core.form.type.property:
-        class: SL\CoreBundle\Form\PropertyType
+        class: SL\CoreBundle\Form\EntityClass\PropertyType
         tags:
             - { name: form.type, alias: sl_core_property }
 
     sl_core.form.type.property.entity:
-        class: SL\CoreBundle\Form\PropertyEntityType
+        class: SL\CoreBundle\Form\EntityClass\PropertyEntityType
         tags:
             - { name: form.type, alias: sl_core_property_entity }
 
     sl_core.form.type.property.choice:
-        class: SL\CoreBundle\Form\PropertyChoiceType
+        class: SL\CoreBundle\Form\EntityClass\PropertyChoiceType
         tags:
             - { name: form.type, alias: sl_core_property_choice }
     

@@ -1,8 +1,7 @@
 <?php
 
-namespace SL\CoreBundle\Controller;
+namespace SL\CoreBundle\Controller\EntityClass;
 
-//Symfony classes
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -11,11 +10,11 @@ use JMS\DiExtraBundle\Annotation as DI;
 use Doctrine\ORM\EntityManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
-//Custom classes
-use SL\CoreBundle\Entity\EntityClass;
-use SL\CoreBundle\Entity\Property;
-use SL\CoreBundle\Services\PropertyService;
+use SL\CoreBundle\Entity\EntityClass\EntityClass;
+use SL\CoreBundle\Entity\EntityClass\Property;
+use SL\CoreBundle\Services\EntityClass\PropertyService;
 use SL\CoreBundle\Services\DoctrineService;
+use SL\CoreBundle\Services\FrontService;
 
 /**
  * Property controller
@@ -26,25 +25,28 @@ class PropertyController extends Controller
     private $em;
     private $propertyService;
     private $doctrineService;
+    private $frontService;
 
     /**
      * @DI\InjectParams({
      *     "em" = @DI\Inject("doctrine.orm.entity_manager"),
      *     "propertyService" = @DI\Inject("sl_core.property"),
-     *     "doctrineService" = @DI\Inject("sl_core.doctrine")
+     *     "doctrineService" = @DI\Inject("sl_core.doctrine"),
+     *     "frontService" = @DI\Inject("sl_core.front")
      * })
      */
-    public function __construct(EntityManager $em, PropertyService $propertyService, DoctrineService $doctrineService)
+    public function __construct(EntityManager $em, PropertyService $propertyService, DoctrineService $doctrineService, FrontService $frontService)
     {
         $this->em = $em;
         $this->propertyService = $propertyService;
         $this->doctrineService = $doctrineService;
+        $this->frontService = $frontService;
     }
 
     /**
      * Display form to create property entity
      *
-     * @param EntityClass $entityClass Parent entityClass of new property
+     * @param EntityClass\EntityClass $entityClass Parent entityClass of new property
      */
     public function newAction(Request $request, EntityClass $entityClass)
     {
@@ -74,13 +76,13 @@ class PropertyController extends Controller
     /**
      * Display form to choose property type (default, entity, list) 
      *
-     * @param EntityClass $entityClass Parent entityClass of new property
+     * @param EntityClass\EntityClass $entityClass Parent entityClass of new property
      */
     public function selectFormAction(Request $request, EntityClass $entityClass)
     {
         if ($request->isXmlHttpRequest()) {
 
-            $formMode = $request->request->get('formMode'); 
+            $formMode = $request->query->get('formMode'); 
 
             //Create property 
             $property = $this->propertyService->getPropertyEntityClassByFormMode($formMode); 
@@ -107,7 +109,7 @@ class PropertyController extends Controller
     /**
      * Create property entity
      *
-     * @param EntityClass $entityClass Parent entityClass of new property
+     * @param EntityClass\EntityClass $entityClass Parent entityClass of new property
      * @param String $formMode Property type to create (Default | Entity | List) 
      * 
      * @ParamConverter("entityClass", options={"repository_method" = "fullFindById"})
@@ -140,7 +142,7 @@ class PropertyController extends Controller
                 $this->doctrineService->doctrineGenerateEntityFileByEntityClass($entityClass);  
                 $this->doctrineService->doctrineSchemaUpdateForce();
 
-                $html = $this->renderView('SLCoreBundle:Property:propertyTable.html.twig', array(
+                $html = $this->renderView('SLCoreBundle:EntityClass/Property:table.html.twig', array(
                     'entityClass' => $entityClass, 
                     )
                 );
@@ -174,7 +176,7 @@ class PropertyController extends Controller
     /**
      * Display form to edit property entity
      *
-     * @param Property $property
+     * @param EntityClass\Property $property
      * @ParamConverter("entityClass", options={"id" = "entity_class_id", "repository_method" = "fullFindById"})
      */
     public function editAction(Request $request, EntityClass $entityClass, Property $property)
@@ -198,7 +200,7 @@ class PropertyController extends Controller
     /**
      * Update property entity
      *
-     * @param Property $property Property to update
+     * @param EntityClass\Property $property Property to update
      *
      * @ParamConverter("entityClass", options={"id" = "entity_class_id", "repository_method" = "fullFindById"})
      */
@@ -218,7 +220,7 @@ class PropertyController extends Controller
                 $this->doctrineService->doctrineGenerateEntityFileByEntityClass($property->getEntityClass());  
                 $this->doctrineService->doctrineSchemaUpdateForce();
 
-                $html = $this->renderView('SLCoreBundle:Property:propertyTable.html.twig', array(
+                $html = $this->renderView('SLCoreBundle:EntityClass/Property:table.html.twig', array(
                     'entityClass' => $entityClass, 
                     )
                 );
@@ -251,7 +253,7 @@ class PropertyController extends Controller
     /**
      * Display form to remove property entity
      *
-     * @param Property $property
+     * @param EntityClass\Property $property
      * @ParamConverter("entityClass", options={"id" = "entity_class_id", "repository_method" = "fullFindById"})
      */
     public function removeAction(Request $request, EntityClass $entityClass, Property $property)
@@ -287,17 +289,25 @@ class PropertyController extends Controller
     /**
      * Delete property entity
      *
-     * @param Property $property Property to delete
+     * @param EntityClass\Property $property Property to delete
      * @ParamConverter("entityClass", options={"id" = "entity_class_id", "repository_method" = "fullFindById"})
      */
     public function deleteAction(Request $request, EntityClass $entityClass, Property $property)
     {
         if ($request->isXmlHttpRequest()) {
             
-            $this->em->remove($property);
-            $this->em->flush();
-           
-            $html = $this->renderView('SLCoreBundle:Property:propertyTable.html.twig', array(
+            if($this->frontService->propertyHasNotNullValues($property)){
+                $this->doctrineService->entityDelete('SLCoreBundle:EntityClass\Property', $property->getId(), false);
+            } 
+            else {
+                $this->doctrineService->entityDelete('SLCoreBundle:EntityClass\Property', $property->getId(), true);
+
+                //Update doctrine entity and schema
+                $this->doctrineService->doctrineGenerateEntityFileByEntityClass($entityClass);  
+                $this->doctrineService->doctrineSchemaUpdateForce();
+            }
+
+            $html = $this->renderView('SLCoreBundle:EntityClass/Property:table.html.twig', array(
                 'entityClass' => $entityClass, 
                 )
             );
@@ -322,7 +332,7 @@ class PropertyController extends Controller
     /**
      * Update property checkbox
      *
-     * @param Property $property Property to update
+     * @param EntityClass\Property $property Property to update
      */
     public function updateCheckboxAction(Request $request, Property $property)
     {

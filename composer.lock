@@ -972,16 +972,16 @@
         },
         {
             "name": "friendsofsymfony/elastica-bundle",
-            "version": "v3.0.2",
+            "version": "v3.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSElasticaBundle.git",
-                "reference": "64c5c19831577cbb2dbc35a94b7562b2db93c832"
+                "reference": "84cf6c79c2551d022367f4cb5d639e011df8d418"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSElasticaBundle/zipball/64c5c19831577cbb2dbc35a94b7562b2db93c832",
-                "reference": "64c5c19831577cbb2dbc35a94b7562b2db93c832",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSElasticaBundle/zipball/84cf6c79c2551d022367f4cb5d639e011df8d418",
+                "reference": "84cf6c79c2551d022367f4cb5d639e011df8d418",
                 "shasum": ""
             },
             "require": {
@@ -1018,7 +1018,7 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.0.x-dev"
+                    "dev-master": "3.1.x-dev"
                 }
             },
             "autoload": {
@@ -1058,7 +1058,7 @@
                 "propel",
                 "search"
             ],
-            "time": "2014-07-31 05:54:53"
+            "time": "2014-08-07 22:33:59"
         },
         {
             "name": "friendsofsymfony/jsrouting-bundle",
@@ -1742,12 +1742,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmittjoh/JMSSerializerBundle.git",
-                "reference": "55bb8fc449c626ab8d47d58fa13fd37f84376dfc"
+                "reference": "3a980e5409aa3d143534e68a72895e7e33b64c75"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/JMSSerializerBundle/zipball/55bb8fc449c626ab8d47d58fa13fd37f84376dfc",
-                "reference": "55bb8fc449c626ab8d47d58fa13fd37f84376dfc",
+                "url": "https://api.github.com/repos/schmittjoh/JMSSerializerBundle/zipball/3a980e5409aa3d143534e68a72895e7e33b64c75",
+                "reference": "3a980e5409aa3d143534e68a72895e7e33b64c75",
                 "shasum": ""
             },
             "require": {
@@ -1789,9 +1789,7 @@
             "authors": [
                 {
                     "name": "Johannes M. Schmitt",
-                    "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
-                    "role": "Developer of wrapped JMSSerializerBundle"
+                    "email": "schmittjoh@gmail.com"
                 }
             ],
             "description": "Allows you to easily serialize, and deserialize data of any complexity",
@@ -1803,7 +1801,7 @@
                 "serialization",
                 "xml"
             ],
-            "time": "2014-07-08 16:41:25"
+            "time": "2014-08-07 13:20:59"
         },
         {
             "name": "jms/translation-bundle",
@@ -1981,12 +1979,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/KnpLabs/KnpMenu.git",
-                "reference": "5758d0026d7ed00c8dd4727e413918cf2dc74c1a"
+                "reference": "4718be3b639d30d3ac1e4292bd7232faccceb962"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/KnpMenu/zipball/5758d0026d7ed00c8dd4727e413918cf2dc74c1a",
-                "reference": "5758d0026d7ed00c8dd4727e413918cf2dc74c1a",
+                "url": "https://api.github.com/repos/KnpLabs/KnpMenu/zipball/4718be3b639d30d3ac1e4292bd7232faccceb962",
+                "reference": "4718be3b639d30d3ac1e4292bd7232faccceb962",
                 "shasum": ""
             },
             "require": {
@@ -2023,7 +2021,7 @@
                     "email": "stof@notk.org"
                 },
                 {
-                    "name": "Knplabs",
+                    "name": "KnpLabs",
                     "homepage": "http://knplabs.com"
                 },
                 {
@@ -2037,7 +2035,7 @@
                 "menu",
                 "tree"
             ],
-            "time": "2014-08-01 09:50:16"
+            "time": "2014-08-08 15:32:27"
         },
         {
             "name": "knplabs/knp-menu-bundle",
@@ -2339,12 +2337,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phiamo/MopaBootstrapBundle.git",
-                "reference": "3129664a22f4a504cbbc2a5dd7a4f1db5217f970"
+                "reference": "61bf1357bfb36b44da99850e04849ead3d947b3e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phiamo/MopaBootstrapBundle/zipball/3129664a22f4a504cbbc2a5dd7a4f1db5217f970",
-                "reference": "3129664a22f4a504cbbc2a5dd7a4f1db5217f970",
+                "url": "https://api.github.com/repos/phiamo/MopaBootstrapBundle/zipball/61bf1357bfb36b44da99850e04849ead3d947b3e",
+                "reference": "61bf1357bfb36b44da99850e04849ead3d947b3e",
                 "shasum": ""
             },
             "require": {
@@ -2395,7 +2393,7 @@
                 "form",
                 "template"
             ],
-            "time": "2014-08-06 08:40:58"
+            "time": "2014-08-08 15:31:33"
         },
         {
             "name": "mopa/composer-bridge",
@@ -3392,12 +3390,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twbs/bootstrap.git",
-                "reference": "b4895a0d6dc493f17fe9092db4debe44182d42ac"
+                "reference": "a8437f0d2357368556368cbde1afecda4f0117f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/b4895a0d6dc493f17fe9092db4debe44182d42ac",
-                "reference": "b4895a0d6dc493f17fe9092db4debe44182d42ac",
+                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/a8437f0d2357368556368cbde1afecda4f0117f3",
+                "reference": "a8437f0d2357368556368cbde1afecda4f0117f3",
                 "shasum": ""
             },
             "replace": {
@@ -3435,7 +3433,7 @@
                 "responsive",
                 "web"
             ],
-            "time": "2014-08-06 02:28:22"
+            "time": "2014-08-08 19:23:55"
         },
         {
             "name": "twig/extensions",
@@ -3548,12 +3546,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/vakata/jstree.git",
-                "reference": "cc0884956fa5a7dc6a1eed92d6c8c57a627410f1"
+                "reference": "1f4e47c28bcc59eb3f4b54285a14cbc560990620"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vakata/jstree/zipball/cc0884956fa5a7dc6a1eed92d6c8c57a627410f1",
-                "reference": "cc0884956fa5a7dc6a1eed92d6c8c57a627410f1",
+                "url": "https://api.github.com/repos/vakata/jstree/zipball/1f4e47c28bcc59eb3f4b54285a14cbc560990620",
+                "reference": "1f4e47c28bcc59eb3f4b54285a14cbc560990620",
                 "shasum": ""
             },
             "require": {
@@ -3595,7 +3593,7 @@
             ],
             "description": "jsTree is jquery plugin, that provides interactive trees.",
             "homepage": "http://jstree.com",
-            "time": "2014-08-06 17:34:03"
+            "time": "2014-08-09 16:45:00"
         },
         {
             "name": "willdurand/js-translation-bundle",
