@@ -48,7 +48,7 @@ class EntityClassCalculatedNameType extends AbstractType
             'attr' => array(
                 'valid-target' => '', 
                 'no-valid-target' => 'ajax-modal',
-                'mode' => '',  
+                'mode' => 'update',  
                 ),
             'show_legend' => false,
         ));

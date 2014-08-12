@@ -64,7 +64,7 @@ class ChoiceItem extends AbstractEntity
      *
      * @return SL\CoreBundle\Entity\Choice\ChoiceList
      */
-    public function setChoiceList(ChoiceList $choiceList = null)
+    public function setChoiceList(ChoiceList $choiceList)
     {
         $this->choiceList = $choiceList;
 

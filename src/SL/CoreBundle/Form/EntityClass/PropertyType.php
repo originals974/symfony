@@ -58,9 +58,6 @@ class PropertyType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'SL\CoreBundle\Entity\EntityClass\Property',
-            'attr' => array(
-                'valid-target' => 'property_content', 
-                ),
             'show_legend' => false,
             )
         );

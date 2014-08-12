@@ -178,7 +178,7 @@ class EntityClass extends AbstractEntity
      *
      * @return SL\CoreBundle\Entity\EntityClass\EntityClass
      */
-    public function addProperty(\SL\CoreBundle\Entity\EntityClass\Property $property)
+    public function addProperty(Property $property)
     {
         $this->properties[] = $property;
 
@@ -192,7 +192,7 @@ class EntityClass extends AbstractEntity
      *
      * @return void
      */
-    public function removeProperty(\SL\CoreBundle\Entity\EntityClass\Property $property)
+    public function removeProperty(Property $property)
     {
         $this->properties->removeElement($property);
     }

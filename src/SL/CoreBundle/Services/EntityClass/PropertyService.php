@@ -2,13 +2,12 @@
 
 namespace SL\CoreBundle\Services\EntityClass;
 
-//Symfony classes
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\Translation\Translator;
-use Symfony\Component\Form\Form; 
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Routing\Router;   
+use Symfony\Component\Form\Form; 
 
-//Custom classes
 use SL\CoreBundle\Entity\EntityClass\EntityClass;
 use SL\CoreBundle\Entity\EntityClass\Property;
 use SL\CoreBundle\Entity\EntityClass\PropertyEntity;
@@ -20,6 +19,7 @@ use SL\CoreBundle\Entity\EntityClass\PropertyChoice;
  */
 class PropertyService
 {
+    private $em; 
     private $translator;
     private $formFactory;
     private $router;
@@ -27,28 +27,31 @@ class PropertyService
     /**
      * Constructor
      *
+     * @param EntityManager $em
      * @param Translator $translator
      * @param FormFactory $formFactory
      * @param Router $router
      *
      */
-    public function __construct(Translator $translator, FormFactory $formFactory, Router $router)
+    public function __construct(EntityManager $em, Translator $translator, FormFactory $formFactory, Router $router)
     {
+        $this->em = $em; 
         $this->translator = $translator;
         $this->formFactory = $formFactory;
         $this->router = $router;
     }
 
-     /**
-    * Create property form
+    /**
+    * Create create form for $property
+    * associated to $entityClass
     *
-    * @param EntityClass\EntityClass $entityClass Parent entityClass of new property
-    * @param EntityClass\Property $property 
-    * @param String $formMode Depending of the property type to create (Default | Entity | List) 
+    * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
+    * @param SL\CoreBundle\Entity\EntityClass\Property $property
+    * @param string $formMode|"default" Define what property type will be create(default|entity|choice)
     *
-    * @return Array $form Array of form
+    * @return Symfony\Component\Form\Form $form
     */
-    public function createCreateForm(EntityClass $entityClass, Property $property, $formMode)
+    public function createCreateForm(EntityClass $entityClass, Property $property, $formMode="default")
     {   
         $form = array(); 
 
@@ -65,7 +68,7 @@ class PropertyService
 
         $form['selectForm'] = $selectForm; 
 
-        //Select formType depending to formMode
+        //Select $formService depending to $formMode
         $formService = $this->selectFormService($formMode); 
 
         $mainForm = $this->formFactory->create($formService, $property, array(
@@ -75,6 +78,12 @@ class PropertyService
                 )
             ),
             'method' => 'POST',
+            'attr' => array(
+                'valid-target' => 'property-content', 
+                'no-valid-target' => 'ajax-modal',
+                'mode' => 'add',  
+                
+                ),
             'submit_label' => 'create',
             'submit_color' => 'primary',
             'entity_class_id' => $entityClass->getId(),
@@ -87,11 +96,13 @@ class PropertyService
     }
 
     /**
-    * Update property form
+    * Create update form for $property
+    * associated to $entityClass
     *
-    * @param EntityClass\Property $property
+    * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
+    * @param SL\CoreBundle\Entity\EntityClass\Property $property
     *
-    * @return Form $form
+    * @return Symfony\Component\Form\Form $form
     */
     public function createEditForm(EntityClass $entityClass, Property $property)
     {
@@ -106,6 +117,12 @@ class PropertyService
                 )
             ),
             'method' => 'PUT',
+            'attr' => array(
+                'valid-target' => 'property-content', 
+                'no-valid-target' => 'ajax-modal',
+                'mode' => 'update',  
+                
+                ),
             'submit_label' => 'update',
             'submit_color' => 'primary',
             'entity_class_id' => $entityClass->getId(),
@@ -115,13 +132,15 @@ class PropertyService
         return $form;
     }
 
-     /**
-     * Delete property form
-     *
-     * @param EntityClass\Property $property
-     *
-     * @return Form $form
-     */
+    /**
+    * Create update form for $property
+    * associated to $entityClass
+    *
+    * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
+    * @param SL\CoreBundle\Entity\EntityClass\Property $property
+    *
+    * @return Symfony\Component\Form\Form $form
+    */
     public function createDeleteForm(EntityClass $entityClass, Property $property)
     {
         $form = $this->formFactory->create('sl_core_property', $property, array(
@@ -131,6 +150,12 @@ class PropertyService
                 )
             ),
             'method' => 'DELETE',
+            'attr' => array(
+                'valid-target' => 'property-content', 
+                'no-valid-target' => 'ajax-modal',
+                'mode' => 'delete',  
+                
+                ),
             'submit_label' => 'delete',
             'submit_color' => 'danger',
             'entity_class_id' => $entityClass->getId(),
@@ -141,11 +166,11 @@ class PropertyService
     }
 
    /**
-     * Select the FormType
+     * Get $formService by $formMode
      *
-     * @param String $formMode Default|Entity|List
+     * @param string $formMode default|entity|choice
      *
-     * @return Mixed formType The form type
+     * @return string $formService
      */
     public function selectFormService($formMode) 
     {
@@ -160,24 +185,26 @@ class PropertyService
                 $formService = 'sl_core_property';
         }
 
-        return $formService ; 
+        return $formService; 
     }
 
     /**
-     * Select property entity class
+     * Get property entity class by $formMode
      *
-     * @param String $formMode Default|Entity|List
+     * @param string $formMode default|entity|choice
      *
      * @return Mixed $property
      */
     public function getPropertyEntityClassByFormMode($formMode) 
     {
+        $fieldType = $this->em->getRepository('SLCoreBundle:FieldType')->findOneByFormType($formMode);
+        
         switch($formMode) {
             case 'entity' : 
-                $property = new PropertyEntity();
+                $property = new PropertyEntity($fieldType);
                 break; 
             case 'choice' : 
-                $property = new PropertyChoice();
+                $property = new PropertyChoice($fieldType);
                 break;
             default:
                 $property = new Property();
@@ -187,11 +214,11 @@ class PropertyService
     }
 
     /**
-     * Find the formMode for a property
+     * Get $formMode for $property
      *
-     * @param EntityClass\Property $property
+     * @param SL\CoreBundle\Entity\EntityClass\Property $property
      *
-     * @return String $formMode Default|Entity|List
+     * @return String $formMode default|entity|choice
      */
     public function getFormModeByProperty(Property $property) 
     {
@@ -210,17 +237,17 @@ class PropertyService
     }
 
     /**
-     * Verify integrity of a property before delete
+     * Verify integrity of $property before delete
      *
-     * @param EntityClass\Property $property Property to delete
+     * @param SL\CoreBundle\Entity\EntityClass\Property $property
      *
-     * @return Array $integrityError Title and error message
+     * @return array $integrityError Title and error message
      */
     public function integrityControlBeforeDelete(Property $property) 
     {
         $integrityError = null;
 
-        //Check if property is used in EntityClass calculatedName pattern
+        //Check if $propert is used in EntityClass calculatedName pattern
         $calculatedNamePattern = $property->getEntityClass()->getCalculatedName(); 
 
         if(strpos(strtolower($calculatedNamePattern), strtolower($property->getTechnicalName())) !== false) {

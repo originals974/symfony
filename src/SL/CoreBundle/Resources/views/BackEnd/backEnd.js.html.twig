@@ -139,8 +139,8 @@
 		    sendToAjaxBackEnd('PUT', $button.attr('ajax-action'), {icon : event.icon}, null);
 		});
 
-        //When change the state of a checkbox of property_content div 
-        $(document).on("change", '#property_content input[type="checkbox"]', function(event){
+        //When change the state of a checkbox of property-content div 
+        $(document).on("change", '#property-content input[type="checkbox"]', function(event){
 		    $checkbox = $(this); 
 		    sendToAjaxBackEnd('PUT', $checkbox.attr('ajax-action'), {name : $checkbox.attr("name"), value : $checkbox.is(':checked')}, null);
 		});

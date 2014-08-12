@@ -17,7 +17,6 @@ use SL\CoreBundle\Entity\EntityClass\EntityClass;
 class EntityClassService
 {
     private $em;
-    private $databaseEm;
     private $translator;
     private $formFactory;
     private $router;
@@ -34,7 +33,6 @@ class EntityClassService
     public function __construct(RegistryInterface $registry, Translator $translator, FormFactory $formFactory, Router $router)
     {
         $this->em = $registry->getManager();
-        $this->databaseEm = $registry->getManager('database');
         $this->translator = $translator;
         $this->formFactory = $formFactory;
         $this->router = $router;

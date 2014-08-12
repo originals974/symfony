@@ -15,6 +15,7 @@ class PropertyEntity extends Property
 {
     /**
      * @ORM\ManyToOne(targetEntity="SL\CoreBundle\Entity\EntityClass\EntityClass")
+     * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank()
      */
     private $targetEntityClass;
@@ -23,10 +24,11 @@ class PropertyEntity extends Property
     /**
      * Set targetEntityClass
      *
-     * @param \SL\CoreBundle\Entity\EntityClass\EntityClass $targetEntityClass
-     * @return PropertyEntity
+     * @param SL\CoreBundle\Entity\EntityClass\EntityClass $targetEntityClass
+     *
+     * @return SL\CoreBundle\Entity\EntityClass\EntityClass 
      */
-    public function setTargetEntityClass(\SL\CoreBundle\Entity\EntityClass\EntityClass $targetEntityClass = null)
+    public function setTargetEntityClass(EntityClass $targetEntityClass)
     {
         $this->targetEntityClass = $targetEntityClass;
 
@@ -36,7 +38,7 @@ class PropertyEntity extends Property
     /**
      * Get targetEntityClass
      *
-     * @return \SL\CoreBundle\Entity\EntityClass\EntityClass 
+     * @return SL\CoreBundle\Entity\EntityClass\EntityClass 
      */
     public function getTargetEntityClass()
     {

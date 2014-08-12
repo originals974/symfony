@@ -7,6 +7,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 use SL\CoreBundle\Entity\MappedSuperclass\AbstractEntity;
+use SL\CoreBundle\Entity\FieldType; 
 
 /**
  * Property
@@ -16,7 +17,6 @@ use SL\CoreBundle\Entity\MappedSuperclass\AbstractEntity;
  *     @ORM\UniqueConstraint(name="unique_index_property_entity_class_id_technical_name", columns={"entityClass_id", "technical_name"})
  * })
  * @ORM\Entity(repositoryClass="SL\CoreBundle\Entity\Repository\PropertyRepository")
- * @ORM\HasLifecycleCallbacks()
  * @UniqueEntity(fields={"entityClass", "displayName"}, repositoryMethod="findByEntityClassAndDisplayName")
  */
 class Property extends AbstractEntity
@@ -48,11 +48,27 @@ class Property extends AbstractEntity
      */
     private $fieldType;
 
+     /**
+     * Constructor : Create an property
+     * associated with $fieldType 
+     *
+     * @param SL\CoreBundle\Entity\FieldType $fieldType|null 
+     *
+     * @return void 
+     */
+    public function __construct(FieldType  $fieldType = null)
+    {
+        if($fieldType != null){
+            $this->fieldType($fieldType);
+        }
+    }
+
     /**
      * Set isRequired
      *
      * @param boolean $isRequired
-     * @return Property
+     *
+     * @return SL\CoreBundle\Entity\EntityClass\Property
      */
     public function setRequired($isRequired)
     {
@@ -75,7 +91,8 @@ class Property extends AbstractEntity
      * Set isMultiple
      *
      * @param boolean $isMultiple
-     * @return Property
+     *
+     * @return SL\CoreBundle\Entity\EntityClass\Property
      */
     public function setIsMultiple($isMultiple)
     {
@@ -97,10 +114,11 @@ class Property extends AbstractEntity
     /**
      * Set entityClass
      *
-     * @param \SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
-     * @return EntityClass
+     * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
+     *
+     * @return SL\CoreBundle\Entity\EntityClass\EntityClass
      */
-    public function setEntityClass(\SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass = null)
+    public function setEntityClass(EntityClass $entityClass)
     {
         $this->entityClass = $entityClass;
 
@@ -110,7 +128,7 @@ class Property extends AbstractEntity
     /**
      * Get entityClass
      *
-     * @return \SL\CoreBundle\Entity\EntityClass\EntityClass 
+     * @return SL\CoreBundle\Entity\EntityClass\EntityClass 
      */
     public function getEntityClass()
     {
@@ -120,10 +138,11 @@ class Property extends AbstractEntity
     /**
      * Set fieldType
      *
-     * @param \SL\CoreBundle\Entity\FieldType $fieldType
-     * @return FieldType
+     * @param SL\CoreBundle\Entity\FieldType $fieldType
+     *
+     * @return SL\CoreBundle\Entity\FieldType
      */
-    public function setFieldType(\SL\CoreBundle\Entity\FieldType $fieldType = null)
+    public function setFieldType(FieldType $fieldType)
     {
         $this->fieldType = $fieldType;
 
@@ -133,7 +152,7 @@ class Property extends AbstractEntity
     /**
      * Get fieldType
      *
-     * @return \SL\CoreBundle\Entity\FieldType 
+     * @return SL\CoreBundle\Entity\FieldType 
      */
     public function getFieldType()
     {

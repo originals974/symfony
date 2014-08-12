@@ -44,24 +44,27 @@ class PropertyController extends Controller
     }
 
     /**
-     * Display form to create property entity
+     * Display form to create a property
+     * associated to $entityClass
      *
-     * @param EntityClass\EntityClass $entityClass Parent entityClass of new property
+     * @param Symfony\Component\HttpFoundation\Request $request
+     * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
+     *
+     * @return Symfony\Component\HttpFoundation\Response $response
      */
     public function newAction(Request $request, EntityClass $entityClass)
     {
         if ($request->isXmlHttpRequest()) {
 
             $property = new Property();
- 
-            $formArray = $this->propertyService->createCreateForm($entityClass, $property, 'default');
+            $formArray = $this->propertyService->createCreateForm($entityClass, $property);
             $selectForm = $formArray['selectForm']; 
-            $form = $formArray['mainForm'];
+            $mainform = $formArray['mainForm'];
 
             $response = $this->render('SLCoreBundle::save.html.twig', array(
                 'entity' => $property,
                 'selectForm' => $selectForm->createView(),
-                'form'   => $form->createView(),
+                'form'   => $mainform->createView(),
                 )
             );
         }
@@ -71,31 +74,33 @@ class PropertyController extends Controller
 
         return $response; 
     }
-
     
     /**
-     * Display form to choose property type (default, entity, list) 
+     * Display form to create selected property 
+     * associated to $entityClass
      *
-     * @param EntityClass\EntityClass $entityClass Parent entityClass of new property
+     * @param Symfony\Component\HttpFoundation\Request $request
+     * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
+     *
+     * @return Symfony\Component\HttpFoundation\Response $response
      */
     public function selectFormAction(Request $request, EntityClass $entityClass)
     {
         if ($request->isXmlHttpRequest()) {
 
             $formMode = $request->query->get('formMode'); 
-
-            //Create property 
+            
             $property = $this->propertyService->getPropertyEntityClassByFormMode($formMode); 
             $property->setEntityClass($entityClass); 
 
             $formArray = $this->propertyService->createCreateForm($entityClass, $property, $formMode);
             $selectForm = $formArray['selectForm']; 
-            $form = $formArray['mainForm'];
+            $mainform = $formArray['mainForm'];
 
             $response = $this->render('SLCoreBundle::save.html.twig', array(
                 'entity' => $property,
                 'selectForm' => $selectForm->createView(),
-                'form'   => $form->createView(),
+                'form'   => $mainform->createView(),
                 )
             );
         }
@@ -107,12 +112,16 @@ class PropertyController extends Controller
     }
 
     /**
-     * Create property entity
+     * Create a property with $formMode type
+     * associated to $entityClass
      *
-     * @param EntityClass\EntityClass $entityClass Parent entityClass of new property
-     * @param String $formMode Property type to create (Default | Entity | List) 
-     * 
-     * @ParamConverter("entityClass", options={"repository_method" = "fullFindById"})
+     * @param Symfony\Component\HttpFoundation\Request $request
+     * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
+     * @param string $formMode Determine type of new property <default(text, money, date,...)|entity|choice>
+     *
+     * @return Mixed $response
+     *
+     * @ParamConverter("entityClass", options={"id" = "entity_class_id", "repository_method" = "fullFindById"})
      */
     public function createAction(Request $request, EntityClass $entityClass, $formMode)
     {
@@ -129,11 +138,6 @@ class PropertyController extends Controller
         if ($request->isXmlHttpRequest()) {
 
             if ($form->isValid()) {
-
-                if($formMode == 'entity' || $formMode == 'choice') {
-                    $fieldType = $this->em->getRepository('SLCoreBundle:FieldType')->findOneByFormType($formMode);
-                    $property->setFieldType($fieldType); 
-                }
 
                 $this->em->persist($property);
                 $this->em->flush();
@@ -174,9 +178,15 @@ class PropertyController extends Controller
     }
 
     /**
-     * Display form to edit property entity
+     * Display form to edit $property
+     * associated to $entityClass
      *
-     * @param EntityClass\Property $property
+     * @param Symfony\Component\HttpFoundation\Request $request
+     * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
+     * @param SL\CoreBundle\Entity\EntityClass\Property $property
+     *
+     * @return Symfony\Component\HttpFoundation\Response $response
+     *
      * @ParamConverter("entityClass", options={"id" = "entity_class_id", "repository_method" = "fullFindById"})
      */
     public function editAction(Request $request, EntityClass $entityClass, Property $property)
@@ -198,16 +208,20 @@ class PropertyController extends Controller
     }
 
     /**
-     * Update property entity
+     * Update $property
+     * associated to $entityClass
      *
-     * @param EntityClass\Property $property Property to update
+     * @param Symfony\Component\HttpFoundation\Request $request
+     * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
+     * @param SL\CoreBundle\Entity\EntityClass\Property $property
+     *
+     * @return Mixed $response
      *
      * @ParamConverter("entityClass", options={"id" = "entity_class_id", "repository_method" = "fullFindById"})
      */
     public function updateAction(Request $request, EntityClass $entityClass, Property $property)
     {
         $form = $this->propertyService->createEditForm($entityClass, $property);
-
         $form->handleRequest($request);
 
         if ($request->isXmlHttpRequest()) {
@@ -250,15 +264,22 @@ class PropertyController extends Controller
         return $response; 
     }
 
-    /**
-     * Display form to remove property entity
+     /**
+     * Display form to remove $property
+     * associated to $entityClass
      *
-     * @param EntityClass\Property $property
+     * @param Symfony\Component\HttpFoundation\Request $request
+     * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
+     * @param SL\CoreBundle\Entity\EntityClass\Property $property
+     *
+     * @return Symfony\Component\HttpFoundation\Response $response
+     *
      * @ParamConverter("entityClass", options={"id" = "entity_class_id", "repository_method" = "fullFindById"})
      */
     public function removeAction(Request $request, EntityClass $entityClass, Property $property)
     {
         if ($request->isXmlHttpRequest()) {
+
             //Property integrity control before delete
             $integrityError = $this->propertyService->integrityControlBeforeDelete($property); 
             if($integrityError == null) {
@@ -287,9 +308,15 @@ class PropertyController extends Controller
     }
 
     /**
-     * Delete property entity
+     * Delete $property 
+     * associated to $entityClass
      *
-     * @param EntityClass\Property $property Property to delete
+     * @param Symfony\Component\HttpFoundation\Request $request
+     * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
+     * @param SL\CoreBundle\Entity\EntityClass\Property $property
+     *
+     * @return Mixed $response 
+     *
      * @ParamConverter("entityClass", options={"id" = "entity_class_id", "repository_method" = "fullFindById"})
      */
     public function deleteAction(Request $request, EntityClass $entityClass, Property $property)
@@ -330,9 +357,12 @@ class PropertyController extends Controller
     }
 
     /**
-     * Update property checkbox
+     * Update $property checkbox 
      *
-     * @param EntityClass\Property $property Property to update
+     * @param Symfony\Component\HttpFoundation\Request $request
+     * @param SL\CoreBundle\Entity\EntityClass\Property $property
+     *
+     * @return Mixed $response 
      */
     public function updateCheckboxAction(Request $request, Property $property)
     {
@@ -341,20 +371,13 @@ class PropertyController extends Controller
             $name = $request->request->get('name'); 
             $value = ($request->request->get('value')=='true')?true:false;
 
-            switch ($name) {
-                case 'isRequired':
-                    $property->setRequired($value);
-                    break;
-            }
-          
+            $property->setRequired($value);
             $this->em->flush();
 
-            if($name == 'isRequired') {
-                //Update database schema
-                $this->doctrineService->doctrineGenerateEntityFileByEntityClass($property->getEntityClass());  
-                $this->doctrineService->doctrineSchemaUpdateForce();
-            }
-
+            //Update database schema
+            $this->doctrineService->doctrineGenerateEntityFileByEntityClass($property->getEntityClass());  
+            $this->doctrineService->doctrineSchemaUpdateForce();
+            
             $response = new Response();
         }
         else {

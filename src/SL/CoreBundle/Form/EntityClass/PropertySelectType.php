@@ -36,6 +36,8 @@ class PropertySelectType extends AbstractType
         $resolver->setDefaults(array(
             'attr' => array(
                 'valid-target' => '', 
+                'no-valid-target' => '',
+                'mode' => '', 
                 ),
             'show_legend' => false,
         ));

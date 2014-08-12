@@ -16,16 +16,17 @@ class PropertyChoice extends Property
 { 
     /**
      * @ORM\ManyToOne(targetEntity="SL\CoreBundle\Entity\Choice\ChoiceList")
+     * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank()
      */
     private $choiceList;
 
-
     /**
      * Set choiceList
      *
-     * @param ChoiceList $choiceList
-     * @return ChoiceList
+     * @param SL\CoreBundle\Entity\Choice\ChoiceList $choiceList
+     *
+     * @return SL\CoreBundle\Entity\Choice\ChoiceList
      */
     public function setChoiceList(ChoiceList $choiceList = null)
     {
@@ -37,7 +38,7 @@ class PropertyChoice extends Property
     /**
      * Get choiceList
      *
-     * @return ChoiceList 
+     * @return SL\CoreBundle\Entity\Choice\ChoiceList 
      */
     public function getChoiceList()
     {

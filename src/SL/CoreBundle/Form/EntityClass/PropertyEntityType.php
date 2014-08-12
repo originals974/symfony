@@ -2,11 +2,8 @@
 
 namespace SL\CoreBundle\Form\EntityClass;
 
-//Symfony classes
 use Symfony\Component\Form\FormBuilderInterface;
 use Doctrine\ORM\EntityRepository;
-
-//Custom classes
 
 class PropertyEntityType extends PropertyType
 {
