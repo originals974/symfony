@@ -20,7 +20,7 @@ services:
 
     sl_core.property:
         class: SL\CoreBundle\Services\EntityClass\PropertyService
-        arguments: [@translator, @form.factory, @router]
+        arguments: [@doctrine.orm.entity_manager, @translator, @form.factory, @router]
 
     sl_core.choice_list:
         class: SL\CoreBundle\Services\Choice\ChoiceListService
@@ -103,6 +103,12 @@ services:
         tags:
             - { name: form.type, alias: sl_core_search }
 
+    sl_core.form.type.front:
+        class: SL\CoreBundle\Form\FrontType
+        arguments: [@doctrine.orm.entity_manager, @sl_core.entity.class, @translator]
+        tags:
+            - { name: form.type, alias: sl_core_front }
+
     sl_core.form.type.entity.version:
         class: SL\CoreBundle\Form\EntityVersionType
         tags:
@@ -115,3 +121,9 @@ services:
         tags:
             - { name: validator.constraint_validator, alias: calculated_name_pattern }
 
+    #Param Converter
+    sl_core.paramconverter.entity_class:
+        class: SL\CoreBundle\ParamConverter\EntityClassParamConverter
+        arguments: ["SL\CoreBundle\Entity\EntityClass\EntityClass", @doctrine.orm.entity_manager]
+        tags:
+            - { name: request.param_converter, priority: 20 }

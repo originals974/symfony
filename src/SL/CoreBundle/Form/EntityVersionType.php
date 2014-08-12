@@ -19,7 +19,7 @@ class EntityVersionType extends AbstractType
         $limit = $options['limit']; 
 
         $builder
-            ->add('version', 'entity', array(
+            ->add('logEntry', 'entity', array(
                 'class' => 'SLDataBundle:LogEntry',
                 'property' => 'version',
                 'query_builder' => function(EntityRepository $er) use ($entity, $limit){

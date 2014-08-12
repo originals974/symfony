@@ -24,11 +24,8 @@ class FrontService
 {
     private $formFactory;
     private $router;
-    private $em;
+    private $em; 
     private $databaseEm;
-    private $entityClassService;
-    private $doctrineService;
-    private $translator;
 
     /**
      * Constructor
@@ -36,20 +33,14 @@ class FrontService
      * @param FormFactory $formFactory
      * @param Router $router
      * @param RegistryInterface $registry
-     * @param EntityClassService $entityClassService
-     * @param DoctrineService $doctrineService
-     * @param Translator $translator
      *
      */
-    public function __construct(FormFactory $formFactory, Router $router, RegistryInterface $registry, EntityClassService $entityClassService, DoctrineService $doctrineService, Translator $translator)
+    public function __construct(FormFactory $formFactory, Router $router, RegistryInterface $registry)
     {
         $this->formFactory = $formFactory;
         $this->router = $router;
         $this->em = $registry->getManager();
         $this->databaseEm = $registry->getManager('database');
-        $this->entityClassService = $entityClassService;
-        $this->doctrineService = $doctrineService;
-        $this->translator = $translator;
     }
 
     /**
@@ -60,24 +51,23 @@ class FrontService
     *
     * @return Form $form
     */
-    public function createCreateForm(EntityClass $entityClass, $entity)
-    {
-        $entityClass = $this->doctrineService->getDataEntityClass($entityClass->getTechnicalName());
-
-        $form = $this->formFactory->create(new FrontType($this->em, $entityClass, $this->entityClassService, $this->translator), $entity, array(
+    public function createCreateForm($entity)
+    {  
+        $form = $this->formFactory->create('sl_core_front', $entity, array(
             'action' => $this->router->generate('front_create', array(
-                'id' => $entityClass->getId(),
+                'id' => $entity->getEntityClassId(),
                 )
             ),
             'method' => 'POST',
+            'data_class' => get_class($entity),
             'attr' => array(
-                'mode' => 'add',  
                 'valid-target' => '',  
                 'no-valid-target' => 'ajax-modal',
+                'mode' => 'add',  
                 ),
             'submit_label' => 'create',
             'submit_color' => 'primary',
-            'entityClass' => $entityClass,
+            'entity_class_id' => $entity->getEntityClassId(),
             )
         );
 
@@ -92,17 +82,16 @@ class FrontService
     *
     * @return Form $form
     */
-    public function createEditForm(EntityClass $entityClass, $entity)
+    public function createEditForm($entity)
     {
-        $entityClass = $this->doctrineService->getDataEntityClass($entityClass->getTechnicalName());
-
-        $form = $this->formFactory->create(new FrontType($this->em, $entityClass, $this->entityClassService, $this->translator), $entity, array(
+        $form = $this->formFactory->create('sl_core_front', $entity, array(
             'action' => $this->router->generate('front_update', array(
-                'id' => $entityClass->getId(),
+                'id' => $entity->getEntityClassId(),
                 'entity_id' => $entity->getId(),
                 )
             ),
             'method' => 'PUT',
+            'data_class' => get_class($entity),
             'attr' => array(
                 'mode' => 'update',  
                 'valid-target' => '',  
@@ -110,7 +99,7 @@ class FrontService
                 ),
             'submit_label' => 'update',
             'submit_color' => 'primary',
-            'entityClass' => $entityClass,
+            'entity_class_id' => $entity->getEntityClassId(),
             )
         );
         
@@ -126,17 +115,16 @@ class FrontService
      *
      * @return Form $form Delete form
      */
-    public function createDeleteForm(EntityClass $entityClass, $entity)
+    public function createDeleteForm($entity)
     {
-        $entityClass = $this->doctrineService->getDataEntityClass($entityClass->getTechnicalName());
-
-        $form = $this->formFactory->create(new FrontType($this->em, $entityClass, $this->entityClassService, $this->translator), $entity, array(
+        $form = $this->formFactory->create('sl_core_front', $entity, array(
             'action' => $this->router->generate('front_delete', array(
-                'id' => $entityClass->getId(),
+                'id' => $entity->getEntityClassId(),
                 'entity_id' => $entity->getId(),
                 )
             ),
             'method' => 'DELETE',
+            'data_class' => get_class($entity),
             'attr' => array(
                 'mode' => 'delete',  
                 'valid-target' => '',  
@@ -144,7 +132,7 @@ class FrontService
                 ),
             'submit_label' => 'delete',
             'submit_color' => 'danger',
-            'entityClass' => $entityClass,
+            'entity_class_id' => $entity->getEntityClassId(),
             )
         );
 
@@ -153,18 +141,17 @@ class FrontService
 
     /**
     * Update entity version form
-    *
-    * @param EntityClass\EntityClass $entityClass 
+    * 
     * @param Mixed $entity
     * @param integer $limit
     *
     * @return Form $form
     */
-    public function createEditVersionForm(EntityClass $entityClass, $entity, LogEntry $logEntry, $limit = 5)
+    public function createEditVersionForm($entity, $limit = 5)
     {   
-        $form = $this->formFactory->create('sl_core_entity_version', $logEntry, array(
+        $form = $this->formFactory->create('sl_core_entity_version', null, array(
             'action' => $this->router->generate('front_update_version', array(
-                'id' => $entityClass->getId(),
+                'id' => $entity->getEntityClassId(),
                 'entity_id' => $entity->getId(),
                 )
             ),
@@ -214,8 +201,10 @@ class FrontService
      *
      * @return String $displayName DisplayName of new entity
      */
-    public function calculateDisplayName($entity, EntityClass $entityClass) 
+    public function calculateDisplayName($entity) 
     { 
+        $entityClass = $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')->find($entity->getEntityClassId()); 
+
         $patternString = $entityClass->getCalculatedName();
 
         $patternArray = explode("%", $patternString);

@@ -37,7 +37,7 @@
                 }
 
                 if($url != null && $url != '#' ) {
-                    sendToAjaxFrontEnd('POST', $url, null, $htmlTarget);                                
+                    sendToAjaxFrontEnd('GET', $url, null, $htmlTarget);                                
                 }
             });
         };
@@ -78,8 +78,6 @@
                         //Get the modal id  
                         modalId = '#'+$($form).parent().parent().attr('id');
                         selectedJsTree = $('#'+currentJsTreeReferenceId).jstree(true); 
-
-                        alert(mode); 
 
                         if(mode == 'add'){
                             //Refresh all search results

@@ -47,9 +47,7 @@ class MainController extends Controller
      */
 	public function indexFrontEndAction()
     {
-        $search = new Search(); 
-
-        $form = $this->searchService->createSearchForm($search);
+        $form = $this->searchService->createSearchForm();
 
         return $this->render('SLCoreBundle:FrontEnd:index.html.twig', array(
             'form'   => $form->createView(),

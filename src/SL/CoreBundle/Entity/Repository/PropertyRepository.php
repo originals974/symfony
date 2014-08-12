@@ -23,8 +23,7 @@ class PropertyRepository extends EntityRepository
 	 */
 	public function findByEntityClassAndDisplayName($criteria)
 	{
-		$qb = $this	->getEntityManager()
-			 		->getRepository('SLCoreBundle:EntityClass\Property')->createQueryBuilder('p')
+		$qb = $this ->createQueryBuilder('p')
 		           	->join('p.entityClass','o')
 		           	->where('o.id = :entityClassId')
 		           	->setParameter('entityClassId', $criteria['entityClass'])

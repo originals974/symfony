@@ -49,7 +49,7 @@ abstract class AbstractEntity
      * @var string
      *
      * @Gedmo\Versioned
-     * @ORM\Column(name="display_name", type="string", length=255)
+     * @ORM\Column(name="display_name", type="string", length=255, nullable=true)
      */
     private $displayName;
 
@@ -57,6 +57,18 @@ abstract class AbstractEntity
      * @ORM\Column(name="deletedAt", type="datetime", nullable=true)
      */
     private $deletedAt;
+
+    /**
+     * Constructor : 
+     *
+     * @param 
+     *
+     * @return void 
+     */
+    public function __construct($entityClassId)
+    {
+        $this->setEntityClassId($entityClassId);
+    }
 
     /**
      * Get id

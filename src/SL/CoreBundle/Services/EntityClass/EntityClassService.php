@@ -252,12 +252,17 @@ class EntityClassService
      */
     private function orderedEntityClassesProperties(array $entityClasses){
 
+        $filters = $this->em->getFilters();
+        $filters->disable('softdeleteable');
+
         $orderedEntityClasses = array(); 
 
         foreach($entityClasses as $entityClass){
             $entityClass = $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')->fullFindById($entityClass->getId());
             $orderedEntityClasses[] = $entityClass;
         }
+
+        $filters->enable('softdeleteable');
 
         return $orderedEntityClasses; 
     }

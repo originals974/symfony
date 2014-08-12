@@ -38,7 +38,7 @@ class SearchService
     *
     * @return Form $form
     */
-    public function createSearchForm(Search $search)
+    public function createSearchForm(Search $search = null)
     {
         $form = $this->formFactory->create('sl_core_search', $search, array(
             'action' => $this->router->generate('search'),

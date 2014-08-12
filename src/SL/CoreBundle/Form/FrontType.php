@@ -2,35 +2,31 @@
 
 namespace SL\CoreBundle\Form;
 
-//Symfony classes
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\ORM\EntityManager; 
 use Symfony\Component\Translation\Translator;  
 
-//Custom classes
 use SL\CoreBundle\Services\EntityClass\EntityClassService;
 use SL\CoreBundle\Entity\EntityClass\Property;
 
 class FrontType extends AbstractType
 {
     protected $em;
-    protected $entityClass;
     protected $entityClassService;
+    protected $translator;
 
     /**
      * Constructor
      *
      * @param EntityManager $em
-     * @param String $entityClass
      * @param EntityClassService $entityClassService
      * @param Translator $translator
      */
-    public function __construct (EntityManager $em, $entityClass, EntityClassService $entityClassService, Translator $translator)
+    public function __construct (EntityManager $em, EntityClassService $entityClassService, Translator $translator)
     {
         $this->em = $em; 
-        $this->entityClass = $entityClass; 
         $this->entityClassService = $entityClassService; 
         $this->translator = $translator; 
     }
@@ -43,7 +39,8 @@ class FrontType extends AbstractType
     {
         if($options['method'] != 'DELETE'){
 
-            $entityClasses = $this->entityClassService->getPath($options['entityClass']); 
+            $entityClass= $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')->find($options['entity_class_id']); 
+            $entityClasses = $this->entityClassService->getPath($entityClass); 
 
             foreach($entityClasses as $entityClass){
 
@@ -56,8 +53,6 @@ class FrontType extends AbstractType
                 'icon' => $entityClass->getIcon(),
                 'inherit_data' => true,
                 ));
-
-                $entityClass = $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')->fullFindById($entityClass->getId());
 
                 foreach ($entityClass->getProperties() as $property) {
                     
@@ -72,9 +67,6 @@ class FrontType extends AbstractType
 
                 $builder->add($tab); 
             }
-
-
-
         }
 
         $builder->add('submit', 'submit', array(
@@ -151,7 +143,6 @@ class FrontType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => $this->entityClass,
             'show_legend' => false,
             )
         );
@@ -159,7 +150,7 @@ class FrontType extends AbstractType
         $resolver->setRequired(array(
             'submit_label',
             'submit_color',
-            'entity_class',
+            'entity_class_id',
             )
         );
     }
@@ -169,6 +160,6 @@ class FrontType extends AbstractType
      */
     public function getName()
     {
-        return 'front';
+        return 'sl_core_front';
     }
 }

@@ -42,12 +42,12 @@ class SearchController extends Controller
     */
     public function searchAction(Request $request) {
        
-        $search =  new Search(); 
-        
-        $form = $this->searchService->createSearchForm($search);
-        $form->handleRequest($request);
-
+        //$search =  new Search();
         if ($request->isXmlHttpRequest()) {    
+
+            $form = $this->searchService->createSearchForm();
+            $form->handleRequest($request);
+            $searchPattern = $form->get('searchField')->getData();
 
             //Get all active entityClasses
             $filters = $this->em->getFilters();
@@ -62,12 +62,12 @@ class SearchController extends Controller
             foreach($entityClasses as $entityClass){
 
                 //Search in Elactica index
-                $entities = $this->getSearchResults($search->getSearchField(), $entityClass->getTechnicalName(), 100);
+                $entities = $this->getSearchResults($searchPattern, $entityClass->getTechnicalName(), 100);
 
                 //Include entityClass only if it has results
                 if(!empty($entities)){
                     $entityClassArray = array(
-                        'entityClass' => $entityClass,
+                        'entity_class' => $entityClass,
                         'nb_results' => count($entities), 
                         );
                     $entityClassesArray[] = $entityClassArray;
