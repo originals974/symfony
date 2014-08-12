@@ -1,6 +1,6 @@
 <?php
 
-namespace SL\CoreBundle\Entity;
+namespace SL\CoreBundle\Entity\Field;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -40,7 +40,7 @@ class FieldType extends AbstractEntity
 
     /**
      * @Gedmo\SortableGroup
-     * @ORM\ManyToOne(targetEntity="SL\CoreBundle\Entity\FieldCategory", inversedBy="fieldTypes")
+     * @ORM\ManyToOne(targetEntity="SL\CoreBundle\Entity\Field\FieldCategory", inversedBy="fieldTypes")
      * @ORM\JoinColumn(nullable=false)
      */
     private $fieldCategory;
@@ -50,7 +50,8 @@ class FieldType extends AbstractEntity
      * Set dataType
      *
      * @param string $dataType
-     * @return FieldType
+     *
+     * @return SL\CoreBundle\Entity\Field\FieldType
      */
     public function setDataType($dataType)
     {
@@ -73,7 +74,8 @@ class FieldType extends AbstractEntity
      * Set formType
      *
      * @param string $formType
-     * @return FieldType
+     *
+     * @return SL\CoreBundle\Entity\Field\FieldType
      */
     public function setFormType($formType)
     {
@@ -96,7 +98,8 @@ class FieldType extends AbstractEntity
      * Set length
      *
      * @param integer $length
-     * @return FieldType
+     *
+     * @return SL\CoreBundle\Entity\Field\FieldType
      */
     public function setLength($length)
     {
@@ -118,10 +121,10 @@ class FieldType extends AbstractEntity
     /**
      * Set fieldCategory
      *
-     * @param \SL\CoreBundle\Entity\FieldCategory $fieldCategory
-     * @return FieldType
+     * @param SL\CoreBundle\Entity\Field\FieldCategory $fieldCategory
+     * @return SL\CoreBundle\Entity\Field\FieldType
      */
-    public function setFieldCategory(\SL\CoreBundle\Entity\FieldCategory $fieldCategory)
+    public function setFieldCategory(FieldCategory $fieldCategory)
     {
         $this->fieldCategory = $fieldCategory;
 
@@ -131,7 +134,7 @@ class FieldType extends AbstractEntity
     /**
      * Get fieldCategory
      *
-     * @return \SL\CoreBundle\Entity\FieldCategory 
+     * @return SL\CoreBundle\Entity\Field\FieldCategory 
      */
     public function getFieldCategory()
     {

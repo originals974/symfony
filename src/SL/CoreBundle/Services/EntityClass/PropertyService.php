@@ -197,7 +197,7 @@ class PropertyService
      */
     public function getPropertyEntityClassByFormMode($formMode) 
     {
-        $fieldType = $this->em->getRepository('SLCoreBundle:FieldType')->findOneByFormType($formMode);
+        $fieldType = $this->em->getRepository('SLCoreBundle:Field\FieldType')->findOneByFormType($formMode);
         
         switch($formMode) {
             case 'entity' : 

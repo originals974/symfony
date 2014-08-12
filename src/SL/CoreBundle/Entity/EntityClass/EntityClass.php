@@ -6,8 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
 
-use SL\CoreBundle\Entity\FieldType; 
+use SL\CoreBundle\Entity\Field\FieldType; 
 use SL\CoreBundle\Validator\Constraints as SLCoreAssert;
 use SL\CoreBundle\Entity\MappedSuperclass\AbstractEntity;
 
@@ -98,14 +99,14 @@ class EntityClass extends AbstractEntity
      * associated with $parent 
      * and with a default $fieldType property
      *
-     * @param SL\CoreBundle\Entity\FieldType $fieldType|null 
+     * @param SL\CoreBundle\Entity\Field\FieldType $fieldType|null 
      * @param SL\CoreBundle\Entity\EntityClass\EntityClass $parent|null 
      *
      * @return void 
      */
     public function __construct(FieldType  $fieldType = null, EntityClass $parent = null)
     {
-        $this->properties = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->properties = new ArrayCollection();
 
         //Create default property "name"
         if($fieldType !== null) {

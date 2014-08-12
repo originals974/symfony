@@ -108,7 +108,7 @@ class EntityClassController extends Controller
         //Get field type of default property associated to new entity class
         //Create a default property only for root entity class
         if($parentEntityClass == null) {
-            $fieldType = $this->em->getRepository('SLCoreBundle:FieldType')->findOneByFormType('text');
+            $fieldType = $this->em->getRepository('SLCoreBundle:Field\FieldType')->findOneByFormType('text');
         }
         else{
             $fieldType = null; 

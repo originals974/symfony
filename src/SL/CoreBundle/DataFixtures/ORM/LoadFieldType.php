@@ -4,8 +4,8 @@ namespace SL\CoreBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use SL\CoreBundle\Entity\FieldCategory;
-use SL\CoreBundle\Entity\FieldType;
+use SL\CoreBundle\Entity\Field\FieldCategory;
+use SL\CoreBundle\Entity\Field\FieldType;
 
 class LoadFieldTypeData implements FixtureInterface
 {

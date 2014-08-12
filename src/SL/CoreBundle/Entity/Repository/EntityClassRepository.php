@@ -2,11 +2,9 @@
 
 namespace SL\CoreBundle\Entity\Repository;
 
-//Symfony classes
 use Doctrine\ORM\QueryBuilder;
 use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
 
-//Custom classes
 use SL\CoreBundle\Entity\EntityClass\EntityClass;
 
 /**
@@ -16,9 +14,11 @@ use SL\CoreBundle\Entity\EntityClass\EntityClass;
 class EntityClassRepository extends NestedTreeRepository
 {
   /**
-   * Select all entityClasses and properties 
+   * Shared QueryBuilder
    *
-   * @param QueryBuilder $qb
+   * @param Doctrine\ORM\QueryBuilder $qb
+   *
+   * @return Doctrine\ORM\QueryBuilder $qb
    */
 	private function sharedQB(QueryBuilder $qb){
 
@@ -30,9 +30,11 @@ class EntityClassRepository extends NestedTreeRepository
 	}
 
   /**
-   * Select all entityClasses and properties 
+   * Select all entity classes with their properties 
    *
-   * @param integer $level
+   * @param integer $level|null
+   *
+   * @return array
    */
   public function fullFindAll($level = null){
     
@@ -49,9 +51,12 @@ class EntityClassRepository extends NestedTreeRepository
   }
 
   /**
-   * Select entityClass and properties by entityClass id
+   * Select entity class identified by $entityClassId
+   * and its properties
    *
-   * @param int $entityClassId
+   * @param integer $entityClassId
+   *
+   * @return array
    */
   public function fullFindById($entityClassId){
     
@@ -65,9 +70,12 @@ class EntityClassRepository extends NestedTreeRepository
   }
 
   /**
-   * Select other entityClasses
+   * Select all entity classes 
+   * except entity class identified by $currentEntityClassId
    *
-   * @param EntityClass\EntityClass $currentEntityClass
+   * @param integer $currentEntityClassId
+   *
+   * @return Doctrine\ORM\QueryBuilder $qb
    */
 	public function findOtherEntityClass($currentEntityClassId)
   {

@@ -1,9 +1,10 @@
 <?php
 
-namespace SL\CoreBundle\Entity;
+namespace SL\CoreBundle\Entity\Field;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Doctrine\Common\Collections\ArrayCollection;
 
 use SL\CoreBundle\Entity\MappedSuperclass\AbstractEntity;
 
@@ -17,9 +18,9 @@ use SL\CoreBundle\Entity\MappedSuperclass\AbstractEntity;
 class FieldCategory extends AbstractEntity
 {
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="SL\CoreBundle\Entity\FieldType", mappedBy="fieldCategory")
+     * @ORM\OneToMany(targetEntity="SL\CoreBundle\Entity\Field\FieldType", mappedBy="fieldCategory")
      */
     private $fieldTypes;
 
@@ -28,16 +29,17 @@ class FieldCategory extends AbstractEntity
      */
     public function __construct()
     {
-        $this->fieldTypes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->fieldTypes = new ArrayCollection();
     }
 
     /**
      * Add fieldType
      *
-     * @param \SL\CoreBundle\Entity\FieldType $fieldType
+     * @param SL\CoreBundle\Entity\Field\FieldType $fieldType
+     *
      * @return FieldType
      */
-    public function addFieldType(\SL\CoreBundle\Entity\FieldType $fieldType)
+    public function addFieldType(FieldType $fieldType)
     {
         $this->fieldTypes[] = $fieldType;
 
@@ -47,9 +49,9 @@ class FieldCategory extends AbstractEntity
     /**
      * Remove fieldType
      *
-     * @param \SL\CoreBundle\Entity\FieldType $fieldType
+     * @param SL\CoreBundle\Entity\Field\FieldType $fieldType
      */
-    public function removeFieldType(\SL\CoreBundle\Entity\FieldType $fieldType)
+    public function removeFieldType(FieldType $fieldType)
     {
         $this->fieldTypes->removeElement($fieldType);
     }
@@ -57,7 +59,7 @@ class FieldCategory extends AbstractEntity
     /**
      * Get fieldTypes
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return Doctrine\Common\Collections\Collection 
      */
     public function getFieldTypes()
     {

@@ -26,7 +26,7 @@ class PropertyType extends AbstractType
                     )
                 ) 
                 ->add('fieldType' , 'entity',  array(
-                    'class' =>  'SLCoreBundle:FieldType',
+                    'class' =>  'SLCoreBundle:Field\FieldType',
                     'property' => 'displayName',
                     'query_builder' => function(EntityRepository $er) {
                                             return $er->createQueryBuilder('ft')

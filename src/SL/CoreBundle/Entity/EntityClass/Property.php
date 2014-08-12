@@ -7,7 +7,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 use SL\CoreBundle\Entity\MappedSuperclass\AbstractEntity;
-use SL\CoreBundle\Entity\FieldType; 
+use SL\CoreBundle\Entity\Field\FieldType; 
 
 /**
  * Property
@@ -43,7 +43,7 @@ class Property extends AbstractEntity
     private $entityClass;
 
     /**
-     * @ORM\ManyToOne(targetEntity="SL\CoreBundle\Entity\FieldType")
+     * @ORM\ManyToOne(targetEntity="SL\CoreBundle\Entity\Field\FieldType")
      * @ORM\JoinColumn(nullable=false)
      */
     private $fieldType;
@@ -52,7 +52,7 @@ class Property extends AbstractEntity
      * Constructor : Create an property
      * associated with $fieldType 
      *
-     * @param SL\CoreBundle\Entity\FieldType $fieldType|null 
+     * @param SL\CoreBundle\Entity\Field\FieldType $fieldType|null 
      *
      * @return void 
      */
@@ -138,9 +138,9 @@ class Property extends AbstractEntity
     /**
      * Set fieldType
      *
-     * @param SL\CoreBundle\Entity\FieldType $fieldType
+     * @param SL\CoreBundle\Entity\Field\FieldType $fieldType
      *
-     * @return SL\CoreBundle\Entity\FieldType
+     * @return SL\CoreBundle\Entity\Field\FieldType
      */
     public function setFieldType(FieldType $fieldType)
     {
@@ -152,7 +152,7 @@ class Property extends AbstractEntity
     /**
      * Get fieldType
      *
-     * @return SL\CoreBundle\Entity\FieldType 
+     * @return SL\CoreBundle\Entity\Field\FieldType 
      */
     public function getFieldType()
     {
