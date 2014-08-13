@@ -92,7 +92,7 @@ class Builder extends ContainerAware
                 $entityClass->getTechnicalName(), 
                 array(
                     'route' => 'front_new', 
-                    'routeParameters' => array('id' => $entityClass->getId()),
+                    'routeParameters' => array('entity_class_id' => $entityClass->getId()),
                     'label' => $entityClass->getDisplayName(),
                     'icon' => $icon->getEntityClassIcon($entityClass),
                     )

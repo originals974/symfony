@@ -19,13 +19,13 @@
 				<h3>{{ entity.displayName }}</h3>
 			</li>
 			<li class="btn-group pull-right">
-				<a class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('front_edit', { 'id' : entityClass.id, 'entity_id': entity.id }) }}" data-target="#">
+				<a class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('front_edit', { 'entity_class_id' : entityClass.id, 'entity_id': entity.id }) }}" data-target="#">
 		        <span class="fa fa-pencil"></span>  
 			    </a>
-			    <a class="btn btn-danger btn-xs" data-toggle="modal" href="{{ path('front_remove', { 'id' : entityClass.id, 'entity_id': entity.id }) }}" data-target="#">
+			    <a class="btn btn-danger btn-xs" data-toggle="modal" href="{{ path('front_remove', { 'entity_class_id' : entityClass.id, 'entity_id': entity.id }) }}" data-target="#">
 			        <span class="fa fa-times"></span>  
 			    </a>
-			    <a class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('front_edit_version', { 'id' : entityClass.id, 'entity_id': entity.id }) }}" data-target="#">
+			    <a class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('front_edit_version', { 'entity_class_id' : entityClass.id, 'entity_id': entity.id }) }}" data-target="#">
 			        <span class="fa fa-undo"></span>  
 			    </a>
 			</li>

@@ -29,25 +29,22 @@ class FrontController extends Controller
     private $doctrineService;
     private $entityClassService;
     private $frontService;
-    private $loggableService;
 
     /**
      * @DI\InjectParams({
      *     "registry" = @DI\Inject("doctrine"),
      *     "doctrineService" = @DI\Inject("sl_core.doctrine"),
-     *     "entityClassService" = @DI\Inject("sl_core.entity.class"),
+     *     "entityClassService" = @DI\Inject("sl_core.entity_class"),
      *     "frontService" = @DI\Inject("sl_core.front"),
-     *     "loggableService" = @DI\Inject("sl_core.loggable")
      * })
      */
-    public function __construct(RegistryInterface $registry, DoctrineService $doctrineService, entityClassService $entityClassService, FrontService $frontService, LoggableService $loggableService)
+    public function __construct(RegistryInterface $registry, DoctrineService $doctrineService, entityClassService $entityClassService, FrontService $frontService)
     { 
         $this->em = $registry->getManager();
         $this->databaseEm = $registry->getManager('database');
         $this->doctrineService = $doctrineService;
         $this->entityClassService = $entityClassService;
         $this->frontService = $frontService;
-        $this->loggableService = $loggableService;
     }
 
     /**
@@ -331,7 +328,7 @@ class FrontController extends Controller
             $form = $this->frontService->createEditVersionForm($entity, null, $limit);
 
             //Get all data version for $entity
-            $formatedLogEntries = $this->loggableService->getFormatedLogEntries($entity, $limit); 
+            $formatedLogEntries = $this->doctrineService->getFormatedLogEntries($entity, $limit); 
 
             $response = $this->render('SLCoreBundle:Front:version.html.twig', array(
                 'entityClasses' => $entityClasses, 

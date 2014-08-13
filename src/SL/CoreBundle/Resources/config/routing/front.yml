@@ -1,61 +1,61 @@
 front_new:
-    pattern: /{id}/new
+    pattern: /{entity_class_id}/new
     defaults: { _controller: SLCoreBundle:Front:new }
     requirements:
-        id: \d+
+        entity_class_id: \d+
         _method: GET 
 front_create:
-    pattern: /{id}/create
+    pattern: /{entity_class_id}/create
     defaults: { _controller: SLCoreBundle:Front:create }
     requirements:
-        id: \d+
+        entity_class_id: \d+
         _method: POST 
 front_show:
-    pattern: /{id}.{entity_id}/show
+    pattern: /{entity_class_id}.{entity_id}/show
     defaults: { _controller: SLCoreBundle:Front:show }
     requirements:
-        id: \d+ 
+        entity_class_id: \d+ 
         entity_id: \d+ 
         _method: GET
 front_edit:
-    pattern: /{id}.{entity_id}/edit
+    pattern: /{entity_class_id}.{entity_id}/edit
     defaults: { _controller: SLCoreBundle:Front:edit }
     requirements:
-        id: \d+
+        entity_class_id: \d+
         entity_id: \d+
         _method: GET
 front_update:
-    pattern: /{id}.{entity_id}/update
+    pattern: /{entity_class_id}.{entity_id}/update
     defaults: { _controller: SLCoreBundle:Front:update }
     requirements:
-        id: \d+
+        entity_class_id: \d+
         entity_id: \d+
         _method: PUT
 front_remove:
-    pattern: /{id}.{entity_id}/remove
+    pattern: /{entity_class_id}.{entity_id}/remove
     defaults: { _controller: SLCoreBundle:Front:remove }
     requirements:
-        id: \d+
+        entity_class_id: \d+
         entity_id: \d+
         _method: GET
 front_delete:
-    pattern: /{id}.{entity_id}/delete
+    pattern: /{entity_class_id}.{entity_id}/delete
     defaults: { _controller: SLCoreBundle:Front:delete }
     requirements:
-        id: \d+
+        entity_class_id: \d+
         entity_id: \d+
         _method: DELETE
 front_edit_version:
-    pattern: /{id}.{entity_id}/edit_version
+    pattern: /{entity_class_id}.{entity_id}/edit_version
     defaults: { _controller: SLCoreBundle:Front:editVersion }
     requirements:
-        id: \d+
+        entity_class_id: \d+
         entity_id: \d+
         _method: GET
 front_update_version:
-    pattern: /{id}.{entity_id}/update_version
+    pattern: /{entity_class_id}.{entity_id}/update_version
     defaults: { _controller: SLCoreBundle:Front:updateVersion }
     requirements:
-        id: \d+
+        entity_class_id: \d+
         entity_id: \d+
         _method: PUT

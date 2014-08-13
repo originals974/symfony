@@ -11,7 +11,7 @@ use JMS\DiExtraBundle\Annotation as DI;
 //Custom classes
 use SL\CoreBundle\Entity\Search;
 use SL\CoreBundle\Services\ElasticaService;
-use SL\CoreBundle\Services\SearchService;
+use SL\CoreBundle\Services\FrontService;
 
 /**
  * Search controller.
@@ -21,20 +21,20 @@ class SearchController extends Controller
 {
     private $em;
     private $elasticaService;
-    private $searchService; 
+    private $frontService; 
 
     /**
      * @DI\InjectParams({
      *     "em" = @DI\Inject("doctrine.orm.entity_manager"),
      *     "elasticaService" = @DI\Inject("sl_core.elastica"),
-     *     "searchService" = @DI\Inject("sl_core.search")
+     *     "frontService" = @DI\Inject("sl_core.front")
      * })
      */
-    public function __construct(EntityManager $em, ElasticaService $elasticaService, SearchService $searchService)
+    public function __construct(EntityManager $em, ElasticaService $elasticaService, FrontService $frontService)
     {
         $this->em = $em;
         $this->elasticaService = $elasticaService;
-        $this->searchService = $searchService; 
+        $this->frontService = $frontService; 
     }
 
     /**
@@ -45,7 +45,7 @@ class SearchController extends Controller
         //$search =  new Search();
         if ($request->isXmlHttpRequest()) {    
 
-            $form = $this->searchService->createSearchForm();
+            $form = $this->frontService->createSearchForm();
             $form->handleRequest($request);
             $searchPattern = $form->get('searchField')->getData();
 

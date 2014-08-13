@@ -55,7 +55,7 @@ class FrontService
     {  
         $form = $this->formFactory->create('sl_core_front', $entity, array(
             'action' => $this->router->generate('front_create', array(
-                'id' => $entity->getEntityClassId(),
+                'entity_class_id' => $entity->getEntityClassId(),
                 )
             ),
             'method' => 'POST',
@@ -86,7 +86,7 @@ class FrontService
     {
         $form = $this->formFactory->create('sl_core_front', $entity, array(
             'action' => $this->router->generate('front_update', array(
-                'id' => $entity->getEntityClassId(),
+                'entity_class_id' => $entity->getEntityClassId(),
                 'entity_id' => $entity->getId(),
                 )
             ),
@@ -119,7 +119,7 @@ class FrontService
     {
         $form = $this->formFactory->create('sl_core_front', $entity, array(
             'action' => $this->router->generate('front_delete', array(
-                'id' => $entity->getEntityClassId(),
+                'entity_class_id' => $entity->getEntityClassId(),
                 'entity_id' => $entity->getId(),
                 )
             ),
@@ -140,6 +140,30 @@ class FrontService
     }
 
     /**
+    * Search entity form
+    *
+    * @param Search $search
+    *
+    * @return Form $form
+    */
+    public function createSearchForm(Search $search = null)
+    {
+        $form = $this->formFactory->create('sl_core_search', $search, array(
+            'action' => $this->router->generate('search'),
+            'method' => 'POST',
+            'attr' => array(
+                'id' => 'sl_corebundle_search',
+                'class' => 'form-inline',
+                'valid-target' => 'search_result', 
+                'mode' => 'search',
+                ),
+            )
+        );
+
+        return $form;
+    }
+
+    /**
     * Update entity version form
     * 
     * @param Mixed $entity
@@ -151,7 +175,7 @@ class FrontService
     {   
         $form = $this->formFactory->create('sl_core_entity_version', null, array(
             'action' => $this->router->generate('front_update_version', array(
-                'id' => $entity->getEntityClassId(),
+                'entity_class_id' => $entity->getEntityClassId(),
                 'entity_id' => $entity->getId(),
                 )
             ),

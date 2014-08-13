@@ -14,7 +14,7 @@ services:
     sl_core.icon:
         class: SL\CoreBundle\Services\IconService
 
-    sl_core.entity.class:
+    sl_core.entity_class:
         class: SL\CoreBundle\Services\EntityClass\EntityClassService
         arguments: [@doctrine, @translator, @form.factory, @router]
 
@@ -32,19 +32,11 @@ services:
 
     sl_core.front:
         class: SL\CoreBundle\Services\FrontService
-        arguments: [@form.factory, @router, @doctrine, @sl_core.entity.class, @sl_core.doctrine, @translator]
+        arguments: [@form.factory, @router, @doctrine, @sl_core.entity_class, @sl_core.doctrine, @translator]
 
     sl_core.elastica:
         class: SL\CoreBundle\Services\ElasticaService
         arguments: [@doctrine.orm.entity_manager, @router, @sl_core.js_tree, %sl_data.bundle%, %symfony.config_path%]
-
-    sl_core.loggable:
-        class: SL\CoreBundle\Services\LoggableService
-        arguments: [@doctrine]
-
-    sl_core.search:
-        class: SL\CoreBundle\Services\SearchService
-        arguments: [@form.factory, @router]
 
     twig.text_extension:
         class: Twig_Extensions_Extension_Text
@@ -105,7 +97,7 @@ services:
 
     sl_core.form.type.front:
         class: SL\CoreBundle\Form\FrontType
-        arguments: [@doctrine.orm.entity_manager, @sl_core.entity.class, @translator]
+        arguments: [@doctrine.orm.entity_manager, @sl_core.entity_class, @translator]
         tags:
             - { name: form.type, alias: sl_core_front }
 
@@ -127,3 +119,9 @@ services:
         arguments: ["SL\CoreBundle\Entity\EntityClass\EntityClass", @doctrine.orm.entity_manager]
         tags:
             - { name: request.param_converter, priority: 20 }
+
+    sl_core.paramconverter.entity:
+        class: SL\CoreBundle\ParamConverter\EntityParamConverter
+        arguments: ["SL\DataBundle\Entity\AbstractEntity", @doctrine.orm.entity_manager]
+        tags:
+            - { name: request.param_converter, priority: 21 }

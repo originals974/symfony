@@ -7,11 +7,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManager;
 
-class EntityClassParamConverter implements ParamConverterInterface
+class EntityParamConverter implements ParamConverterInterface
 {
   protected $class;
   protected $em; 
-  protected $repository;
+  //protected $repository;
 
   public function __construct($class, EntityManager $em)
   {
@@ -41,10 +41,14 @@ class EntityClassParamConverter implements ParamConverterInterface
       $filters->disable('softdeleteable');
     }
 
-    $id = $request->attributes->get('entity_class_id');
+    $id = $request->attributes->get('entity_id');
+    //$childClass = $request->attributes->get('class');
 
-    $entityClass = $this->repository->fullFindById($id); 
-    $request->attributes->set($configuration->getName(), $entityClass);
+    //$entity = $this->em->getRepository($childClass)->find($id);
+
+    $entity = $this->repository->find($id);
+
+    $request->attributes->set($configuration->getName(), $entity);
 
     if($selectMode == "all"){
       $filters->enable('softdeleteable');

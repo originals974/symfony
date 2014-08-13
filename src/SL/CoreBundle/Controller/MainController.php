@@ -10,7 +10,7 @@ use JMS\DiExtraBundle\Annotation as DI;
 
 //Custom classes
 use SL\CoreBundle\Entity\Search;
-use SL\CoreBundle\Services\SearchService;
+use SL\CoreBundle\Services\FrontService;
 
 /**
  * Front controller.
@@ -18,16 +18,16 @@ use SL\CoreBundle\Services\SearchService;
  */
 class MainController extends Controller
 {
-    private $searchService;
+    private $frontService;
 
      /**
      * @DI\InjectParams({
-     *     "searchService" = @DI\Inject("sl_core.search"),
+     *     "frontService" = @DI\Inject("sl_core.front"),
      * })
      */
-    public function __construct(SearchService $searchService)
+    public function __construct(FrontService $frontService)
     {
-        $this->searchService = $searchService;
+        $this->frontService = $frontService;
     }
 
 
@@ -47,7 +47,7 @@ class MainController extends Controller
      */
 	public function indexFrontEndAction()
     {
-        $form = $this->searchService->createSearchForm();
+        $form = $this->frontService->createSearchForm();
 
         return $this->render('SLCoreBundle:FrontEnd:index.html.twig', array(
             'form'   => $form->createView(),

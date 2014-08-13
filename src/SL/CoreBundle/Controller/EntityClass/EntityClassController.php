@@ -30,7 +30,7 @@ class EntityClassController extends Controller
     /**
      * @DI\InjectParams({
      *     "em" = @DI\Inject("doctrine.orm.entity_manager"),
-     *     "entityClassService" = @DI\Inject("sl_core.entity.class"),
+     *     "entityClassService" = @DI\Inject("sl_core.entity_class"),
      *     "jstreeService" = @DI\Inject("sl_core.js_tree"),
      *     "doctrineService" = @DI\Inject("sl_core.doctrine"),
      *     "frontService" = @DI\Inject("sl_core.front")
