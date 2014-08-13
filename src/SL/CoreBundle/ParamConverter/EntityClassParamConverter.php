@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInte
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\NoResultException;
 
 class EntityClassParamConverter implements ParamConverterInterface
 {
@@ -27,6 +28,7 @@ class EntityClassParamConverter implements ParamConverterInterface
 
   function apply(Request $request, ParamConverter $configuration)
   {
+    $name = $configuration->getName(); 
     $options = $configuration->getOptions();
 
     if(isset($options['select_mode'])) {
@@ -42,14 +44,24 @@ class EntityClassParamConverter implements ParamConverterInterface
     }
 
     $id = $request->attributes->get('entity_class_id');
+    $entityClass = $this->find($id); 
+    
 
-    $entityClass = $this->repository->fullFindById($id); 
-    $request->attributes->set($configuration->getName(), $entityClass);
+    $request->attributes->set($name, $entityClass);
 
     if($selectMode == "all"){
       $filters->enable('softdeleteable');
     }
 
     return true;
+  }
+
+  function find($id)
+  { 
+    try {
+      return $this->repository->fullFindById($id);
+    } catch (NoResultException $e) {
+      return null;
+    }
   }
 }

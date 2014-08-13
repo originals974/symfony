@@ -13,7 +13,7 @@ use SL\CoreBundle\Entity\Field\FieldType;
  * Property
  *
  * @ORM\InheritanceType("JOINED")
- * @ORM\Table(name="property",uniqueConstraints={
+ * @ORM\Table(name="sl_core_property",uniqueConstraints={
  *     @ORM\UniqueConstraint(name="unique_index_property_entity_class_id_technical_name", columns={"entityClass_id", "technical_name"})
  * })
  * @ORM\Entity(repositoryClass="SL\CoreBundle\Entity\Repository\PropertyRepository")

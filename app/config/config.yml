@@ -171,9 +171,9 @@ doctrine:
                 driver:   "%database_driver%"
                 host:     "%database_host%"
                 port:     "%database_port%"
-                dbname:   "%dictionary_name%"
-                user:     "%dictionary_user%"
-                password: "%dictionary_password%"
+                dbname:   "%database_name%"
+                user:     "%database_user%"
+                password: "%database_password%"
                 charset:  UTF8
                 # if using pdo_sqlite as your database driver, add the path in parameters.yml
                 # e.g. database_path: "%kernel.root_dir%/data/data.db3"
@@ -220,6 +220,7 @@ doctrine:
                         dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity"
                         alias: GedmoLoggable # this one is optional and will default to the name set for the mapping
                         is_bundle: false
+
 
 #Stof_doctrine_extension_bundle
 stof_doctrine_extensions:
@@ -297,10 +298,10 @@ fos_elastica:
         slcore:
             client: default
             types:
-                EntityClass9:
+                EntityClass1:
                     persistence:
                         driver: orm
-                        model:  SL\DataBundle\Entity\EntityClass9
+                        model:  SL\DataBundle\Entity\EntityClass1
                         provider: ~
                         listener: ~
                         finder: ~

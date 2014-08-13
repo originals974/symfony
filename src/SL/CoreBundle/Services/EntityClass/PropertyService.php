@@ -57,7 +57,7 @@ class PropertyService
 
         $selectForm = $this->formFactory->create('sl_core_property_select', null, array(
             'action' => $this->router->generate('property_select_form', array(
-                'id' => $entityClass->getId(),
+                'entity_class_id' => $entityClass->getId(),
                 )
             ),
             'method' => 'GET',
@@ -73,7 +73,7 @@ class PropertyService
 
         $mainForm = $this->formFactory->create($formService, $property, array(
             'action' => $this->router->generate('property_create', array(
-                    'id' => $entityClass->getId(),
+                    'entity_class_id' => $entityClass->getId(),
                     'formMode' => $formMode,
                 )
             ),

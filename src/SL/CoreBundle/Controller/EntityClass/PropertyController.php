@@ -142,9 +142,7 @@ class PropertyController extends Controller
                 $this->em->persist($property);
                 $this->em->flush();
 
-                //Update database schema
-                $this->doctrineService->doctrineGenerateEntityFileByEntityClass($entityClass);  
-                $this->doctrineService->doctrineSchemaUpdateForce();
+                $this->doctrineService->createDoctrineEntityFileAndObjectSchema($entityClass);  
 
                 $html = $this->renderView('SLCoreBundle:EntityClass/Property:table.html.twig', array(
                     'entityClass' => $entityClass, 
@@ -231,8 +229,7 @@ class PropertyController extends Controller
                 $this->em->flush();
                       
                 //Update database schema
-                $this->doctrineService->doctrineGenerateEntityFileByEntityClass($property->getEntityClass());  
-                $this->doctrineService->doctrineSchemaUpdateForce();
+                $this->doctrineService->createDoctrineEntityFileAndObjectSchema($entityClass);  
 
                 $html = $this->renderView('SLCoreBundle:EntityClass/Property:table.html.twig', array(
                     'entityClass' => $entityClass, 
@@ -330,8 +327,7 @@ class PropertyController extends Controller
                 $this->doctrineService->entityDelete('SLCoreBundle:EntityClass\Property', $property->getId(), true);
 
                 //Update doctrine entity and schema
-                $this->doctrineService->doctrineGenerateEntityFileByEntityClass($entityClass);  
-                $this->doctrineService->doctrineSchemaUpdateForce();
+                $this->doctrineService->createDoctrineEntityFileAndObjectSchema($entityClass);  
             }
 
             $html = $this->renderView('SLCoreBundle:EntityClass/Property:table.html.twig', array(
@@ -374,9 +370,7 @@ class PropertyController extends Controller
             $property->setRequired($value);
             $this->em->flush();
 
-            //Update database schema
-            $this->doctrineService->doctrineGenerateEntityFileByEntityClass($property->getEntityClass());  
-            $this->doctrineService->doctrineSchemaUpdateForce();
+            $this->doctrineService->createDoctrineEntityFileAndObjectSchema($property->getEntityClass());  
             
             $response = new Response();
         }

@@ -11,7 +11,7 @@ use SL\CoreBundle\Entity\MappedSuperclass\AbstractEntity;
 /**
  * ChoiceList
  *
- * @ORM\Table(name="choice_list",uniqueConstraints={
+ * @ORM\Table(name="sl_core_choice_list",uniqueConstraints={
  *     @ORM\UniqueConstraint(name="unique_index_choice_list_technical_name", columns={"technical_name"})
  * })
  * @ORM\Entity(repositoryClass="SL\CoreBundle\Entity\Repository\ChoiceListRepository")

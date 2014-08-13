@@ -11,7 +11,7 @@ use Gedmo\Loggable\Entity\MappedSuperclass\AbstractLogEntry;
  * SL\DataBundle\Entity\LogEntry
  *
  * @Table(
- *     name="custom_ext_log_entries",
+ *     name="sl_core_ext_log_entries",
  *  indexes={
  *      @index(name="log_class_lookup_idx", columns={"object_class"}),
  *      @index(name="log_date_lookup_idx", columns={"logged_at"}),

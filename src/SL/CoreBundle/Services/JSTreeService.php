@@ -46,7 +46,7 @@ class JSTreeService
             'text' => $entityClass->getDisplayName(),
             'icon' => 'fa '.$entityClass->getIcon(),
             'a_attr' => array(
-                'href' => $this->router->generate('entity_class_show', array('id' => $entityClass->getId())),
+                'href' => $this->router->generate('entity_class_show', array('entity_class_id' => $entityClass->getId())),
             ),
         );
 

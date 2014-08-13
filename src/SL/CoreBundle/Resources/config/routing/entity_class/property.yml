@@ -1,22 +1,22 @@
 property_new:
-    pattern: /{id}/new
+    pattern: /{entity_class_id}/new
     defaults: { _controller: SLCoreBundle:EntityClass\Property:new }
     requirements:
-        id: \d+
+        entity_class_id: \d+
         _method: GET
 
 property_select_form:
-    pattern: /{id}/select_form
+    pattern: /{entity_class_id}/select_form
     defaults: { _controller: SLCoreBundle:EntityClass\Property:selectForm }
     requirements:
-        id: \d+
+        entity_class_id: \d+
         _method: GET
 
 property_create:
-    pattern: /{id}/create/{formMode}
+    pattern: /{entity_class_id}/create/{formMode}
     defaults: { _controller: SLCoreBundle:EntityClass\Property:create }
     requirements: 
-        id: \d+
+        entity_class_id: \d+
         _method: POST
 
 property_edit:

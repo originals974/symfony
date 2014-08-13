@@ -126,11 +126,9 @@ class EntityClassController extends Controller
 
                 //Init calculated name with default created property
                 $this->entityClassService->initCalculatedName($entityClass); 
-
-                //Update doctrine entity and schema
-                $this->doctrineService->doctrineGenerateEntityFileByEntityClass($entityClass);  
-                $this->doctrineService->doctrineSchemaUpdateForce();
-
+                
+                $this->doctrineService->createDoctrineEntityFileAndObjectSchema($entityClass);  
+                
                 $html = null; 
                 $jsTree = $this->jstreeService->createNewEntityClassNode($entityClass);
             
@@ -332,7 +330,7 @@ class EntityClassController extends Controller
                     $this->doctrineService->removeDoctrineFiles($child);
                 }
 
-                $this->doctrineService->doctrineSchemaUpdateForce();
+                $this->doctrineService->doctrineSchemaUpdateForce($entityClass);
 
                 $this->doctrineService->entityDelete('SLCoreBundle:EntityClass\EntityClass', $entityClass->getId(), true);
             }

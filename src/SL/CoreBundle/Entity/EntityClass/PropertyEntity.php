@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * PropertyEntity
  *
- * @ORM\Table(name="property_entity")
+ * @ORM\Table(name="sl_core_property_entity")
  * @ORM\Entity(repositoryClass="SL\CoreBundle\Entity\Repository\PropertyRepository")
  */
 class PropertyEntity extends Property

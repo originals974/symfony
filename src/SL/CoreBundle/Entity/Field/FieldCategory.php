@@ -11,7 +11,7 @@ use SL\CoreBundle\Entity\MappedSuperclass\AbstractEntity;
 /**
  * FieldCategory
  *
- * @ORM\Table(name="field_category")
+ * @ORM\Table(name="sl_core_field_category")
  * @ORM\Entity
  * @UniqueEntity(fields="displayName")
  */

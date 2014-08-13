@@ -11,18 +11,18 @@
         <ul class="list-inline">
             <li>
                 <div class="btn-group"> 
-                    <button title="{{ 'entityClass.choose.icon'|trans }}" class="btn btn-default btn-xs" role="iconpicker" data-iconset="fontawesome" data-icon="{{ entityClass.icon }}" data-rows="6" data-cols="6" data-placement="bottom" ajax-action={{ path('entity_class_update_icon', { 'id': entityClass.id }) }}>
+                    <button title="{{ 'entityClass.choose.icon'|trans }}" class="btn btn-default btn-xs" role="iconpicker" data-iconset="fontawesome" data-icon="{{ entityClass.icon }}" data-rows="6" data-cols="6" data-placement="bottom" ajax-action={{ path('entity_class_update_icon', { 'entity_class_id': entityClass.id }) }}>
                     </button>
-                    <a title="{{ 'entity_class.add'|trans }}" class="btn btn-default btn-xs" data-toggle="modal" data-target="#" href="{{ path('entity_class_new', { 'id' : entityClass.id }) }}">
+                    <a title="{{ 'entity_class.add'|trans }}" class="btn btn-default btn-xs" data-toggle="modal" data-target="#" href="{{ path('entity_class_new', { 'entity_class_id' : entityClass.id }) }}">
                         <span class="fa fa-plus"></span>  
                     </a>  
-                    <a class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('entity_class_edit', { 'id': entityClass.id }) }}" data-target="#">
+                    <a class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('entity_class_edit', { 'entity_class_id': entityClass.id }) }}" data-target="#">
                         <span class="fa fa-pencil"></span>  
                     </a>
-                    <a class="btn btn-danger btn-xs" data-toggle="modal" href="{{ path('entity_class_remove', { 'id': entityClass.id }) }}" data-target="#">
+                    <a class="btn btn-danger btn-xs" data-toggle="modal" href="{{ path('entity_class_remove', { 'entity_class_id': entityClass.id }) }}" data-target="#">
                         <span class="fa fa-times"></span>  
                     </a>
-                    <a class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('entity_class_edit_calculated_name', { 'id': entityClass.id }) }}" data-target="#">
+                    <a class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('entity_class_edit_calculated_name', { 'entity_class_id': entityClass.id }) }}" data-target="#">
                         <span class="fa fa-barcode"></span>  
                     </a>
                 </div>

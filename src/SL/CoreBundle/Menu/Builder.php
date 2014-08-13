@@ -202,7 +202,7 @@ class Builder extends ContainerAware
             $entityClassItem = $parent->addChild($entityClass->getTechnicalName(), array(
                         'route' => 'entity_class_show', 
                         'routeParameters' => array(
-                            'id' => $entityClass->getId(),
+                            'entity_class_id' => $entityClass->getId(),
                             ),
                         'label' => $entityClass->getDisplayName(),
                         )

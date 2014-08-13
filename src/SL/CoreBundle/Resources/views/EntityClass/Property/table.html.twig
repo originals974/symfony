@@ -2,7 +2,7 @@
     <div class="text-center">
         <i>{{ 'property.create.description'|trans }}</i>
         <br/>
-        <a title="{{ 'property.add'|trans }}" class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('property_new', { 'id': entityClass.id }) }}" data-target="#">
+        <a title="{{ 'property.add'|trans }}" class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('property_new', { 'entity_class_id': entityClass.id }) }}" data-target="#">
             <span class="fa fa-plus"></span>  
         </a>   
     </div>
@@ -11,7 +11,7 @@
         <thead>
             <tr>
                 <th style="width:60px;">
-                    <a title="{{ 'property.add'|trans }}" class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('property_new', { 'id': entityClass.id }) }}" data-target="#">
+                    <a title="{{ 'property.add'|trans }}" class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('property_new', { 'entity_class_id': entityClass.id }) }}" data-target="#">
                         <span class="fa fa-plus"></span>  
                     </a>
                 </th>

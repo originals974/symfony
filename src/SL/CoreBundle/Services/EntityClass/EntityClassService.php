@@ -51,7 +51,7 @@ class EntityClassService
 
         $form = $this->formFactory->create('sl_core_entity_class', $entityClass, array(
             'action' => $this->router->generate('entity_class_create', array(
-                'id' =>  ( $parentEntityClass !== null)?$parentEntityClass->getId():0,
+                'entity_class_id' =>  ( $parentEntityClass !== null)?$parentEntityClass->getId():0,
                 )
             ),
             'method' => 'POST',
@@ -78,7 +78,7 @@ class EntityClassService
     public function createEditForm(EntityClass $entityClass)
     {    
         $form = $this->formFactory->create('sl_core_entity_class', $entityClass, array(
-            'action' => $this->router->generate('entity_class_update', array('id' => $entityClass->getId())),
+            'action' => $this->router->generate('entity_class_update', array('entity_class_id' => $entityClass->getId())),
             'method' => 'PUT',
             'attr' => array(
                 'valid-target' => '', 
@@ -103,7 +103,7 @@ class EntityClassService
     public function createDeleteForm(EntityClass $entityClass)
     {   
         $form = $this->formFactory->create('sl_core_entity_class', $entityClass, array(
-            'action' => $this->router->generate('entity_class_delete', array('id' => $entityClass->getId())),
+            'action' => $this->router->generate('entity_class_delete', array('entity_class_id' => $entityClass->getId())),
             'method' => 'DELETE',
             'attr' => array(
                 'valid-target' => '', 
@@ -129,7 +129,7 @@ class EntityClassService
     {      
         $form = $this->formFactory->create('sl_core_entity_class_calculated_name', $entityClass, array(
             'action' => $this->router->generate('entity_class_update_calculated_name', array(
-                'id' => $entityClass->getId(),
+                'entity_class_id' => $entityClass->getId(),
                 )),
             )
         );

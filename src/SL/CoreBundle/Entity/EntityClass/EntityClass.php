@@ -16,7 +16,7 @@ use SL\CoreBundle\Entity\MappedSuperclass\AbstractEntity;
  * EntityClass
  *
  * @Gedmo\Tree(type="nested")
- * @ORM\Table(name="entity_class",uniqueConstraints={
+ * @ORM\Table(name="sl_core_entity_class",uniqueConstraints={
  *     @ORM\UniqueConstraint(name="unique_index_entity_class_technical_name", columns={"technical_name"})
  *  })
  * @ORM\Entity(repositoryClass="SL\CoreBundle\Entity\Repository\EntityClassRepository")

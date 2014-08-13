@@ -9,7 +9,7 @@ use SL\CoreBundle\Entity\Choice\ChoiceList;
 /**
  * PropertyChoice
  *
- * @ORM\Table(name="property_choice")
+ * @ORM\Table(name="sl_core_property_choice")
  * @ORM\Entity(repositoryClass="SL\CoreBundle\Entity\Repository\PropertyRepository")
  */
 class PropertyChoice extends Property
