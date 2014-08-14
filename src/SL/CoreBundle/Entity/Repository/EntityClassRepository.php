@@ -5,8 +5,6 @@ namespace SL\CoreBundle\Entity\Repository;
 use Doctrine\ORM\QueryBuilder;
 use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
 
-use SL\CoreBundle\Entity\EntityClass\EntityClass;
-
 /**
  * EntityClassRepository
  *

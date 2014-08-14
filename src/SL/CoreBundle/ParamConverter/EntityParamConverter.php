@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInte
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\ORM\NoResultException;
 
 class EntityParamConverter implements ParamConverterInterface
 {

@@ -9,7 +9,6 @@ use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
 
 //Custom classes
-use SL\CoreBundle\Entity\Search;
 use SL\CoreBundle\Services\ElasticaService;
 use SL\CoreBundle\Services\EntityService;
 
@@ -42,7 +41,6 @@ class SearchController extends Controller
     */
     public function searchAction(Request $request) {
        
-        //$search =  new Search();
         if ($request->isXmlHttpRequest()) {    
 
             $form = $this->entityService->createSearchForm();

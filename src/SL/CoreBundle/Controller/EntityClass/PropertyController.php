@@ -364,7 +364,6 @@ class PropertyController extends Controller
     {
         if ($request->isXmlHttpRequest()) {
 
-            $name = $request->request->get('name'); 
             $value = ($request->request->get('value')=='true')?true:false;
 
             $property->setRequired($value);

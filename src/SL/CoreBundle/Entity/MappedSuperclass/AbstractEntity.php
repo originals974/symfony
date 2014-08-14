@@ -4,7 +4,6 @@ namespace SL\CoreBundle\Entity\MappedSuperclass;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
 use SL\MasterBundle\Entity\AbstractEntity as MasterAbstractEntity; 
 
 /**

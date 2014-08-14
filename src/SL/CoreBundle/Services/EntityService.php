@@ -5,15 +5,12 @@ namespace SL\CoreBundle\Services;
 //Symfony classes
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Routing\Router;
-use Symfony\Component\Translation\Translator;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 //Custom classes
 use SL\CoreBundle\Entity\EntityClass\EntityClass;
 use SL\CoreBundle\Entity\EntityClass\Property;
-use SL\DataBundle\Entity\LogEntry;
-use SL\CoreBundle\Services\DoctrineService;
-use SL\CoreBundle\Services\EntityClass\EntityClassService;
+use SL\MasterBundle\Entity\AbstractEntity;
 
 /**
  * Entity Service
@@ -50,7 +47,7 @@ class EntityService
     *
     * @return Form $form
     */
-    public function createCreateForm($entity)
+    public function createCreateForm(AbstractEntity $entity)
     {  
         $form = $this->formFactory->create('sl_core_entity', $entity, array(
             'action' => $this->router->generate('entity_create', array(
@@ -81,7 +78,7 @@ class EntityService
     *
     * @return Form $form
     */
-    public function createEditForm($entity)
+    public function createEditForm(AbstractEntity $entity)
     {
         $form = $this->formFactory->create('sl_core_entity', $entity, array(
             'action' => $this->router->generate('entity_update', array(
@@ -115,7 +112,7 @@ class EntityService
      *
      * @return Form $form Delete form
      */
-    public function createDeleteForm($entity)
+    public function createDeleteForm(AbstractEntity $entity)
     {
         $form = $this->formFactory->create('sl_core_entity', $entity, array(
             'action' => $this->router->generate('entity_delete', array(
@@ -146,9 +143,9 @@ class EntityService
     *
     * @return Form $form
     */
-    public function createSearchForm(Search $search = null)
+    public function createSearchForm()
     {
-        $form = $this->formFactory->create('sl_core_search', $search, array(
+        $form = $this->formFactory->create('sl_core_search', null, array(
             'action' => $this->router->generate('search'),
             'method' => 'POST',
             'attr' => array(
@@ -171,7 +168,7 @@ class EntityService
     *
     * @return Form $form
     */
-    public function createEditVersionForm($entity, $limit = 5)
+    public function createEditVersionForm(AbstractEntity $entity, $limit = 5)
     {   
         $form = $this->formFactory->create('sl_core_entity_version', null, array(
             'action' => $this->router->generate('entity_update_version', array(
@@ -225,7 +222,7 @@ class EntityService
      *
      * @return String $displayName DisplayName of new entity
      */
-    public function calculateDisplayName($entity) 
+    public function calculateDisplayName(AbstractEntity $entity) 
     { 
         $entityClass = $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')->find($entity->getEntityClassId()); 
 

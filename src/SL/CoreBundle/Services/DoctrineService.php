@@ -184,7 +184,6 @@ class DoctrineService
 
         if($entityClass->getParent() === null){
             $entityNamespace = $this->getDataEntityNamespace('AbstractEntity');
-            //$entityNamespace = "SL\MasterBundle\Entity\AbstractEntity";
             $entityGenerator->setClassToExtend($entityNamespace); 
         }
         else{

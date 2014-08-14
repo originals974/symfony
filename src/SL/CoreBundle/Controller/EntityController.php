@@ -2,7 +2,6 @@
 
 namespace SL\CoreBundle\Controller;
 
-//Symfony classes
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -11,13 +10,10 @@ use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use SL\MasterBundle\Entity\AbstractEntity; 
 
-//Custom classes
 use SL\CoreBundle\Entity\EntityClass\EntityClass;
-use SL\DataBundle\Entity\LogEntry;
 use SL\CoreBundle\Services\DoctrineService;
 use SL\CoreBundle\Services\EntityClass\EntityClassService;
 use SL\CoreBundle\Services\EntityService;
-use SL\CoreBundle\Services\LoggableService;
 
 /**
  * Entity controller.
@@ -25,7 +21,6 @@ use SL\CoreBundle\Services\LoggableService;
  */
 class EntityController extends Controller
 {
-    private $em;
     private $databaseEm;
     private $doctrineService;
     private $entityClassService;
@@ -39,9 +34,8 @@ class EntityController extends Controller
      *     "entityService" = @DI\Inject("sl_core.entity"),
      * })
      */
-    public function __construct(RegistryInterface $registry, DoctrineService $doctrineService, entityClassService $entityClassService, EntityService $entityService)
+    public function __construct(RegistryInterface $registry, DoctrineService $doctrineService, EntityClassService $entityClassService, EntityService $entityService)
     { 
-        $this->em = $registry->getManager();
         $this->databaseEm = $registry->getManager('database');
         $this->doctrineService = $doctrineService;
         $this->entityClassService = $entityClassService;

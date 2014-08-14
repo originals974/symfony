@@ -6,7 +6,6 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 
 use SL\MasterBundle\Entity\AbstractEntity as MasterAbstractEntity;
 use SL\CoreBundle\Entity\MappedSuperclass\AbstractEntity as CoreAbstractEntity; 
-use SL\DataBundle\Entity\AbstractEntity as DataAbstractEntity;
 
 class DoctrineListener
 {   

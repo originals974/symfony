@@ -9,7 +9,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use JMS\DiExtraBundle\Annotation as DI;
 
 //Custom classes
-use SL\CoreBundle\Entity\Search;
 use SL\CoreBundle\Services\EntityService;
 
 /**
