@@ -14,7 +14,7 @@ use SL\CoreBundle\Entity\EntityClass\EntityClass;
 use SL\CoreBundle\Entity\EntityClass\Property;
 use SL\CoreBundle\Services\EntityClass\PropertyService;
 use SL\CoreBundle\Services\DoctrineService;
-use SL\CoreBundle\Services\FrontService;
+use SL\CoreBundle\Services\EntityService;
 
 /**
  * Property controller
@@ -25,22 +25,22 @@ class PropertyController extends Controller
     private $em;
     private $propertyService;
     private $doctrineService;
-    private $frontService;
+    private $entityService;
 
     /**
      * @DI\InjectParams({
      *     "em" = @DI\Inject("doctrine.orm.entity_manager"),
      *     "propertyService" = @DI\Inject("sl_core.property"),
      *     "doctrineService" = @DI\Inject("sl_core.doctrine"),
-     *     "frontService" = @DI\Inject("sl_core.front")
+     *     "entityService" = @DI\Inject("sl_core.entity")
      * })
      */
-    public function __construct(EntityManager $em, PropertyService $propertyService, DoctrineService $doctrineService, FrontService $frontService)
+    public function __construct(EntityManager $em, PropertyService $propertyService, DoctrineService $doctrineService, EntityService $entityService)
     {
         $this->em = $em;
         $this->propertyService = $propertyService;
         $this->doctrineService = $doctrineService;
-        $this->frontService = $frontService;
+        $this->entityService = $entityService;
     }
 
     /**
@@ -320,7 +320,7 @@ class PropertyController extends Controller
     {
         if ($request->isXmlHttpRequest()) {
             
-            if($this->frontService->propertyHasNotNullValues($property)){
+            if($this->entityService->propertyHasNotNullValues($property)){
                 $this->doctrineService->entityDelete('SLCoreBundle:EntityClass\Property', $property->getId(), false);
             } 
             else {

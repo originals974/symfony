@@ -11,7 +11,7 @@ use Symfony\Component\Translation\Translator;
 use SL\CoreBundle\Services\EntityClass\EntityClassService;
 use SL\CoreBundle\Entity\EntityClass\Property;
 
-class FrontType extends AbstractType
+class EntityType extends AbstractType
 {
     protected $em;
     protected $entityClassService;
@@ -160,6 +160,6 @@ class FrontType extends AbstractType
      */
     public function getName()
     {
-        return 'sl_core_front';
+        return 'sl_core_entity';
     }
 }

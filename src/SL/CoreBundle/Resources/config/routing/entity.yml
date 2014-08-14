@@ -1,0 +1,59 @@
+entity_new:
+    pattern: /{entity_class_id}/new
+    defaults: { _controller: SLCoreBundle:Entity:new }
+    requirements:
+        entity_class_id: \d+
+        _method: GET 
+entity_create:
+    pattern: /{entity_class_id}/create
+    defaults: { _controller: SLCoreBundle:Entity:create }
+    requirements:
+        entity_class_id: \d+
+        _method: POST 
+entity_show:
+    pattern: /{entity_class_id}.{entity_id}.{class_namespace}/show
+    defaults: { _controller: SLCoreBundle:Entity:show }
+    requirements:
+        entity_class_id: \d+ 
+        entity_id: \d+ 
+        _method: GET
+entity_edit:
+    pattern: /{entity_class_id}.{entity_id}.{class_namespace}/edit
+    defaults: { _controller: SLCoreBundle:Entity:edit }
+    requirements:
+        entity_class_id: \d+
+        entity_id: \d+
+        _method: GET
+entity_update:
+    pattern: /{entity_class_id}.{entity_id}.{class_namespace}/update
+    defaults: { _controller: SLCoreBundle:Entity:update }
+    requirements:
+        entity_class_id: \d+
+        entity_id: \d+
+        _method: PUT
+entity_remove:
+    pattern: /{entity_class_id}.{entity_id}.{class_namespace}/remove
+    defaults: { _controller: SLCoreBundle:Entity:remove }
+    requirements:
+        entity_class_id: \d+
+        entity_id: \d+
+        _method: GET
+entity_delete:
+    pattern: /{entity_id}.{class_namespace}/delete
+    defaults: { _controller: SLCoreBundle:Entity:delete }
+    requirements:
+        entity_id: \d+
+        _method: DELETE
+entity_edit_version:
+    pattern: /{entity_class_id}.{entity_id}.{class_namespace}/edit_version
+    defaults: { _controller: SLCoreBundle:Entity:editVersion }
+    requirements:
+        entity_class_id: \d+
+        entity_id: \d+
+        _method: GET
+entity_update_version:
+    pattern: /{entity_id}.{class_namespace}/update_version
+    defaults: { _controller: SLCoreBundle:Entity:updateVersion }
+    requirements:
+        entity_id: \d+
+        _method: PUT

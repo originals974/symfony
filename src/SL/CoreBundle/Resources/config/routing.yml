@@ -28,9 +28,9 @@ sl_core_choice_item:
     resource: "@SLCoreBundle/Resources/config/routing/choice/choiceItem.yml"
     prefix: /back_end/choice_item
 
-#Front
-sl_core_font:
-    resource: "@SLCoreBundle/Resources/config/routing/front.yml"
+#Entity
+sl_core_entity:
+    resource: "@SLCoreBundle/Resources/config/routing/entity.yml"
     prefix: /front_end
 
 #Search

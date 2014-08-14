@@ -11,7 +11,7 @@ use JMS\DiExtraBundle\Annotation as DI;
 //Custom classes
 use SL\CoreBundle\Entity\Search;
 use SL\CoreBundle\Services\ElasticaService;
-use SL\CoreBundle\Services\FrontService;
+use SL\CoreBundle\Services\EntityService;
 
 /**
  * Search controller.
@@ -21,20 +21,20 @@ class SearchController extends Controller
 {
     private $em;
     private $elasticaService;
-    private $frontService; 
+    private $entityService; 
 
     /**
      * @DI\InjectParams({
      *     "em" = @DI\Inject("doctrine.orm.entity_manager"),
      *     "elasticaService" = @DI\Inject("sl_core.elastica"),
-     *     "frontService" = @DI\Inject("sl_core.front")
+     *     "entityService" = @DI\Inject("sl_core.entity")
      * })
      */
-    public function __construct(EntityManager $em, ElasticaService $elasticaService, FrontService $frontService)
+    public function __construct(EntityManager $em, ElasticaService $elasticaService, EntityService $entityService)
     {
         $this->em = $em;
         $this->elasticaService = $elasticaService;
-        $this->frontService = $frontService; 
+        $this->entityService = $entityService; 
     }
 
     /**
@@ -45,7 +45,7 @@ class SearchController extends Controller
         //$search =  new Search();
         if ($request->isXmlHttpRequest()) {    
 
-            $form = $this->frontService->createSearchForm();
+            $form = $this->entityService->createSearchForm();
             $form->handleRequest($request);
             $searchPattern = $form->get('searchField')->getData();
 
@@ -73,7 +73,7 @@ class SearchController extends Controller
                     $entityClassesArray[] = $entityClassArray;
                 }
             }
-            $html = $this->renderView('SLCoreBundle:Front:searchResults.html.twig', array(
+            $html = $this->renderView('SLCoreBundle:Entity:searchResults.html.twig', array(
                     'entityClassesArray' => $entityClassesArray,
                     )
                 );
@@ -88,7 +88,7 @@ class SearchController extends Controller
         else {
 
             //Redirect to index page
-            $response = $this->redirect($this->generateUrl('front'));
+            $response = $this->redirect($this->generateUrl('front_end'));
         }
 
         return $response; 
@@ -121,7 +121,7 @@ class SearchController extends Controller
         else {
 
             //Redirect to index page
-            $response = $this->redirect($this->generateUrl('front'));
+            $response = $this->redirect($this->generateUrl('front_end'));
         }
 
         return $response; 

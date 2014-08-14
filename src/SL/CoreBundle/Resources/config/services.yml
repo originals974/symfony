@@ -30,8 +30,8 @@ services:
         class: SL\CoreBundle\Services\Choice\ChoiceItemService
         arguments: [@form.factory, @router]
 
-    sl_core.front:
-        class: SL\CoreBundle\Services\FrontService
+    sl_core.entity:
+        class: SL\CoreBundle\Services\EntityService
         arguments: [@form.factory, @router, @doctrine, @sl_core.entity_class, @sl_core.doctrine, @translator]
 
     sl_core.elastica:
@@ -47,6 +47,7 @@ services:
     sl_core.listener:
         class: SL\CoreBundle\Listener\DoctrineListener
         tags:
+            - { name: doctrine.event_listener, event: prePersist }
             - { name: doctrine.event_listener, event: postPersist }
 
     #Form Service
@@ -95,11 +96,11 @@ services:
         tags:
             - { name: form.type, alias: sl_core_search }
 
-    sl_core.form.type.front:
-        class: SL\CoreBundle\Form\FrontType
+    sl_core.form.type.entity:
+        class: SL\CoreBundle\Form\EntityType
         arguments: [@doctrine.orm.entity_manager, @sl_core.entity_class, @translator]
         tags:
-            - { name: form.type, alias: sl_core_front }
+            - { name: form.type, alias: sl_core_entity }
 
     sl_core.form.type.entity.version:
         class: SL\CoreBundle\Form\EntityVersionType
@@ -122,6 +123,6 @@ services:
 
     sl_core.paramconverter.entity:
         class: SL\CoreBundle\ParamConverter\EntityParamConverter
-        arguments: ["SL\DataBundle\Entity\AbstractEntity", @doctrine.orm.entity_manager]
+        arguments: ["SL\MasterBundle\Entity\AbstractEntity", @doctrine]
         tags:
             - { name: request.param_converter, priority: 21 }

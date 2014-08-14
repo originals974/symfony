@@ -44,6 +44,11 @@ class DoctrineService
         $this->dataBundle = $this->kernel->getBundle(str_replace('/', '', $dataBundlePath)); 
     }
 
+    public function createDoctrineEntityFileAndObjectSchema(EntityClass $entityClass){
+        $this->doctrineGenerateEntityFileByEntityClass($entityClass); 
+        $this->doctrineSchemaUpdateForce();
+    }
+
     /**
      * Create mapping and entity file for entityClass
      *
@@ -179,6 +184,7 @@ class DoctrineService
 
         if($entityClass->getParent() === null){
             $entityNamespace = $this->getDataEntityNamespace('AbstractEntity');
+            //$entityNamespace = "SL\MasterBundle\Entity\AbstractEntity";
             $entityGenerator->setClassToExtend($entityNamespace); 
         }
         else{

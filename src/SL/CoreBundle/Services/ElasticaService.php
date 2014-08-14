@@ -161,9 +161,10 @@ class ElasticaService
             'guid' => $entity->getGuid(),
         );
         $node['a_attr'] = array(
-            'href' => $this->router->generate('front_show', array(
+            'href' => $this->router->generate('entity_show', array(
                 'entity_class_id' => $entity->getEntityClassId(),
                 'entity_id' => $entity->getId(),
+                'class_namespace' => $entity->getClass(),
                 )
             ),
         );

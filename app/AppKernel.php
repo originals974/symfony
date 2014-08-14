@@ -32,6 +32,7 @@ class AppKernel extends Kernel
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
+            new SL\MasterBundle\SLMasterBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

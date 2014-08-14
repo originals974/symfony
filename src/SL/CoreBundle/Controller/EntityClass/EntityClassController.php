@@ -13,7 +13,7 @@ use SL\CoreBundle\Entity\EntityClass\EntityClass;
 use SL\CoreBundle\Services\EntityClass\EntityClassService;
 use SL\CoreBundle\Services\JSTreeService;
 use SL\CoreBundle\Services\DoctrineService;
-use SL\CoreBundle\Services\FrontService;
+use SL\CoreBundle\Services\EntityService;
 
 /**
  * EntityClass controller
@@ -25,7 +25,7 @@ class EntityClassController extends Controller
     private $entityClassService;
     private $jstreeService;
     private $doctrineService;
-    private $frontService;
+    private $entityService;
 
     /**
      * @DI\InjectParams({
@@ -33,16 +33,16 @@ class EntityClassController extends Controller
      *     "entityClassService" = @DI\Inject("sl_core.entity_class"),
      *     "jstreeService" = @DI\Inject("sl_core.js_tree"),
      *     "doctrineService" = @DI\Inject("sl_core.doctrine"),
-     *     "frontService" = @DI\Inject("sl_core.front")
+     *     "entityService" = @DI\Inject("sl_core.entity")
      * })
      */
-    public function __construct(EntityManager $em, EntityClassService $entityClassService, JSTreeService $jstreeService, DoctrineService $doctrineService, FrontService $frontService)
+    public function __construct(EntityManager $em, EntityClassService $entityClassService, JSTreeService $jstreeService, DoctrineService $doctrineService, EntityService $entityService)
     {
         $this->em = $em;
         $this->entityClassService = $entityClassService;
         $this->jstreeService = $jstreeService;
         $this->doctrineService = $doctrineService;
-        $this->frontService = $frontService;
+        $this->entityService = $entityService;
     }
 
     /**
@@ -315,7 +315,7 @@ class EntityClassController extends Controller
 
             // If entities exist for entity class, entity class is soft delete
             // Entity and database table associated with entity class aren't deleted 
-            $entitiesExist = $this->frontService->entitiesExist($entityClass); 
+            $entitiesExist = $this->entityService->entitiesExist($entityClass); 
             if($entitiesExist){
                $this->doctrineService->entityDelete('SLCoreBundle:EntityClass\EntityClass', $entityClass->getId(), false);
             }
@@ -330,7 +330,7 @@ class EntityClassController extends Controller
                     $this->doctrineService->removeDoctrineFiles($child);
                 }
 
-                $this->doctrineService->doctrineSchemaUpdateForce($entityClass);
+                $this->doctrineService->doctrineSchemaUpdateForce();
 
                 $this->doctrineService->entityDelete('SLCoreBundle:EntityClass\EntityClass', $entityClass->getId(), true);
             }
@@ -398,7 +398,7 @@ class EntityClassController extends Controller
 
                 if($form->get('updateExistingDisplayName')->getData()) {
                     //Refresh display name of existing entity
-                    $this->frontService->refreshCalculatedName($entityClass); 
+                    $this->entityService->refreshCalculatedName($entityClass); 
                 }
 
                 $this->em->flush();

@@ -12,15 +12,14 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
 use SL\CoreBundle\Entity\EntityClass\EntityClass;
 use SL\CoreBundle\Entity\EntityClass\Property;
 use SL\DataBundle\Entity\LogEntry;
-use SL\CoreBundle\Form\FrontType;
 use SL\CoreBundle\Services\DoctrineService;
 use SL\CoreBundle\Services\EntityClass\EntityClassService;
 
 /**
- * Front Service
+ * Entity Service
  *
  */
-class FrontService
+class EntityService
 {
     private $formFactory;
     private $router;
@@ -53,8 +52,8 @@ class FrontService
     */
     public function createCreateForm($entity)
     {  
-        $form = $this->formFactory->create('sl_core_front', $entity, array(
-            'action' => $this->router->generate('front_create', array(
+        $form = $this->formFactory->create('sl_core_entity', $entity, array(
+            'action' => $this->router->generate('entity_create', array(
                 'entity_class_id' => $entity->getEntityClassId(),
                 )
             ),
@@ -84,10 +83,11 @@ class FrontService
     */
     public function createEditForm($entity)
     {
-        $form = $this->formFactory->create('sl_core_front', $entity, array(
-            'action' => $this->router->generate('front_update', array(
+        $form = $this->formFactory->create('sl_core_entity', $entity, array(
+            'action' => $this->router->generate('entity_update', array(
                 'entity_class_id' => $entity->getEntityClassId(),
                 'entity_id' => $entity->getId(),
+                'class_namespace' => $entity->getClass(), 
                 )
             ),
             'method' => 'PUT',
@@ -117,10 +117,10 @@ class FrontService
      */
     public function createDeleteForm($entity)
     {
-        $form = $this->formFactory->create('sl_core_front', $entity, array(
-            'action' => $this->router->generate('front_delete', array(
-                'entity_class_id' => $entity->getEntityClassId(),
+        $form = $this->formFactory->create('sl_core_entity', $entity, array(
+            'action' => $this->router->generate('entity_delete', array(
                 'entity_id' => $entity->getId(),
+                'class_namespace' => $entity->getClass(), 
                 )
             ),
             'method' => 'DELETE',
@@ -174,9 +174,9 @@ class FrontService
     public function createEditVersionForm($entity, $limit = 5)
     {   
         $form = $this->formFactory->create('sl_core_entity_version', null, array(
-            'action' => $this->router->generate('front_update_version', array(
-                'entity_class_id' => $entity->getEntityClassId(),
+            'action' => $this->router->generate('entity_update_version', array(
                 'entity_id' => $entity->getId(),
+                'class_namespace' => $entity->getClass(), 
                 )
             ),
             'entity' => $entity,

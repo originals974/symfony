@@ -9,42 +9,43 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use SL\MasterBundle\Entity\AbstractEntity; 
 
 //Custom classes
 use SL\CoreBundle\Entity\EntityClass\EntityClass;
 use SL\DataBundle\Entity\LogEntry;
 use SL\CoreBundle\Services\DoctrineService;
 use SL\CoreBundle\Services\EntityClass\EntityClassService;
-use SL\CoreBundle\Services\FrontService;
+use SL\CoreBundle\Services\EntityService;
 use SL\CoreBundle\Services\LoggableService;
 
 /**
- * Front controller.
+ * Entity controller.
  *
  */
-class FrontController extends Controller
+class EntityController extends Controller
 {
     private $em;
     private $databaseEm;
     private $doctrineService;
     private $entityClassService;
-    private $frontService;
+    private $entityService;
 
     /**
      * @DI\InjectParams({
      *     "registry" = @DI\Inject("doctrine"),
      *     "doctrineService" = @DI\Inject("sl_core.doctrine"),
      *     "entityClassService" = @DI\Inject("sl_core.entity_class"),
-     *     "frontService" = @DI\Inject("sl_core.front"),
+     *     "entityService" = @DI\Inject("sl_core.entity"),
      * })
      */
-    public function __construct(RegistryInterface $registry, DoctrineService $doctrineService, entityClassService $entityClassService, FrontService $frontService)
+    public function __construct(RegistryInterface $registry, DoctrineService $doctrineService, entityClassService $entityClassService, EntityService $entityService)
     { 
         $this->em = $registry->getManager();
         $this->databaseEm = $registry->getManager('database');
         $this->doctrineService = $doctrineService;
         $this->entityClassService = $entityClassService;
-        $this->frontService = $frontService;
+        $this->entityService = $entityService;
     }
 
     /**
@@ -59,9 +60,9 @@ class FrontController extends Controller
             $class = $this->doctrineService->getDataEntityNamespace($entityClass->getTechnicalName());
             $entity =  new $class($entityClass->getId()); 
 
-            $form   = $this->frontService->createCreateForm($entity);
+            $form   = $this->entityService->createCreateForm($entity);
 
-            $response = $this->render('SLCoreBundle:Front:save.html.twig', array(
+            $response = $this->render('SLCoreBundle:Entity:save.html.twig', array(
                 'entityClass' => $entityClass,
                 'form'   => $form->createView(),
                 )
@@ -86,13 +87,13 @@ class FrontController extends Controller
             $class = $this->doctrineService->getDataEntityNamespace($entityClass->getTechnicalName());
             $entity =  new $class($entityClass->getId()); 
             
-            $form = $this->frontService->createCreateForm($entity);
+            $form = $this->entityService->createCreateForm($entity);
             $form->handleRequest($request);
 
 
             if ($form->isValid()) {
 
-                $displayName = $this->frontService->calculateDisplayName($entity, $entityClass);
+                $displayName = $this->entityService->calculateDisplayName($entity, $entityClass);
                 $entity->setDisplayName($displayName); 
                
                 $this->databaseEm->persist($entity);
@@ -103,7 +104,7 @@ class FrontController extends Controller
             else {
 
                 //Create a form with field error 
-                $content = $this->renderView('SLCoreBundle:Front:save.html.twig', array(
+                $content = $this->renderView('SLCoreBundle:Entity:save.html.twig', array(
                     'entityClass' => $entityClass,
                     'form'   => $form->createView(),
                     )
@@ -132,16 +133,15 @@ class FrontController extends Controller
      * @param integer $entity_id
      *
      * @ParamConverter("entityClass", options={"select_mode" = "all"})
+     * @ParamConverter("entity", options={"select_mode" = "all"})
      */
-    public function editAction(Request $request, EntityClass $entityClass, $entity_id)
+    public function editAction(Request $request, EntityClass $entityClass, AbstractEntity $entity, $class_namespace)
     {
         if ($request->isXmlHttpRequest()) {
 
-            $entity = $this->databaseEm->getRepository('SLDataBundle:'.$entityClass->getTechnicalName())->find($entity_id);
+            $form = $this->entityService->createEditForm($entity);
 
-            $form = $this->frontService->createEditForm($entity);
-
-            $response = $this->render('SLCoreBundle:Front:save.html.twig', array(
+            $response = $this->render('SLCoreBundle:Entity:save.html.twig', array(
                 'entityClass' => $entityClass,
                 'form'   => $form->createView(),
                 )
@@ -161,21 +161,20 @@ class FrontController extends Controller
      * @param integer $entity_id Id of update entity
      *
      * @ParamConverter("entityClass", options={"select_mode" = "all"})
+     * @ParamConverter("entity", options={"select_mode" = "all"})
      */
-    public function updateAction(Request $request, EntityClass $entityClass, $entity_id)
+    public function updateAction(Request $request, EntityClass $entityClass, AbstractEntity $entity, $class_namespace)
     {
         if ($request->isXmlHttpRequest()) {
 
-            $entity = $this->databaseEm->getRepository('SLDataBundle:'.$entityClass->getTechnicalName())->find($entity_id);
-
-            $form = $this->frontService->createEditForm($entity);
+            $form = $this->entityService->createEditForm($entity);
             $form->handleRequest($request);
 
             $isValid = $form->isValid();
             if ($isValid) {
 
                 //Calculate displayName value
-                $displayName = $this->frontService->calculateDisplayName($entity, $entityClass);
+                $displayName = $this->entityService->calculateDisplayName($entity, $entityClass);
                 $entity->setDisplayName($displayName); 
                 $this->databaseEm->flush();
 
@@ -183,7 +182,7 @@ class FrontController extends Controller
             }
             else {
                  //Create a form with field error 
-                $content = $this->renderView('SLCoreBundle:Front:save.html.twig', array(
+                $content = $this->renderView('SLCoreBundle:Entity:save.html.twig', array(
                     'entityClass' => $entityClass,
                     'form'   => $form->createView(),
                     )
@@ -214,12 +213,11 @@ class FrontController extends Controller
      * @param integer $entity_id Id of entity to show
      *
      * @ParamConverter("entityClass", options={"select_mode" = "all"})
+     * @ParamConverter("entity", options={"select_mode" = "all"})
      */
-    public function showAction(Request $request,EntityClass $entityClass, $entity_id)
+    public function showAction(Request $request,EntityClass $entityClass, AbstractEntity $entity, $class_namespace)
     {
         if ($request->isXmlHttpRequest()) {
-
-            $entity = $this->databaseEm->getRepository('SLDataBundle:'.$entityClass->getTechnicalName())->find($entity_id);
 
             $path = $this->entityClassService->getEntityClassPath($entityClass); 
 
@@ -227,7 +225,7 @@ class FrontController extends Controller
 
             $currentVersion = $this->databaseEm->getRepository('SLDataBundle:LogEntry')->findCurrentVersion($entity);
 
-            $response = $this->render('SLCoreBundle:Front:show.html.twig', array(
+            $response = $this->render('SLCoreBundle:Entity:show.html.twig', array(
                 'entityClass' => $entityClass, 
                 'entityClasses' => $entityClasses,
                 'entity' => $entity, 
@@ -250,18 +248,17 @@ class FrontController extends Controller
     * @param integer $entity_id
     *
     * @ParamConverter("entityClass", options={"select_mode" = "all"})
+    * @ParamConverter("entity", options={"select_mode" = "all"})
     */
-    public function removeAction(Request $request, EntityClass $entityClass, $entity_id)
+    public function removeAction(Request $request, EntityClass $entityClass, AbstractEntity $entity, $class_namespace)
     {
         if ($request->isXmlHttpRequest()) {
 
             $entityClasses = $this->entityClassService->getPath($entityClass); 
 
-            $entity = $this->databaseEm->getRepository('SLDataBundle:'.$entityClass->getTechnicalName())->find($entity_id);
-      
-            $form = $this->frontService->createDeleteForm($entity);
+            $form = $this->entityService->createDeleteForm($entity);
 
-            return $this->render('SLCoreBundle:Front:save.html.twig', array(
+            return $this->render('SLCoreBundle:Entity:save.html.twig', array(
                 'entity' => $entity,
                 'entityClass' => $entityClass,
                 'entityClasses' => $entityClasses,
@@ -282,13 +279,12 @@ class FrontController extends Controller
      * @param integer $id  EntityClass type id of remove entity
      * @param integer $entity_id Id of entity to delete
      *
-     * @ParamConverter("entityClass", options={"select_mode" = "all"})
+     * @ParamConverter("entity", options={"select_mode" = "all"})
      */
-    public function deleteAction(Request $request, EntityClass $entityClass, $entity_id)
+    public function deleteAction(Request $request, AbstractEntity $entity, $class_namespace)
     {
         if ($request->isXmlHttpRequest()) {
 
-            $entity = $this->databaseEm->getRepository('SLDataBundle:'.$entityClass->getTechnicalName())->find($entity_id);
             $this->databaseEm->remove($entity);
             $this->databaseEm->flush();
 
@@ -301,7 +297,7 @@ class FrontController extends Controller
             $response = new JsonResponse($data);
         }
         else {
-            $response = $this->redirect($this->generateUrl('front_end', array('entityClass_id' => $entityClass->getId())));
+            $response = $this->redirect($this->generateUrl('front_end'));
         }   
 
         return $response;    
@@ -314,8 +310,9 @@ class FrontController extends Controller
      * @param integer $entity_id Id of entity to show
      *
      * @ParamConverter("entityClass", options={"select_mode" = "all"})
+     * @ParamConverter("entity", options={"select_mode" = "all"})
      */
-    public function editVersionAction(Request $request, EntityClass $entityClass, $entity_id)
+    public function editVersionAction(Request $request, EntityClass $entityClass, AbstractEntity $entity, $class_namespace)
     {
         if ($request->isXmlHttpRequest()) {
 
@@ -323,14 +320,12 @@ class FrontController extends Controller
  
             $entityClasses = $this->entityClassService->getPath($entityClass); 
 
-            $entity = $this->databaseEm->getRepository('SLDataBundle:'.$entityClass->getTechnicalName())->find($entity_id);
-
-            $form = $this->frontService->createEditVersionForm($entity, null, $limit);
+            $form = $this->entityService->createEditVersionForm($entity, null, $limit);
 
             //Get all data version for $entity
             $formatedLogEntries = $this->doctrineService->getFormatedLogEntries($entity, $limit); 
 
-            $response = $this->render('SLCoreBundle:Front:version.html.twig', array(
+            $response = $this->render('SLCoreBundle:Entity:version.html.twig', array(
                 'entityClasses' => $entityClasses, 
                 'entity' => $entity, 
                 'formatedLogEntries' => $formatedLogEntries,
@@ -353,23 +348,21 @@ class FrontController extends Controller
      *
      * @return JsonResponse
      *
-     * @ParamConverter("entityClass", options={"select_mode" = "all"})
+     * @ParamConverter("entity", options={"select_mode" = "all"})
      */
-    public function updateVersionAction(Request $request, EntityClass $entityClass, $entity_id)
+    public function updateVersionAction(Request $request, AbstractEntity $entity, $class_namespace)
     {
         if ($request->isXmlHttpRequest()) {
 
-            $entity = $this->databaseEm->getRepository('SLDataBundle:'.$entityClass->getTechnicalName())->find($entity_id);
-
             //Form creation
-            $form = $this->frontService->createEditVersionForm($entity);
+            $form = $this->entityService->createEditVersionForm($entity);
             $form->handleRequest($request);
 
             $logEntry = $form->get('logEntry')->getData(); 
 
             $this->databaseEm->getRepository('SLDataBundle:LogEntry')->revert($entity, $logEntry->getVersion());
 
-            $displayName = $this->frontService->calculateDisplayName($entity);
+            $displayName = $this->entityService->calculateDisplayName($entity);
             $entity->setDisplayName($displayName); 
             $this->databaseEm->flush();
 

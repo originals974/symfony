@@ -1,3 +1,7 @@
+sl_master:
+    resource: "@SLMasterBundle/Resources/config/routing.yml"
+    prefix:   /
+
 sl_data:
     resource: "@SLDataBundle/Resources/config/routing.yml"
     prefix:   /

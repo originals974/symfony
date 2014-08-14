@@ -1,7 +1,7 @@
 {% extends "SLCoreBundle::modalContent.html.twig" %}
 
 {% block modal_title %}
-	{{ 'front.version'|trans }}
+	{{ 'entity.version'|trans }}
 {% endblock %}
 
 {% block modal_body %}
@@ -34,7 +34,7 @@
 			    </div>
 			    <div id="collapse{{ version }}" class="panel-collapse collapse">
 			      	<div class="panel-body">
-			      		{% include "SLCoreBundle:Front:showBody.html.twig" with {'entityClasses' : entityClasses, 'entity' : formatedLogEntry['data']} only %} 
+			      		{% include "SLCoreBundle:Entity:showBody.html.twig" with {'entityClasses' : entityClasses, 'entity' : formatedLogEntry['data']} only %} 
 			      	</div>
 			    </div>
 			</div>

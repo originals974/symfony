@@ -45,7 +45,7 @@ class Builder extends ContainerAware
         ));
 
         //Menu item
-        $menu->addChild('backEnd', array('route' => 'back_end'));
+        $menu->addChild('BackEnd', array('route' => 'back_end'));
 
         return $menu;
     }
@@ -91,7 +91,7 @@ class Builder extends ContainerAware
             $entityClassLink = $menu->addChild(
                 $entityClass->getTechnicalName(), 
                 array(
-                    'route' => 'front_new', 
+                    'route' => 'entity_new', 
                     'routeParameters' => array('entity_class_id' => $entityClass->getId()),
                     'label' => $entityClass->getDisplayName(),
                     'icon' => $icon->getEntityClassIcon($entityClass),

@@ -168,12 +168,12 @@ doctrine:
         default_connection:   default
         connections:
             default:
-                driver:   "%database_driver%"
-                host:     "%database_host%"
-                port:     "%database_port%"
-                dbname:   "%database_name%"
-                user:     "%database_user%"
-                password: "%database_password%"
+                driver:   "%dictionary_driver%"
+                host:     "%dictionary_host%"
+                port:     "%dictionary_port%"
+                dbname:   "%dictionary_name%"
+                user:     "%dictionary_user%"
+                password: "%dictionary_password%"
                 charset:  UTF8
                 # if using pdo_sqlite as your database driver, add the path in parameters.yml
                 # e.g. database_path: "%kernel.root_dir%/data/data.db3"
@@ -200,6 +200,7 @@ doctrine:
                         enabled: true
                 mappings:
                     SLCoreBundle: ~
+                    SLMasterBundle: ~
                     gedmo_tree:
                         type: annotation
                         prefix: Gedmo\Tree\Entity
@@ -214,6 +215,7 @@ doctrine:
                         enabled: true
                 mappings:
                     SLDataBundle: ~
+                    SLMasterBundle: ~
                     gedmo_loggable:
                         type: annotation
                         prefix: Gedmo\Loggable\Entity
@@ -298,10 +300,10 @@ fos_elastica:
         slcore:
             client: default
             types:
-                EntityClass1:
+                EntityClass8:
                     persistence:
                         driver: orm
-                        model:  SL\DataBundle\Entity\EntityClass1
+                        model:  SL\DataBundle\Entity\EntityClass8
                         provider: ~
                         listener: ~
                         finder: ~
