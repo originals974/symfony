@@ -2,12 +2,10 @@
 
 namespace SL\CoreBundle\Services;
 
-//Symfony classes
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Routing\Router;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
-//Custom classes
 use SL\CoreBundle\Entity\EntityClass\EntityClass;
 use SL\CoreBundle\Entity\EntityClass\Property;
 use SL\MasterBundle\Entity\AbstractEntity;
@@ -40,10 +38,9 @@ class EntityService
     }
 
     /**
-    * Creates entity form
+    * Create create form for $entity
     *
-    * @param EntityClass\EntityClass $entityClass EntityClass type of new entity
-    * @param Mixed $entity
+    * @param AbstractEntity $entity
     *
     * @return Form $form
     */
@@ -71,10 +68,9 @@ class EntityService
     }
 
     /**
-    * Update entity form
+    * Create update form for $entity
     *
-    * @param EntityClass\EntityClass $entityClass EntityClass type of update entity
-    * @param Mixed $entity
+    * @param AbstractEntity $entity
     *
     * @return Form $form
     */
@@ -103,14 +99,12 @@ class EntityService
         return $form;
     }
 
-
     /**
-     * Delete entity form
+     * Create delete form for $entity
      *
-     * @param EntityClass\EntityClass $entityClass  EntityClass type of remove entity
-     * @param Mixed $entity
+     * @param AbstractEntity $entity
      *
-     * @return Form $form Delete form
+     * @return Form $form
      */
     public function createDeleteForm(AbstractEntity $entity)
     {
@@ -137,12 +131,10 @@ class EntityService
     }
 
     /**
-    * Search entity form
-    *
-    * @param Search $search
-    *
-    * @return Form $form
-    */
+     * Create search form for entity
+     *
+     * @return Form $form
+     */
     public function createSearchForm()
     {
         $form = $this->formFactory->create('sl_core_search', null, array(
@@ -161,13 +153,14 @@ class EntityService
     }
 
     /**
-    * Update entity version form
-    * 
-    * @param Mixed $entity
-    * @param integer $limit
-    *
-    * @return Form $form
-    */
+     * Create update version form for $entity
+     * This form display last $limit versions
+     *
+     * @param AbstractEntity $entity
+     * @param integer $limit
+     *
+     * @return Form $form
+     */
     public function createEditVersionForm(AbstractEntity $entity, $limit = 5)
     {   
         $form = $this->formFactory->create('sl_core_entity_version', null, array(
@@ -184,6 +177,13 @@ class EntityService
         return $form;
     }
 
+    /**
+     * Check if $entityClass contains entities
+     *
+     * @param EntityClass $entityClass
+     *
+     * @return boolean $entitiesExist
+     */
     public function entitiesExist(EntityClass $entityClass){
 
         $entities = $this->databaseEm->getRepository('SLDataBundle:'.$entityClass->getTechnicalName())->findAll();
@@ -198,6 +198,13 @@ class EntityService
         return $entitiesExist; 
     }
 
+     /**
+     * Check if entities $property have not null value
+     *
+     * @param Property $property
+     *
+     * @return boolean $propertyHasNotNullValues
+     */
     public function propertyHasNotNullValues(Property $property){
 
         $entityCount = $this->databaseEm->getRepository('SLDataBundle:'.$property->getEntityClass()->getTechnicalName())
@@ -214,13 +221,12 @@ class EntityService
     }
 
     /**
-     * Calculate displayName of a new entity 
-     * by using calculatedName attribute of entityClass
+     * Calculate display name of $entity 
+     * by using calculated name of associated entity class
      *
-     * @param Mixed $entity
-     * @param EntityClass\EntityClass $entityClass
+     * @param AbstractEntity $entity
      *
-     * @return String $displayName DisplayName of new entity
+     * @return string $displayName
      */
     public function calculateDisplayName(AbstractEntity $entity) 
     { 
@@ -245,12 +251,13 @@ class EntityService
     }
 
     /**
-    * Refresh displayName of entity linked to entityClass
+    * Refresh displayName of all entities associated to $entityClass
     *
-    * @param EntityClass\EntityClass $entityClass 
+    * @param EntityClass $entityClass 
     *
+    * @return void
     */
-    public function refreshCalculatedName(EntityClass $entityClass){
+    public function refreshDisplayName(EntityClass $entityClass){
 
         $entities = $this->databaseEm ->getRepository('SLDataBundle:'.$entityClass->getTechnicalName())
                                 ->findAll(); 
@@ -263,8 +270,5 @@ class EntityService
         }
 
         $this->databaseEm->flush();
-
-        return true; 
     }
-
 }

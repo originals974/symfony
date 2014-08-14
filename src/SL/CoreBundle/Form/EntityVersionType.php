@@ -53,7 +53,7 @@ class EntityVersionType extends AbstractType
             'method' => 'PUT',
             'attr' => array(
                 'class' => 'form-inline',
-                //'valid-target' => 'search_result', 
+                'valid-target' => '', 
                 'mode' => 'update',
                 ),
             )

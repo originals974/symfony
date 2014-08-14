@@ -14,6 +14,14 @@ class EntityClassParamConverter implements ParamConverterInterface
   protected $em; 
   protected $repository;
 
+  /**
+  * Constructor
+  *
+  * @param string $class
+  * @param EntityManager $em
+  *
+  * @return void
+  */ 
   public function __construct($class, EntityManager $em)
   {
     $this->class = $class;
@@ -21,15 +29,22 @@ class EntityClassParamConverter implements ParamConverterInterface
     $this->repository = $em->getRepository($class);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   function supports(ParamConverter $configuration)
   {
     return $configuration->getClass() == $this->class;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   function apply(Request $request, ParamConverter $configuration)
   {
     $name = $configuration->getName(); 
     $options = $configuration->getOptions();
+    $id = $request->attributes->get('entity_class_id');
 
     if(isset($options['select_mode'])) {
       $selectMode = $options['select_mode'];
@@ -43,10 +58,7 @@ class EntityClassParamConverter implements ParamConverterInterface
       $filters->disable('softdeleteable');
     }
 
-    $id = $request->attributes->get('entity_class_id');
     $entityClass = $this->find($id); 
-    
-
     $request->attributes->set($name, $entityClass);
 
     if($selectMode == "all"){
@@ -56,12 +68,24 @@ class EntityClassParamConverter implements ParamConverterInterface
     return true;
   }
 
+  /**
+  * Find entity class
+  * identified by $id
+  *
+  * @param integer $id
+  *
+  * @return Mixed 
+  */ 
   function find($id)
   { 
     try {
+
       return $this->repository->fullFindById($id);
+
     } catch (NoResultException $e) {
+
       return null;
+
     }
   }
 }

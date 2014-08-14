@@ -37,7 +37,7 @@ class Property extends AbstractEntity
 
     /**
      * @Gedmo\SortableGroup
-     * @ORM\ManyToOne(targetEntity="SL\CoreBundle\Entity\EntityClass\EntityClass", inversedBy="properties")
+     * @ORM\ManyToOne(targetEntity="EntityClass", inversedBy="properties")
      * @ORM\JoinColumn(nullable=false)
      */
     private $entityClass;
@@ -52,7 +52,7 @@ class Property extends AbstractEntity
      * Constructor : Create an property
      * associated with $fieldType 
      *
-     * @param SL\CoreBundle\Entity\Field\FieldType $fieldType|null 
+     * @param FieldType $fieldType|null 
      *
      * @return void 
      */
@@ -68,7 +68,7 @@ class Property extends AbstractEntity
      *
      * @param boolean $isRequired
      *
-     * @return SL\CoreBundle\Entity\EntityClass\Property
+     * @return Property
      */
     public function setRequired($isRequired)
     {
@@ -92,7 +92,7 @@ class Property extends AbstractEntity
      *
      * @param boolean $isMultiple
      *
-     * @return SL\CoreBundle\Entity\EntityClass\Property
+     * @return Property
      */
     public function setIsMultiple($isMultiple)
     {
@@ -114,9 +114,9 @@ class Property extends AbstractEntity
     /**
      * Set entityClass
      *
-     * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
+     * @param EntityClass $entityClass
      *
-     * @return SL\CoreBundle\Entity\EntityClass\EntityClass
+     * @return EntityClass
      */
     public function setEntityClass(EntityClass $entityClass)
     {
@@ -128,7 +128,7 @@ class Property extends AbstractEntity
     /**
      * Get entityClass
      *
-     * @return SL\CoreBundle\Entity\EntityClass\EntityClass 
+     * @return EntityClass 
      */
     public function getEntityClass()
     {
@@ -138,9 +138,9 @@ class Property extends AbstractEntity
     /**
      * Set fieldType
      *
-     * @param SL\CoreBundle\Entity\Field\FieldType $fieldType
+     * @param FieldType $fieldType
      *
-     * @return SL\CoreBundle\Entity\Field\FieldType
+     * @return FieldType
      */
     public function setFieldType(FieldType $fieldType)
     {
@@ -152,7 +152,7 @@ class Property extends AbstractEntity
     /**
      * Get fieldType
      *
-     * @return SL\CoreBundle\Entity\Field\FieldType 
+     * @return FieldType 
      */
     public function getFieldType()
     {

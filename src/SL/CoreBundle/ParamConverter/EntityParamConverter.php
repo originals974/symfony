@@ -14,19 +14,34 @@ class EntityParamConverter implements ParamConverterInterface
   protected $em; 
   protected $repository;
 
+  /**
+  * Constructor
+  *
+  * @param string $class
+  * @param RegistryInterface $registry
+  *
+  * @return void
+  */ 
   public function __construct($class, RegistryInterface $registry)
   {
     $this->class = $class;
     $this->databaseEm = $registry->getManager('database');
   }
 
+  /**
+   * {@inheritDoc}
+   */
   function supports(ParamConverter $configuration)
   {
     return $configuration->getClass() == $this->class;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   function apply(Request $request, ParamConverter $configuration)
   {
+    $name = $configuration->getName();
     $options = $configuration->getOptions();
     $id = $request->attributes->get('entity_id');
     $classNamespace = $request->attributes->get('class_namespace'); 
@@ -44,7 +59,7 @@ class EntityParamConverter implements ParamConverterInterface
       $filters->disable('softdeleteable');
     }
     $entity = $this->find($id); 
-    $request->attributes->set($configuration->getName(), $entity);
+    $request->attributes->set($name, $entity);
 
     if($selectMode == "all"){
       $filters->enable('softdeleteable');
@@ -53,12 +68,24 @@ class EntityParamConverter implements ParamConverterInterface
     return true;
   }
 
+  /**
+  * Find entity class
+  * identified by $id
+  *
+  * @param integer $id
+  *
+  * @return Mixed 
+  */ 
   function find($id)
   { 
     try {
+
       return $this->repository->findOneById($id);
+
     } catch (NoResultException $e) {
+
       return null;
+
     }
   }
 }

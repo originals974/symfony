@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2014-08-14T08:05:23Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+  <file date="2014-08-14T09:58:45Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -56,7 +56,7 @@
       <trans-unit id="6ab84a74a44f834e9b42ec08b1c8fcf6ff608e73" resname="choice_list">
         <source>choice_list</source>
         <target>Liste de valeurs</target>
-        <jms:reference-file line="155">CoreBundle/Menu/Builder.php</jms:reference-file>
+        <jms:reference-file line="139">CoreBundle/Menu/Builder.php</jms:reference-file>
         <jms:reference-file line="31">Form/EntityClass/PropertyChoiceType.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="4e300805e2e727c2c7572ffae1e447045134c2f6" resname="choice_list.add">
@@ -174,7 +174,7 @@
       <trans-unit id="32bae3a5a9ca680b31444cc3a596c1a7d73fc552" resname="entity_class">
         <source>entity_class</source>
         <target>Classe</target>
-        <jms:reference-file line="138">CoreBundle/Menu/Builder.php</jms:reference-file>
+        <jms:reference-file line="125">CoreBundle/Menu/Builder.php</jms:reference-file>
         <jms:reference-file line="33">Form/EntityClass/PropertyEntityType.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="ce62245182b447f360c30acb2bf08db6ee12b9f5" resname="entity_class.add">
@@ -332,7 +332,7 @@
       <trans-unit id="3de4f901fffb30ac720b0e7eb654b4faa2dd03fa" resname="server">
         <source>server</source>
         <target>Serveur</target>
-        <jms:reference-file line="126">CoreBundle/Menu/Builder.php</jms:reference-file>
+        <jms:reference-file line="114">CoreBundle/Menu/Builder.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="37f590630de5477133bfaae5e4553d90bf6a37e0" resname="server.index.description">
         <source>server.index.description</source>

@@ -47,10 +47,10 @@ class PropertyController extends Controller
      * Display form to create a property
      * associated to $entityClass
      *
-     * @param Symfony\Component\HttpFoundation\Request $request
-     * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
+     * @param Request $request
+     * @param EntityClass $entityClass
      *
-     * @return Symfony\Component\HttpFoundation\Response $response
+     * @return Response $response
      */
     public function newAction(Request $request, EntityClass $entityClass)
     {
@@ -79,10 +79,10 @@ class PropertyController extends Controller
      * Display form to create selected property 
      * associated to $entityClass
      *
-     * @param Symfony\Component\HttpFoundation\Request $request
-     * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
+     * @param Request $request
+     * @param EntityClass $entityClass
      *
-     * @return Symfony\Component\HttpFoundation\Response $response
+     * @return Response $response
      */
     public function selectFormAction(Request $request, EntityClass $entityClass)
     {
@@ -115,8 +115,8 @@ class PropertyController extends Controller
      * Create a property with $formMode type
      * associated to $entityClass
      *
-     * @param Symfony\Component\HttpFoundation\Request $request
-     * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
+     * @param Request $request
+     * @param EntityClass $entityClass
      * @param string $formMode Determine type of new property <default(text, money, date,...)|entity|choice>
      *
      * @return Mixed $response
@@ -179,9 +179,9 @@ class PropertyController extends Controller
      * Display form to edit $property
      * associated to $entityClass
      *
-     * @param Symfony\Component\HttpFoundation\Request $request
-     * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
-     * @param SL\CoreBundle\Entity\EntityClass\Property $property
+     * @param Request $request
+     * @param EntityClass $entityClass
+     * @param Property $property
      *
      * @return Symfony\Component\HttpFoundation\Response $response
      *
@@ -209,9 +209,9 @@ class PropertyController extends Controller
      * Update $property
      * associated to $entityClass
      *
-     * @param Symfony\Component\HttpFoundation\Request $request
-     * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
-     * @param SL\CoreBundle\Entity\EntityClass\Property $property
+     * @param Request $request
+     * @param EntityClass $entityClass
+     * @param Property $property
      *
      * @return Mixed $response
      *
@@ -265,9 +265,9 @@ class PropertyController extends Controller
      * Display form to remove $property
      * associated to $entityClass
      *
-     * @param Symfony\Component\HttpFoundation\Request $request
-     * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
-     * @param SL\CoreBundle\Entity\EntityClass\Property $property
+     * @param Request $request
+     * @param EntityClass $entityClass
+     * @param Property $property
      *
      * @return Symfony\Component\HttpFoundation\Response $response
      *
@@ -308,9 +308,9 @@ class PropertyController extends Controller
      * Delete $property 
      * associated to $entityClass
      *
-     * @param Symfony\Component\HttpFoundation\Request $request
-     * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
-     * @param SL\CoreBundle\Entity\EntityClass\Property $property
+     * @param Request $request
+     * @param EntityClass $entityClass
+     * @param Property $property
      *
      * @return Mixed $response 
      *
@@ -355,8 +355,8 @@ class PropertyController extends Controller
     /**
      * Update $property checkbox 
      *
-     * @param Symfony\Component\HttpFoundation\Request $request
-     * @param SL\CoreBundle\Entity\EntityClass\Property $property
+     * @param Request $request
+     * @param Property $property
      *
      * @return Mixed $response 
      */

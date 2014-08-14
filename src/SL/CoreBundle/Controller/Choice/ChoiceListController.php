@@ -44,9 +44,9 @@ class ChoiceListController extends Controller
     /**
      * Display choice list main screen
      *
-     * @param Symfony\Component\HttpFoundation\Request $request
+     * @param Request $request
      *
-     * @return Symfony\Component\HttpFoundation\Response $response 
+     * @return Response $response 
      */
     public function indexAction(Request $request)
     {   
@@ -63,9 +63,9 @@ class ChoiceListController extends Controller
     /**
     * Display form to create a choice list
     *
-    * @param Symfony\Component\HttpFoundation\Request $request
+    * @param Request $request
     *
-    * @return Symfony\Component\HttpFoundation\Response $response
+    * @return Response $response
     */
     public function newAction(Request $request)
     {
@@ -90,7 +90,7 @@ class ChoiceListController extends Controller
     /**
      * Create a choice list
      *
-     * @param Symfony\Component\HttpFoundation\Request $request
+     * @param Request $request
      *
      * @return Mixed $response
      */
@@ -140,10 +140,10 @@ class ChoiceListController extends Controller
     /**
     * Display form to edit $choiceList
     *
-    * @param Symfony\Component\HttpFoundation\Request $request
-    * @param SL\CoreBundle\Entity\Choice\ChoiceList $choiceList 
+    * @param Request $request
+    * @param ChoiceList $choiceList 
     *
-    * @return Symfony\Component\HttpFoundation\Response $response
+    * @return Response $response
     */
     public function editAction(Request $request, ChoiceList $choiceList)
     {
@@ -167,8 +167,8 @@ class ChoiceListController extends Controller
     /**
     * Update $choiceList
     *
-    * @param Symfony\Component\HttpFoundation\Request $request
-    * @param SL\CoreBundle\Entity\Choice\ChoiceList $choiceList
+    * @param Request $request
+    * @param ChoiceList $choiceList
     *
     * @return Mixed $response
     */
@@ -215,10 +215,10 @@ class ChoiceListController extends Controller
      /**
      * Show $choiceList and its items
      *
-     * @param Symfony\Component\HttpFoundation\Request $request
-     * @param SL\CoreBundle\Entity\Choice\ChoiceList $choiceList
+     * @param Request $request
+     * @param ChoiceList $choiceList
      *
-     * @return Symfony\Component\HttpFoundation\Response $response
+     * @return Response $response
      *
      * @ParamConverter("choiceList", options={"repository_method" = "fullFindById"})
      */
@@ -241,10 +241,10 @@ class ChoiceListController extends Controller
     /**
     * Display form to remove $choiceList
     *
-    * @param Symfony\Component\HttpFoundation\Request $request
-    * @param SL\CoreBundle\Entity\Choice\ChoiceList $choiceList
+    * @param Request $request
+    * @param ChoiceList $choiceList
     *
-    * @return Symfony\Component\HttpFoundation\Response $response
+    * @return Response $response
     */
     public function removeAction(Request $request, ChoiceList $choiceList)
     {
@@ -281,7 +281,7 @@ class ChoiceListController extends Controller
     /**
      * Delete choice list identified by $id
      *
-     * @param Symfony\Component\HttpFoundation\Request $request
+     * @param Request $request
      * @param integer $id
      *
      * @return Mixed $response

@@ -40,7 +40,7 @@ class FieldType extends AbstractEntity
 
     /**
      * @Gedmo\SortableGroup
-     * @ORM\ManyToOne(targetEntity="SL\CoreBundle\Entity\Field\FieldCategory", inversedBy="fieldTypes")
+     * @ORM\ManyToOne(targetEntity="FieldCategory", inversedBy="fieldTypes")
      * @ORM\JoinColumn(nullable=false)
      */
     private $fieldCategory;
@@ -51,7 +51,7 @@ class FieldType extends AbstractEntity
      *
      * @param string $dataType
      *
-     * @return SL\CoreBundle\Entity\Field\FieldType
+     * @return FieldType
      */
     public function setDataType($dataType)
     {
@@ -75,7 +75,7 @@ class FieldType extends AbstractEntity
      *
      * @param string $formType
      *
-     * @return SL\CoreBundle\Entity\Field\FieldType
+     * @return FieldType
      */
     public function setFormType($formType)
     {
@@ -99,7 +99,7 @@ class FieldType extends AbstractEntity
      *
      * @param integer $length
      *
-     * @return SL\CoreBundle\Entity\Field\FieldType
+     * @return FieldType
      */
     public function setLength($length)
     {
@@ -121,8 +121,9 @@ class FieldType extends AbstractEntity
     /**
      * Set fieldCategory
      *
-     * @param SL\CoreBundle\Entity\Field\FieldCategory $fieldCategory
-     * @return SL\CoreBundle\Entity\Field\FieldType
+     * @param FieldCategory $fieldCategory
+     *
+     * @return FieldType
      */
     public function setFieldCategory(FieldCategory $fieldCategory)
     {
@@ -134,7 +135,7 @@ class FieldType extends AbstractEntity
     /**
      * Get fieldCategory
      *
-     * @return SL\CoreBundle\Entity\Field\FieldCategory 
+     * @return FieldCategory 
      */
     public function getFieldCategory()
     {

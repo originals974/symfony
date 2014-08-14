@@ -10,7 +10,7 @@
 	            <a class="navbar-brand" href="#">{{ 'main_application.name'|trans }}</a>
 	        {% endblock %}
 	        {% block menu %}
-	            {{ mopa_bootstrap_menu('SLCoreBundle:Builder:backMenu') }}
+	            {{ mopa_bootstrap_menu('SLCoreBundle:Builder:backEndMenu') }}
 	        {% endblock %}
 	    {% endembed %}
 	{% endblock %}
@@ -22,7 +22,7 @@
 	<div class="panel-full-screen panel panel panel-default">
   		<div class="panel-body">
 			<div id="jstree">
-				{{ mopa_bootstrap_menu('SLCoreBundle:Builder:lateralBackEndMenu') }}
+				{{ mopa_bootstrap_menu('SLCoreBundle:Builder:treeBackEndMenu') }}
 			</div>
 		</div>
 	</div>

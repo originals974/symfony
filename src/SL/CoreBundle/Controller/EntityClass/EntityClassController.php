@@ -48,9 +48,9 @@ class EntityClassController extends Controller
     /**
      * Display entity class main screen
      *
-     * @param Symfony\Component\HttpFoundation\Request $request
+     * @param Request $request
      *
-     * @return Symfony\Component\HttpFoundation\Response $response 
+     * @return Response $response 
      */
     public function indexAction(Request $request)
     {   
@@ -69,10 +69,10 @@ class EntityClassController extends Controller
     * Display form to create an entity class
     * associated with $parentEntityClass
     *
-    * @param Symfony\Component\HttpFoundation\Request $request
-    * @param SL\CoreBundle\Entity\EntityClass\EntityClass $parentEntityClass|null
+    * @param Request $request
+    * @param EntityClass $parentEntityClass|null
     *
-    * @return Symfony\Component\HttpFoundation\Response $response
+    * @return Response $response
     */
     public function newAction(Request $request, EntityClass $parentEntityClass = null)
     {
@@ -98,8 +98,8 @@ class EntityClassController extends Controller
      * Create an entity class
      * associated with $parentEntityClass
      *
-     * @param Symfony\Component\HttpFoundation\Request $request
-     * @param SL\CoreBundle\Entity\EntityClass\EntityClass $parentEntityClass|null
+     * @param Request $request
+     * @param EntityClass $parentEntityClass|null
      *
      * @return Mixed $response
      */
@@ -162,10 +162,10 @@ class EntityClassController extends Controller
     /**
     * Display form to edit $entityClass
     *
-    * @param Symfony\Component\HttpFoundation\Request $request
-    * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass 
+    * @param Request $request
+    * @param EntityClass $entityClass 
     *
-    * @return Symfony\Component\HttpFoundation\Response $response
+    * @return Response $response
     */
     public function editAction(Request $request, EntityClass $entityClass)
     {
@@ -188,8 +188,8 @@ class EntityClassController extends Controller
     /**
     * Update $entityClass
     *
-    * @param Symfony\Component\HttpFoundation\Request $request
-    * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
+    * @param Request $request
+    * @param EntityClass $entityClass
     *
     * @return Mixed $response
     */
@@ -238,10 +238,10 @@ class EntityClassController extends Controller
      /**
      * Show $entityClass and its property
      *
-     * @param Symfony\Component\HttpFoundation\Request $request
-     * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
+     * @param Request $request
+     * @param EntityClass $entityClass
      *
-     * @return Symfony\Component\HttpFoundation\Response $response
+     * @return Response $response
      *
      * @ParamConverter("entityClass", options={"repository_method" = "fullFindById"})
      */
@@ -264,10 +264,10 @@ class EntityClassController extends Controller
     /**
     * Display form to remove $entityClass
     *
-    * @param Symfony\Component\HttpFoundation\Request $request
-    * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
+    * @param Request $request
+    * @param EntityClass $entityClass
     *
-    * @return Symfony\Component\HttpFoundation\Response $response
+    * @return Response $response
     */
     public function removeAction(Request $request, EntityClass $entityClass)
     {
@@ -304,8 +304,8 @@ class EntityClassController extends Controller
     /**
      * Delete $entityClass
      *
-     * @param Symfony\Component\HttpFoundation\Request $request
-     * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
+     * @param Request $request
+     * @param EntityClass $entityClass
      *
      * @return Mixed $response
      */
@@ -355,10 +355,10 @@ class EntityClassController extends Controller
     /**
     * Display form to edit $entityClass calculated name
     *
-    * @param Symfony\Component\HttpFoundation\Request $request
-    * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
+    * @param Request $request
+    * @param EntityClass $entityClass
     *
-    * @return Symfony\Component\HttpFoundation\Response $response
+    * @return Response $response
     */
     public function editCalculatedNameAction(Request $request, EntityClass $entityClass)
     {
@@ -382,8 +382,8 @@ class EntityClassController extends Controller
     /**
     * Update $entityClass calculated name
     *
-    * @param Symfony\Component\HttpFoundation\Request $request
-    * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
+    * @param Request $request
+    * @param EntityClass $entityClass
     *
     * @return Mixed $response
     */
@@ -398,7 +398,7 @@ class EntityClassController extends Controller
 
                 if($form->get('updateExistingDisplayName')->getData()) {
                     //Refresh display name of existing entity
-                    $this->entityService->refreshCalculatedName($entityClass); 
+                    $this->entityService->refreshDisplayName($entityClass); 
                 }
 
                 $this->em->flush();
@@ -433,8 +433,8 @@ class EntityClassController extends Controller
      /**
      * Update $entityClass icon
      *
-     * @param Symfony\Component\HttpFoundation\Request $request
-     * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
+     * @param Request $request
+     * @param EntityClass $entityClass
      *
      * @return Mixed $response
      */

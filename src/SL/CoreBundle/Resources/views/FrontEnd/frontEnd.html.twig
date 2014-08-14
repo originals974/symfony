@@ -10,7 +10,7 @@
 	            <a class="navbar-brand" href="#">{{ 'main_application.name'|trans }}</a>
 	        {% endblock %}
 	        {% block menu %}
-	            {{ mopa_bootstrap_menu('SLCoreBundle:Builder:mainFrontMenu') }}
+	            {{ mopa_bootstrap_menu('SLCoreBundle:Builder:frontEndMenu') }}
 	        {% endblock %}
 	    {% endembed %}
 	{% endblock %}
@@ -31,7 +31,7 @@
 			    	</div>
 				    <div id="collapseTwo" class="panel-collapse collapse in">
 				      	<div class="panel-body">
-				        	{{ mopa_bootstrap_menu('SLCoreBundle:Builder:newEntityClassFrontMenu') }}
+				        	{{ mopa_bootstrap_menu('SLCoreBundle:Builder:createEntityMenu') }}
 				      	</div>
 				    </div>
 				 </div>

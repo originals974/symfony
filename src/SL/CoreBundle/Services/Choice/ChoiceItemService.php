@@ -34,10 +34,10 @@ class ChoiceItemService
     * Create create form for $choiceItem
     * associated to $choiceList
     *
-    * @param SL\CoreBundle\Entity\Choice\ChoiceList $choiceList
-    * @param SL\CoreBundle\Entity\Choice\ChoiceItem $choiceItem
+    * @param ChoiceList $choiceList
+    * @param ChoiceItem $choiceItem
     *
-    * @return Symfony\Component\Form\Form $form
+    * @return Form $form
     */
     public function createCreateForm(ChoiceList $choiceList, ChoiceItem $choiceItem)
     {   
@@ -64,10 +64,10 @@ class ChoiceItemService
     * Create update form for $choiceItem
     * associated to $choiceList
     *
-    * @param SL\CoreBundle\Entity\Choice\ChoiceList $choiceList
-    * @param SL\CoreBundle\Entity\Choice\ChoiceItem $choiceItem
+    * @param ChoiceList $choiceList
+    * @param ChoiceItem $choiceItem
     *
-    * @return Symfony\Component\Form\Form $form
+    * @return Form $form
     */
     public function createEditForm(ChoiceList $choiceList, ChoiceItem $choiceItem)
     {
@@ -95,10 +95,10 @@ class ChoiceItemService
      * Create delete form for $choiceItem
      * associated to $choiceList
      *
-     * @param SL\CoreBundle\Entity\Choice\ChoiceList $choiceList
-     * @param SL\CoreBundle\Entity\Choice\ChoiceItem $choiceItem
+     * @param ChoiceList $choiceList
+     * @param ChoiceItem $choiceItem
      *
-     * @return Symfony\Component\Form\Form $form
+     * @return Form $form
      */
     public function createDeleteForm(ChoiceList $choiceList, ChoiceItem $choiceItem)
     {

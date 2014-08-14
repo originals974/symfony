@@ -18,9 +18,9 @@ use SL\CoreBundle\Entity\MappedSuperclass\AbstractEntity;
 class FieldCategory extends AbstractEntity
 {
     /**
-     * @var Doctrine\Common\Collections\Collection
+     * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="SL\CoreBundle\Entity\Field\FieldType", mappedBy="fieldCategory")
+     * @ORM\OneToMany(targetEntity="FieldType", mappedBy="fieldCategory")
      */
     private $fieldTypes;
 
@@ -35,7 +35,7 @@ class FieldCategory extends AbstractEntity
     /**
      * Add fieldType
      *
-     * @param SL\CoreBundle\Entity\Field\FieldType $fieldType
+     * @param FieldType $fieldType
      *
      * @return FieldType
      */
@@ -49,7 +49,7 @@ class FieldCategory extends AbstractEntity
     /**
      * Remove fieldType
      *
-     * @param SL\CoreBundle\Entity\Field\FieldType $fieldType
+     * @param FieldType $fieldType
      */
     public function removeFieldType(FieldType $fieldType)
     {
@@ -59,7 +59,7 @@ class FieldCategory extends AbstractEntity
     /**
      * Get fieldTypes
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return ArrayCollection 
      */
     public function getFieldTypes()
     {

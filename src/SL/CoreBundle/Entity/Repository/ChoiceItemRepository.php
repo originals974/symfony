@@ -14,7 +14,7 @@ class ChoiceItemRepository extends EntityRepository
 	/**
 	 * Select all items of $choiceList
 	 *
-	 * @param SL\CoreBundle\Entity\Choice\ChoiceList $choiceList
+	 * @param ChoiceList $choiceList
 	 *
 	 * @return array
 	 */

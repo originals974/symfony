@@ -14,9 +14,9 @@ class EntityClassRepository extends NestedTreeRepository
   /**
    * Shared QueryBuilder
    *
-   * @param Doctrine\ORM\QueryBuilder $qb
+   * @param QueryBuilder $qb
    *
-   * @return Doctrine\ORM\QueryBuilder $qb
+   * @return QueryBuilder $qb
    */
 	private function sharedQB(QueryBuilder $qb){
 
@@ -73,7 +73,7 @@ class EntityClassRepository extends NestedTreeRepository
    *
    * @param integer $currentEntityClassId
    *
-   * @return Doctrine\ORM\QueryBuilder $qb
+   * @return QueryBuilder $qb
    */
 	public function findOtherEntityClass($currentEntityClassId)
   {

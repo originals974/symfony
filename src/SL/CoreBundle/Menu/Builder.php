@@ -2,29 +2,27 @@
 
 namespace SL\CoreBundle\Menu;
 
-//Symfony classes
 use Knp\Menu\FactoryInterface;
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Knp\Menu\MenuItem; 
 
-//Custom classes
-
 class Builder extends ContainerAware
 {
     /**
-    * Create BackEnd Menu
+    * Create back end menu
     *
-    * @return $menu
+    * @param FactoryInterface $factory
+    * @param array $options
+    *
+    * @return Menu $menu
     */    
-    public function backMenu(FactoryInterface $factory, array $options)
+    public function backEndMenu(FactoryInterface $factory, array $options)
     {
-        //Menu configuration
         $menu = $factory->createItem('root', array(
             'navbar' => true,
             'push_right' => true,
         ));
 
-        //Menu item
         $menu->addChild('frontEnd', array('route' => 'front_end'));
         $menu->addChild('translation', array('route' => 'jms_translation_index'));
 
@@ -32,34 +30,38 @@ class Builder extends ContainerAware
     }
 
     /**
-    * Create FrontEnd Menu
+    * Create front end menu
     *
-    * @return $menu 
-    */    
-    public function mainFrontMenu(FactoryInterface $factory, array $options)
+    * @param FactoryInterface $factory
+    * @param array $options
+    *
+    * @return Menu $menu
+    */      
+    public function frontEndMenu(FactoryInterface $factory, array $options)
     {
-        //Menu configuration
         $menu = $factory->createItem('root', array(
             'navbar' => true,
             'push_right' => true,
         ));
 
-        //Menu item
         $menu->addChild('BackEnd', array('route' => 'back_end'));
 
         return $menu;
     }
 
     /**
-    * Create entityClass FrontEnd Menu
+    * Create create entity menu
     *
-    * @return $menu
-    */    
-    public function newEntityClassFrontMenu(FactoryInterface $factory, array $options)
+    * @param FactoryInterface $factory
+    * @param array $options
+    *
+    * @return Menu $menu
+    */     
+    public function createEntityMenu(FactoryInterface $factory, array $options)
     {
         $em = $this->container->get('Doctrine')->getManager();
+        $icon = $this->container->get('sl_core.icon');
 
-        //Menu configuration
         $menu = $factory->createItem('root', array(
             'subnavbar' => true,
             'pills' => true,
@@ -68,24 +70,7 @@ class Builder extends ContainerAware
         );
 
         $entityClasses = $em->getRepository('SLCoreBundle:EntityClass\EntityClass')->fullFindAll(false);
-
-        $menu = $this->addFrontChildrenEntityClassItems($menu, $entityClasses);
-
-        return $menu;
-    }
-
-    /**
-    * Add children item to menu for front end part
-    *
-    * @param MenuItem $menu
-    * @param Array $entityClasses
-    *
-    * @return MenuItem $menu
-    */
-    private function addFrontChildrenEntityClassItems(MenuItem $menu, array $entityClasses)
-    {
-        $icon = $this->container->get('sl_core.icon');
-
+        
         foreach($entityClasses as $entityClass) {
 
             $entityClassLink = $menu->addChild(
@@ -105,22 +90,25 @@ class Builder extends ContainerAware
             );
         }
 
-        return $menu; 
+        return $menu;
     }
 
     /**
-    * Create BackEnd Tree Menu
+    * Create tree back end menu
+    *
+    * @param FactoryInterface $factory
+    * @param array $options
+    *
+    * @return Menu $menu
     */
-    public function lateralBackEndMenu(FactoryInterface $factory, array $options)
+    public function treeBackEndMenu(FactoryInterface $factory, array $options)
     {
         $em = $this->container->get('Doctrine')->getManager();
         $icon = $this->container->get('sl_core.icon');
 
-        //Create root menu
         $menu = $factory->createItem('root');
        
         /************SERVER*************/
-        //Create server node
         $server = $menu->addChild('server', array(
             'route' => 'server',
             'label' => 'server',
@@ -132,7 +120,6 @@ class Builder extends ContainerAware
         );
 
         /************ENTITY_CLASSES*************/
-        //Create EntityClass node
         $entityClassRoot = $server->addChild('entityClass', array(
             'route' => 'entity_class', 
             'label' => 'entity_class',
@@ -143,13 +130,10 @@ class Builder extends ContainerAware
             )
         );
         
-        //Select all root entityClasses
         $entityClasses = $em->getRepository('SLCoreBundle:EntityClass\EntityClass')->fullFindAll(false, 0);
-
-        $this->addBackChildrenEntityClassItems($entityClassRoot, $entityClasses);
+        $this->addEntityClassItems($entityClassRoot, $entityClasses);
 
          /************CHOICE LIST*************/
-        //Create node for ChoiceLists
         $choiceListRoot = $server->addChild('choiceList', array(
             'route' => 'choice_list',
             'label' => 'choice_list', 
@@ -160,10 +144,8 @@ class Builder extends ContainerAware
             )
         );    
 
-        //Select all choicelists
         $choiceLists = $em->getRepository('SLCoreBundle:Choice\ChoiceList')->fullFindAll();
 
-        //Create a node for each choicelist
         foreach($choiceLists as $choiceList) {
 
             $choiceListItem = $choiceListRoot->addChild($choiceList->getTechnicalName(), array(
@@ -176,7 +158,7 @@ class Builder extends ContainerAware
                     );
             $choiceListItem->setAttributes(array(
                 'id' => $choiceList->getTechnicalName(),
-                'data-jstree' => '{"icon":"'.$icon->getChoiceListIcon($choiceList).'"}'
+                'data-jstree' => '{"icon":"'.$icon->getChoiceListIcon().'"}'
                 )
             );
         }
@@ -185,14 +167,14 @@ class Builder extends ContainerAware
     }
 
    /**
-    * Add children item to menu for back end part
+    * Linked $entityClasses items with their $parent
     *
     * @param MenuItem $parent
-    * @param Array $entityClasses
+    * @param array $entityClasses
     *
-    * @return boolean true
+    * @return void
     */
-    private function addBackChildrenEntityClassItems(&$parent, array $entityClasses)
+    private function addEntityClassItems(&$parent, array $entityClasses)
     {
         $icon = $this->container->get('sl_core.icon');
         $em = $this->container->get('Doctrine')->getManager();
@@ -215,10 +197,8 @@ class Builder extends ContainerAware
 
             $entityClasses = $em->getRepository('SLCoreBundle:EntityClass\EntityClass')->children($entityClass, true); 
 
-            $this->addBackChildrenEntityClassItems($entityClassItem, $entityClasses); 
+            $this->addEntityClassItems($entityClassItem, $entityClasses); 
 
         }
-
-        return true; 
     }
 }

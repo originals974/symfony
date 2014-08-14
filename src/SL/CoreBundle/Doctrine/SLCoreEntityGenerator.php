@@ -2,11 +2,8 @@
 
 namespace SL\CoreBundle\Doctrine;
 
-//Symfony classes
 use Doctrine\ORM\Tools\EntityGenerator; 
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
-
-//Custom classes
 
 /**
  * SLCoreEntityGenerator
@@ -15,10 +12,7 @@ use Doctrine\ORM\Mapping\ClassMetadataInfo;
 class SLCoreEntityGenerator extends EntityGenerator
 {
 	/**
-     * @param array             $fieldMapping
-     * @param ClassMetadataInfo $metadata
-     *
-     * @return string
+     * {@inheritDoc}
      */
     protected function generateFieldMappingPropertyDocBlock(array $fieldMapping, ClassMetadataInfo $metadata)
     {

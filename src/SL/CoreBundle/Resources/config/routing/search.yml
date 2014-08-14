@@ -5,6 +5,7 @@ search:
         _method: POST 
     options:
         expose: true
+
 search_result:
     pattern:  /search_result/{pattern}.{entityClassTechnicalName}
     defaults: { _controller: SLCoreBundle:Search:refreshJsTreeSearchResults } 

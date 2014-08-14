@@ -31,7 +31,7 @@ sl_core_choice_item:
 #Entity
 sl_core_entity:
     resource: "@SLCoreBundle/Resources/config/routing/entity.yml"
-    prefix: /front_end
+    prefix: /front_end/entity
 
 #Search
 sl_core_search:

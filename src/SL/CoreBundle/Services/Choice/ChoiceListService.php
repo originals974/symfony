@@ -40,9 +40,9 @@ class ChoiceListService
     /**
     * Create create form for $choiceList
     *
-    * @param SL\CoreBundle\Entity\Choice\ChoiceList $choiceList
+    * @param ChoiceList $choiceList
     *
-    * @return Symfony\Component\Form\Form $form
+    * @return Form $form
     */
     public function createCreateForm(ChoiceList $choiceList)
     {   
@@ -65,9 +65,9 @@ class ChoiceListService
     /**
     * Create update form for $choiceList
     *
-    * @param SL\CoreBundle\Entity\Choice\ChoiceList $choiceList
+    * @param ChoiceList $choiceList
     *
-    * @return Symfony\Component\Form\Form $form
+    * @return Form $form
     */
     public function createEditForm(ChoiceList $choiceList)
     {     
@@ -93,9 +93,9 @@ class ChoiceListService
     /**
      * Create delete form for $choiceList
      *
-     * @param SL\CoreBundle\Entity\Choice\ChoiceList $choiceList
+     * @param ChoiceList $choiceList
      *
-     * @return Symfony\Component\Form\Form $form
+     * @return Form $form
      */
     public function createDeleteForm(ChoiceList $choiceList)
     {
@@ -121,7 +121,7 @@ class ChoiceListService
    /**
      * Verify if $choiceList could be delete
      *
-     * @param SL\CoreBundle\Entity\Choice\ChoiceList $choiceList
+     * @param ChoiceList $choiceList
      *
      * @return array $integrityError Title and error message
      */

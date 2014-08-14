@@ -2,7 +2,6 @@
 
 namespace SL\CoreBundle\Controller;
 
-//Symfony classes
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -14,11 +13,14 @@ class ServerController extends Controller
 {
     /**
      * Display general informations about server
+     *
+     * @param Request $request
+     *
+     * @return Response $response
      */
     public function indexAction(Request $request)
     {   
         if ($request->isXmlHttpRequest()) {
-
             $response = $this->render('SLCoreBundle:Server:index.html.twig');
         }
         else {

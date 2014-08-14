@@ -28,7 +28,7 @@ class ChoiceItem extends AbstractEntity
 
     /**
      * @Gedmo\SortableGroup
-     * @ORM\ManyToOne(targetEntity="SL\CoreBundle\Entity\Choice\ChoiceList", inversedBy="choiceItems")
+     * @ORM\ManyToOne(targetEntity="ChoiceList", inversedBy="choiceItems")
      * @ORM\JoinColumn(nullable=false)
      */
     private $choiceList;
@@ -38,7 +38,7 @@ class ChoiceItem extends AbstractEntity
      *
      * @param string $icon
      *
-     * @return SL\CoreBundle\Entity\Choice\ChoiceItem
+     * @return ChoiceItem
      */
     public function setIcon($icon)
     {
@@ -60,9 +60,9 @@ class ChoiceItem extends AbstractEntity
      /**
      * Set choiceList
      *
-     * @param SL\CoreBundle\Entity\Choice\ChoiceList $choiceList
+     * @param ChoiceList $choiceList
      *
-     * @return SL\CoreBundle\Entity\Choice\ChoiceList
+     * @return ChoiceList
      */
     public function setChoiceList(ChoiceList $choiceList)
     {
@@ -74,7 +74,7 @@ class ChoiceItem extends AbstractEntity
     /**
      * Get choiceList
      *
-     * @return SL\CoreBundle\Entity\Choice\ChoiceList 
+     * @return ChoiceList 
      */
     public function getChoiceList()
     {

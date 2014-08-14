@@ -43,16 +43,20 @@ class EntityController extends Controller
     }
 
     /**
-    * Display form to create entity
+    * Display form to create an entity
+    * having $entityClass for model
     *
-    * @param EntityClass\EntityClass $entityClass EntityClass type of new entity
+    * @param Request $request
+    * @param EntityClass $entityClass
+    *
+    * @return Response $response
     */
     public function newAction(Request $request, EntityClass $entityClass)
     {
         if ($request->isXmlHttpRequest()) {
 
             $class = $this->doctrineService->getDataEntityNamespace($entityClass->getTechnicalName());
-            $entity =  new $class($entityClass->getId()); 
+            $entity = new $class($entityClass->getId()); 
 
             $form   = $this->entityService->createCreateForm($entity);
 
@@ -70,9 +74,13 @@ class EntityController extends Controller
     }
 
     /**
-     * Create entity
+     * Create an entity
+     * having $entityClass for model
      *
-     * @param EntityClass\EntityClass $entityClass EntityClass type of new entity
+     * @param Request $request
+     * @param EntityClass $entityClass
+     *
+     * @return Mixed $response
      */
     public function createAction(Request $request, EntityClass $entityClass)
     {
@@ -84,10 +92,9 @@ class EntityController extends Controller
             $form = $this->entityService->createCreateForm($entity);
             $form->handleRequest($request);
 
-
             if ($form->isValid()) {
 
-                $displayName = $this->entityService->calculateDisplayName($entity, $entityClass);
+                $displayName = $this->entityService->calculateDisplayName($entity);
                 $entity->setDisplayName($displayName); 
                
                 $this->databaseEm->persist($entity);
@@ -97,7 +104,6 @@ class EntityController extends Controller
             }
             else {
 
-                //Create a form with field error 
                 $content = $this->renderView('SLCoreBundle:Entity:save.html.twig', array(
                     'entityClass' => $entityClass,
                     'form'   => $form->createView(),
@@ -105,7 +111,6 @@ class EntityController extends Controller
                 ); 
             }
 
-            //Create the Json Response array
             $data = array(  
                 'isValid' => $form->isValid(),
                 'content' => $content,
@@ -121,14 +126,20 @@ class EntityController extends Controller
     }
 
     /**
-     * Display form to edit entity
-     *
-     * @param integer $id EntityClass type id of update entity
-     * @param integer $entity_id
-     *
-     * @ParamConverter("entityClass", options={"select_mode" = "all"})
-     * @ParamConverter("entity", options={"select_mode" = "all"})
-     */
+    * Display form to edit $entity
+    * having $entityClass for model
+    * add $class_namespace for class
+    *
+    * @param Request $request
+    * @param EntityClass $entityClass 
+    * @param AbstractEntity $entity 
+    * @param string $class_namespace 
+    *
+    * @return Response $response
+    *
+    * @ParamConverter("entityClass", options={"select_mode" = "all"})
+    * @ParamConverter("entity", options={"select_mode" = "all"})
+    */
     public function editAction(Request $request, EntityClass $entityClass, AbstractEntity $entity, $class_namespace)
     {
         if ($request->isXmlHttpRequest()) {
@@ -149,14 +160,20 @@ class EntityController extends Controller
     }
 
     /**
-     * Update entity
-     *
-     * @param integer $id EntityClass type id of update entity
-     * @param integer $entity_id Id of update entity
-     *
-     * @ParamConverter("entityClass", options={"select_mode" = "all"})
-     * @ParamConverter("entity", options={"select_mode" = "all"})
-     */
+    * Update $entity
+    * having $entityClass for model
+    * add $class_namespace for class
+    *
+    * @param Request $request
+    * @param EntityClass $entityClass 
+    * @param AbstractEntity $entity 
+    * @param string $class_namespace 
+    *
+    * @return Mixed $response
+    *
+    * @ParamConverter("entityClass", options={"select_mode" = "all"})
+    * @ParamConverter("entity", options={"select_mode" = "all"})
+    */
     public function updateAction(Request $request, EntityClass $entityClass, AbstractEntity $entity, $class_namespace)
     {
         if ($request->isXmlHttpRequest()) {
@@ -164,10 +181,8 @@ class EntityController extends Controller
             $form = $this->entityService->createEditForm($entity);
             $form->handleRequest($request);
 
-            $isValid = $form->isValid();
-            if ($isValid) {
+            if ($form->isValid()) {
 
-                //Calculate displayName value
                 $displayName = $this->entityService->calculateDisplayName($entity, $entityClass);
                 $entity->setDisplayName($displayName); 
                 $this->databaseEm->flush();
@@ -175,7 +190,6 @@ class EntityController extends Controller
                 $content = $displayName; 
             }
             else {
-                 //Create a form with field error 
                 $content = $this->renderView('SLCoreBundle:Entity:save.html.twig', array(
                     'entityClass' => $entityClass,
                     'form'   => $form->createView(),
@@ -183,9 +197,8 @@ class EntityController extends Controller
                 ); 
             }
 
-            //Create the Json Response array
             $data = array(  
-                'isValid' => $isValid,
+                'isValid' => $form->isValid(),
                 'content' => $content,
             );
 
@@ -201,14 +214,20 @@ class EntityController extends Controller
     }
 
     /**
-     * Show entity
-     *
-     * @param integer $id  EntityClass type id
-     * @param integer $entity_id Id of entity to show
-     *
-     * @ParamConverter("entityClass", options={"select_mode" = "all"})
-     * @ParamConverter("entity", options={"select_mode" = "all"})
-     */
+    * Show $entity
+    * having $entityClass for model
+    * add $class_namespace for class
+    *
+    * @param Request $request
+    * @param EntityClass $entityClass 
+    * @param AbstractEntity $entity 
+    * @param string $class_namespace 
+    *
+    * @return Response $response
+    *
+    * @ParamConverter("entityClass", options={"select_mode" = "all"})
+    * @ParamConverter("entity", options={"select_mode" = "all"})
+    */
     public function showAction(Request $request,EntityClass $entityClass, AbstractEntity $entity, $class_namespace)
     {
         if ($request->isXmlHttpRequest()) {
@@ -236,10 +255,16 @@ class EntityController extends Controller
     }
 
     /**
-    * Display form to remove entity
+    * Display form to remove $entity
+    * having $entityClass for model
+    * add $class_namespace for class
     *
-    * @param integer $id  EntityClass type id of remove entity
-    * @param integer $entity_id
+    * @param Request $request
+    * @param EntityClass $entityClass 
+    * @param AbstractEntity $entity 
+    * @param string $class_namespace 
+    *
+    * @return Response $response
     *
     * @ParamConverter("entityClass", options={"select_mode" = "all"})
     * @ParamConverter("entity", options={"select_mode" = "all"})
@@ -268,13 +293,17 @@ class EntityController extends Controller
     }
 
     /**
-     * Delete entity
-     *
-     * @param integer $id  EntityClass type id of remove entity
-     * @param integer $entity_id Id of entity to delete
-     *
-     * @ParamConverter("entity", options={"select_mode" = "all"})
-     */
+    * Delete $entity
+    * having $class_namespace for class
+    *
+    * @param Request $request
+    * @param AbstractEntity $entity 
+    * @param string $class_namespace 
+    *
+    * @return Mixed $response
+    *
+    * @ParamConverter("entity", options={"select_mode" = "all"})
+    */
     public function deleteAction(Request $request, AbstractEntity $entity, $class_namespace)
     {
         if ($request->isXmlHttpRequest()) {
@@ -298,19 +327,25 @@ class EntityController extends Controller
     }
 
     /**
-     * Display form to revert to a specific entity version
-     *
-     * @param integer $id  EntityClass type id
-     * @param integer $entity_id Id of entity to show
-     *
-     * @ParamConverter("entityClass", options={"select_mode" = "all"})
-     * @ParamConverter("entity", options={"select_mode" = "all"})
-     */
+    * Display form to edit $entity version
+    * having $entityClass for model
+    * add $class_namespace for class
+    *
+    * @param Request $request
+    * @param EntityClass $entityClass 
+    * @param AbstractEntity $entity 
+    * @param string $class_namespace 
+    *
+    * @return Response $response
+    *
+    * @ParamConverter("entityClass", options={"select_mode" = "all"})
+    * @ParamConverter("entity", options={"select_mode" = "all"})
+    */
     public function editVersionAction(Request $request, EntityClass $entityClass, AbstractEntity $entity, $class_namespace)
     {
         if ($request->isXmlHttpRequest()) {
 
-            $limit = $this->container->getParameter('version_number');
+            $limit = $this->container->getParameter('limit_number_of_versions');
  
             $entityClasses = $this->entityClassService->getPath($entityClass); 
 
@@ -334,30 +369,31 @@ class EntityController extends Controller
         return $response; 
     }
 
-     /**
-     * Revert to a specific version for $entity_id
-     *
-     * @param integer $id  EntityClass type id
-     * @param integer $entity_id
-     *
-     * @return JsonResponse
-     *
-     * @ParamConverter("entity", options={"select_mode" = "all"})
-     */
+    /**
+    * Revert $entity to selected version
+    * having $class_namespace for class
+    *
+    * @param Request $request
+    * @param AbstractEntity $entity 
+    * @param string $class_namespace 
+    *
+    * @return Mixed $response
+    *
+    * @ParamConverter("entity", options={"select_mode" = "all"})
+    */
     public function updateVersionAction(Request $request, AbstractEntity $entity, $class_namespace)
     {
         if ($request->isXmlHttpRequest()) {
 
-            //Form creation
             $form = $this->entityService->createEditVersionForm($entity);
             $form->handleRequest($request);
 
             $logEntry = $form->get('logEntry')->getData(); 
-
             $this->databaseEm->getRepository('SLDataBundle:LogEntry')->revert($entity, $logEntry->getVersion());
 
             $displayName = $this->entityService->calculateDisplayName($entity);
             $entity->setDisplayName($displayName); 
+            
             $this->databaseEm->flush();
 
             $data = array(  

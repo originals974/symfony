@@ -2,14 +2,13 @@
 
 namespace SL\CoreBundle\Controller;
 
-//Symfony classes
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use JMS\DiExtraBundle\Annotation as DI;
 
-//Custom classes
 use SL\CoreBundle\Services\EntityService;
+use SL\CoreBundle\Services\ElasticaService;
 
 /**
  * Main controller.
@@ -18,31 +17,41 @@ use SL\CoreBundle\Services\EntityService;
 class MainController extends Controller
 {
     private $entityService;
+    private $elasticaService;
 
      /**
      * @DI\InjectParams({
      *     "entityService" = @DI\Inject("sl_core.entity"),
+     *     "elasticaService" = @DI\Inject("sl_core.elastica"),
      * })
      */
-    public function __construct(EntityService $entityService)
+    public function __construct(EntityService $entityService, ElasticaService $elasticaService)
     {
         $this->entityService = $entityService;
+         $this->elasticaService = $elasticaService;
     }
 
 
     /**
-     * Init application cutom file
+     * Init elastica config file
+     *
+     * @param Request $request
+     *
+     * @return Response $response
      */
     public function initAction(Request $request)
     {
-        //Update app/config/elastica.yml file
-        $this->get('sl_core.elastica')->updateElasticaConfigFile(1,1000); 
+        $this->elasticaService->updateElasticaConfigFile(1,1000); 
 
         return new Response(); 
     }
 
     /**
      * Open front end main page
+     *
+     * @param Request $request
+     *
+     * @return Response $response
      */
 	public function indexFrontEndAction()
     {
@@ -56,6 +65,10 @@ class MainController extends Controller
 
     /**
      * Open back end main page
+     *
+     * @param Request $request
+     *
+     * @return Response $response
      */
     public function indexBackEndAction(Request $request)
     {

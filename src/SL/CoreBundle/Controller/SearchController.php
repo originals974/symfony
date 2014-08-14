@@ -1,14 +1,12 @@
 <?php
 namespace SL\CoreBundle\Controller;
 
-//Symfony classes
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
 
-//Custom classes
 use SL\CoreBundle\Services\ElasticaService;
 use SL\CoreBundle\Services\EntityService;
 
@@ -37,7 +35,11 @@ class SearchController extends Controller
     }
 
     /**
-    * Display search results
+    * Display search results panel
+    *
+    * @param Request $request
+    *
+    * @return Mixed $response
     */
     public function searchAction(Request $request) {
        
@@ -45,6 +47,7 @@ class SearchController extends Controller
 
             $form = $this->entityService->createSearchForm();
             $form->handleRequest($request);
+            
             $searchPattern = $form->get('searchField')->getData();
 
             //Get all active entityClasses
@@ -59,7 +62,6 @@ class SearchController extends Controller
             $entityClassesArray = array(); 
             foreach($entityClasses as $entityClass){
 
-                //Search in Elactica index
                 $entities = $this->getSearchResults($searchPattern, $entityClass->getTechnicalName(), 100);
 
                 //Include entityClass only if it has results
@@ -85,7 +87,6 @@ class SearchController extends Controller
         }
         else {
 
-            //Redirect to index page
             $response = $this->redirect($this->generateUrl('front_end'));
         }
 
@@ -93,10 +94,15 @@ class SearchController extends Controller
     }
 
     /**
-    * Refresh JsTree Results for an entityClass
+    * Refresh JsTree Results 
+    * according to $pattern
+    * for entity with $entityClassTechnicalName class name
     *
-    * @param String $pattern Search pattern
-    * @param String $entityClassTechnicalName
+    * @param Request $request
+    * @param string $pattern
+    * @param string $entityClassTechnicalName
+    *
+    * @return Mixed $response
     */
     public function refreshJsTreeSearchResultsAction(Request $request, $pattern, $entityClassTechnicalName)
     {
@@ -104,21 +110,14 @@ class SearchController extends Controller
 
             $data = array(); 
 
-            $filters = $this->em->getFilters();
-            $filters->disable('softdeleteable');
-
-            $entities = $this->getSearchResults($pattern, $entityClassTechnicalName, 50);
-                    
-            $data = array();             
+            $limit = $this->container->getParameter('limit_number_of_search_results');
+            $entities = $this->getSearchResults($pattern, $entityClassTechnicalName, 50);            
             $this->elasticaService->entitiesToJSTreeData($data, $entities);
-            
-            $filters->enable('softdeleteable');
             
             $response = new JsonResponse($data);
         }
         else {
 
-            //Redirect to index page
             $response = $this->redirect($this->generateUrl('front_end'));
         }
 
@@ -126,19 +125,27 @@ class SearchController extends Controller
     }
 
     /**
-    * Get search results for an entityClass 
+    * Get last $limit search results 
+    * according to $pattern
+    * for entity with $entityClassTechnicalName class name
     *
-    * @param String $pattern Search pattern
-    * @param String $entityClassTechnicalName
-    * @param Integer $limit Max results number 
+    * @param string $pattern 
+    * @param string $entityClassTechnicalName
+    * @param integer $limit|50 
     *
-    * @return array $entities Array of results
+    * @return array $entities
     */
-    private function getSearchResults($pattern, $entityClassTechnicalName, $limit){
+    private function getSearchResults($pattern, $entityClassTechnicalName, $limit = 50){
 
         $finderName = 'fos_elastica.finder.slcore.'.$entityClassTechnicalName; 
         $finder = $this->get($finderName); 
+
+        $filters = $this->em->getFilters();
+        $filters->disable('softdeleteable');
+
         $entities = $finder->find($pattern, $limit);
+
+        $filters->enable('softdeleteable');
 
         return $entities; 
     }

@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class PropertyEntity extends Property
 {
     /**
-     * @ORM\ManyToOne(targetEntity="SL\CoreBundle\Entity\EntityClass\EntityClass")
+     * @ORM\ManyToOne(targetEntity="EntityClass")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank()
      */
@@ -24,9 +24,9 @@ class PropertyEntity extends Property
     /**
      * Set targetEntityClass
      *
-     * @param SL\CoreBundle\Entity\EntityClass\EntityClass $targetEntityClass
+     * @param EntityClass $targetEntityClass
      *
-     * @return SL\CoreBundle\Entity\EntityClass\EntityClass 
+     * @return EntityClass 
      */
     public function setTargetEntityClass(EntityClass $targetEntityClass)
     {
@@ -38,7 +38,7 @@ class PropertyEntity extends Property
     /**
      * Get targetEntityClass
      *
-     * @return SL\CoreBundle\Entity\EntityClass\EntityClass 
+     * @return EntityClass 
      */
     public function getTargetEntityClass()
     {

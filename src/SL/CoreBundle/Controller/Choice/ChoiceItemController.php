@@ -42,10 +42,10 @@ class ChoiceItemController extends Controller
      * Display form to create a choice item 
      * associated to $choiceList
      *
-     * @param Symfony\Component\HttpFoundation\Request $request
-     * @param SL\CoreBundle\Entity\Choice\ChoiceList $choiceList
+     * @param Request $request
+     * @param ChoiceList $choiceList
      *
-     * @return Symfony\Component\HttpFoundation\Response $response
+     * @return Response $response
      */
     public function newAction(Request $request, ChoiceList $choiceList)
     {
@@ -71,8 +71,8 @@ class ChoiceItemController extends Controller
      * Create a choice item 
      * associated to $choiceList
      *
-     * @param Symfony\Component\HttpFoundation\Request $request
-     * @param SL\CoreBundle\Entity\Choice\ChoiceList $choiceList
+     * @param Request $request
+     * @param ChoiceList $choiceList
      *
      * @return Mixed $response
      *
@@ -130,11 +130,11 @@ class ChoiceItemController extends Controller
      * Display form to edit $choiceItem
      * associated to $choiceList
      *
-     * @param Symfony\Component\HttpFoundation\Request $request
-     * @param SL\CoreBundle\Entity\Choice\ChoiceList $choiceList
-     * @param SL\CoreBundle\Entity\Choice\ChoiceItem $choiceItem
+     * @param Request $request
+     * @param ChoiceList $choiceList
+     * @param ChoiceItem $choiceItem
      *
-     * @return Symfony\Component\HttpFoundation\Response $response
+     * @return Response $response
      *
      * @ParamConverter("choiceList", options={"id" = "choice_list_id", "repository_method" = "fullFindById"})
      */
@@ -161,9 +161,9 @@ class ChoiceItemController extends Controller
      * Update $choiceItem
      * associated to $choiceList
      *
-     * @param Symfony\Component\HttpFoundation\Request $request
-     * @param SL\CoreBundle\Entity\Choice\ChoiceList $choiceList
-     * @param SL\CoreBundle\Entity\Choice\ChoiceItem $choiceItem
+     * @param Request $request
+     * @param ChoiceList $choiceList
+     * @param ChoiceItem $choiceItem
      *
      * @return Mixed $response
      *
@@ -214,11 +214,11 @@ class ChoiceItemController extends Controller
      * Display form to remove $choiceItem
      * associated to $choiceList
      *
-     * @param Symfony\Component\HttpFoundation\Request $request
-     * @param SL\CoreBundle\Entity\Choice\ChoiceList $choiceList
-     * @param SL\CoreBundle\Entity\Choice\ChoiceItem $choiceItem
+     * @param Request $request
+     * @param ChoiceList $choiceList
+     * @param ChoiceItem $choiceItem
      *
-     * @return Symfony\Component\HttpFoundation\Response $response
+     * @return Response $response
      *
      * @ParamConverter("choiceList", options={"id" = "choice_list_id", "repository_method" = "fullFindById"})
      */
@@ -245,9 +245,9 @@ class ChoiceItemController extends Controller
      * Delete $choiceItem 
      * associated to $choiceList
      *
-     * @param Symfony\Component\HttpFoundation\Request $request
-     * @param SL\CoreBundle\Entity\Choice\ChoiceList $choiceList
-     * @param SL\CoreBundle\Entity\Choice\ChoiceItem $choiceItem
+     * @param Request $request
+     * @param ChoiceList $choiceList
+     * @param ChoiceItem $choiceItem
      *
      * @return Mixed $response 
      *
@@ -284,8 +284,8 @@ class ChoiceItemController extends Controller
     /**
      * Update $choiceItem icon
      *
-     * @param Symfony\Component\HttpFoundation\Request $request
-     * @param SL\CoreBundle\Entity\Choice\ChoiceItem $choiceItem
+     * @param Request $request
+     * @param ChoiceItem $choiceItem
      *
      * @return Mixed $response
      */

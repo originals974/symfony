@@ -114,7 +114,7 @@ services:
         tags:
             - { name: validator.constraint_validator, alias: calculated_name_pattern }
 
-    #Param Converter
+    #ParamConverter
     sl_core.paramconverter.entity_class:
         class: SL\CoreBundle\ParamConverter\EntityClassParamConverter
         arguments: ["SL\CoreBundle\Entity\EntityClass\EntityClass", @doctrine.orm.entity_manager]

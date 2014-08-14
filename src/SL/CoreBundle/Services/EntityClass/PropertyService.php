@@ -45,11 +45,11 @@ class PropertyService
     * Create create form for $property
     * associated to $entityClass
     *
-    * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
-    * @param SL\CoreBundle\Entity\EntityClass\Property $property
+    * @param EntityClass $entityClass
+    * @param Property $property
     * @param string $formMode|"default" Define what property type will be create(default|entity|choice)
     *
-    * @return Symfony\Component\Form\Form $form
+    * @return Form $form
     */
     public function createCreateForm(EntityClass $entityClass, Property $property, $formMode="default")
     {   
@@ -99,10 +99,10 @@ class PropertyService
     * Create update form for $property
     * associated to $entityClass
     *
-    * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
-    * @param SL\CoreBundle\Entity\EntityClass\Property $property
+    * @param EntityClass $entityClass
+    * @param Property $property
     *
-    * @return Symfony\Component\Form\Form $form
+    * @return Form $form
     */
     public function createEditForm(EntityClass $entityClass, Property $property)
     {
@@ -136,10 +136,10 @@ class PropertyService
     * Create update form for $property
     * associated to $entityClass
     *
-    * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
-    * @param SL\CoreBundle\Entity\EntityClass\Property $property
+    * @param EntityClass $entityClass
+    * @param Property $property
     *
-    * @return Symfony\Component\Form\Form $form
+    * @return Form $form
     */
     public function createDeleteForm(EntityClass $entityClass, Property $property)
     {
@@ -216,7 +216,7 @@ class PropertyService
     /**
      * Get $formMode for $property
      *
-     * @param SL\CoreBundle\Entity\EntityClass\Property $property
+     * @param Property $property
      *
      * @return String $formMode default|entity|choice
      */
@@ -239,7 +239,7 @@ class PropertyService
     /**
      * Verify integrity of $property before delete
      *
-     * @param SL\CoreBundle\Entity\EntityClass\Property $property
+     * @param Property $property
      *
      * @return array $integrityError Title and error message
      */

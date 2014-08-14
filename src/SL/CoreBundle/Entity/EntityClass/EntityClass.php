@@ -46,7 +46,7 @@ class EntityClass extends AbstractEntity
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="SL\CoreBundle\Entity\EntityClass\Property", mappedBy="entityClass", cascade={"persist","remove"})
+     * @ORM\OneToMany(targetEntity="Property", mappedBy="entityClass", cascade={"persist","remove"})
      */
     private $properties;
 
@@ -76,13 +76,13 @@ class EntityClass extends AbstractEntity
 
     /**
      * @Gedmo\TreeParent
-     * @ORM\ManyToOne(targetEntity="SL\CoreBundle\Entity\EntityClass\EntityClass", inversedBy="children")
+     * @ORM\ManyToOne(targetEntity="EntityClass", inversedBy="children")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $parent;
 
     /**
-     * @ORM\OneToMany(targetEntity="SL\CoreBundle\Entity\EntityClass\EntityClass", mappedBy="parent")
+     * @ORM\OneToMany(targetEntity="EntityClass", mappedBy="parent")
      * @ORM\OrderBy({"lft" = "ASC"})
      */
     private $children;
@@ -99,8 +99,8 @@ class EntityClass extends AbstractEntity
      * associated with $parent 
      * and with a default $fieldType property
      *
-     * @param SL\CoreBundle\Entity\Field\FieldType $fieldType|null 
-     * @param SL\CoreBundle\Entity\EntityClass\EntityClass $parent|null 
+     * @param FieldType $fieldType|null 
+     * @param EntityClass $parent|null 
      *
      * @return void 
      */
@@ -129,7 +129,7 @@ class EntityClass extends AbstractEntity
      *
      * @param string $calculatedName
      *
-     * @return SL\CoreBundle\Entity\EntityClass\EntityClass
+     * @return EntityClass
      */
     public function setCalculatedName($calculatedName)
     {
@@ -153,7 +153,7 @@ class EntityClass extends AbstractEntity
      *
      * @param string $icon
      *
-     * @return SL\CoreBundle\Entity\EntityClass\EntityClass
+     * @return EntityClass
      */
     public function setIcon($icon)
     {
@@ -175,9 +175,9 @@ class EntityClass extends AbstractEntity
     /**
      * Add property
      *
-     * @param SL\CoreBundle\Entity\EntityClass\Property $property
+     * @param Property $property
      *
-     * @return SL\CoreBundle\Entity\EntityClass\EntityClass
+     * @return EntityClass
      */
     public function addProperty(Property $property)
     {
@@ -189,7 +189,7 @@ class EntityClass extends AbstractEntity
     /**
      * Remove property
      *
-     * @param SL\CoreBundle\Entity\Property $property
+     * @param Property $property
      *
      * @return void
      */
@@ -201,7 +201,7 @@ class EntityClass extends AbstractEntity
     /**
      * Get properties
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return Collection 
      */
     public function getProperties()
     {
@@ -211,9 +211,9 @@ class EntityClass extends AbstractEntity
     /**
      * Set EntityClass parent 
      *
-     * @param SL\CoreBundle\Entity\EntityClass\EntityClass $parent|null
+     * @param EntityClass $parent|null
      *
-     * @return SL\CoreBundle\Entity\EntityClass\EntityClass
+     * @return EntityClass
      */
     public function setParent(EntityClass $parent = null)
     {
@@ -223,7 +223,7 @@ class EntityClass extends AbstractEntity
     /**
      * Get parent
      *
-     * @return SL\CoreBundle\Entity\EntityClass\EntityClass 
+     * @return EntityClass 
      */
     public function getParent()
     {
@@ -235,7 +235,7 @@ class EntityClass extends AbstractEntity
      *
      * @param boolean $isDocument
      *
-     * @return SL\CoreBundle\Entity\EntityClass\EntityClass
+     * @return EntityClass
      */
     public function setDocument($isDocument)
     {

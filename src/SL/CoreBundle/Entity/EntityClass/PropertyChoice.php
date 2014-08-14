@@ -24,9 +24,9 @@ class PropertyChoice extends Property
     /**
      * Set choiceList
      *
-     * @param SL\CoreBundle\Entity\Choice\ChoiceList $choiceList
+     * @param ChoiceList $choiceList
      *
-     * @return SL\CoreBundle\Entity\Choice\ChoiceList
+     * @return ChoiceList
      */
     public function setChoiceList(ChoiceList $choiceList = null)
     {
@@ -38,7 +38,7 @@ class PropertyChoice extends Property
     /**
      * Get choiceList
      *
-     * @return SL\CoreBundle\Entity\Choice\ChoiceList 
+     * @return ChoiceList 
      */
     public function getChoiceList()
     {

@@ -2,10 +2,8 @@
 
 namespace SL\CoreBundle\Services;
 
-//Symfony classes
 use Symfony\Component\Routing\Router; 
 
-//Custom classes
 use SL\CoreBundle\Entity\EntityClass\EntityClass;
 use SL\CoreBundle\Entity\Choice\ChoiceList;
 use SL\CoreBundle\Services\IconService;
@@ -33,11 +31,11 @@ class JSTreeService
     }
 
     /**
-     * Create new entityClass node
+     * Create new node for $entityClass
      *
-     * @param EntityClass\EntityClass $entityClass New entityClass 
+     * @param EntityClass $entityClass
      *
-     * @return Array $newNode EntityClass node
+     * @return array $newNode
      */
     public function createNewEntityClassNode(EntityClass $entityClass)
     {
@@ -54,18 +52,18 @@ class JSTreeService
     }
 
     /**
-     * Create new choice list node
+     * Create new node for $choiceList
      *
      * @param ChoiceList $choiceList
      *
-     * @return Array $newNode choice list node
+     * @return array $newNode choice list node
      */
     public function createNewChoiceListNode(ChoiceList $choiceList)
     {
         $newNode = array(
             'id' => $choiceList->getTechnicalName(),
             'text' => $choiceList->getDisplayName(),
-            'icon' => $this->icon->getChoiceListIcon($choiceList),
+            'icon' => $this->icon->getChoiceListIcon(),
             'a_attr' => array(
                 'href' => $this->router->generate('choice_list_show', array('id' => $choiceList->getId())),
                 ),
@@ -77,10 +75,10 @@ class JSTreeService
     /**
      * Shorten text property of a node if it's over max length
      *
-     * @param String $textToShorten
-     * @param String $maxLength
+     * @param string $textToShorten
+     * @param integer $maxLength
      *
-     * @return Array $newNode ChoiceList node
+     * @return array $shortedText
      */
     public function shortenTextNode($textToShorten, $maxLength){
 

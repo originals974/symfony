@@ -14,9 +14,9 @@ class ChoiceListRepository extends EntityRepository
    /**
    * Shared QueryBuilder
    *
-   * @param Doctrine\ORM\QueryBuilder $qb
+   * @param QueryBuilder $qb
    *
-   * @return Doctrine\ORM\QueryBuilder $qb
+   * @return QueryBuilder $qb
    */
 	private function sharedQB(QueryBuilder $qb){
 
@@ -30,7 +30,7 @@ class ChoiceListRepository extends EntityRepository
 	/**
      * Find all choice lists with their items
      *
-     * @return Doctrine\ORM\QueryBuilder $qb
+     * @return QueryBuilder $qb
      */ 
 	public function fullFindAllQb()
 	{

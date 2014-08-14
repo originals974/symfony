@@ -24,10 +24,10 @@ class EntityClassService
     /**
      * Constructor
      *
-     * @param Symfony\Bridge\Doctrine\RegistryInterface $registry
-     * @param Symfony\Component\Translation\Translator $translator
-     * @param Symfony\Component\Form\FormFactory $formFactory
-     * @param Symfony\Component\Routing\Router $router
+     * @param RegistryInterface $registry
+     * @param Translator $translator
+     * @param FormFactory $formFactory
+     * @param Router $router
      *
      */
     public function __construct(RegistryInterface $registry, Translator $translator, FormFactory $formFactory, Router $router)
@@ -41,9 +41,9 @@ class EntityClassService
     /**
     * Create create form for $entityClass
     *
-    * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
+    * @param EntityClass $entityClass
     *
-    * @return Symfony\Component\Form\Form $form
+    * @return Form $form
     */
     public function createCreateForm(EntityClass $entityClass)
     {
@@ -71,9 +71,9 @@ class EntityClassService
     /**
     * Create update form for $entityClass
     *
-    * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
+    * @param EntityClass $entityClass
     *
-    * @return Symfony\Component\Form\Form $form
+    * @return Form $form
     */
     public function createEditForm(EntityClass $entityClass)
     {    
@@ -96,9 +96,9 @@ class EntityClassService
     /**
      * Create delete form for $entityClass
      *
-     * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
+     * @param EntityClass $entityClass
      *
-     * @return Symfony\Component\Form\Form $form
+     * @return Form $form
      */
     public function createDeleteForm(EntityClass $entityClass)
     {   
@@ -121,9 +121,9 @@ class EntityClassService
     /**
      * Create update form for calculated name of $entityClass
      *
-     * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
+     * @param EntityClass $entityClass
      *
-     * @return Symfony\Component\Form\Form $form
+     * @return Form $form
      */
     public function createEditCalculatedNameForm(EntityClass $entityClass)
     {      
@@ -141,7 +141,7 @@ class EntityClassService
    /**
      * Verify if $entityClass could be delete
      *
-     * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
+     * @param EntityClass $entityClass
      *
      * @return array $integrityError Title and error message
      */
@@ -170,7 +170,7 @@ class EntityClassService
      /**
      * Init calculated name for $entityClass
      *
-     * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
+     * @param EntityClass $entityClass
      *
      * @return void
      */
@@ -190,7 +190,7 @@ class EntityClassService
     /**
      * Get $entityClass and all of its parents
      *
-     * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
+     * @param EntityClass $entityClass
      *
      * @return array $parents
      */
@@ -205,7 +205,7 @@ class EntityClassService
     /**
      * Get direct parent of $entityClass and add it to $parents
      *
-     * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
+     * @param EntityClass $entityClass
      * @param array $parents
      *
      * @return void
@@ -221,7 +221,7 @@ class EntityClassService
     /**
      * Get $path of $entityClass  
      *
-     * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass
+     * @param EntityClass $entityClass
      *
      * @return string $path Ex : EntityClass1->EntityClass2->EntityClass3->...
      */

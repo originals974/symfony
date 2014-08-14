@@ -49,14 +49,15 @@ class EntityType extends AbstractType
                 $tabLabel = $entityClass->getDisplayName().' '.$suffix;
 
                 $tab = $builder->create($entityClass->getTechnicalName().'Property', 'tab', array(
-                'label' => $tabLabel,
-                'icon' => $entityClass->getIcon(),
-                'inherit_data' => true,
-                ));
+                    'label' => $tabLabel,
+                    'icon' => $entityClass->getIcon(),
+                    'inherit_data' => true,
+                    )
+                );
 
                 foreach ($entityClass->getProperties() as $property) {
                     
-                    $fieldOptions = $this->getFieldConfiguration($property); 
+                    $fieldOptions = $this->getFieldOptions($property); 
 
                     $tab->add(
                         $property->getTechnicalName(), 
@@ -78,15 +79,14 @@ class EntityType extends AbstractType
         );
     }
     
-
     /**
-     * Get type and options of a form field
+     * Get form options for $property
      *
-     * @param EntityClass\Property $property Property used to create form field
+     * @param Property $property
      *
-     * @return Array $fieldConfiguration
+     * @return array $fieldOptions
      */
-    private function getFieldConfiguration(Property $property) {
+    private function getFieldOptions(Property $property) {
 
         //Globals options
         $fieldOptions = array(
@@ -95,7 +95,7 @@ class EntityType extends AbstractType
             'horizontal_input_wrapper_class' => 'col-lg-6',
             );
 
-        //Complete or override options array depending to property field type
+        //Complete $fieldOptions depending to property field type
         switch ($property->getFieldType()->getFormType()) {
             case 'genemu_jquerydate':
                 

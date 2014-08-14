@@ -10,9 +10,11 @@ use SL\CoreBundle\Entity\MappedSuperclass\AbstractEntity as CoreAbstractEntity;
 class DoctrineListener
 {   
      /**
-     * Function executed before entity persist and flush
+     * Function executed before entity persist
      *
      * @param LifecycleEventArgs $args
+     *
+     * @return void
      */
     public function prePersist(LifecycleEventArgs $args)
     {
@@ -27,6 +29,8 @@ class DoctrineListener
      * Function executed after entity persist and flush
      *
      * @param LifecycleEventArgs $args
+     *
+     * @return void
      */
     public function postPersist(LifecycleEventArgs $args)
     {

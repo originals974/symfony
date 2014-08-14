@@ -37,7 +37,7 @@ class PropertyRepository extends EntityRepository
   	/**
 	 * Select only entity property of an entityClass
 	 *
-	 * @param SL\CoreBundle\Entity\EntityClass\EntityClass $entityClass 
+	 * @param EntityClass $entityClass 
 	 *
 	 * @return array
 	 */
