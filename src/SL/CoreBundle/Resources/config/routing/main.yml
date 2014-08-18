@@ -3,13 +3,11 @@ init:
     defaults: { _controller: SLCoreBundle:Main:init }
     requirements:
         _method: GET
-
 front_end:
     pattern: /front_end
     defaults: { _controller: SLCoreBundle:Main:indexFrontEnd }
     requirements:
         _method: GET
-
 back_end:
     pattern: /back_end
     defaults: { _controller: SLCoreBundle:Main:indexBackEnd }

@@ -3,8 +3,6 @@
 namespace SL\CoreBundle\Services;
 
 use SL\CoreBundle\Entity\EntityClass\EntityClass;
-use SL\CoreBundle\Entity\EntityClass\Property;
-use SL\CoreBundle\Entity\Choice\ChoiceList;
 use SL\CoreBundle\Entity\Choice\ChoiceItem;
 
 /**

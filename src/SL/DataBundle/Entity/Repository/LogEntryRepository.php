@@ -35,8 +35,8 @@ class LogEntryRepository extends BaseLogEntryRepository
     /**
      * Find last $limit version for the given $entity
      *
-     * @param Mixed $entity
-     * @param integer $limit
+     * @param AbstractEntity $entity
+     * @param integer $limit|5
      *
      * @return QueryBuilder
      */

@@ -11,6 +11,13 @@ use SL\CoreBundle\Entity\EntityClass\Property;
  */
 class SharedEntityRepository extends EntityRepository
 {
+	 /**
+     * Find number of not null values $property database field 
+     *
+     * @param Property $property
+     *
+     * @return array
+     */
 	public function findNotNullValuesByProperty(Property $property){
 		$qb = $this ->createQueryBuilder('e')
 					->select('COUNT(e.id)');  

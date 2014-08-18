@@ -50,10 +50,9 @@ class ElasticaService
 
         $dumper = new Dumper();
 
-        $staticElasticaConfig = $this->getStatisElasticaConfig(); 
+        $staticElasticaConfig = $this->getStaticElasticaConfig(); 
 
-        $typeArray = array();
-
+        $typeElasticaConfig = array();
         for ($i = $start; $i <=$end; $i++) {
 
             $entityClassName = 'EntityClass'.$i; 
