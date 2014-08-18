@@ -344,15 +344,13 @@ class EntityController extends Controller
     public function editVersionAction(Request $request, EntityClass $entityClass, AbstractEntity $entity, $class_namespace)
     {
         if ($request->isXmlHttpRequest()) {
-
-            $limit = $this->container->getParameter('limit_number_of_versions');
  
             $entityClasses = $this->entityClassService->getPath($entityClass); 
 
-            $form = $this->entityService->createEditVersionForm($entity, null, $limit);
+            $form = $this->entityService->createEditVersionForm($entity);
 
             //Get all data version for $entity
-            $formatedLogEntries = $this->doctrineService->getFormatedLogEntries($entity, $limit); 
+            $formatedLogEntries = $this->doctrineService->getFormatedLogEntries($entity); 
 
             $response = $this->render('SLCoreBundle:Entity:version.html.twig', array(
                 'entityClasses' => $entityClasses, 

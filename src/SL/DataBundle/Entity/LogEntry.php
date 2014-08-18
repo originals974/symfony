@@ -19,7 +19,7 @@ use Gedmo\Loggable\Entity\MappedSuperclass\AbstractLogEntry;
  *      @index(name="log_version_lookup_idx", columns={"object_id", "object_class", "version"})
  *  }
  * )
- * @Entity(repositoryClass="SL\DataBundle\Entity\LogEntryRepository")
+ * @Entity(repositoryClass="SL\DataBundle\Entity\Repository\LogEntryRepository")
  */
 class LogEntry extends AbstractLogEntry
 {

@@ -20,10 +20,9 @@ property_create:
         _method: POST
 
 property_edit:
-    pattern: /{entity_class_id}.{id}/edit
+    pattern: /{id}/edit
     defaults: { _controller: SLCoreBundle:EntityClass\Property:edit }
     requirements:
-        entity_class_id: \d+
         id: \d+
         _method: GET
 
@@ -36,10 +35,9 @@ property_update:
         _method: PUT
 
 property_remove:
-    pattern: /{entity_class_id}.{id}/remove
+    pattern: /{id}/remove
     defaults: { _controller: SLCoreBundle:EntityClass\Property:remove }
     requirements:
-        entity_class_id: \d+
         id: \d+
         _method: GET
 

@@ -1,19 +1,21 @@
 <?php
 
-namespace SL\DataBundle\Entity;
+namespace SL\DataBundle\Entity\Repository;
 
 use Gedmo\Loggable\Entity\Repository\LogEntryRepository as BaseLogEntryRepository;
 use Gedmo\Tool\Wrapper\EntityWrapper;
+use SL\DataBundle\Entity\MappedSuperclass\AbstractEntity;
 
 class LogEntryRepository extends BaseLogEntryRepository
 {
-   /**
-     * Find current version for the given $entity
+    /**
+     * Find current version for $entity
      *
-     * @param Mixed $entity
+     * @param AbstractEntity $entity
+     *
      * @return array
      */
-	public function findCurrentVersion($entity){
+	public function findCurrentVersion(AbstractEntity $entity){
 
 		$wrapped = new EntityWrapper($entity, $this->_em);
         $objectClass = $wrapped->getMetadata()->name;
@@ -30,7 +32,7 @@ class LogEntryRepository extends BaseLogEntryRepository
     				->getSingleResult(); 
 	}
 
-     /**
+    /**
      * Find last $limit version for the given $entity
      *
      * @param Mixed $entity
@@ -38,7 +40,7 @@ class LogEntryRepository extends BaseLogEntryRepository
      *
      * @return QueryBuilder
      */
-    public function findAllVersion($entity, $limit = 5){
+    public function findAllVersion(AbstractEntity $entity, $limit = 5){
 
         $wrapped = new EntityWrapper($entity, $this->_em);
         $objectClass = $wrapped->getMetadata()->name;

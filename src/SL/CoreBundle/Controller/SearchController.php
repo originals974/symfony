@@ -19,19 +19,22 @@ class SearchController extends Controller
     private $em;
     private $elasticaService;
     private $entityService; 
+    private $numberOfSearchResults; 
 
     /**
      * @DI\InjectParams({
      *     "em" = @DI\Inject("doctrine.orm.entity_manager"),
      *     "elasticaService" = @DI\Inject("sl_core.elastica"),
-     *     "entityService" = @DI\Inject("sl_core.entity")
+     *     "entityService" = @DI\Inject("sl_core.entity"),
+     *     "numberOfSearchResults" = @DI\Inject("%sl_core.number_of_search_results%")
      * })
      */
-    public function __construct(EntityManager $em, ElasticaService $elasticaService, EntityService $entityService)
+    public function __construct(EntityManager $em, ElasticaService $elasticaService, EntityService $entityService, $numberOfSearchResults)
     {
         $this->em = $em;
         $this->elasticaService = $elasticaService;
         $this->entityService = $entityService; 
+        $this->numberOfSearchResults = $numberOfSearchResults; 
     }
 
     /**
@@ -110,8 +113,7 @@ class SearchController extends Controller
 
             $data = array(); 
 
-            $limit = $this->container->getParameter('limit_number_of_search_results');
-            $entities = $this->getSearchResults($pattern, $entityClassTechnicalName, 50);            
+            $entities = $this->getSearchResults($pattern, $entityClassTechnicalName);            
             $this->elasticaService->entitiesToJSTreeData($data, $entities);
             
             $response = new JsonResponse($data);
@@ -125,17 +127,16 @@ class SearchController extends Controller
     }
 
     /**
-    * Get last $limit search results 
+    * Get search results 
     * according to $pattern
     * for entity with $entityClassTechnicalName class name
     *
     * @param string $pattern 
     * @param string $entityClassTechnicalName
-    * @param integer $limit|50 
     *
     * @return array $entities
     */
-    private function getSearchResults($pattern, $entityClassTechnicalName, $limit = 50){
+    private function getSearchResults($pattern, $entityClassTechnicalName){
 
         $finderName = 'fos_elastica.finder.slcore.'.$entityClassTechnicalName; 
         $finder = $this->get($finderName); 
@@ -143,7 +144,7 @@ class SearchController extends Controller
         $filters = $this->em->getFilters();
         $filters->disable('softdeleteable');
 
-        $entities = $finder->find($pattern, $limit);
+        $entities = $finder->find($pattern, $this->numberOfSearchResults);
 
         $filters->enable('softdeleteable');
 

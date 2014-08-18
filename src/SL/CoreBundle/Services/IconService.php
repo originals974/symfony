@@ -22,7 +22,7 @@ class IconService
      */
     public function getRootServerIcon($option=null)
     {
-        $iconName = 'fa fa-database '.$option
+        $iconName = 'fa fa-database '.$option;
 
         return $iconName; 
     }

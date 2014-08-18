@@ -127,7 +127,7 @@ class EntityClassController extends Controller
                 //Init calculated name with default created property
                 $this->entityClassService->initCalculatedName($entityClass); 
                 
-                $this->doctrineService->createDoctrineEntityFileAndObjectSchema($entityClass);  
+                $this->doctrineService->generateEntityFileAndObjectSchema($entityClass);  
                 
                 $html = null; 
                 $jsTree = $this->jstreeService->createNewEntityClassNode($entityClass);
@@ -317,22 +317,22 @@ class EntityClassController extends Controller
             // Entity and database table associated with entity class aren't deleted 
             $entitiesExist = $this->entityService->entitiesExist($entityClass); 
             if($entitiesExist){
-               $this->doctrineService->entityDelete('SLCoreBundle:EntityClass\EntityClass', $entityClass->getId(), false);
+               $this->doctrineService->entityDelete($entityClass, false);
             }
             // Otherwise entity class is hard delete
             // Entity and database table associated with entity class are deleted too
             else{
-                $this->doctrineService->removeDoctrineFiles($entityClass);
+                $this->doctrineService->removeEntityFile($entityClass);
 
                 //Remove children entities and database tables of deleted entity class
                 $children = $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')->children($entityClass); 
                 foreach ($children as $child) {
-                    $this->doctrineService->removeDoctrineFiles($child);
+                    $this->doctrineService->removeEntityFile($child);
                 }
 
                 $this->doctrineService->doctrineSchemaUpdateForce();
 
-                $this->doctrineService->entityDelete('SLCoreBundle:EntityClass\EntityClass', $entityClass->getId(), true);
+                $this->doctrineService->entityDelete($entityClass->getId(), true);
             }
 
             $arrayResponse = array(

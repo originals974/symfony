@@ -57,7 +57,8 @@ class PropertyController extends Controller
         if ($request->isXmlHttpRequest()) {
 
             $property = new Property();
-            $formArray = $this->propertyService->createCreateForm($entityClass, $property);
+            $property->setEntityClass($entityClass); 
+            $formArray = $this->propertyService->createCreateForm($property);
             $selectForm = $formArray['selectForm']; 
             $mainform = $formArray['mainForm'];
 
@@ -93,7 +94,7 @@ class PropertyController extends Controller
             $property = $this->propertyService->getPropertyEntityClassByFormMode($formMode); 
             $property->setEntityClass($entityClass); 
 
-            $formArray = $this->propertyService->createCreateForm($entityClass, $property, $formMode);
+            $formArray = $this->propertyService->createCreateForm($property, $formMode);
             $selectForm = $formArray['selectForm']; 
             $mainform = $formArray['mainForm'];
 
@@ -129,7 +130,7 @@ class PropertyController extends Controller
         $property->setEntityClass($entityClass);
         $entityClass->addProperty($property); 
 
-        $formArray = $this->propertyService->createCreateForm($entityClass, $property, $formMode);
+        $formArray = $this->propertyService->createCreateForm($property, $formMode);
         $selectForm = $formArray['selectForm'];
         $form = $formArray['mainForm'];
 
@@ -142,7 +143,7 @@ class PropertyController extends Controller
                 $this->em->persist($property);
                 $this->em->flush();
 
-                $this->doctrineService->createDoctrineEntityFileAndObjectSchema($entityClass);  
+                $this->doctrineService->generateEntityFileAndObjectSchema($entityClass);  
 
                 $html = $this->renderView('SLCoreBundle:EntityClass/Property:table.html.twig', array(
                     'entityClass' => $entityClass, 
@@ -177,20 +178,16 @@ class PropertyController extends Controller
 
     /**
      * Display form to edit $property
-     * associated to $entityClass
      *
      * @param Request $request
-     * @param EntityClass $entityClass
      * @param Property $property
      *
      * @return Symfony\Component\HttpFoundation\Response $response
-     *
-     * @ParamConverter("entityClass", options={"id" = "entity_class_id", "repository_method" = "fullFindById"})
      */
-    public function editAction(Request $request, EntityClass $entityClass, Property $property)
+    public function editAction(Request $request, Property $property)
     {
         if ($request->isXmlHttpRequest()) {
-            $form = $this->propertyService->createEditForm($entityClass, $property);
+            $form = $this->propertyService->createEditForm($property);
      
             return $this->render('SLCoreBundle::save.html.twig', array(
                 'entity' => $property,
@@ -219,7 +216,7 @@ class PropertyController extends Controller
      */
     public function updateAction(Request $request, EntityClass $entityClass, Property $property)
     {
-        $form = $this->propertyService->createEditForm($entityClass, $property);
+        $form = $this->propertyService->createEditForm($property);
         $form->handleRequest($request);
 
         if ($request->isXmlHttpRequest()) {
@@ -229,7 +226,7 @@ class PropertyController extends Controller
                 $this->em->flush();
                       
                 //Update database schema
-                $this->doctrineService->createDoctrineEntityFileAndObjectSchema($entityClass);  
+                $this->doctrineService->generateEntityFileAndObjectSchema($entityClass);  
 
                 $html = $this->renderView('SLCoreBundle:EntityClass/Property:table.html.twig', array(
                     'entityClass' => $entityClass, 
@@ -263,17 +260,14 @@ class PropertyController extends Controller
 
      /**
      * Display form to remove $property
-     * associated to $entityClass
      *
      * @param Request $request
-     * @param EntityClass $entityClass
      * @param Property $property
      *
      * @return Symfony\Component\HttpFoundation\Response $response
      *
-     * @ParamConverter("entityClass", options={"id" = "entity_class_id", "repository_method" = "fullFindById"})
      */
-    public function removeAction(Request $request, EntityClass $entityClass, Property $property)
+    public function removeAction(Request $request, Property $property)
     {
         if ($request->isXmlHttpRequest()) {
 
@@ -281,7 +275,7 @@ class PropertyController extends Controller
             $integrityError = $this->propertyService->integrityControlBeforeDelete($property); 
             if($integrityError == null) {
                        
-                $form = $this->propertyService->createDeleteForm($entityClass, $property);
+                $form = $this->propertyService->createDeleteForm($property);
 
                 return $this->render('SLCoreBundle::save.html.twig', array(
                     'entity' => $property,
@@ -321,13 +315,13 @@ class PropertyController extends Controller
         if ($request->isXmlHttpRequest()) {
             
             if($this->entityService->propertyHasNotNullValues($property)){
-                $this->doctrineService->entityDelete('SLCoreBundle:EntityClass\Property', $property->getId(), false);
+                $this->doctrineService->entityDelete($property, false);
             } 
             else {
-                $this->doctrineService->entityDelete('SLCoreBundle:EntityClass\Property', $property->getId(), true);
+                $this->doctrineService->entityDelete($property, true);
 
                 //Update doctrine entity and schema
-                $this->doctrineService->createDoctrineEntityFileAndObjectSchema($entityClass);  
+                $this->doctrineService->generateEntityFileAndObjectSchema($entityClass);  
             }
 
             $html = $this->renderView('SLCoreBundle:EntityClass/Property:table.html.twig', array(
@@ -369,7 +363,7 @@ class PropertyController extends Controller
             $property->setRequired($value);
             $this->em->flush();
 
-            $this->doctrineService->createDoctrineEntityFileAndObjectSchema($property->getEntityClass());  
+            $this->doctrineService->generateEntityFileAndObjectSchema($property->getEntityClass());  
             
             $response = new Response();
         }

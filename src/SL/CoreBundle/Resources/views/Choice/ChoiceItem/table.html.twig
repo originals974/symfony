@@ -25,13 +25,13 @@
                         <div class="btn-group"> 
                             <button title="{{ 'choice_item.change.icon'|trans }}" class="btn btn-default btn-xs" role="iconpicker" data-iconset="fontawesome" data-icon="{{ choiceItem.icon }}" data-rows="6" data-cols="6" data-placement="bottom" ajax-action={{ path('choice_item_update_icon', { 'id': choiceItem.id }) }}>
                             </button>
-                            <a title="{{ 'choice_item.delete'|trans }}" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#" href="{{ path('choice_item_remove', { 'choice_list_id' : choiceList.id, 'id': choiceItem.id }) }}" >
+                            <a title="{{ 'choice_item.delete'|trans }}" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#" href="{{ path('choice_item_remove', { 'id': choiceItem.id }) }}" >
                                 <span class="fa fa-times"></span>        
                             </a>
                         </div>
                     </td>
                     <td>
-                        <a title="{{ 'choice_item.update'|trans }}" data-toggle="modal" data-target="#" href="{{ path('choice_item_edit', { 'choice_list_id' : choiceList.id, 'id': choiceItem.id }) }}">
+                        <a title="{{ 'choice_item.update'|trans }}" data-toggle="modal" data-target="#" href="{{ path('choice_item_edit', { 'id': choiceItem.id }) }}">
                             {{ choiceItem.displayName }}  
                         </a>
                     </td>

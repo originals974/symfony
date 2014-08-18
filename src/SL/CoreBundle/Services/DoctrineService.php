@@ -2,16 +2,16 @@
 
 namespace SL\CoreBundle\Services;
 
-//Symfony classes
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 
-//Custom classes
 use SL\CoreBundle\Entity\EntityClass\EntityClass;
 use SL\CoreBundle\Doctrine\SLCoreEntityGenerator;
+use SL\MasterBundle\Entity\AbstractEntity as MasterAbstractEntity;
+use SL\DataBundle\Entity\MappedSuperclass\AbstractEntity as DataAbstractEntity;
 
 /**
  * DoctrineService
@@ -25,6 +25,7 @@ class DoctrineService
     private $em; 
     private $databaseEm;
     private $dataBundle; 
+    private $numberOfVersion; 
 
     /**
      * Constructor
@@ -32,9 +33,10 @@ class DoctrineService
      * @param Filesystem $filesystem
      * @param RegistryInterface $registry
      * @param HttpKernelInterface $kernel
-     * @param String $dataBundlePath
+     * @param string $dataBundlePath
+     * @param integer $numberOfVersion
      */
-    public function __construct(Filesystem $filesystem, RegistryInterface $registry, HttpKernelInterface $kernel, $dataBundlePath)
+    public function __construct(Filesystem $filesystem, RegistryInterface $registry, HttpKernelInterface $kernel, $dataBundlePath, $numberOfVersion)
     {
         $this->filesystem = $filesystem;
         $this->registry = $registry;
@@ -42,68 +44,69 @@ class DoctrineService
         $this->em = $registry->getManager();
         $this->databaseEm = $registry->getManager('database');
         $this->dataBundle = $this->kernel->getBundle(str_replace('/', '', $dataBundlePath)); 
+        $this->numberOfVersion = $numberOfVersion;
     }
 
-    public function createDoctrineEntityFileAndObjectSchema(EntityClass $entityClass){
-        $this->doctrineGenerateEntityFileByEntityClass($entityClass); 
+    /**
+     * Generate entity file for $entityClass
+     * and update database schema
+     *
+     * @param EntityClass $entityClass
+     *
+     * @return void
+     */
+    public function generateEntityFileAndObjectSchema(EntityClass $entityClass){
+        $this->generateEntityFile($entityClass);
         $this->doctrineSchemaUpdateForce();
     }
 
     /**
-     * Create mapping and entity file for entityClass
-     *
-     * @param EntityClass\EntityClass $entityClass EntityClass
-     *
-     * @return Array $mapping Mapping array for entityClass
-     */
-    public function doctrineGenerateEntityFileByEntityClass(EntityClass $entityClass)
-    {
-        $mapping = $this->doctrineGenerateMappingByEntityClass($entityClass);
-        $this->doctrineGenerateEntityFileByMapping($entityClass, $mapping);
-
-        return $mapping;
-    }
-
-    /**
-    * Remove entity file for entityClass
+    * Remove entity file for $entityClass
     *
-    * @param EntityClass\EntityClass $entityClass EntityClass
+    * @param EntityClass $entityClass
+    *
+    * @return void 
     */
-    public function removeDoctrineFiles(EntityClass $entityClass)
+    public function removeEntityFile(EntityClass $entityClass)
     {
-        //Get path of entity class file
         $entityPath = $this->getDataEntityPath($entityClass->getTechnicalName());
-
-        //Remove entity class file
         $this->filesystem->remove(array($entityPath));
     }
 
     /**
-    * Update database schema
+    * Update database schema for $entityClass 
+    * or all database
     *
-    * @return string SQL requests
+    * @param EntityClass $entityClass|null
+    *
+    * @return void
     */
-    public function doctrineSchemaUpdateForce()
+    public function doctrineSchemaUpdateForce(EntityClass $entityClass = null)
     {
         $schemaTool = new SchemaTool($this->databaseEm);
 
-        $metadatas = $this->databaseEm->getMetadataFactory()->getAllMetadata();
+        if($entityClass != null) {
+            $metadata = $this->databaseEm->getMetadataFactory()->getMetadataFor();
+            $metadatas[] = $metadata; 
+        }
+        else {
+            $metadatas = $this->databaseEm->getMetadataFactory()->getAllMetadata();
+        }
 
         $schemaTool->UpdateSchema($metadatas);  
-
-        return $schemaTool->getUpdateSchemaSql($metadatas, true);
     }
 
     /**
-     * Create mapping for entityClass
+     * Generate $mapping for $entityClass
      *
-     * @param EntityClass\EntityClass $entityClass EntityClass
+     * @param EntityClass $entityClass
+     *
+     * @return array $mapping
      */
-    public function doctrineGenerateMappingByEntityClass(EntityClass $entityClass) 
+    public function generateMapping(EntityClass $entityClass) 
     {
         $mapping = array(); 
 
-        //Create a mapping array
         foreach ($entityClass->getProperties() as $property) {  
 
             switch ($property->getFieldType()->getFormType()) {
@@ -143,20 +146,20 @@ class DoctrineService
     }
 
     /**
-     * Create entity file for entityClass
+     * Generate entity file for $entityClass
+     * by using $mapping
      *
-     * @param EntityClass\EntityClass $entityClass
-     * @param array $mapping
+     * @param EntityClass $entityClass
+     *
+     * @return void
      */
-    public function doctrineGenerateEntityFileByMapping(EntityClass $entityClass, array $mapping = array())
+    public function generateEntityFile(EntityClass $entityClass)
     {
-        //Define entity path and namespace for the entity 
-        $entityNamespace = $this->getDataEntityNamespace($entityClass->getTechnicalName());
         $entityPath = $this->getDataEntityPath($entityClass->getTechnicalName());
 
         //Create entity code
         $entityGenerator = $this->initEntityGenerator($entityClass);
-        $class = $this->initClassMetadataInfo($entityClass, $entityNamespace, $mapping);
+        $class = $this->initClassMetadataInfo($entityClass);
         $entityCode = $entityGenerator->generateEntityClass($class);
         
         //Create entity file
@@ -165,15 +168,16 @@ class DoctrineService
     }
 
     /**
-     * Initialize EntityGenerator
+     * Initialize $entityGenerator class
      *
-     * @param EntityClass\EntityClass $entityClass
+     * @param EntityClass $entityClass
+     *
+     * @return SLCoreEntityGenerator $entityGenerator
      */
     private function initEntityGenerator(EntityClass $entityClass) {
 
         $entityGenerator = new SLCoreEntityGenerator();
 
-        //Variable configuration
         $entityGenerator->setGenerateAnnotations(true);
         $entityGenerator->setGenerateStubMethods(true);
         $entityGenerator->setRegenerateEntityIfExists(true);
@@ -183,8 +187,7 @@ class DoctrineService
         $entityGenerator->setGenerateAnnotations(true);
 
         if($entityClass->getParent() === null){
-            $entityNamespace = $this->getDataEntityNamespace('AbstractEntity');
-            $entityGenerator->setClassToExtend($entityNamespace); 
+            $entityGenerator->setClassToExtend('SL\DataBundle\Entity\MappedSuperclass\AbstractEntity'); 
         }
         else{
             $entityNamespace = $this->getDataEntityNamespace($entityClass->getParent()->getTechnicalName());
@@ -195,13 +198,17 @@ class DoctrineService
     }
 
     /**
-     * Initialize ClassMetadataInfo
+     * Initialize ClassMetadataInfo class
+     * for $entityClass
      *
-     * @param EntityClass\EntityClass $entityClass
-     * @param string $entityNamespace
-     * @param array $mapping
+     * @param EntityClass $entityClass
+     * 
+     * @return ClassMetadataInfo $class
      */
-    private function initClassMetadataInfo(EntityClass $entityClass, $entityNamespace, array $mapping = array()) {
+    private function initClassMetadataInfo(EntityClass $entityClass) {
+
+        $entityNamespace = $this->getDataEntityNamespace($entityClass->getTechnicalName());
+        $mapping = $this->generateMapping($entityClass);
 
         $class = new ClassMetadataInfo($entityNamespace);
         $class->customRepositoryClassName = 'SL\DataBundle\Entity\Repository\SharedEntityRepository';
@@ -234,7 +241,7 @@ class DoctrineService
     }
 
     /**
-     * Get namespace of a data bundle entity
+     * Get namespace of $entityName
      *
      * @param string $entityName
      *
@@ -247,7 +254,7 @@ class DoctrineService
     }
 
     /**
-     * Get path of a data bundle entity file
+     * Get path of $entityName
      *
      * @param string $entityName
      *
@@ -260,17 +267,16 @@ class DoctrineService
     }
 
     /**
-     * Delete entity with id $entityId
+     * Delete $entity
      *
-     * @param string $entityFullName <BundleName>:<EntityName>(Ex : 'SLCoreBundle:EntityClass\Property')
-     * @param integer $entityId
+     * @param MasterAbstractEntity $entity
      * @param boolean $hardDelete If true, remove entity from database
+     * else softdelete entity
      *
      * @return void
      */
-    public function entityDelete($entityFullName, $entityId, $hardDelete=false){
+    public function entityDelete(MasterAbstractEntity $entity, $hardDelete=false){
 
-        $entity = $this->em->getRepository($entityFullName)->find($entityId); 
         $this->em->remove($entity);
         $this->em->flush();
 
@@ -278,7 +284,7 @@ class DoctrineService
             $filters = $this->em->getFilters();
             $filters->disable('softdeleteable');
 
-            $entity = $this->em->getRepository($entityFullName)->find($entityId); 
+            $entity = $this->em->getRepository($entity->getClass())->find($entity->getId()); 
             $this->em->remove($entity);
             $this->em->flush();
             
@@ -287,14 +293,13 @@ class DoctrineService
     }
 
     /**
-     * Get last $limit versions for $entity. 
+     * Get last versions for $entity. 
      *
-     * @param Mixed $entity
-     * @param integer $limit
+     * @param DataAbstractEntity $entity
      *
      * @return array $formatedLogEntries
      */
-    public function getFormatedLogEntries($entity, $limit = 5)
+    public function getFormatedLogEntries(DataAbstractEntity $entity)
     {
         $logEntries = $this->databaseEm->getRepository('SLDataBundle:LogEntry')->getLogEntries($entity); 
 
@@ -320,6 +325,6 @@ class DoctrineService
             $formatedLogEntries[] = $formatedLogEntry;
         }
                 
-        return array_slice(array_reverse($formatedLogEntries), 0, $limit); 
+        return array_slice(array_reverse($formatedLogEntries), 0, $this->numberOfVersion); 
     }
 }

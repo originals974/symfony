@@ -1,6 +1,6 @@
 <?php
 
-namespace SL\DataBundle\Entity;
+namespace SL\DataBundle\Entity\MappedSuperclass;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;

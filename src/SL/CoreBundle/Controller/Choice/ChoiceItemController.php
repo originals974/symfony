@@ -52,7 +52,8 @@ class ChoiceItemController extends Controller
         if ($request->isXmlHttpRequest()) {
 
             $choiceItem = new ChoiceItem();
-            $form = $this->choiceItemService->createCreateForm($choiceList, $choiceItem);
+            $choiceItem->setChoiceList($choiceList); 
+            $form = $this->choiceItemService->createCreateForm($choiceItem);
 
             $response = $this->render('SLCoreBundle::save.html.twig', array(
                 'entity' => $choiceItem,
@@ -84,7 +85,7 @@ class ChoiceItemController extends Controller
         $choiceItem->setChoiceList($choiceList); 
         $choiceList->addChoiceItem($choiceItem); 
 
-        $form = $this->choiceItemService->createCreateForm($choiceList, $choiceItem);
+        $form = $this->choiceItemService->createCreateForm($choiceItem);
 
         $form->handleRequest($request);
 
@@ -128,21 +129,17 @@ class ChoiceItemController extends Controller
 
     /**
      * Display form to edit $choiceItem
-     * associated to $choiceList
      *
      * @param Request $request
-     * @param ChoiceList $choiceList
      * @param ChoiceItem $choiceItem
      *
      * @return Response $response
-     *
-     * @ParamConverter("choiceList", options={"id" = "choice_list_id", "repository_method" = "fullFindById"})
      */
-    public function editAction(Request $request, ChoiceList $choiceList, ChoiceItem $choiceItem)
+    public function editAction(Request $request, ChoiceItem $choiceItem)
     {
         if ($request->isXmlHttpRequest()) {
             
-            $form = $this->choiceItemService->createEditForm($choiceList, $choiceItem);
+            $form = $this->choiceItemService->createEditForm($choiceItem);
        
             $response = $this->render('SLCoreBundle::save.html.twig', array(
                 'entity' => $choiceItem,
@@ -171,7 +168,7 @@ class ChoiceItemController extends Controller
      */
     public function updateAction(Request $request, ChoiceList $choiceList, ChoiceItem $choiceItem)
     {
-        $form = $this->choiceItemService->createEditForm($choiceList, $choiceItem);
+        $form = $this->choiceItemService->createEditForm($choiceItem);
         $form->handleRequest($request);
 
         if ($request->isXmlHttpRequest()) {
@@ -212,21 +209,17 @@ class ChoiceItemController extends Controller
 
     /**
      * Display form to remove $choiceItem
-     * associated to $choiceList
      *
      * @param Request $request
-     * @param ChoiceList $choiceList
      * @param ChoiceItem $choiceItem
      *
      * @return Response $response
-     *
-     * @ParamConverter("choiceList", options={"id" = "choice_list_id", "repository_method" = "fullFindById"})
      */
-    public function removeAction(Request $request, ChoiceList $choiceList, ChoiceItem $choiceItem)
+    public function removeAction(Request $request, ChoiceItem $choiceItem)
     {
         if ($request->isXmlHttpRequest()) {
 
-            $form = $this->choiceItemService->createDeleteForm($choiceList, $choiceItem);
+            $form = $this->choiceItemService->createDeleteForm($choiceItem);
 
             $response = $this->render('SLCoreBundle::save.html.twig', array(
                 'entity' => $choiceItem,
@@ -257,7 +250,7 @@ class ChoiceItemController extends Controller
     {
         if ($request->isXmlHttpRequest()) {
 
-            $this->doctrineService->entityDelete('SLCoreBundle:Choice\ChoiceItem', $choiceItem->getId(), true);
+            $this->doctrineService->entityDelete($choiceItem, true);
 
             $html = $this->renderView('SLCoreBundle:Choice/ChoiceItem:table.html.twig', array(
                 'choiceList' => $choiceList, 

@@ -8,7 +8,6 @@ use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Routing\Router;   
 use Symfony\Component\Form\Form; 
 
-use SL\CoreBundle\Entity\EntityClass\EntityClass;
 use SL\CoreBundle\Entity\EntityClass\Property;
 use SL\CoreBundle\Entity\EntityClass\PropertyEntity;
 use SL\CoreBundle\Entity\EntityClass\PropertyChoice;
@@ -43,21 +42,19 @@ class PropertyService
 
     /**
     * Create create form for $property
-    * associated to $entityClass
     *
-    * @param EntityClass $entityClass
     * @param Property $property
     * @param string $formMode|"default" Define what property type will be create(default|entity|choice)
     *
     * @return Form $form
     */
-    public function createCreateForm(EntityClass $entityClass, Property $property, $formMode="default")
+    public function createCreateForm(Property $property, $formMode="default")
     {   
         $form = array(); 
 
         $selectForm = $this->formFactory->create('sl_core_property_select', null, array(
             'action' => $this->router->generate('property_select_form', array(
-                'entity_class_id' => $entityClass->getId(),
+                'entity_class_id' => $property->getEntityClass()->getId(),
                 )
             ),
             'method' => 'GET',
@@ -73,7 +70,7 @@ class PropertyService
 
         $mainForm = $this->formFactory->create($formService, $property, array(
             'action' => $this->router->generate('property_create', array(
-                    'entity_class_id' => $entityClass->getId(),
+                    'entity_class_id' => $property->getEntityClass()->getId(),
                     'formMode' => $formMode,
                 )
             ),
@@ -86,7 +83,7 @@ class PropertyService
                 ),
             'submit_label' => 'create',
             'submit_color' => 'primary',
-            'entity_class_id' => $entityClass->getId(),
+            'entity_class_id' => $property->getEntityClass()->getId(),
             )
         );
 
@@ -97,14 +94,12 @@ class PropertyService
 
     /**
     * Create update form for $property
-    * associated to $entityClass
     *
-    * @param EntityClass $entityClass
     * @param Property $property
     *
     * @return Form $form
     */
-    public function createEditForm(EntityClass $entityClass, Property $property)
+    public function createEditForm(Property $property)
     {
         //Select formtype depending to fieldtype
         $formMode = $this->getFormModeByProperty($property); 
@@ -112,7 +107,7 @@ class PropertyService
 
         $form = $this->formFactory->create($formService, $property, array(
             'action' => $this->router->generate('property_update', array(
-                'entity_class_id' => $entityClass->getId(),
+                'entity_class_id' => $property->getEntityClass()->getId(),
                 'id' => $property->getId(),
                 )
             ),
@@ -125,7 +120,7 @@ class PropertyService
                 ),
             'submit_label' => 'update',
             'submit_color' => 'primary',
-            'entity_class_id' => $entityClass->getId(),
+            'entity_class_id' => $property->getEntityClass()->getId(),
             )
         );
 
@@ -134,18 +129,16 @@ class PropertyService
 
     /**
     * Create update form for $property
-    * associated to $entityClass
     *
-    * @param EntityClass $entityClass
     * @param Property $property
     *
     * @return Form $form
     */
-    public function createDeleteForm(EntityClass $entityClass, Property $property)
+    public function createDeleteForm(Property $property)
     {
         $form = $this->formFactory->create('sl_core_property', $property, array(
             'action' => $this->router->generate('property_delete', array(
-                'entity_class_id' => $entityClass->getId(),
+                'entity_class_id' => $property->getEntityClass()->getId(),
                 'id' => $property->getId(),
                 )
             ),
@@ -158,7 +151,7 @@ class PropertyService
                 ),
             'submit_label' => 'delete',
             'submit_color' => 'danger',
-            'entity_class_id' => $entityClass->getId(),
+            'entity_class_id' => $property->getEntityClass()->getId(),
             )
         );
 

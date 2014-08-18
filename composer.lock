@@ -3389,12 +3389,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twbs/bootstrap.git",
-                "reference": "a8437f0d2357368556368cbde1afecda4f0117f3"
+                "reference": "31f7cb152efbc22ea61801915d81ba2b13435f97"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/a8437f0d2357368556368cbde1afecda4f0117f3",
-                "reference": "a8437f0d2357368556368cbde1afecda4f0117f3",
+                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/31f7cb152efbc22ea61801915d81ba2b13435f97",
+                "reference": "31f7cb152efbc22ea61801915d81ba2b13435f97",
                 "shasum": ""
             },
             "replace": {
@@ -3432,7 +3432,7 @@
                 "responsive",
                 "web"
             ],
-            "time": "2014-08-08 19:23:55"
+            "time": "2014-08-15 18:52:50"
         },
         {
             "name": "twig/extensions",
@@ -3545,12 +3545,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/vakata/jstree.git",
-                "reference": "cb1d0c285e115791d312083ee9f7ebb899a0a003"
+                "reference": "6f6b9d1b2c9f485300a149132ecf75408ba7c101"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vakata/jstree/zipball/cb1d0c285e115791d312083ee9f7ebb899a0a003",
-                "reference": "cb1d0c285e115791d312083ee9f7ebb899a0a003",
+                "url": "https://api.github.com/repos/vakata/jstree/zipball/6f6b9d1b2c9f485300a149132ecf75408ba7c101",
+                "reference": "6f6b9d1b2c9f485300a149132ecf75408ba7c101",
                 "shasum": ""
             },
             "require": {
@@ -3592,7 +3592,7 @@
             ],
             "description": "jsTree is jquery plugin, that provides interactive trees.",
             "homepage": "http://jstree.com",
-            "time": "2014-08-13 06:33:33"
+            "time": "2014-08-14 11:50:40"
         },
         {
             "name": "willdurand/js-translation-bundle",

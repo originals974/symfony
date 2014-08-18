@@ -279,18 +279,18 @@ class ChoiceListController extends Controller
     }
 
     /**
-     * Delete choice list identified by $id
+     * Delete $choiceList
      *
      * @param Request $request
-     * @param integer $id
+     * @param ChoiceList $choiceList
      *
      * @return Mixed $response
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction(Request $request, ChoiceList $choiceList)
     {
         if ($request->isXmlHttpRequest()) {
 
-            $this->doctrineService->entityDelete('SLCoreBundle:Choice\ChoiceList', $id, true);
+            $this->doctrineService->entityDelete( $choiceList, true);
 
             $arrayResponse = array(
                 'isValid' => true,

@@ -5,7 +5,6 @@ namespace SL\CoreBundle\Services\Choice;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Routing\Router;
 
-use SL\CoreBundle\Entity\Choice\ChoiceList;
 use SL\CoreBundle\Entity\Choice\ChoiceItem;
 
 /**
@@ -32,18 +31,16 @@ class ChoiceItemService
 
     /**
     * Create create form for $choiceItem
-    * associated to $choiceList
     *
-    * @param ChoiceList $choiceList
     * @param ChoiceItem $choiceItem
     *
     * @return Form $form
     */
-    public function createCreateForm(ChoiceList $choiceList, ChoiceItem $choiceItem)
+    public function createCreateForm(ChoiceItem $choiceItem)
     {   
         $form = $this->formFactory->create('sl_core_choice_item', $choiceItem, array(
             'action' => $this->router->generate('choice_item_create', array(
-                'id' => $choiceList->getId(),
+                'id' => $choiceItem->getChoiceList()->getId(),
                 )
             ),
             'method' => 'POST',
@@ -62,18 +59,16 @@ class ChoiceItemService
 
     /**
     * Create update form for $choiceItem
-    * associated to $choiceList
     *
-    * @param ChoiceList $choiceList
     * @param ChoiceItem $choiceItem
     *
     * @return Form $form
     */
-    public function createEditForm(ChoiceList $choiceList, ChoiceItem $choiceItem)
+    public function createEditForm(ChoiceItem $choiceItem)
     {
         $form = $this->formFactory->create('sl_core_choice_item', $choiceItem, array(
             'action' => $this->router->generate('choice_item_update', array(
-                'choice_list_id' => $choiceList->getId(),
+                'choice_list_id' => $choiceItem->getChoiceList()->getId(),
                 'id' => $choiceItem->getId(),
                 )
             ),
@@ -93,18 +88,16 @@ class ChoiceItemService
 
     /**
      * Create delete form for $choiceItem
-     * associated to $choiceList
      *
-     * @param ChoiceList $choiceList
      * @param ChoiceItem $choiceItem
      *
      * @return Form $form
      */
-    public function createDeleteForm(ChoiceList $choiceList, ChoiceItem $choiceItem)
+    public function createDeleteForm(ChoiceItem $choiceItem)
     {
         $form = $this->formFactory->create('sl_core_choice_item', $choiceItem, array(
             'action' => $this->router->generate('choice_item_delete', array(
-                'choice_list_id' => $choiceList->getId(), 
+                'choice_list_id' => $choiceItem->getChoiceList()->getId(),
                 'id' => $choiceItem->getId(),
                 )
             ),

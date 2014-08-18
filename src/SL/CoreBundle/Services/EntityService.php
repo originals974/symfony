@@ -20,6 +20,7 @@ class EntityService
     private $router;
     private $em; 
     private $databaseEm;
+    private $numberOfVersion; 
 
     /**
      * Constructor
@@ -27,14 +28,16 @@ class EntityService
      * @param FormFactory $formFactory
      * @param Router $router
      * @param RegistryInterface $registry
+     * @param integer $numberOfVersion
      *
      */
-    public function __construct(FormFactory $formFactory, Router $router, RegistryInterface $registry)
+    public function __construct(FormFactory $formFactory, Router $router, RegistryInterface $registry, $numberOfVersion)
     {
         $this->formFactory = $formFactory;
         $this->router = $router;
         $this->em = $registry->getManager();
         $this->databaseEm = $registry->getManager('database');
+        $this->numberOfVersion = $numberOfVersion;
     }
 
     /**
@@ -161,7 +164,7 @@ class EntityService
      *
      * @return Form $form
      */
-    public function createEditVersionForm(AbstractEntity $entity, $limit = 5)
+    public function createEditVersionForm(AbstractEntity $entity)
     {   
         $form = $this->formFactory->create('sl_core_entity_version', null, array(
             'action' => $this->router->generate('entity_update_version', array(
@@ -170,7 +173,7 @@ class EntityService
                 )
             ),
             'entity' => $entity,
-            'limit' => $limit,
+            'limit' => $this->numberOfVersion,
             )
         );
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2014-08-14T09:58:45Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+  <file date="2014-08-18T10:14:23Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -129,12 +129,12 @@
         <target>Suppression impossible</target>
         <jms:reference-file line="136">Services/Choice/ChoiceListService.php</jms:reference-file>
         <jms:reference-file line="156">Services/EntityClass/EntityClassService.php</jms:reference-file>
-        <jms:reference-file line="255">Services/EntityClass/PropertyService.php</jms:reference-file>
+        <jms:reference-file line="248">Services/EntityClass/PropertyService.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="30503239bd87a070dc371b00ae75b385c26a4c69" resname="delete.property.calculatedName.error.message">
         <source>delete.property.calculatedName.error.message</source>
         <target>Cette propriété est utilisée afin de définir le nom calculé de l'objet.</target>
-        <jms:reference-file line="256">Services/EntityClass/PropertyService.php</jms:reference-file>
+        <jms:reference-file line="249">Services/EntityClass/PropertyService.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="b639f5cc719831458c83999303237e8499c0cabe" resname="deleted">
         <source>deleted</source>

@@ -13,10 +13,9 @@ choice_item_create:
         _method: POST 
 
 choice_item_edit:
-    pattern: /{choice_list_id}.{id}/edit
+    pattern: /{id}/edit
     defaults: { _controller: SLCoreBundle:Choice\ChoiceItem:edit }
     requirements:
-        choice_list_id: \d+
         id: \d+
         _method: GET 
 
@@ -29,10 +28,9 @@ choice_item_update:
         _method: PUT
 
 choice_item_remove:
-    pattern:  /{choice_list_id}.{id}/remove
+    pattern:  /{id}/remove
     defaults: { _controller: SLCoreBundle:Choice\ChoiceItem:remove }
     requirements:
-        choice_list_id: \d+
         id: \d+
         _method: GET 
 

@@ -2,13 +2,12 @@
 
 namespace SL\CoreBundle\Services;
 
-//Symfony classes
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Routing\Router;
 use Symfony\Component\Yaml\Dumper;
 
-//Custom classes
 use SL\CoreBundle\Services\JSTreeService;
+use SL\DataBundle\Entity\MappedSuperclass\AbstractEntity;
 
 /**
  * ElasticaService
@@ -42,46 +41,41 @@ class ElasticaService
     /**
      * Update app/config/elastica.yml file
      *
-     * @param Int $start EntityClass id start
-     * @param Int $end EntityClass id end
+     * @param integer $start EntityClass id start
+     * @param integer $end EntityClass id end
      *
-     * @return String $elasticaYamlConfig
+     * @return void
      */
     public function updateElasticaConfigFile($start, $end){
 
         $dumper = new Dumper();
 
-        //Get default elastica config
-        $elasticaArrayConfig = $this->getElasticaDefaultConfigArray(); 
+        $staticElasticaConfig = $this->getStatisElasticaConfig(); 
 
         $typeArray = array();
 
         for ($i = $start; $i <=$end; $i++) {
 
             $entityClassName = 'EntityClass'.$i; 
-            
-            //Get types elastica config
-            $typeArray = $this->getElasticaTypeConfigArray($entityClassName);
+            $typeElasticaConfig = $this->getTypeElasticaConfig($entityClassName);
 
-            $elasticaArrayConfig['fos_elastica']['indexes']['slcore']['types'][$entityClassName] = $typeArray;
+            $staticElasticaConfig['fos_elastica']['indexes']['slcore']['types'][$entityClassName] = $typeElasticaConfig;
         }
 
         //Update elastica config file
-        $elasticaYamlConfig = $dumper->dump($elasticaArrayConfig);
+        $elasticaYamlConfig = $dumper->dump($staticElasticaConfig);
         $elasticaYamlConfig = str_replace("chr(126)", chr(126), $elasticaYamlConfig);
         file_put_contents($this->configPath.'elastica.yml', $elasticaYamlConfig);
-
-        return $elasticaYamlConfig;
     }
 
     /**
-     * Get elastica default config 
+     * Get static elastica config 
      *
-     * @return array $elasticaArrayConfig
+     * @return array $staticElasticaConfig
      */
-    private function getElasticaDefaultConfigArray() {
+    private function getStaticElasticaConfig() {
 
-        $elasticaArrayConfig = array(
+        $staticElasticaConfig = array(
             'fos_elastica' => array(
                 'clients' => array(
                     'default' => array(
@@ -102,19 +96,19 @@ class ElasticaService
                 )
             );
 
-        return $elasticaArrayConfig; 
+        return $staticElasticaConfig; 
     }
 
     /**
-     * Get elastica type config 
+     * Get type elastica config 
      *
-     * @param String $entityClassName
+     * @param string $entityClassName
      *
-     * @return array $elasticaArrayConfig
+     * @return array $typeElasticaConfig
      */
-    private function getElasticaTypeConfigArray($entityClassName) {
+    private function getTypeElasticaConfig($entityClassName) {
 
-        $typeArray = array(
+        $typeElasticaConfig = array(
                     'persistence' => array(
                         'driver' => 'orm',
                         'model' => $this->bundlePath.'\\Entity\\'.$entityClassName,
@@ -124,33 +118,33 @@ class ElasticaService
                         ),
                     ); 
 
-        return $typeArray; 
+        return $typeElasticaConfig; 
     }
 
     /**
-     * Convert Doctrine Collection to JSTree data
+     * Convert entities $data array to JSTree data
      *
-     * @param array $data Result array
-     * @param DoctrineCollection $entities
+     * @param array $data
+     * @param array $entities
      *
-     * @return array $array
+     * @return void
      */
-    public function entitiesToJSTreeData(array &$data, $entities) {
+    public function entitiesToJSTreeData(array &$data, array $entities) {
 
         foreach($entities as $entity){
-            $this->entitieToJSTreeData($data, $entity);
+            $this->entityToJSTreeData($data, $entity);
         }
     }
 
     /**
-     * Convert Doctrine Entity to JSTree data
+     * Convert entity $data array to JSTree data
      *
-     * @param array $data Result array
-     * @param Mixed $entity
+     * @param array $data
+     * @param AbstractEntity $entity
      *
-     * @return array $array
+     * @return void
      */
-    public function entitieToJSTreeData(array &$data, $entity) {
+    public function entityToJSTreeData(array &$data, AbstractEntity $entity) {
 
         $entityClass = $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')->find($entity->getEntityClassId());
 
@@ -170,7 +164,7 @@ class ElasticaService
         );
 
         $propertiesEntity = $this->em->getRepository('SLCoreBundle:EntityClass\Property')
-                               ->findPropertyEntityByEntityClass($entityClass);
+                                 ->findPropertyEntityByEntityClass($entityClass);
 
         foreach($propertiesEntity as $propertyEntity){
 
