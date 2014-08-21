@@ -300,10 +300,31 @@ fos_elastica:
         slcore:
             client: default
             types:
-                EntityClass8:
+                EntityClass11:
                     persistence:
                         driver: orm
-                        model:  SL\DataBundle\Entity\EntityClass8
+                        model:  SL\DataBundle\Entity\EntityClass11
+                        provider: ~
+                        listener: ~
+                        finder: ~
+                EntityClass12:
+                    persistence:
+                        driver: orm
+                        model:  SL\DataBundle\Entity\EntityClass12
+                        provider: ~
+                        listener: ~
+                        finder: ~
+                EntityClass13:
+                    persistence:
+                        driver: orm
+                        model:  SL\DataBundle\Entity\EntityClass13
+                        provider: ~
+                        listener: ~
+                        finder: ~
+                EntityClass14:
+                    persistence:
+                        driver: orm
+                        model:  SL\DataBundle\Entity\EntityClass14
                         provider: ~
                         listener: ~
                         finder: ~

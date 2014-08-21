@@ -15,7 +15,7 @@ class PropertyChoiceType extends PropertyType
     {
          $builder
             ->add('displayName' , 'text',  array(
-                'label' =>  'displayName',
+                'label' =>  'display_name.label',
                 'attr' => array(
                     'max_length' => '255',
                     )
@@ -28,14 +28,14 @@ class PropertyChoiceType extends PropertyType
                 'query_builder' => function(EntityRepository $er) {
                                       return $er->fullFindAllQb();
                                     },
-                'label' =>  'choice_list',
+                'label' =>  'choice_list.label',
                 'attr' => array(
                         'class'       => 'col-lg-4'
                     ) 
                 )
             )
             ->add('isMultiple' , 'checkbox', array(
-                'label' =>  'isMultiple',
+                'label' =>  'is_multiple.label',
                 'required' => false,
                 )
             )

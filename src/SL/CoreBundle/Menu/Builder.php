@@ -23,8 +23,16 @@ class Builder extends ContainerAware
             'push_right' => true,
         ));
 
-        $menu->addChild('frontEnd', array('route' => 'front_end'));
-        $menu->addChild('translation', array('route' => 'jms_translation_index'));
+        $menu->addChild('frontEnd', array(
+            'route' => 'front_end',
+            'label' => 'front_end.label',
+            )
+        );
+        $menu->addChild('translation', array(
+            'route' => 'jms_translation_index',
+            'label' => 'translate.label',
+            )
+        );
 
         return $menu;
     }
@@ -44,7 +52,11 @@ class Builder extends ContainerAware
             'push_right' => true,
         ));
 
-        $menu->addChild('BackEnd', array('route' => 'back_end'));
+        $menu->addChild('BackEnd', array(
+            'route' => 'back_end',
+            'label' => 'back_end.label',
+            )
+        );
 
         return $menu;
     }
@@ -69,7 +81,7 @@ class Builder extends ContainerAware
             )
         );
 
-        $entityClasses = $em->getRepository('SLCoreBundle:EntityClass\EntityClass')->fullFindAll(false);
+        $entityClasses = $em->getRepository('SLCoreBundle:EntityClass\EntityClass')->fullFindAll();
         
         foreach($entityClasses as $entityClass) {
 
@@ -111,7 +123,7 @@ class Builder extends ContainerAware
         /************SERVER*************/
         $server = $menu->addChild('server', array(
             'route' => 'server',
-            'label' => 'server',
+            'label' => 'server.label',
             )
         );
         $server->setAttributes(array(
@@ -122,7 +134,7 @@ class Builder extends ContainerAware
         /************ENTITY_CLASSES*************/
         $entityClassRoot = $server->addChild('entityClass', array(
             'route' => 'entity_class', 
-            'label' => 'entity_class',
+            'label' => 'entity_class.label',
             )
         );
         $entityClassRoot->setAttributes(array(
@@ -130,13 +142,13 @@ class Builder extends ContainerAware
             )
         );
         
-        $entityClasses = $em->getRepository('SLCoreBundle:EntityClass\EntityClass')->fullFindAll(false, 0);
+        $entityClasses = $em->getRepository('SLCoreBundle:EntityClass\EntityClass')->fullFindAll(0);
         $this->addEntityClassItems($entityClassRoot, $entityClasses);
 
          /************CHOICE LIST*************/
         $choiceListRoot = $server->addChild('choiceList', array(
             'route' => 'choice_list',
-            'label' => 'choice_list', 
+            'label' => 'choice_list.label', 
             )
         );
         $choiceListRoot->setAttributes(array(

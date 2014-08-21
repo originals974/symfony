@@ -34,7 +34,7 @@ services:
 
     sl_core.entity:
         class: SL\CoreBundle\Services\EntityService
-        arguments: [@form.factory, @router, @doctrine, @sl_core.entity_class, @sl_core.doctrine, @translator, %sl_core.number_of_versions%]
+        arguments: [@form.factory, @router, @doctrine, %sl_core.number_of_versions%]
 
     sl_core.elastica:
         class: SL\CoreBundle\Services\ElasticaService

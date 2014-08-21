@@ -22,7 +22,7 @@ class SearchType extends AbstractType
                 )
             )
             ->add('submit', 'submit', array(
-                'label' => 'search',
+                'label' => 'search.label',
                 'attr' => array(
                     'enabled' =>false,
                     'class'=>'btn btn-primary btn-sm'

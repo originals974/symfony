@@ -1,7 +1,5 @@
 <script type="text/javascript">    
 	$(document).ready(function () {
-        
-        var currentJsTreeReferenceId; 
 
         //JsTree init configuration
         function initJsTree(jsTreeId, entityClassTechnicalName) {
@@ -25,12 +23,9 @@
             })
             .on('changed.jstree', function (e, data) {
 
-                var $htmlTarget, i, j;
-
-                currentJsTreeReferenceId = e.currentTarget.id; 
+                var $htmlTarget, i, j; 
 
                 $htmlTarget = '#features_panel_body'; 
-                $($htmlTarget).html(null);
 
                 for(i = 0, j = data.selected.length; i < j; i++) {
                     var $url = data.instance.get_node(data.selected[0]).a_attr['href']; 
@@ -60,8 +55,8 @@
 	     */
         function submitFormToAjaxFrontEnd($form) {
 
-        	var validTarget, noValidTarget, method, modalId, selectedNode, reSelectedNode, guid, mode, entityClassesTechnicalName, n;
-            var selectedJsTree, jsTree, jsTreeId, jsTreeIds;  
+        	var validTarget, noValidTarget, modalId, mode, entityClassesTechnicalName, n;
+            var jsTree, jsTreeId, jsTreeIds, openJsTreeDiv, selectedNode, openJsTreeId, openJsTree;  
 
         	validTarget = '#'+$form.attr('valid-target'); 
         	noValidTarget = '#'+$form.attr('no-valid-target'); 
@@ -75,82 +70,48 @@
                 success: function(data) {
                 	if(data.isValid) {
 
-                        //Get the modal id  
                         modalId = '#'+$($form).parent().parent().attr('id');
-                        selectedJsTree = $('#'+currentJsTreeReferenceId).jstree(true); 
 
-                        if(mode == 'add'){
-                            //Refresh all search results
-                            /*$('#search_result_panel').find('div[id*="jstree"]').each(function(){
-                                jsTreeId = $(this).attr('id'); 
-                                currentJsTreeReference = $('#'+jsTreeId).jstree(true);
-                                currentJsTreeReference.refresh();
-                            });*/
-                        }
-                        else if(mode == 'update') {
-                            selectedNode = selectedJsTree.get_selected(true);  
-                            reSelectedNode = selectedJsTree.get_node(selectedNode[0].id);
-                            
-                            //Rename all node for all jstree reference
-                            guid = selectedNode[0].li_attr['guid'];
-                            $('#search_result_panel').find('div[id*="jstree_"]').each(function(){
+                        if(mode == 'search') {
 
-                                jsTreeId = $(this).attr('id'); 
-                                jsTree = $('#'+jsTreeId).jstree(true);
-                                jsTreeIds = [];
-                                $(this).find('li[guid="'+guid+'"]').each(function(){
-                                    jsTreeIds[jsTreeIds.length] = $(this).attr('id');
-                                });
-
-                                jsTree.rename_node(jsTreeIds, data.content);
-                            });
-
-                            selectedJsTree.deselect_node(selectedNode);
-                            selectedJsTree.select_node(reSelectedNode);
-                        }
-                        else if(mode == 'delete') {
-                            selectedNode = selectedJsTree.get_selected(true);  
-                            reSelectedNode = selectedJsTree.get_node(selectedNode[0].id);
-
-                            //Delete all node for all jstree reference
-                            guid = selectedNode[0].li_attr['guid'];
-                            $('#search_result_panel').find('div[id*="jstree_"]').each(function(){
-
-                                jsTreeId = $(this).attr('id'); 
-                                jsTree = $('#'+jsTreeId).jstree(true);
-                                jsTreeIds = [];
-                                $(this).find('li[guid="'+guid+'"]').each(function(){
-                                    jsTreeIds[jsTreeIds.length] = $(this).attr('id');
-                                });
-
-                                jsTree.delete_node(jsTreeIds);
-                            });
-                        }
-                        else if(mode == 'search') {
                             $(validTarget).html(data.content);
 
                             $('#search_result_panel').find('div[id*="jstree_"]').each(function(){
 
                                 jsTreeId = $(this).attr('id'); 
 
-                                //Extract entityClass technical name
                                 n =  jsTreeId.search("_"); 
                                 entityClassesTechnicalName = jsTreeId.substring(n);
 
                                 initJsTree(jsTreeId, entityClassesTechnicalName);
 
-                                $('#'+jsTreeId).jstree(true).refresh();
-
                             });
                         }
-                        else if(mode == 'revert') {
-                            selectedNode = selectedJsTree.get_selected(true);  
-                            reSelectedNode = selectedJsTree.get_node(selectedNode[0].id);
-                            selectedJsTree.deselect_node(selectedNode);
-                            selectedJsTree.select_node(reSelectedNode);
+                        else{
+                            //Refresh first jsTree of open panel 
+                            openJsTreeDiv = $('#search_result_panel .in').find('div[id*="jstree_"]');
+                            openJsTreeId = openJsTreeDiv.attr('id');
+  
+                            if(openJsTreeId != undefined){
+                                openJsTree = $('#'+openJsTreeId).jstree(true);
+                                selectedNode = openJsTree.get_selected(true);
+                                openJsTree.refresh(true);
+                                openJsTree.select_node(selectedNode);
+                            }
+                           
+                            //Then refresh others panels 
+                            $('#search_result_panel').find('div[id*="jstree_"]').each(function(){
+                               
+                                jsTreeId = $(this).attr('id');
+
+                                if(openJsTreeId != jsTreeId){
+                                    jsTree = $('#'+jsTreeId).jstree(true);
+                                    jsTree.refresh(true,false);
+                                }
+                            });
+
                         }
 
-                        //Close the modal
                         $(modalId).modal('hide'); 
                     }
                     else {

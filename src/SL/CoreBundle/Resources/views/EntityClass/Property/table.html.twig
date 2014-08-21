@@ -1,8 +1,8 @@
 {% if entityClass.properties|length == 0 %}
     <div class="text-center">
-        <i>{{ 'property.create.description'|trans }}</i>
+        <i>{{ 'property.create.message'|trans }}</i>
         <br/>
-        <a title="{{ 'property.add'|trans }}" class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('property_new', { 'entity_class_id': entityClass.id }) }}" data-target="#">
+        <a title="{{ 'property.add.title'|trans }}" class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('property_new', { 'entity_class_id': entityClass.id }) }}" data-target="#">
             <span class="fa fa-plus"></span>  
         </a>   
     </div>
@@ -11,29 +11,29 @@
         <thead>
             <tr>
                 <th style="width:60px;">
-                    <a title="{{ 'property.add'|trans }}" class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('property_new', { 'entity_class_id': entityClass.id }) }}" data-target="#">
+                    <a title="{{ 'property.add.title'|trans }}" class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('property_new', { 'entity_class_id': entityClass.id }) }}" data-target="#">
                         <span class="fa fa-plus"></span>  
                     </a>
                 </th>
-                <th style="width:60px;">{{ 'isRequired'|trans }}</th>
-                <th>{{ 'displayName'|trans }}</th>
-                <th>{{ 'fieldType'|trans }}</th>
-                <th>{{ 'relation'|trans }}</th>
+                <th style="width:60px;">{{ 'is_required.label'|trans }}</th>
+                <th>{{ 'display_name.label'|trans }}</th>
+                <th>{{ 'field_type.label'|trans }}</th>
+                <th>{{ 'relation.label'|trans }}</th>
             </tr>
         </thead>
         <tbody>
             {% for property in entityClass.properties %}
                 <tr>
                     <td>
-                        <a title="{{ 'property.delete'|trans }}" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#" href="{{ path('property_remove', { 'id': property.id }) }}" >
+                        <a title="{{ 'property.delete.title'|trans }}" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#" href="{{ path('property_remove', { 'id': property.id }) }}" >
                             <span class="fa fa-times"></span>        
                         </a> 
                     </td>
                     <td>
-                        <input title="{{ 'property.make.require'|trans }}" type="checkbox" name="isRequired" value="isRequired" {% if property.isRequired %}checked{% endif %} ajax-action={{ path('property_update_checkbox', { 'id': property.id }) }}>
+                        <input title="{{ 'property.update.required.title'|trans }}" type="checkbox" name="isRequired" value="isRequired" {% if property.isRequired %}checked{% endif %} ajax-action={{ path('property_update_checkbox', { 'id': property.id }) }}>
                     </td>
                     <td>
-                        <a title="{{ 'property.update'|trans }}" data-toggle="modal" data-target="#" href="{{ path('property_edit', { 'id': property.id }) }}">
+                        <a title="{{ 'property.update.title'|trans }}" data-toggle="modal" data-target="#" href="{{ path('property_edit', { 'id': property.id }) }}">
                             {{ property.displayName }}
                         </a>
                     </td>
@@ -41,26 +41,21 @@
                         {{ property.fieldType.displayName }}
                     </td>
                     <td>
-                        {% if property.fieldType.formType == 'entity' %}
-                            {% if property.isMultiple %}
-                                {% set relation_type='many' %}
-                            {% else %}
-                                {% set relation_type='one' %}
-                            {% endif %}
+                        {% if property.isMultiple %}
+                            {% set relation_type='many.label' %}
+                        {% else %}
+                            {% set relation_type='one.label' %}
+                        {% endif %}
 
-                            <b><i>{{ 'property.relation.description'|trans({
+
+                        {% if property.fieldType.formType == 'entity' %}
+                            <b><i>{{ 'property.relation.message'|trans({
                             '%current_entity_class%': property.entityClass.displayName,
                             '%relation_type%' : relation_type|trans,
                             '%linked_entity_class%': property.targetEntityClass.displayName
                             })}}</i></b>
                         {% elseif property.fieldType.formType == 'choice'%}
-                            {% if property.isMultiple %}
-                                {% set relation_type='many' %}
-                            {% else %}
-                                {% set relation_type='one' %}
-                            {% endif %}
-
-                            <b><i>{{ 'choice_list.relation.description'|trans({
+                            <b><i>{{ 'choice_list.relation.message'|trans({
                             '%current_entity_class%': property.entityClass.displayName,
                             '%relation_type%' : relation_type|trans,
                             '%linked_list%': property.choicelist.displayName

@@ -61,7 +61,7 @@ class EntityService
                 'no-valid-target' => 'ajax-modal',
                 'mode' => 'add',  
                 ),
-            'submit_label' => 'create',
+            'submit_label' => 'create.label',
             'submit_color' => 'primary',
             'entity_class_id' => $entity->getEntityClassId(),
             )
@@ -93,7 +93,7 @@ class EntityService
                 'valid-target' => '',  
                 'no-valid-target' => 'ajax-modal',
                 ),
-            'submit_label' => 'update',
+            'submit_label' => 'update.label',
             'submit_color' => 'primary',
             'entity_class_id' => $entity->getEntityClassId(),
             )
@@ -124,7 +124,7 @@ class EntityService
                 'valid-target' => '',  
                 'no-valid-target' => 'ajax-modal',
                 ),
-            'submit_label' => 'delete',
+            'submit_label' => 'delete.label',
             'submit_color' => 'danger',
             'entity_class_id' => $entity->getEntityClassId(),
             )

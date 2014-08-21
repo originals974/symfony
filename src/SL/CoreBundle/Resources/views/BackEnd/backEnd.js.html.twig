@@ -1,11 +1,19 @@
 <script type="text/javascript">    
 	$(document).ready(function () {
-        //JsTree on change event
+       
 		$('#jstree')
+		.jstree({
+			"core" : {
+			    "check_callback" : true,
+			    "multiple" : false,
+		    },
+			"state" : { 
+				"key" : "treeBackEndMenu" ,
+			},
+    		"plugins" : [ "state", "wholerow" ],
+		})
 		.on('changed.jstree', function (e, data) {
 			$htmlTarget = '#backEndSection'; 
-			$($htmlTarget).html(null);
-
 			var i, j;
 
 		    for(i = 0, j = data.selected.length; i < j; i++) {
@@ -16,23 +24,6 @@
 		    	$target = '#backEndSection'; 
 		    	sendToAjaxBackEnd('GET', $url, null, $htmlTarget);		    			    	
 		    }
-		})
-		//JsTree configuration init
-		.jstree({
-			"core" : {
-			    "check_callback" : true,
-			    "multiple" : false,
-		    },
-		    "dnd" : { 
-		    	"is_draggable" : function (data) { 
-		    		return false; 
-		    	},
-				"copy" : false ,
-			},
-			"state" : { 
-				"key" : "treeBackEndMenu" ,
-			},
-    		"plugins" : [ "state", "dnd", "wholerow" ],
 		});
 
 		//When submit a form
@@ -41,7 +32,6 @@
             submitFormToAjaxBackEnd($(this));
             return false;
         });
-
 
 		/**
 	     * Process submitted form by using ajax

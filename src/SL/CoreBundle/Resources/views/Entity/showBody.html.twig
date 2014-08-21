@@ -2,7 +2,7 @@
 	<div class="panel panel-default">
 		<div class="panel-body">
 	
-			<h4>{{ entityClass.displayName }} {{ entityClass.deletedAt is not null ? 'deleted'|trans }}</h4>
+			<h4>{{ entityClass.displayName }} {{ entityClass.deletedAt is not null ? 'deleted.title'|trans }}</h4>
 
 			<dl class="dl-horizontal">
 				{% for property in entityClass.properties %}
@@ -57,7 +57,7 @@
 						        {{ attribute(entity, property.technicalName) }}
 						        
 						    {% endif %}
-						    {{ property.deletedAt is not null ? 'deleted'|trans }}
+						    {{ property.deletedAt is not null ? 'deleted.title'|trans }}
 					    </dd>
 
 					{% endif %}

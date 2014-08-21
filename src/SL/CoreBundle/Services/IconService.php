@@ -20,7 +20,8 @@ class IconService
      */
     public function getRootServerIcon($option=null)
     {
-        $iconName = 'fa fa-database '.$option;
+        $option = ($option)?' '.$option:''; 
+        $iconName = 'fa fa-database'.$option;
 
         return $iconName; 
     }
@@ -48,7 +49,8 @@ class IconService
      */
     public function getRootEntityClassIcon($option=null)
     {
-        $iconName = 'fa fa-archive '.$option;
+        $option = ($option)?' '.$option:'';
+        $iconName = 'fa fa-archive'.$option;
 
         return $iconName; 
     }
@@ -62,7 +64,8 @@ class IconService
      */
     public function getRootChoiceListIcon($option=null)
     {
-        $iconName = 'fa fa-list '.$option; 
+        $option = ($option)?' '.$option:'';
+        $iconName = 'fa fa-list'.$option; 
 
         return $iconName;
     }
@@ -76,6 +79,7 @@ class IconService
      */
     public function getChoiceListIcon($option=null)
     { 
+        $option = ($option)?' '.$option:'';
         $iconName = 'fa fa-list'.$option;
 
         return $iconName; 

@@ -17,7 +17,7 @@ class PropertyEntityType extends PropertyType
 
         $builder
             ->add('displayName' , 'text',  array(
-                'label' =>  'displayName',
+                'label' =>  'display_name.label',
                 'attr' => array(
                     'max_length' => '255',
                     )
@@ -30,14 +30,14 @@ class PropertyEntityType extends PropertyType
                 'query_builder' => function(EntityRepository $er) use($entityClassId) {
                                       return $er->findOtherEntityClass($entityClassId);
                                     },
-                'label' =>  'entity_class',
+                'label' =>  'entity_class.label',
                 'attr' => array(
                         'class'       => 'col-lg-4'
                     ) 
                 )
             )
             ->add('isMultiple' , 'checkbox', array(
-                'label' =>  'isMultiple',
+                'label' =>  'is_multiple.label',
                 'required' => false,
                 )
             )

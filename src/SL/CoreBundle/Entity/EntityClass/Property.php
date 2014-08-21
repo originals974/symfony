@@ -59,7 +59,7 @@ class Property extends AbstractEntity
     public function __construct(FieldType  $fieldType = null)
     {
         if($fieldType != null){
-            $this->fieldType($fieldType);
+            $this->setFieldType($fieldType);
         }
     }
 

@@ -7,7 +7,7 @@
 
     {% block section_heading %}
     	<div class="btn-group">              
-            <a title="{{ 'choice_list.add'|trans }}" class="btn btn-default btn-xs" data-toggle="modal" data-target="#" href="{{ path('choice_list_new') }}">
+            <a title="{{ 'choice_list.add.title'|trans }}" class="btn btn-default btn-xs" data-toggle="modal" data-target="#" href="{{ path('choice_list_new') }}">
                 <span class="fa fa-plus"></span>  
             </a>       
         </div>
@@ -15,7 +15,7 @@
     {% endblock %}
 
     {% block section_body %}
-       {{ 'choice_list.index.description' | trans }}
+       {{ 'choice_list.index.message' | trans }}
     {% endblock %}
 
 {% endembed %}

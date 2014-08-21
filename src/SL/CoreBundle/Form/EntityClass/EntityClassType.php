@@ -18,7 +18,7 @@ class EntityClassType extends AbstractType
 
             $builder
                 ->add('displayName' , 'text',  array(
-                    'label' =>  'displayName',
+                    'label' =>  'display_name.label',
                     'attr' => array(
                         'max_length' => '255',
                         )

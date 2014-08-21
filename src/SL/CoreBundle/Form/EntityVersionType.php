@@ -25,14 +25,14 @@ class EntityVersionType extends AbstractType
                 'query_builder' => function(EntityRepository $er) use ($entity, $limit){
                                       return $er->findAllVersion($entity, $limit);
                                     },
-                'label' =>  'form.update.version',
+                'label' =>  'entity.version.update.label',
                 'attr' => array(
                         'class'       => 'col-lg-4'
                     ) 
                 )
             )
             ->add('submit', 'submit', array(
-                'label' => 'validate',
+                'label' => 'validate.label',
                 'attr' => array(
                     'enabled' =>false,
                     'class'=>'btn btn-primary btn-sm'

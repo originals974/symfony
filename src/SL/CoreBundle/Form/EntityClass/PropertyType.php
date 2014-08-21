@@ -19,7 +19,7 @@ class PropertyType extends AbstractType
             
             $builder
                 ->add('displayName' , 'text',  array(
-                    'label' =>  'displayName',
+                    'label' =>  'display_name.label',
                     'attr' => array(
                         'max_length' => '255',
                         )
@@ -33,7 +33,7 @@ class PropertyType extends AbstractType
                                                       ->join('ft.fieldCategory', 'fg');
                                         },
                     'group_by' => 'fieldCategory.displayName',
-                    'label' =>  'fieldType',
+                    'label' =>  'field_type.label',
                     'attr' => array(
                         'class'       => 'col-lg-4'
                         ) 

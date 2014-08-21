@@ -128,7 +128,7 @@ class ElasticaService
      *
      * @return void
      */
-    public function entitiesToJSTreeData(array &$data, array $entities) {
+    public function entitiesToJSTreeData(array &$data, $entities) {
 
         foreach($entities as $entity){
             $this->entityToJSTreeData($data, $entity);

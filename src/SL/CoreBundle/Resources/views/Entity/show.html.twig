@@ -19,13 +19,13 @@
 				<h3>{{ entity.displayName }}</h3>
 			</li>
 			<li class="btn-group pull-right">
-				<a class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('entity_edit', { 'entity_class_id' : entityClass.id, 'entity_id': entity.id, 'class_namespace' : entity.class }) }}" data-target="#">
+				<a title="{{ 'entity.update.title'|trans }}" class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('entity_edit', { 'entity_class_id' : entityClass.id, 'entity_id': entity.id, 'class_namespace' : entity.class }) }}" data-target="#">
 		        <span class="fa fa-pencil"></span>  
 			    </a>
-			    <a class="btn btn-danger btn-xs" data-toggle="modal" href="{{ path('entity_remove', { 'entity_class_id' : entityClass.id, 'entity_id': entity.id, 'class_namespace' : entity.class }) }}" data-target="#">
+			    <a title="{{ 'entity.delete.title'|trans }}" class="btn btn-danger btn-xs" data-toggle="modal" href="{{ path('entity_remove', { 'entity_class_id' : entityClass.id, 'entity_id': entity.id, 'class_namespace' : entity.class }) }}" data-target="#">
 			        <span class="fa fa-times"></span>  
 			    </a>
-			    <a class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('entity_edit_version', { 'entity_class_id' : entityClass.id, 'entity_id': entity.id, 'class_namespace' : entity.class }) }}" data-target="#">
+			    <a title="{{ 'entity.version_history.title'|trans }}" class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('entity_edit_version', { 'entity_class_id' : entityClass.id, 'entity_id': entity.id, 'class_namespace' : entity.class }) }}" data-target="#">
 			        <span class="fa fa-undo"></span>  
 			    </a>
 			</li>
@@ -35,7 +35,7 @@
 				<i><small>ID {{ entity.guid }}</small></i>
 			</li>
 			<li class="pull-right">
-				<i><small>{{ 'created_at'|trans }} {{ entity.createdAt|date("d/m/Y - H:i:s") }}</small></i>
+				<i><small>{{ 'created_at.label'|trans }} {{ entity.createdAt|date("d/m/Y - H:i:s") }}</small></i>
 			</li>
 		</ul>
 		<ul class="list-inline">
@@ -43,7 +43,7 @@
 				<i><small>Version {{ currentVersion }}</small></i>
 			</li>
 			<li class="pull-right">
-				<i><small>{{ 'updated_at'|trans }} {{ entity.updatedAt|date("d/m/Y - H:i:s") }}</small></i>
+				<i><small>{{ 'updated_at.label'|trans }} {{ entity.updatedAt|date("d/m/Y - H:i:s") }}</small></i>
 			</li>
 		</ul>
     {% endblock %}

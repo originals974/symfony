@@ -676,12 +676,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineFixturesBundle.git",
-                "reference": "ccd69d9ec90013955a412a21125672afc09738dc"
+                "reference": "3ffa2184c94d94477d5bb625b94597ed0d44ebe0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineFixturesBundle/zipball/ccd69d9ec90013955a412a21125672afc09738dc",
-                "reference": "ccd69d9ec90013955a412a21125672afc09738dc",
+                "url": "https://api.github.com/repos/doctrine/DoctrineFixturesBundle/zipball/3ffa2184c94d94477d5bb625b94597ed0d44ebe0",
+                "reference": "3ffa2184c94d94477d5bb625b94597ed0d44ebe0",
                 "shasum": ""
             },
             "require": {
@@ -707,18 +707,16 @@
             ],
             "authors": [
                 {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com",
-                    "homepage": "http://fabien.potencier.org",
-                    "role": "Lead Developer"
-                },
-                {
                     "name": "Symfony Community",
                     "homepage": "http://symfony.com/contributors"
                 },
                 {
                     "name": "Doctrine Project",
                     "homepage": "http://www.doctrine-project.org"
+                },
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
                 }
             ],
             "description": "Symfony DoctrineFixturesBundle",
@@ -727,7 +725,7 @@
                 "Fixture",
                 "persistence"
             ],
-            "time": "2014-03-05 01:11:31"
+            "time": "2014-08-20 20:34:54"
         },
         {
             "name": "doctrine/inflector",
@@ -2097,12 +2095,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/KnpLabs/KnpPaginatorBundle.git",
-                "reference": "d35547a771a03923d19d55ea335cd2801ad72dc2"
+                "reference": "3a87e3265e9201c8397caa39e563a29eb2ad3b43"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/KnpPaginatorBundle/zipball/d35547a771a03923d19d55ea335cd2801ad72dc2",
-                "reference": "d35547a771a03923d19d55ea335cd2801ad72dc2",
+                "url": "https://api.github.com/repos/KnpLabs/KnpPaginatorBundle/zipball/3a87e3265e9201c8397caa39e563a29eb2ad3b43",
+                "reference": "3a87e3265e9201c8397caa39e563a29eb2ad3b43",
                 "shasum": ""
             },
             "require": {
@@ -2147,7 +2145,7 @@
                 "pagination",
                 "paginator"
             ],
-            "time": "2014-07-18 12:20:39"
+            "time": "2014-08-19 13:38:58"
         },
         {
             "name": "kriswallsmith/assetic",
@@ -3389,12 +3387,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twbs/bootstrap.git",
-                "reference": "31f7cb152efbc22ea61801915d81ba2b13435f97"
+                "reference": "c95aa97c03fc676f7b53d002c7c8a3bb59fd6747"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/31f7cb152efbc22ea61801915d81ba2b13435f97",
-                "reference": "31f7cb152efbc22ea61801915d81ba2b13435f97",
+                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/c95aa97c03fc676f7b53d002c7c8a3bb59fd6747",
+                "reference": "c95aa97c03fc676f7b53d002c7c8a3bb59fd6747",
                 "shasum": ""
             },
             "replace": {
@@ -3432,7 +3430,7 @@
                 "responsive",
                 "web"
             ],
-            "time": "2014-08-15 18:52:50"
+            "time": "2014-08-19 03:06:02"
         },
         {
             "name": "twig/extensions",

@@ -1,7 +1,7 @@
 {% extends "SLCoreBundle::modalContent.html.twig" %}
 
 {% block modal_title %}
-	{{ 'entity.version'|trans }}
+	{{ 'entity.version.title'|trans }}
 {% endblock %}
 
 {% block modal_body %}
@@ -28,7 +28,7 @@
 			    <div class="panel-heading">
 				    <h4 class="panel-title">
 				        <a data-toggle="collapse" data-parent="#collapse-version" href="#collapse{{ version }}">
-				          	{{ 'version'|trans }} {{ version }} - <small>{{ loggedAt }}</small>
+				          	{{ 'version.label'|trans }} {{ version }} - <small>{{ loggedAt }}</small>
 				        </a>
 				    </h4>
 			    </div>

@@ -1,15 +1,19 @@
 {% extends "SLCoreBundle::modalContent.html.twig" %}
 
+{% set formFullName = form.vars.full_name|replace({"sl_core_": ""}) %}
+{% set formMethod = form.vars.method|lower %}
+
+{% set formFullNameLabel = formFullName ~ '.label' %}
+{% set formMethodLabel = formMethod ~ '.label' %}
+
 {% block modal_title %}
-	<h2>{{ form.vars.full_name|trans }} | <small>{{ form.vars.method|lower|trans}}</small></h2>
-	{#{% set title = form.vars.full_name ~ '.' ~ form.vars.method|lower ~ '.title' %}
-	{{ title|lower|trans}}#}
+	<h2>{{ formFullNameLabel |trans }} | <small>{{ formMethodLabel |trans }}</small></h2>
 {% endblock %}
 
 {% block modal_body %}
 
 	{% if form.vars.method|lower == 'delete' %}
-		{% set delete_message = form.vars.full_name ~ '.' ~ form.vars.method|lower ~ '.message' %}
+		{% set delete_message = formFullName ~ '.' ~ formMethod ~ '.message' %}
 
 		<div class="text-center">
 			{{ delete_message|trans({'%displayName%': entity.displayName})}}

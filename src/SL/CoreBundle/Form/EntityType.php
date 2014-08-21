@@ -45,7 +45,7 @@ class EntityType extends AbstractType
             foreach($entityClasses as $entityClass){
 
                 //Create one tab per entityClass
-                $suffix = ($entityClass->getDeletedAt() !== null)?$this->translator->trans('deleted'):'';
+                $suffix = ($entityClass->getDeletedAt() !== null)?$this->translator->trans('deleted.title'):'';
                 $tabLabel = $entityClass->getDisplayName().' '.$suffix;
 
                 $tab = $builder->create($entityClass->getTechnicalName().'Property', 'tab', array(

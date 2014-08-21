@@ -81,7 +81,7 @@ class PropertyService
                 'mode' => 'add',  
                 
                 ),
-            'submit_label' => 'create',
+            'submit_label' => 'create.label',
             'submit_color' => 'primary',
             'entity_class_id' => $property->getEntityClass()->getId(),
             )
@@ -149,7 +149,7 @@ class PropertyService
                 'mode' => 'delete',  
                 
                 ),
-            'submit_label' => 'delete',
+            'submit_label' => 'delete.label',
             'submit_color' => 'danger',
             'entity_class_id' => $property->getEntityClass()->getId(),
             )
@@ -246,7 +246,7 @@ class PropertyService
         if(strpos(strtolower($calculatedNamePattern), strtolower($property->getTechnicalName())) !== false) {
 
             $title = $this->translator->trans('delete.error.title');
-            $message = $this->translator->trans('delete.property.calculatedName.error.message');
+            $message = $this->translator->trans('property.delete.calculated_name.error.message');
 
             $integrityError = array(
                 'title' => $title,

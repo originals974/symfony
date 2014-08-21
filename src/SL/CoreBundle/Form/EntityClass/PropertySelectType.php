@@ -19,9 +19,9 @@ class PropertySelectType extends AbstractType
                 'label_render' => false,
                 'expanded'     => true,
                 'choices'      => array(
-                    'default' => 'property', 
-                    'entity' => 'entity_property',
-                    'choice' => 'choice_property',
+                    'default' => 'property.label', 
+                    'entity' => 'entity_property.label',
+                    'choice' => 'choice_property.label',
                     ),
                 'widget_type'  => 'inline',
             )

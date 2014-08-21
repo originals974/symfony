@@ -1,10 +1,14 @@
 {% from 'MopaBootstrapBundle::macros.html.twig' import label %}
 {% extends "SLCoreBundle::modalContent.html.twig" %}
 
-{% set delete_message = form.vars.full_name ~ '.' ~ form.vars.method|lower ~ '.message' %}
+{% set formFullName = form.vars.full_name|replace({"sl_core_": ""}) %}
+{% set formMethod = form.vars.method|lower %}
+{% set formMethodLabel = formMethod ~ '.label' %}
+
+{% set delete_message = formFullName ~ '.' ~ formMethod ~ '.message' %}
 
 {% block modal_title %}
-	<h2>{{ entityClass.displayName }} | <small>{{ form.vars.method|lower|trans}}</small></h2>
+	<h2>{{ entityClass.displayName }} | <small>{{ formMethodLabel|trans }}</small></h2>
 {% endblock %}
 
 {% block modal_body %}

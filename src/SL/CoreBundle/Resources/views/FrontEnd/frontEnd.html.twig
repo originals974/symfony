@@ -18,14 +18,14 @@
 
 {% block nav %}
 	{{ parent() }}
-	<div class="panel-full-screen panel panel panel-default">
+	<div class="panel panel panel-default">
   		<div class="panel-body">
 		    <div class="panel-group" id="accordion">
 			  	<div class="panel panel-default">
 			    	<div class="panel-heading">
 			      		<h4 class="panel-title">
 			        		<a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-			          			{{ 'menu.entity_class.new'|trans }}
+			          			{{ 'entity_class.menu.title'|trans }}
 			        		</a>
 			      		</h4>
 			    	</div>
@@ -42,7 +42,7 @@
 
 {% block footer %}
 	{{ parent() }}
-	{{ 'frontEnd'|trans }}
+	{{ 'front_end.footer.title'|trans }}
 {% endblock %}
 
 {% block javascripts %}

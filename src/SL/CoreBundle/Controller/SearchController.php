@@ -58,14 +58,14 @@ class SearchController extends Controller
             $filters->disable('softdeleteable');
             
             $entityClasses = $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')->fullFindAll();
-            
+                       
             $filters->enable('softdeleteable');
             
             //Get number of results for each entityClass
-            $entityClassesArray = array(); 
+            /*$entityClassesArray = array(); 
             foreach($entityClasses as $entityClass){
 
-                $entities = $this->getSearchResults($searchPattern, $entityClass->getTechnicalName(), 100);
+                $entities = $this->getSearchResults($searchPattern, $entityClass->getTechnicalName());
 
                 //Include entityClass only if it has results
                 if(!empty($entities)){
@@ -75,9 +75,10 @@ class SearchController extends Controller
                         );
                     $entityClassesArray[] = $entityClassArray;
                 }
-            }
+            }*/
+
             $html = $this->renderView('SLCoreBundle:Entity:searchResults.html.twig', array(
-                    'entityClassesArray' => $entityClassesArray,
+                    'entityClasses' => $entityClasses,
                     )
                 );
 

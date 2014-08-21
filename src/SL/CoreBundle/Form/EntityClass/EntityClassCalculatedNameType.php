@@ -16,7 +16,7 @@ class EntityClassCalculatedNameType extends AbstractType
     {
         $builder
             ->add('calculatedName' , 'textarea',  array(
-                'label' => 'calculatedName',
+                'label' => 'calculated_name.label',
                 'attr' => array(  
                     'max_length' => '255',
                     )
@@ -30,7 +30,7 @@ class EntityClassCalculatedNameType extends AbstractType
                 )
             )
             ->add('submit', 'submit', array(
-                'label' => 'update',
+                'label' => 'update.label',
                 'attr' => array('class'=>'btn btn-primary btn-sm'),
                 )
             )

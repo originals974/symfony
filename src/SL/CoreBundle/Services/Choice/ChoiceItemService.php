@@ -49,7 +49,7 @@ class ChoiceItemService
                 'no-valid-target' => 'ajax-modal',
                 'mode' => 'add',  
                 ),
-            'submit_label' => 'create',
+            'submit_label' => 'create.label',
             'submit_color' => 'primary',
             )
         );
@@ -78,7 +78,7 @@ class ChoiceItemService
                 'no-valid-target' => 'ajax-modal',
                 'mode' => 'update', 
                 ),
-            'submit_label' => 'update',
+            'submit_label' => 'update.label',
             'submit_color' => 'primary',
             )
         );
@@ -107,7 +107,7 @@ class ChoiceItemService
                 'no-valid-target' => 'ajax-modal',
                 'mode' => 'delete',  
                 ),
-            'submit_label' => 'delete',
+            'submit_label' => 'delete.label',
             'submit_color' => 'danger',
             )
         );

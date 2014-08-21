@@ -54,7 +54,7 @@ class ChoiceListService
                 'no-valid-target' => 'ajax-modal',
                 'mode' => 'add',  
                 ),
-            'submit_label' => 'create',
+            'submit_label' => 'create.label',
             'submit_color' => 'primary',
             )
         );
@@ -82,7 +82,7 @@ class ChoiceListService
                 'no-valid-target' => 'ajax-modal',
                 'mode' => 'update', 
                 ),
-            'submit_label' => 'update',
+            'submit_label' => 'update.label',
             'submit_color' => 'primary',
             )
         );
@@ -110,7 +110,7 @@ class ChoiceListService
                 'mode' => 'delete',  
                 ),
             'method' => 'DELETE',
-            'submit_label' => 'delete',
+            'submit_label' => 'delete.label',
             'submit_color' => 'danger',
             )
         );
@@ -134,7 +134,7 @@ class ChoiceListService
 
         if($property != null){
             $title = $this->translator->trans('delete.error.title');
-            $message = $this->translator->trans('delete.choice_list.reference.error.message');
+            $message = $this->translator->trans('choice_list.delete.reference.error.message');
 
             $integrityError = array(
                 'title' => $title,
