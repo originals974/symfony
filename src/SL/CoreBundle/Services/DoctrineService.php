@@ -57,7 +57,7 @@ class DoctrineService
      */
     public function generateEntityFileAndObjectSchema(EntityClass $entityClass){
         $this->generateEntityFile($entityClass);
-        $this->doctrineSchemaUpdateForce();
+        $this->doctrineSchemaUpdateForce($entityClass);
     }
 
     /**
@@ -69,7 +69,7 @@ class DoctrineService
     */
     public function removeEntityFile(EntityClass $entityClass)
     {
-        $entityPath = $this->getDataEntityPath($entityClass->getTechnicalName());
+        $entityPath = $this->getEntityFilePath($entityClass->getTechnicalName());
         $this->filesystem->remove(array($entityPath));
     }
 
@@ -86,63 +86,16 @@ class DoctrineService
         $schemaTool = new SchemaTool($this->databaseEm);
 
         if($entityClass != null) {
-            $metadata = $this->databaseEm->getMetadataFactory()->getMetadataFor();
+            $metadata = $this->databaseEm->getMetadataFactory()->getMetadataFor($this->getDataEntityNamespace($entityClass->getTechnicalName()));
             $metadatas[] = $metadata; 
+            $schemaTool->UpdateSchema($metadatas, true);
         }
         else {
             $metadatas = $this->databaseEm->getMetadataFactory()->getAllMetadata();
+            $schemaTool->UpdateSchema($metadatas, false);
         }
 
-        $schemaTool->UpdateSchema($metadatas);  
-    }
-
-    /**
-     * Generate $mapping for $entityClass
-     *
-     * @param EntityClass $entityClass
-     *
-     * @return array $mapping
-     */
-    public function generateMapping(EntityClass $entityClass) 
-    {
-        $mapping = array(); 
-
-        foreach ($entityClass->getProperties() as $property) {  
-
-            switch ($property->getFieldType()->getFormType()) {
-                case 'entity':
-
-                    $fieldMapping = array(
-                        'fieldName' => $property->getTechnicalName(), 
-                        'targetEntity' => $this->getDataEntityNamespace($property->getTargetEntityClass()->getTechnicalName()),
-                        'versioned' => true,
-                        );
-
-                    if($property->isMultiple()){
-                        $fieldMapping['mappingType'] = 'manyToMany';
-                    }
-                    else{
-                        $fieldMapping['mappingType'] = 'manyToOne';
-                    }
-
-                    break;
-                default:
-
-                    $fieldMapping = array(
-                        'mappingType' => null,
-                        'fieldName' => $property->getTechnicalName(), 
-                        'type' => ($property->isMultiple())?'array':$property->getFieldType()->getDataType(),
-                        'length' => $property->getFieldType()->getLength(),
-                        'nullable' => !$property->isRequired(),
-                        'versioned' => true,
-                        ); 
-
-                    break;
-            }
-            $mapping[] = $fieldMapping;
-        }
-
-        return $mapping;    
+        
     }
 
     /**
@@ -155,7 +108,7 @@ class DoctrineService
      */
     public function generateEntityFile(EntityClass $entityClass)
     {
-        $entityPath = $this->getDataEntityPath($entityClass->getTechnicalName());
+        $entityPath = $this->getEntityFilePath($entityClass->getTechnicalName());
 
         //Create entity code
         $entityGenerator = $this->initEntityGenerator($entityClass);
@@ -211,9 +164,9 @@ class DoctrineService
         $mapping = $this->generateMapping($entityClass);
 
         $class = new ClassMetadataInfo($entityNamespace);
-        $class->customRepositoryClassName = 'SL\DataBundle\Entity\Repository\SharedEntityRepository';
 
         if($entityClass->getParent() === null){
+            $class->customRepositoryClassName = 'SL\DataBundle\Entity\Repository\SharedEntityRepository';
             $class->setInheritanceType(ClassMetadataInfo::INHERITANCE_TYPE_JOINED);
             $class->setDiscriminatorColumn(array(
                 'name' => 'discr',
@@ -241,6 +194,56 @@ class DoctrineService
     }
 
     /**
+     * Generate $mapping for $entityClass
+     *
+     * @param EntityClass $entityClass
+     *
+     * @return array $mapping
+     */
+    private function generateMapping(EntityClass $entityClass) 
+    {
+        $mapping = array(); 
+
+        foreach ($entityClass->getProperties() as $property) {  
+
+            switch ($property->getFieldType()->getFormType()) {
+                case 'entity':
+
+                    $fieldMapping = array(
+                        'fieldName' => $property->getTechnicalName(), 
+                        'targetEntity' => $this->getDataEntityNamespace($property->getTargetEntityClass()->getTechnicalName()),
+                        'versioned' => true,
+                        );
+
+                    if($property->isMultiple()){
+                        $fieldMapping['mappingType'] = 'manyToMany';
+                    }
+                    else{
+                        $fieldMapping['mappingType'] = 'manyToOne';
+                    }
+
+                    break;
+                default:
+
+                    $fieldMapping = array(
+                        'mappingType' => null,
+                        'fieldName' => $property->getTechnicalName(), 
+                        'type' => ($property->isMultiple())?'array':$property->getFieldType()->getDataType(),
+                        'length' => $property->getFieldType()->getLength(),
+                        'nullable' => !$property->isRequired(),
+                        'versioned' => true,
+                        ); 
+
+                    break;
+            }
+            $mapping[] = $fieldMapping;
+        }
+
+        return $mapping;    
+    }
+
+
+    /**
      * Get namespace of $entityName
      *
      * @param string $entityName
@@ -254,13 +257,13 @@ class DoctrineService
     }
 
     /**
-     * Get path of $entityName
+     * Get path of $entityName entity file
      *
      * @param string $entityName
      *
      * @return string $entityPath
      */
-    private function getDataEntityPath($entityName)
+    private function getEntityFilePath($entityName)
     {
         $entityPath = $this->dataBundle->getPath().'/Entity/'.str_replace('\\', '/', $entityName).'.php';
         return $entityPath; 

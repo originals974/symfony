@@ -2,7 +2,7 @@ parameters:
     dictionary_driver: pdo_mysql
     dictionary_host: 127.0.0.1
     dictionary_port: null
-    dictionary_name: dictonary
+    dictionary_name: dictionary
     dictionary_user: root
     dictionary_password: root
     database_driver: pdo_mysql

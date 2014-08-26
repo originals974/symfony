@@ -2,12 +2,13 @@
 
 namespace SL\CoreBundle\DataFixtures\ORM;
 
-use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use SL\CoreBundle\Entity\Field\FieldCategory;
 use SL\CoreBundle\Entity\Field\FieldType;
 
-class LoadFieldTypeData implements FixtureInterface
+class LoadFieldTypeData extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
      * {@inheritDoc}
@@ -119,5 +120,13 @@ class LoadFieldTypeData implements FixtureInterface
         $manager->persist($dateTimeCategory);
         $manager->persist($jqueryDateType);
         $manager->flush();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getOrder()
+    {
+        return 1;
     }
 }

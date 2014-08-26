@@ -172,34 +172,23 @@ class EntityClassService
      *
      * @param EntityClass $entityClass
      *
-     * @return void
+     * @return string $calculatedName
      */
     public function initCalculatedName(EntityClass $entityClass){
 
         if($entityClass->getParent() != null){
-            $entityClass->setCalculatedName($entityClass->getParent()->getCalculatedName());
+            $calculatedName = $entityClass->getParent()->getCalculatedName(); 
+            $entityClass->setCalculatedName($calculatedName);
         }
         else{
             $defaultProperty = $entityClass->getProperties()->first(); 
-            $entityClass->setCalculatedName('%'.$defaultProperty->getTechnicalName().'%');
+            $calculatedName = '%'.$defaultProperty->getTechnicalName().'%'; 
+            $entityClass->setCalculatedName($calculatedName);
         }
         
         $this->em->flush(); 
-    }
 
-    /**
-     * Get $entityClass and all of its parents
-     *
-     * @param EntityClass $entityClass
-     *
-     * @return array $parents
-     */
-    public function getPath(EntityClass $entityClass){
-
-        $parents = array($entityClass); 
-        $this->getParent($entityClass, $parents);
-
-        return $this->orderedEntityClassesProperties($parents); 
+        return $calculatedName; 
     }
 
     /**
@@ -216,6 +205,45 @@ class EntityClassService
             array_unshift($parents, $entityClass->getParent()); 
             $this->getParent($entityClass->getParent(), $parents);
         }
+    }
+
+    /**
+     * Ordered properties for $entityClasses
+     *
+     * @param array $entityClasses Array of entity class
+     *
+     * @return array $orderedEntityClasss
+     */
+    private function orderedEntityClassesProperties(array $entityClasses){
+
+        $filters = $this->em->getFilters();
+        $filters->disable('softdeleteable');
+
+        $orderedEntityClasses = array(); 
+
+        foreach($entityClasses as $entityClass){
+            $entityClass = $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')->fullFindById($entityClass->getId());
+            $orderedEntityClasses[] = $entityClass;
+        }
+
+        $filters->enable('softdeleteable');
+
+        return $orderedEntityClasses; 
+    }
+
+    /**
+     * Get $entityClass and all of its parents
+     *
+     * @param EntityClass $entityClass
+     *
+     * @return array $parents
+     */
+    public function getPath(EntityClass $entityClass){
+
+        $parents = array($entityClass); 
+        $this->getParent($entityClass, $parents);
+
+        return $this->orderedEntityClassesProperties($parents); 
     }
 
     /**
@@ -240,30 +268,5 @@ class EntityClassService
         }
 
         return $path; 
-    }
-
-
-    /**
-     * Ordered properties for $entityClasses
-     *
-     * @param array $entityClasses Array of entity class
-     *
-     * @return array $orderedEntityClasss
-     */
-    private function orderedEntityClassesProperties(array $entityClasses){
-
-        $filters = $this->em->getFilters();
-        $filters->disable('softdeleteable');
-
-        $orderedEntityClasses = array(); 
-
-        foreach($entityClasses as $entityClass){
-            $entityClass = $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')->fullFindById($entityClass->getId());
-            $orderedEntityClasses[] = $entityClass;
-        }
-
-        $filters->enable('softdeleteable');
-
-        return $orderedEntityClasses; 
     }
 }

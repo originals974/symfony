@@ -93,7 +93,6 @@ class JSTreeServiceTest extends WebTestCase
     	$shortedText = $this->jsTreeService->shortenTextNode($textToShorten, 10);
         $this->assertEquals($textToShorten, $shortedText);
 
-
         /**
         * #2
         * $textToShorten = $maxLength

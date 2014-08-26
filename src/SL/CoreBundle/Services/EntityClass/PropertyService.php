@@ -165,7 +165,7 @@ class PropertyService
      *
      * @return string $formService
      */
-    public function selectFormService($formMode) 
+    private function selectFormService($formMode) 
     {
         switch($formMode) {
             case 'entity' : 
@@ -188,7 +188,7 @@ class PropertyService
      *
      * @return Mixed $property
      */
-    public function getPropertyEntityClassByFormMode($formMode) 
+    private function getPropertyEntityClassByFormMode($formMode) 
     {
         $fieldType = $this->em->getRepository('SLCoreBundle:Field\FieldType')->findOneByFormType($formMode);
         
@@ -213,7 +213,7 @@ class PropertyService
      *
      * @return String $formMode default|entity|choice
      */
-    public function getFormModeByProperty(Property $property) 
+    private function getFormModeByProperty(Property $property) 
     {
         $fieldTypeFormType = $property->getFieldType()->getFormType(); 
 
