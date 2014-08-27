@@ -1,6 +1,6 @@
 <?php
 
-namespace SL\CoreBundle\DataFixtures\ORM;
+namespace SL\CoreBundle\DataFixtures\ORM\Test;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;

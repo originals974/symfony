@@ -1,8 +1,8 @@
 <?php
 
-namespace SL\CoreBundle\Tests\Services;
+namespace SL\CoreBundle\Tests\Services\EntityClass;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Liip\FunctionalTestBundle\Test\WebTestCase;
 use SL\CoreBundle\Services\EntityClass\EntityClassService; 
 
 class EntityClassServiceTest extends WebTestCase
@@ -13,15 +13,20 @@ class EntityClassServiceTest extends WebTestCase
 
   public function setUp()
   {
-    $client = static::createClient();
-    $this->entityClassService = $client->getContainer()->get('sl_core.entity_class'); 
-    $this->em = $client->getContainer()->get('doctrine.orm.entity_manager'); 
-    $this->translator = $client->getContainer()->get('translator'); 
+    $this->entityClassService = $this->getContainer()->get('sl_core.entity_class'); 
+    $this->em = $this->getContainer()->get('doctrine.orm.entity_manager'); 
+    $this->translator = $this->getContainer()->get('translator'); 
+
+    $classes = array(
+        'SL\CoreBundle\DataFixtures\ORM\LoadFieldTypeData',
+        'SL\CoreBundle\DataFixtures\ORM\Test\LoadEntityClassServiceTestData',
+    );
+    $this->loadFixtures($classes);
   }
 
   protected function tearDown()
 	{
-	  unset($client, $this->entityClassService, $this->em, $this->translator);
+	  unset($this->entityClassService, $this->em, $this->translator);
 	}
 
   public function testCreateCreateForm()

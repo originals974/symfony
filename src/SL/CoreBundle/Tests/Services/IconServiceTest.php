@@ -2,11 +2,7 @@
 
 namespace SL\CoreBundle\Tests\Services;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-
-use SL\CoreBundle\Services\IconService;
-use SL\CoreBundle\Entity\EntityClass\EntityClass;
-use SL\CoreBundle\Entity\Choice\ChoiceItem;
+use Liip\FunctionalTestBundle\Test\WebTestCase;
 
 class IconServiceTest extends WebTestCase
 {
@@ -14,14 +10,13 @@ class IconServiceTest extends WebTestCase
 
     public function setUp()
     {
-        $client = static::createClient();
-        $this->iconService = $client->getContainer()->get('sl_core.icon'); 
+        $this->iconService = $this->getContainer()->get('sl_core.icon'); 
     }
 
 
     protected function tearDown()
     {
-        unset($client, $this->iconService);
+        unset($this->iconService);
     }
 
     public function testGetRootServerIcon()

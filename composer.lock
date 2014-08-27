@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "949d62fb5365c5b7d4153030805ac012",
+    "hash": "6c129d29cbbdde51475a4e8e21b4cf23",
     "packages": [
         {
             "name": "components/jquery",
@@ -2095,12 +2095,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/KnpLabs/KnpPaginatorBundle.git",
-                "reference": "3a87e3265e9201c8397caa39e563a29eb2ad3b43"
+                "reference": "27c2a202192a2d96fd25aaed3ec95120c1e30af5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/KnpPaginatorBundle/zipball/3a87e3265e9201c8397caa39e563a29eb2ad3b43",
-                "reference": "3a87e3265e9201c8397caa39e563a29eb2ad3b43",
+                "url": "https://api.github.com/repos/KnpLabs/KnpPaginatorBundle/zipball/27c2a202192a2d96fd25aaed3ec95120c1e30af5",
+                "reference": "27c2a202192a2d96fd25aaed3ec95120c1e30af5",
                 "shasum": ""
             },
             "require": {
@@ -2145,7 +2145,7 @@
                 "pagination",
                 "paginator"
             ],
-            "time": "2014-08-19 13:38:58"
+            "time": "2014-08-25 23:31:20"
         },
         {
             "name": "kriswallsmith/assetic",
@@ -2260,6 +2260,63 @@
             "time": "2014-04-27 02:56:30"
         },
         {
+            "name": "liip/functional-test-bundle",
+            "version": "dev-master",
+            "target-dir": "Liip/FunctionalTestBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/liip/LiipFunctionalTestBundle.git",
+                "reference": "2574c9d319067b122ec783e5be9408e306b62673"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/liip/LiipFunctionalTestBundle/zipball/2574c9d319067b122ec783e5be9408e306b62673",
+                "reference": "2574c9d319067b122ec783e5be9408e306b62673",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/common": "2.*",
+                "php": ">=5.3.2",
+                "symfony/browser-kit": "~2.0",
+                "symfony/framework-bundle": "~2.0"
+            },
+            "suggest": {
+                "doctrine/dbal": "Required when using the fixture loading functionality with an ORM and SQLite",
+                "doctrine/doctrine-fixtures-bundle": "Required when using the fixture loading functionality",
+                "doctrine/orm": "Required when using the fixture loading functionality with an ORM and SQLite"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Liip\\FunctionalTestBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Liip AG",
+                    "homepage": "http://www.liip.ch/"
+                },
+                {
+                    "name": "Community contributions",
+                    "homepage": "https://github.com/liip/LiipFunctionalTestBundle/contributors"
+                }
+            ],
+            "description": "This bundles provides additional functional test-cases for Symfony2 applications",
+            "keywords": [
+                "Symfony2"
+            ],
+            "time": "2014-08-13 18:37:00"
+        },
+        {
             "name": "monolog/monolog",
             "version": "1.10.0",
             "source": {
@@ -2334,12 +2391,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phiamo/MopaBootstrapBundle.git",
-                "reference": "61bf1357bfb36b44da99850e04849ead3d947b3e"
+                "reference": "9f8328cc479aeae55441adb0a2d3f7febfc6fc1d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phiamo/MopaBootstrapBundle/zipball/61bf1357bfb36b44da99850e04849ead3d947b3e",
-                "reference": "61bf1357bfb36b44da99850e04849ead3d947b3e",
+                "url": "https://api.github.com/repos/phiamo/MopaBootstrapBundle/zipball/9f8328cc479aeae55441adb0a2d3f7febfc6fc1d",
+                "reference": "9f8328cc479aeae55441adb0a2d3f7febfc6fc1d",
                 "shasum": ""
             },
             "require": {
@@ -2390,7 +2447,7 @@
                 "form",
                 "template"
             ],
-            "time": "2014-08-08 15:31:33"
+            "time": "2014-08-25 16:29:15"
         },
         {
             "name": "mopa/composer-bridge",
@@ -2724,17 +2781,17 @@
         },
         {
             "name": "sensio/distribution-bundle",
-            "version": "v3.0.4",
+            "version": "v3.0.5",
             "target-dir": "Sensio/Bundle/DistributionBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/SensioDistributionBundle.git",
-                "reference": "df82b1ee2b833be97677c0b95fca27e68fd4a344"
+                "reference": "ad10123f2532f6e311e583cce203ef368eedc469"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/df82b1ee2b833be97677c0b95fca27e68fd4a344",
-                "reference": "df82b1ee2b833be97677c0b95fca27e68fd4a344",
+                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/ad10123f2532f6e311e583cce203ef368eedc469",
+                "reference": "ad10123f2532f6e311e583cce203ef368eedc469",
                 "shasum": ""
             },
             "require": {
@@ -2773,7 +2830,7 @@
                 "configuration",
                 "distribution"
             ],
-            "time": "2014-08-06 09:24:35"
+            "time": "2014-08-26 13:14:47"
         },
         {
             "name": "sensio/framework-extra-bundle",
@@ -3387,12 +3444,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twbs/bootstrap.git",
-                "reference": "1517bea4e272935a31fdc0caaa9a924bb8346ca3"
+                "reference": "35f09315ed543a0479719afa2143240952c215db"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/1517bea4e272935a31fdc0caaa9a924bb8346ca3",
-                "reference": "1517bea4e272935a31fdc0caaa9a924bb8346ca3",
+                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/35f09315ed543a0479719afa2143240952c215db",
+                "reference": "35f09315ed543a0479719afa2143240952c215db",
                 "shasum": ""
             },
             "replace": {
@@ -3430,7 +3487,7 @@
                 "responsive",
                 "web"
             ],
-            "time": "2014-08-25 00:18:58"
+            "time": "2014-08-26 16:07:00"
         },
         {
             "name": "twig/extensions",
@@ -3543,12 +3600,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/vakata/jstree.git",
-                "reference": "6f6b9d1b2c9f485300a149132ecf75408ba7c101"
+                "reference": "17c29a18c916bb7441e404f82c7b1baceea26c87"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vakata/jstree/zipball/6f6b9d1b2c9f485300a149132ecf75408ba7c101",
-                "reference": "6f6b9d1b2c9f485300a149132ecf75408ba7c101",
+                "url": "https://api.github.com/repos/vakata/jstree/zipball/17c29a18c916bb7441e404f82c7b1baceea26c87",
+                "reference": "17c29a18c916bb7441e404f82c7b1baceea26c87",
                 "shasum": ""
             },
             "require": {
@@ -3590,7 +3647,7 @@
             ],
             "description": "jsTree is jquery plugin, that provides interactive trees.",
             "homepage": "http://jstree.com",
-            "time": "2014-08-14 11:50:40"
+            "time": "2014-08-25 12:15:28"
         },
         {
             "name": "willdurand/js-translation-bundle",
@@ -3762,7 +3819,8 @@
         "friendsofsymfony/jsrouting-bundle": 0,
         "willdurand/js-translation-bundle": 0,
         "doctrine/doctrine-fixtures-bundle": 20,
-        "vakata/jstree": 20
+        "vakata/jstree": 20,
+        "liip/functional-test-bundle": 20
     },
     "prefer-stable": false,
     "platform": {

@@ -1,8 +1,8 @@
 <?php
 
-namespace SL\CoreBundle\Tests\Services;
+namespace SL\CoreBundle\Tests\Services\EntityClass;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Liip\FunctionalTestBundle\Test\WebTestCase;
 
 class PropertyServiceTest extends WebTestCase
 {
@@ -12,15 +12,18 @@ class PropertyServiceTest extends WebTestCase
 
   public function setUp()
   {
-    $client = static::createClient();
-    $this->propertyService = $client->getContainer()->get('sl_core.property'); 
-    $this->em = $client->getContainer()->get('doctrine.orm.entity_manager'); 
-    $this->translator = $client->getContainer()->get('translator'); 
+    $this->propertyService = $this->getContainer()->get('sl_core.property'); 
+    $this->em = $this->getContainer()->get('doctrine.orm.entity_manager'); 
+    $this->translator = $this->getContainer()->get('translator'); 
+
+    $classes = array(
+        'SL\CoreBundle\DataFixtures\ORM\LoadFieldTypeData',
+    );
   }
 
   protected function tearDown()
 	{
-	  unset($client, $this->propertyService, $this->em, $this->translator);
+	  unset($this->propertyService, $this->em, $this->translator);
 	}
 
   public function testCreateCreateForm()

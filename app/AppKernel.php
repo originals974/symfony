@@ -41,6 +41,7 @@ class AppKernel extends Kernel
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
             //New bundles
             $bundles[] = new CoreSphere\ConsoleBundle\CoreSphereConsoleBundle();
+            $bundles[] = new Liip\FunctionalTestBundle\LiipFunctionalTestBundle();
         }
 
         return $bundles;

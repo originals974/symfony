@@ -2,7 +2,7 @@
 
 namespace SL\CoreBundle\Tests\Services;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Liip\FunctionalTestBundle\Test\WebTestCase;
 
 class JSTreeServiceTest extends WebTestCase
 {
@@ -10,13 +10,12 @@ class JSTreeServiceTest extends WebTestCase
 
 	public function setUp()
     {
-    	$client = static::createClient();
-    	$this->jsTreeService = $client->getContainer()->get('sl_core.js_tree'); 
+    	$this->jsTreeService = $this->getContainer()->get('sl_core.js_tree'); 
     }
 
     protected function tearDown()
 	{
-	    unset($client, $this->jsTreeService);
+	    unset($this->jsTreeService);
 	}
 
     public function testCreateNewEntityClassNode()
