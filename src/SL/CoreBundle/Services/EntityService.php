@@ -5,6 +5,7 @@ namespace SL\CoreBundle\Services;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Routing\Router;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\ORM\PersistentCollection;
 
 use SL\CoreBundle\Entity\EntityClass\EntityClass;
 use SL\CoreBundle\Entity\EntityClass\Property;
@@ -21,6 +22,7 @@ class EntityService
     private $em; 
     private $databaseEm;
     private $numberOfVersion; 
+    private $dateFormat; 
 
     /**
      * Constructor
@@ -31,13 +33,14 @@ class EntityService
      * @param integer $numberOfVersion
      *
      */
-    public function __construct(FormFactory $formFactory, Router $router, RegistryInterface $registry, $numberOfVersion)
+    public function __construct(FormFactory $formFactory, Router $router, RegistryInterface $registry, $numberOfVersion, $dateFormat)
     {
         $this->formFactory = $formFactory;
         $this->router = $router;
         $this->em = $registry->getManager();
         $this->databaseEm = $registry->getManager('database');
         $this->numberOfVersion = $numberOfVersion;
+        $this->dateFormat = $dateFormat;
     }
 
     /**
@@ -180,27 +183,6 @@ class EntityService
         return $form;
     }
 
-    /**
-     * Check if $entityClass contains entities
-     *
-     * @param EntityClass $entityClass
-     *
-     * @return boolean $entitiesExist
-     */
-    public function entitiesExist(EntityClass $entityClass){
-
-        $entities = $this->databaseEm->getRepository('SLDataBundle:'.$entityClass->getTechnicalName())->findAll();
-
-        if(count($entities) != 0){
-            $entitiesExist = true; 
-        } 
-        else {
-            $entitiesExist = false;  
-        }
-
-        return $entitiesExist; 
-    }
-
      /**
      * Check if entities $property have not null value
      *
@@ -244,7 +226,30 @@ class EntityService
             if(strpos(strtolower($pattern), 'property') !== false){
 
                 $methodName = 'get'.ucfirst($pattern);
-                $patternArray[$key] = $entity->$methodName(); 
+                $value = $entity->$methodName(); 
+
+                if(is_array($value)){
+                    $value = implode (', ', $value);
+                }
+                else if(is_object($value)){
+                    
+                    if($value instanceof \DateTime){
+                        $value = $value->format($this->dateFormat);
+                    }
+                    else if($value instanceof PersistentCollection){
+                        
+                        $temp = array(); 
+                        foreach($value as $entityOfCollection){
+                            $temp[] = $entityOfCollection->getDisplayName(); 
+                        }
+                        $value = implode (', ', $temp);
+                    }
+                    else{
+                        $value = $value->getDisplayName();
+                    }
+                }
+
+                $patternArray[$key] = $value; 
             }
         }
 
@@ -272,6 +277,28 @@ class EntityService
 
         }
 
-        $this->databaseEm->flush();
+        $this->databaseEm->flush(); 
     }
+
+    /**
+     * Check if $entityClass contains entities
+     *
+     * @param EntityClass $entityClass
+     *
+     * @return boolean $entitiesExist
+     */
+    public function entitiesExist(EntityClass $entityClass){
+
+        $entities = $this->databaseEm->getRepository('SLDataBundle:'.$entityClass->getTechnicalName())->findAll();
+
+        if(count($entities) != 0){
+            $entitiesExist = true; 
+        } 
+        else {
+            $entitiesExist = false;  
+        }
+
+        return $entitiesExist; 
+    }
+
 }

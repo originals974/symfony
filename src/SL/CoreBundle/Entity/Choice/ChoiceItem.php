@@ -34,6 +34,15 @@ class ChoiceItem extends AbstractEntity
     private $choiceList;
 
     /**
+     * Constructor
+     */
+    public function __construct(ChoiceList $choiceList)
+    {
+        $this->setChoiceList($choiceList);
+        $choiceList->addChoiceItem($this); 
+    }
+
+    /**
      * Set icon
      *
      * @param string $icon

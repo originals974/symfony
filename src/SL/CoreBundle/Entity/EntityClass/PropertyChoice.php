@@ -15,7 +15,7 @@ use SL\CoreBundle\Entity\Choice\ChoiceList;
 class PropertyChoice extends Property
 { 
     /**
-     * @ORM\ManyToOne(targetEntity="SL\CoreBundle\Entity\Choice\ChoiceList")
+     * @ORM\ManyToOne(targetEntity="SL\CoreBundle\Entity\Choice\ChoiceList", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank()
      */

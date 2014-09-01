@@ -94,8 +94,6 @@ class DoctrineService
             $metadatas = $this->databaseEm->getMetadataFactory()->getAllMetadata();
             $schemaTool->UpdateSchema($metadatas, false);
         }
-
-        
     }
 
     /**
@@ -229,7 +227,7 @@ class DoctrineService
                         'mappingType' => null,
                         'fieldName' => $property->getTechnicalName(), 
                         'type' => ($property->isMultiple())?'array':$property->getFieldType()->getDataType(),
-                        'length' => $property->getFieldType()->getLength(),
+                        'length' => ($property->isMultiple())?null:$property->getFieldType()->getLength(),
                         'nullable' => !$property->isRequired(),
                         'versioned' => true,
                         ); 

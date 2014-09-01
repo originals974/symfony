@@ -22,7 +22,7 @@ class ChoiceList extends AbstractEntity
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="ChoiceItem", mappedBy="choiceList", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="ChoiceItem", mappedBy="choiceList", cascade={"persist", "remove"})
      */
     private $choiceItems;
 

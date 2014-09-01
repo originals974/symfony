@@ -969,22 +969,22 @@
         },
         {
             "name": "friendsofsymfony/elastica-bundle",
-            "version": "v3.0.3",
+            "version": "v3.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSElasticaBundle.git",
-                "reference": "84cf6c79c2551d022367f4cb5d639e011df8d418"
+                "reference": "a7a23b92cb8197cb250ba16c751e4ed81621b7cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSElasticaBundle/zipball/84cf6c79c2551d022367f4cb5d639e011df8d418",
-                "reference": "84cf6c79c2551d022367f4cb5d639e011df8d418",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSElasticaBundle/zipball/a7a23b92cb8197cb250ba16c751e4ed81621b7cb",
+                "reference": "a7a23b92cb8197cb250ba16c751e4ed81621b7cb",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.2",
                 "psr/log": "~1.0",
-                "ruflin/elastica": ">=0.90.10.0, <1.3-dev",
+                "ruflin/elastica": ">=0.90.10.0, <1.4-dev",
                 "symfony/console": "~2.1",
                 "symfony/form": "~2.1",
                 "symfony/framework-bundle": "~2.3",
@@ -992,7 +992,6 @@
             },
             "require-dev": {
                 "doctrine/doctrine-bundle": "~1.2@beta",
-                "doctrine/mongodb-odm": "1.0.*@beta",
                 "doctrine/orm": "~2.2",
                 "jms/serializer-bundle": "@stable",
                 "knplabs/knp-components": "~1.2",
@@ -1055,7 +1054,7 @@
                 "propel",
                 "search"
             ],
-            "time": "2014-08-07 22:33:59"
+            "time": "2014-08-21 13:15:38"
         },
         {
             "name": "friendsofsymfony/jsrouting-bundle",
@@ -2727,16 +2726,16 @@
         },
         {
             "name": "ruflin/elastica",
-            "version": "v1.2.1.0",
+            "version": "v1.3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ruflin/Elastica.git",
-                "reference": "3c3ee39f90d942b1f25fdfb9d39669067375fa79"
+                "reference": "92155a36c94ebe15b09661ae804acbe4bdd4ad6b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ruflin/Elastica/zipball/3c3ee39f90d942b1f25fdfb9d39669067375fa79",
-                "reference": "3c3ee39f90d942b1f25fdfb9d39669067375fa79",
+                "url": "https://api.github.com/repos/ruflin/Elastica/zipball/92155a36c94ebe15b09661ae804acbe4bdd4ad6b",
+                "reference": "92155a36c94ebe15b09661ae804acbe4bdd4ad6b",
                 "shasum": ""
             },
             "require": {
@@ -2755,6 +2754,11 @@
                 "psr/log": "for logging"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.2.x-dev"
+                }
+            },
             "autoload": {
                 "psr-0": {
                     "Elastica": "lib/",
@@ -2777,7 +2781,7 @@
                 "client",
                 "search"
             ],
-            "time": "2014-06-14 08:44:53"
+            "time": "2014-07-27 13:45:09"
         },
         {
             "name": "sensio/distribution-bundle",
@@ -2983,16 +2987,15 @@
         {
             "name": "stof/doctrine-extensions-bundle",
             "version": "dev-master",
-            "target-dir": "Stof/DoctrineExtensionsBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stof/StofDoctrineExtensionsBundle.git",
-                "reference": "085cda7ce5dc12b807a5a7856f178c93725a9166"
+                "reference": "cfe13e8c64a5067f6d0ce63630a0c97911789198"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stof/StofDoctrineExtensionsBundle/zipball/085cda7ce5dc12b807a5a7856f178c93725a9166",
-                "reference": "085cda7ce5dc12b807a5a7856f178c93725a9166",
+                "url": "https://api.github.com/repos/stof/StofDoctrineExtensionsBundle/zipball/cfe13e8c64a5067f6d0ce63630a0c97911789198",
+                "reference": "cfe13e8c64a5067f6d0ce63630a0c97911789198",
                 "shasum": ""
             },
             "require": {
@@ -3011,8 +3014,8 @@
                 }
             },
             "autoload": {
-                "psr-0": {
-                    "Stof\\DoctrineExtensionsBundle": ""
+                "psr-4": {
+                    "Stof\\DoctrineExtensionsBundle\\": ""
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -3040,7 +3043,7 @@
                 "translatable",
                 "tree"
             ],
-            "time": "2014-07-08 17:06:10"
+            "time": "2014-08-28 20:29:53"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -3444,12 +3447,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twbs/bootstrap.git",
-                "reference": "35f09315ed543a0479719afa2143240952c215db"
+                "reference": "fe896923fce4ec29f09055b4778ebc64eda8fccc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/35f09315ed543a0479719afa2143240952c215db",
-                "reference": "35f09315ed543a0479719afa2143240952c215db",
+                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/fe896923fce4ec29f09055b4778ebc64eda8fccc",
+                "reference": "fe896923fce4ec29f09055b4778ebc64eda8fccc",
                 "shasum": ""
             },
             "replace": {
@@ -3487,7 +3490,7 @@
                 "responsive",
                 "web"
             ],
-            "time": "2014-08-26 16:07:00"
+            "time": "2014-08-30 05:43:44"
         },
         {
             "name": "twig/extensions",
@@ -3600,12 +3603,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/vakata/jstree.git",
-                "reference": "17c29a18c916bb7441e404f82c7b1baceea26c87"
+                "reference": "7048b0498867ae77adfa90c4bae3f23a813d8c67"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vakata/jstree/zipball/17c29a18c916bb7441e404f82c7b1baceea26c87",
-                "reference": "17c29a18c916bb7441e404f82c7b1baceea26c87",
+                "url": "https://api.github.com/repos/vakata/jstree/zipball/7048b0498867ae77adfa90c4bae3f23a813d8c67",
+                "reference": "7048b0498867ae77adfa90c4bae3f23a813d8c67",
                 "shasum": ""
             },
             "require": {
@@ -3647,7 +3650,7 @@
             ],
             "description": "jsTree is jquery plugin, that provides interactive trees.",
             "homepage": "http://jstree.com",
-            "time": "2014-08-25 12:15:28"
+            "time": "2014-08-28 07:13:50"
         },
         {
             "name": "willdurand/js-translation-bundle",

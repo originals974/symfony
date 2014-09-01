@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class PropertyEntity extends Property
 {
     /**
-     * @ORM\ManyToOne(targetEntity="EntityClass")
+     * @ORM\ManyToOne(targetEntity="EntityClass", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank()
      */

@@ -143,7 +143,7 @@ class ElasticaService
      *
      * @return void
      */
-    public function entityToJSTreeData(array &$data, AbstractEntity $entity) {
+    private function entityToJSTreeData(array &$data, AbstractEntity $entity) {
 
         $entityClass = $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')->find($entity->getEntityClassId());
 
