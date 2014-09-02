@@ -58,6 +58,24 @@ class TestService
         return $entityClasses; 
     }
 
+    public function getSimpleEntityClassWithParentsInstance($index = 1, $nbParents = 1){
+
+        $entityClass = $this->getSimpleEntityClassInstance($index);
+
+        $currentEntityClass = $entityClass; 
+        $entityClasses = array($entityClass); 
+        for($i=1;$i<=$nbParents;$i++) {
+            
+            $parentEntityClass = $this->getSimpleEntityClassInstance($index + $i); 
+            $currentEntityClass->setParent($parentEntityClass);
+            $currentEntityClass = $parentEntityClass; 
+
+            $entityClasses[] = $parentEntityClass; 
+        }
+
+        return $entityClasses; 
+    }
+
     public function getSimpleEntityClassInstance($index = 1){
 
         $entityClass = new EntityClass(); 

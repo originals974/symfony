@@ -9,7 +9,7 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class LoadDoctrineServiceTestData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
+class LoadChoiceItemServiceTestData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
     /**
      * @var ContainerInterface
@@ -31,11 +31,9 @@ class LoadDoctrineServiceTestData extends AbstractFixture implements OrderedFixt
     {   
         $testService = $this->container->get('sl_core.test');
 
-        $fullEntityClass = $testService->getEntityClassInstance($manager);
-        $simpleEntityClass = $testService->getSimpleEntityClassInstance();  
-
-        $manager->persist($fullEntityClass); 
-        $manager->persist($simpleEntityClass); 
+        $choiceList = $testService->getChoiceListInstance(1,5);
+        
+        $manager->persist($choiceList);  
         $manager->flush(); 
     }
 
@@ -44,6 +42,6 @@ class LoadDoctrineServiceTestData extends AbstractFixture implements OrderedFixt
      */
     public function getOrder()
     {
-        return 110; 
+        return 120; 
     }
 }

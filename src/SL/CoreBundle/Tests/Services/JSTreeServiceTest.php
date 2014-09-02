@@ -57,16 +57,16 @@ class JSTreeServiceTest extends WebTestCase
     	$choiceList = $this->getMock('SL\CoreBundle\Entity\Choice\ChoiceList');
 
     	$choiceList->expects($this->once())
-            		->method('getId')
-            		->will($this->returnValue(1));
+            	   ->method('getId')
+            	   ->will($this->returnValue(1));
 
         $choiceList->expects($this->once())
-            		->method('getTechnicalName')
-            		->will($this->returnValue('ChoiceList1'));
+            	   ->method('getTechnicalName')
+            	   ->will($this->returnValue('ChoiceList1'));
         
         $choiceList->expects($this->once())
-            		->method('getDisplayName')
-            		->will($this->returnValue('Choice List 1'));
+            	   ->method('getDisplayName')
+            	   ->will($this->returnValue('Choice List 1'));
 
     	$newNode = $this->jsTreeService->createNewChoiceListNode($choiceList); 
     	
@@ -109,5 +109,6 @@ class JSTreeServiceTest extends WebTestCase
     	$this->assertStringStartsWith('long_', $shortedText);
     	$this->assertStringEndsWith('_text', $shortedText);
     	$this->assertContains('.....', $shortedText);
+        $this->assertNotEquals($textToShorten, $shortedText);
     }
 }

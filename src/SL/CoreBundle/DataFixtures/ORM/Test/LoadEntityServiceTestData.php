@@ -2,11 +2,12 @@
 
 namespace SL\CoreBundle\DataFixtures\ORM\Test;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 
 class LoadEntityServiceTestData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {

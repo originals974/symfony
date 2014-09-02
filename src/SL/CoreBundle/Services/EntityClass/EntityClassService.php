@@ -137,7 +137,6 @@ class EntityClassService
         return $form;
     }
 
-
    /**
      * Verify if $entityClass could be delete
      *

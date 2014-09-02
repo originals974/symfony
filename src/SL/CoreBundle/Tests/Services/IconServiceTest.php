@@ -13,7 +13,6 @@ class IconServiceTest extends WebTestCase
         $this->iconService = $this->getContainer()->get('sl_core.icon'); 
     }
 
-
     protected function tearDown()
     {
         unset($this->iconService);
@@ -30,7 +29,7 @@ class IconServiceTest extends WebTestCase
 
         /**
         * #2
-        * Without option
+        * With option
         */
         $iconName = $this->iconService->getRootServerIcon('fa-lg');
         $this->assertEquals('fa fa-database fa-lg', $iconName);
@@ -58,7 +57,7 @@ class IconServiceTest extends WebTestCase
 
         /**
         * #2
-        * Without option
+        * With option
         */
         $iconName = $this->iconService->getRootEntityClassIcon('fa-lg');
         $this->assertEquals('fa fa-archive fa-lg', $iconName);
@@ -75,7 +74,7 @@ class IconServiceTest extends WebTestCase
 
         /**
         * #2
-        * Without option
+        * With option
         */
         $iconName = $this->iconService->getRootChoiceListIcon('fa-lg');
         $this->assertEquals('fa fa-list fa-lg', $iconName);
@@ -92,7 +91,7 @@ class IconServiceTest extends WebTestCase
 
         /**
         * #2
-        * Without option
+        * With option
         */
         $iconName = $this->iconService->getChoiceListIcon('fa-lg');
         $this->assertEquals('fa fa-list fa-lg', $iconName);
@@ -100,10 +99,12 @@ class IconServiceTest extends WebTestCase
 
     public function testGetChoiceItemIcon()
     {
-    	$choiceItem = $this->getMock('SL\CoreBundle\Entity\Choice\ChoiceItem');
+        $choiceList = $this->getMock('SL\CoreBundle\Entity\Choice\ChoiceList');
+        
+    	$choiceItem = $this->getMock('SL\CoreBundle\Entity\Choice\ChoiceItem', array('getIcon'), array($choiceList));
         $choiceItem->expects($this->once())
-                    ->method('getIcon')
-                    ->will($this->returnValue('fa-minus'));
+                   ->method('getIcon')
+                   ->will($this->returnValue('fa-minus'));
 
         $iconName = $this->iconService->getChoiceItemIcon($choiceItem);
         $this->assertEquals('fa fa-minus', $iconName);

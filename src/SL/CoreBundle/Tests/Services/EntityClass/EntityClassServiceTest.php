@@ -8,12 +8,18 @@ use SL\CoreBundle\Services\EntityClass\EntityClassService;
 class EntityClassServiceTest extends WebTestCase
 {
 	private $entityClassService; 
+  private $testService; 
 	private $em; 
 	private $translator;
-
+  private $fullEntityClass; 
+  private $targetEntityClass; 
+  private $simpleEntityClass; 
+  private $entityClassWithParent; 
+  
   public function setUp()
   {
     $this->entityClassService = $this->getContainer()->get('sl_core.entity_class'); 
+    $this->testService = $this->getContainer()->get('sl_core.test'); 
     $this->em = $this->getContainer()->get('doctrine.orm.entity_manager'); 
     $this->translator = $this->getContainer()->get('translator'); 
 
@@ -22,99 +28,85 @@ class EntityClassServiceTest extends WebTestCase
         'SL\CoreBundle\DataFixtures\ORM\Test\LoadEntityClassServiceTestData',
     );
     $this->loadFixtures($classes);
+
+    $this->fullEntityClass = $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')
+                                ->findOneByDisplayName('entity_class'); 
+
+    $this->targetEntityClass = $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')
+                                        ->findOneByDisplayName('target_entity_class_1'); 
+
+    $this->simpleEntityClass = $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')
+                                        ->findOneByDisplayName('entity_class_1');  
+
+    $this->entityClassWithParent = $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')
+                                            ->findOneByDisplayName('entity_class_10'); 
+          
   }
 
   protected function tearDown()
 	{
-	  unset($this->entityClassService, $this->em, $this->translator);
+	  unset(
+      $this->entityClassService, 
+      $this->testService, 
+      $this->em, 
+      $this->translator, 
+      $this->fullEntityClass,
+      $this->targetEntityClass,
+      $this->simpleEntityClass,
+      $this->entityClassWithParent
+      );
 	}
 
   public function testCreateCreateForm()
   {
   	/**
-      * #1
-      * With parent == null
-      */
-  	$entityClass1 = $this->getMock('SL\CoreBundle\Entity\EntityClass\EntityClass');
-  	$entityClass1->expects($this->once())
-          		->method('getParent')
-          		->will($this->returnValue(null));
-
-    $form = $this->entityClassService->createCreateForm($entityClass1);
+    * #1
+    * With parent == null
+    */
+    $form = $this->entityClassService->createCreateForm($this->simpleEntityClass);
    	$this->assertInstanceOf('Symfony\Component\Form\Form', $form);
    	
    	/**
     * #2
     * With parent != null
     */
-   	$parentEntityClass = $this->getMock('SL\CoreBundle\Entity\EntityClass\EntityClass');
-   	$parentEntityClass->expects($this->once())
-        			  ->method('getId')
-        			  ->will($this->returnValue(1));
-
-    $entityClass2 = $this->getMock('SL\CoreBundle\Entity\EntityClass\EntityClass');
-   	$entityClass2->expects($this->once())
-        		 ->method('getParent')
-        		 ->will($this->returnValue($parentEntityClass));
-
-    $form = $this->entityClassService->createCreateForm($entityClass2);
+    $form = $this->entityClassService->createCreateForm($this->entityClassWithParent);
    	$this->assertInstanceOf('Symfony\Component\Form\Form', $form);
 
   }
 
   public function testCreateEditForm()
   {
-  	$entityClass = $this->getMock('SL\CoreBundle\Entity\EntityClass\EntityClass');
-  	$entityClass->expects($this->once())
-          		->method('getId')
-          		->will($this->returnValue(1));
-
-    $form = $this->entityClassService->createEditForm($entityClass);
+    $form = $this->entityClassService->createEditForm($this->simpleEntityClass);
    	$this->assertInstanceOf('Symfony\Component\Form\Form', $form);
   }
 
   public function testCreateDeleteForm()
   {
-  	$entityClass = $this->getMock('SL\CoreBundle\Entity\EntityClass\EntityClass');
-  	$entityClass->expects($this->once())
-          		->method('getId')
-          		->will($this->returnValue(1));
-
-    $form = $this->entityClassService->createDeleteForm($entityClass);
+    $form = $this->entityClassService->createDeleteForm($this->simpleEntityClass);
    	$this->assertInstanceOf('Symfony\Component\Form\Form', $form);
   }
 
   public function testCreateEditCalculatedNameForm()
   {
-  	$entityClass = $this->getMock('SL\CoreBundle\Entity\EntityClass\EntityClass');
-  	$entityClass->expects($this->once())
-          		->method('getId')
-          		->will($this->returnValue(1));
-
-    $form = $this->entityClassService->createEditCalculatedNameForm($entityClass);
+    $form = $this->entityClassService->createEditCalculatedNameForm($this->simpleEntityClass);
    	$this->assertInstanceOf('Symfony\Component\Form\Form', $form);
   }
 
   public function testIntegrityControlBeforeDelete()
   {
   	/**
-      * #1
-      * Not linked to other entity class
-      */
-  	$entityClass1 = $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')
-  							 ->findOneByDisplayName('testIntegrityControlBeforeDelete_entityClass1'); 
-
-    $integrityError = $this->entityClassService->integrityControlBeforeDelete($entityClass1);
+    * #1
+    * Not linked to other entity class
+    */
+    $integrityError = $this->entityClassService->integrityControlBeforeDelete($this->simpleEntityClass);
    	$this->assertNull($integrityError);
 
    	/**
     * #2
     * Linked to other entity class
     */
-    $entityClass2 = $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')
-							 ->findOneByDisplayName('testIntegrityControlBeforeDelete_entityClass2'); 
-
-    $integrityError = $this->entityClassService->integrityControlBeforeDelete($entityClass2);
+    $integrityError = $this->entityClassService->integrityControlBeforeDelete($this->targetEntityClass);
    	
     $expectedIntegrityError = array(
         'title' => $this->translator->trans('delete.error.title'),
@@ -130,70 +122,42 @@ class EntityClassServiceTest extends WebTestCase
     * #1
     * Object with no parent
     */
-    $property = $this->getMock('SL\CoreBundle\Entity\EntityClass\Property');
-    $property->expects($this->once())
-             ->method('getTechnicalName')
-             ->will($this->returnValue('Property11'));
+    $calculatedName = $this->entityClassService->initCalculatedName($this->fullEntityClass);
+    $calculatedNamePattern ='%'.$this->fullEntityClass->getProperties()->first()->getTechnicalName().'%';
 
-    $properties = $this->getMock('Doctrine\Common\Collections\ArrayCollection');
-    $properties->expects($this->once())
-               ->method('first')
-               ->will($this->returnValue($property));
-
-    $entityClass1 = $this->getMock('SL\CoreBundle\Entity\EntityClass\EntityClass');
-    $entityClass1->expects($this->any())
-                 ->method('getParent')
-                 ->will($this->returnValue(null));           
-    $entityClass1->expects($this->once())
-                 ->method('getProperties')
-                 ->will($this->returnValue($properties));
-
-    $calculatedName = $this->entityClassService->initCalculatedName($entityClass1);
-    $this->assertEquals('%Property11%', $calculatedName);
+    $this->assertEquals($calculatedNamePattern , $calculatedName);
 
     /**
     * #2
     * Object with parent
     */
-    $calculatedNamePattern = '%Property12% %Property14%(%Property4%)'; 
+    $propertyText = $this->testService->getPropertyByDisplayName($this->fullEntityClass, 'property_text'); 
+    $propertyEmail = $this->testService->getPropertyByDisplayName($this->fullEntityClass, 'property_email');
+    $calculatedNamePattern = '%'.$propertyText->getTechnicalName().'% %'.$propertyEmail->getTechnicalName().'%';
 
-    $parentEntityClass = $this->getMock('SL\CoreBundle\Entity\EntityClass\EntityClass');
-    $parentEntityClass->expects($this->once())
-                      ->method('getCalculatedName')
-                      ->will($this->returnValue($calculatedNamePattern)); 
+    $this->fullEntityClass->setCalculatedName($calculatedNamePattern);            
 
-    $entityClass2 = $this->getMock('SL\CoreBundle\Entity\EntityClass\EntityClass');
-    $entityClass2->expects($this->any())
-                 ->method('getParent')
-                 ->will($this->returnValue($parentEntityClass)); 
+    $this->simpleEntityClass->setParent($this->fullEntityClass);                          
 
-    $calculatedName = $this->entityClassService->initCalculatedName($entityClass2);
-    $this->assertEquals($calculatedNamePattern, $calculatedName);
+    $calculatedName = $this->entityClassService->initCalculatedName($this->simpleEntityClass);
+    $this->assertEquals($calculatedNamePattern, $this->simpleEntityClass->getCalculatedName());
   }
 
   public function testGetPath()
   {
-    $entityClass = $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')
-                        ->findOneByDisplayName('testGetPath_entityClass4'); 
+    $parents = $this->entityClassService->getPath($this->entityClassWithParent);
 
-
-    $parents = $this->entityClassService->getPath($entityClass);
-
-    $this->assertCount(5, $parents);
+    $this->assertCount(6, $parents);
     
-    for($i=0;$i<5;$i++) {
-      $this->assertEquals('testGetPath_entityClass'.$i, $parents[$i]->getDisplayName());
+    for($i=0;$i<=5;$i++) {
+      $this->assertEquals('entity_class_'.(15-$i), $parents[$i]->getDisplayName());
     }
   }
 
   public function testGetEntityClassPath()
   {
-    $entityClass = $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')
-                        ->findOneByDisplayName('testGetPath_entityClass4'); 
+    $path = $this->entityClassService->getEntityClassPath($this->entityClassWithParent);
 
-
-    $path = $this->entityClassService->getEntityClassPath($entityClass);
-
-    $this->assertEquals('testGetPath_entityClass0 -> testGetPath_entityClass1 -> testGetPath_entityClass2 -> testGetPath_entityClass3 -> testGetPath_entityClass4', $path);
+    $this->assertEquals('entity_class_15 -> entity_class_14 -> entity_class_13 -> entity_class_12 -> entity_class_11 -> entity_class_10', $path);
   }
 }

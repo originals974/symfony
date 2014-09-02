@@ -7,68 +7,50 @@ use Liip\FunctionalTestBundle\Test\WebTestCase;
 class ChoiceItemServiceTest extends WebTestCase
 {
 	private $choiceItemService; 
+  private $choiceList;
+  private $em; 
 
   public function setUp()
   {
     $this->choiceItemService = $this->getContainer()->get('sl_core.choice_item'); 
+    $this->em = $this->getContainer()->get('doctrine.orm.entity_manager'); 
+
+    $classes = array(
+        'SL\CoreBundle\DataFixtures\ORM\LoadFieldTypeData',
+        'SL\CoreBundle\DataFixtures\ORM\Test\LoadChoiceItemServiceTestData',
+    );
+    $this->loadFixtures($classes);
+
+    $this->choiceList = $this->em->getRepository('SLCoreBundle:Choice\ChoiceList')
+                                 ->findOneByDisplayName('choice_list_1'); 
   }
 
   protected function tearDown()
 	{
-	  unset($this->choiceItemService);
+	  unset(
+      $this->choiceItemService,
+      $this->choiceList,
+      $this->em
+      );
 	}
 
   public function testCreateCreateForm()
   {
-    $choiceList = $this->getMock('SL\CoreBundle\Entity\Choice\ChoiceList');
-    $choiceList->expects($this->once())
-              ->method('getId')
-              ->will($this->returnValue(1));
-
-  	$choiceItem = $this->getMock('SL\CoreBundle\Entity\Choice\ChoiceItem');
-    $choiceItem->expects($this->once())
-              ->method('getChoiceList')
-              ->will($this->returnValue($choiceList));
-
-    $form = $this->choiceItemService->createCreateForm($choiceItem);
+    $form = $this->choiceItemService->createCreateForm($this->choiceList->getChoiceItems()->first());
 
    	$this->assertInstanceOf('Symfony\Component\Form\Form', $form);
   }
 
   public function testCreateEditForm()
   {
-  	$choiceList = $this->getMock('SL\CoreBundle\Entity\Choice\ChoiceList');
-    $choiceList->expects($this->once())
-              ->method('getId')
-              ->will($this->returnValue(1));
-
-    $choiceItem = $this->getMock('SL\CoreBundle\Entity\Choice\ChoiceItem');
-    $choiceItem->expects($this->once())
-              ->method('getId')
-              ->will($this->returnValue(1));
-    $choiceItem->expects($this->once())
-              ->method('getChoiceList')
-              ->will($this->returnValue($choiceList));
-    $form = $this->choiceItemService->createEditForm($choiceItem);
+    $form = $this->choiceItemService->createEditForm($this->choiceList->getChoiceItems()->first());
 
    	$this->assertInstanceOf('Symfony\Component\Form\Form', $form);
   }
 
   public function testCreateDeleteForm()
   {
-  	$choiceList = $this->getMock('SL\CoreBundle\Entity\Choice\ChoiceList');
-    $choiceList->expects($this->once())
-              ->method('getId')
-              ->will($this->returnValue(1));
-
-    $choiceItem = $this->getMock('SL\CoreBundle\Entity\Choice\ChoiceItem');
-    $choiceItem->expects($this->once())
-              ->method('getId')
-              ->will($this->returnValue(1));
-    $choiceItem->expects($this->once())
-              ->method('getChoiceList')
-              ->will($this->returnValue($choiceList));
-    $form = $this->choiceItemService->createDeleteForm($choiceItem);
+    $form = $this->choiceItemService->createDeleteForm($this->choiceList->getChoiceItems()->first());
 
    	$this->assertInstanceOf('Symfony\Component\Form\Form', $form);
   }

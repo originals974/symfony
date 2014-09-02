@@ -7,12 +7,18 @@ use Liip\FunctionalTestBundle\Test\WebTestCase;
 class ChoiceListServiceTest extends WebTestCase
 {
 	private $choiceListService; 
-	private $em; 
+	private $testService; 
+  private $em; 
 	private $translator;
+  private $choiceList; 
+  private $fullEntityClass; 
+  private $propertyChoice; 
 
   public function setUp()
   {
     $this->choiceListService = $this->getContainer()->get('sl_core.choice_list'); 
+    $this->testService = $this->getContainer()->get('sl_core.test'); 
+
     $this->em = $this->getContainer()->get('doctrine.orm.entity_manager'); 
     $this->translator = $this->getContainer()->get('translator'); 
 
@@ -21,63 +27,61 @@ class ChoiceListServiceTest extends WebTestCase
         'SL\CoreBundle\DataFixtures\ORM\Test\LoadChoiceListServiceTestData',
     );
     $this->loadFixtures($classes);
+
+    $this->choiceList = $this->em->getRepository('SLCoreBundle:Choice\ChoiceList')
+                                 ->findOneByDisplayName('choice_list_1'); 
+
+    $this->fullEntityClass = $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')
+                                      ->findOneByDisplayName('entity_class'); 
+
+    $this->propertyChoice = $this->testService->getPropertyByDisplayName($this->fullEntityClass, 'property_choice');
   }
 
   protected function tearDown()
 	{
-	  unset($this->choiceListService, $this->em, $this->translator);
+	  unset(
+      $this->choiceListService, 
+      $this->testService,
+      $this->em, 
+      $this->translator,
+      $this->choiceList,
+      $this->fullEntityClass,
+      $this->propertyChoice
+      );
 	}
 
   public function testCreateCreateForm()
   {
-  	$choiceList = $this->getMock('SL\CoreBundle\Entity\Choice\ChoiceList');
-
-    $form = $this->choiceListService->createCreateForm($choiceList);
+    $form = $this->choiceListService->createCreateForm($this->choiceList);
    	$this->assertInstanceOf('Symfony\Component\Form\Form', $form);
   }
 
   public function testCreateEditForm()
   {
-  	$choiceList = $this->getMock('SL\CoreBundle\Entity\Choice\ChoiceList');
-  	$choiceList->expects($this->once())
-          		->method('getId')
-          		->will($this->returnValue(1));
-
-    $form = $this->choiceListService->createEditForm($choiceList);
+    $form = $this->choiceListService->createEditForm($this->choiceList);
    	$this->assertInstanceOf('Symfony\Component\Form\Form', $form);
   }
 
   public function testCreateDeleteForm()
   {
-  	$choiceList = $this->getMock('SL\CoreBundle\Entity\Choice\ChoiceList');
-  	$choiceList->expects($this->once())
-          		->method('getId')
-          		->will($this->returnValue(1));
-
-    $form = $this->choiceListService->createDeleteForm($choiceList);
+    $form = $this->choiceListService->createDeleteForm($this->choiceList);
    	$this->assertInstanceOf('Symfony\Component\Form\Form', $form);
   }
 
   public function testIntegrityControlBeforeDelete()
   {
   	/**
-      * #1
-      * Not linked to property choice
-      */
-  	$propertyChoice1 = $this->em->getRepository('SLCoreBundle:Choice\ChoiceList')
-  							                ->findOneByDisplayName('testIntegrityControlBeforeDelete_choiceList1'); 
-
-    $integrityError = $this->choiceListService->integrityControlBeforeDelete($propertyChoice1);
+    * #1
+    * Not linked to property choice
+    */
+    $integrityError = $this->choiceListService->integrityControlBeforeDelete($this->choiceList);
    	$this->assertNull($integrityError);
 
    	/**
     * #2
     * Linked to property choice
     */
-    $propertyChoice2 = $this->em->getRepository('SLCoreBundle:Choice\ChoiceList')
-							                  ->findOneByDisplayName('testIntegrityControlBeforeDelete_choiceList2'); 
-
-    $integrityError = $this->choiceListService->integrityControlBeforeDelete($propertyChoice2);
+    $integrityError = $this->choiceListService->integrityControlBeforeDelete($this->propertyChoice->getChoiceList());
    	
     $expectedIntegrityError = array(
         'title' => $this->translator->trans('delete.error.title'),

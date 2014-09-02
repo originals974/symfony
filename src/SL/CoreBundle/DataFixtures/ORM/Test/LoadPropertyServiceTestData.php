@@ -4,12 +4,11 @@ namespace SL\CoreBundle\DataFixtures\ORM\Test;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class LoadDoctrineServiceTestData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
+class LoadPropertyServiceTestData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
     /**
      * @var ContainerInterface
@@ -32,10 +31,8 @@ class LoadDoctrineServiceTestData extends AbstractFixture implements OrderedFixt
         $testService = $this->container->get('sl_core.test');
 
         $fullEntityClass = $testService->getEntityClassInstance($manager);
-        $simpleEntityClass = $testService->getSimpleEntityClassInstance();  
-
-        $manager->persist($fullEntityClass); 
-        $manager->persist($simpleEntityClass); 
+        
+        $manager->persist($fullEntityClass);
         $manager->flush(); 
     }
 
@@ -44,6 +41,6 @@ class LoadDoctrineServiceTestData extends AbstractFixture implements OrderedFixt
      */
     public function getOrder()
     {
-        return 110; 
+        return 100; 
     }
 }
