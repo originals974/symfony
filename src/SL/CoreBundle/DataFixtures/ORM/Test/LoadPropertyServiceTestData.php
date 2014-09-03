@@ -41,6 +41,6 @@ class LoadPropertyServiceTestData extends AbstractFixture implements OrderedFixt
      */
     public function getOrder()
     {
-        return 100; 
+        return 10; 
     }
 }

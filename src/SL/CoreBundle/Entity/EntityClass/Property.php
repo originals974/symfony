@@ -48,19 +48,23 @@ class Property extends AbstractEntity
      */
     private $fieldType;
 
-     /**
-     * Constructor : Create an property
+    /**
+     * Constructor : Create a property
      * associated with $fieldType 
      *
      * @param FieldType $fieldType|null 
+     * @param EntityClass $entityClass 
      *
      * @return void 
      */
-    public function __construct(FieldType  $fieldType = null)
+    public function __construct(FieldType  $fieldType = null, EntityClass $entityClass )
     {
         if($fieldType != null){
             $this->setFieldType($fieldType);
         }
+
+        $this->setEntityClass($entityClass); 
+        $entityClass->addProperty($this); 
     }
 
     /**

@@ -16,7 +16,7 @@ class ChoiceItemServiceTest extends WebTestCase
     $this->em = $this->getContainer()->get('doctrine.orm.entity_manager'); 
 
     $classes = array(
-        'SL\CoreBundle\DataFixtures\ORM\LoadFieldTypeData',
+        'SL\CoreBundle\DataFixtures\ORM\Base\LoadFieldTypeData',
         'SL\CoreBundle\DataFixtures\ORM\Test\LoadChoiceItemServiceTestData',
     );
     $this->loadFixtures($classes);

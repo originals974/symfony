@@ -23,7 +23,7 @@ class PropertyServiceTest extends WebTestCase
     $this->translator = $this->getContainer()->get('translator'); 
 
     $classes = array(
-        'SL\CoreBundle\DataFixtures\ORM\LoadFieldTypeData',
+        'SL\CoreBundle\DataFixtures\ORM\Base\LoadFieldTypeData',
         'SL\CoreBundle\DataFixtures\ORM\Test\LoadPropertyServiceTestData',
     );
 

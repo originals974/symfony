@@ -14,7 +14,7 @@ class PropertyRepositoryTest extends WebTestCase
     {
         //Load fixtures
         $classes = array(
-            'SL\CoreBundle\DataFixtures\ORM\LoadFieldTypeData',
+            'SL\CoreBundle\DataFixtures\ORM\Base\LoadFieldTypeData',
             'SL\CoreBundle\DataFixtures\ORM\Test\LoadPropertyRepositoryTestData',
         );
         $this->loadFixtures($classes);

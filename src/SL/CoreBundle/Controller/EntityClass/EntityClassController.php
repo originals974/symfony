@@ -332,7 +332,7 @@ class EntityClassController extends Controller
 
                 $this->doctrineService->doctrineSchemaUpdateForce();
 
-                $this->doctrineService->entityDelete($entityClass->getId(), true);
+                $this->doctrineService->entityDelete($entityClass, true);
             }
 
             $arrayResponse = array(

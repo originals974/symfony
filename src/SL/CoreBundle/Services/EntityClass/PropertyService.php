@@ -185,22 +185,23 @@ class PropertyService
      * Get property entity class by $formMode
      *
      * @param string $formMode default|entity|choice
+     * @param EntityClass $entityClass 
      *
      * @return Mixed $property
      */
-    private function getPropertyEntityClassByFormMode($formMode) 
+    public function getPropertyEntityClassByFormMode($formMode, $entityClass) 
     {
         $fieldType = $this->em->getRepository('SLCoreBundle:Field\FieldType')->findOneByFormType($formMode);
         
         switch($formMode) {
             case 'entity' : 
-                $property = new PropertyEntity($fieldType);
+                $property = new PropertyEntity($fieldType, $entityClass);
                 break; 
             case 'choice' : 
-                $property = new PropertyChoice($fieldType);
+                $property = new PropertyChoice($fieldType, $entityClass);
                 break;
             default:
-                $property = new Property();
+                $property = new Property(null, $entityClass);
         }
 
         return $property; 

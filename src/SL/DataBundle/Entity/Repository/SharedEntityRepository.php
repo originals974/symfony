@@ -18,7 +18,7 @@ class SharedEntityRepository extends EntityRepository
      *
      * @return array
      */
-	public function findNotNullValuesByProperty(Property $property){
+	public function findNotNullValuesByProperty($property){
 		$qb = $this ->createQueryBuilder('e')
 					->select('COUNT(e.id)');  
 

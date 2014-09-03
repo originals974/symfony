@@ -52,7 +52,6 @@ class ChoiceItemController extends Controller
         if ($request->isXmlHttpRequest()) {
 
             $choiceItem = new ChoiceItem($choiceList);
-            //$choiceItem->setChoiceList($choiceList); 
             $form = $this->choiceItemService->createCreateForm($choiceItem);
 
             $response = $this->render('SLCoreBundle::save.html.twig', array(
@@ -82,8 +81,6 @@ class ChoiceItemController extends Controller
     public function createAction(Request $request, ChoiceList $choiceList)
     {
         $choiceItem = new ChoiceItem($choiceList);
-        //$choiceItem->setChoiceList($choiceList); 
-        //$choiceList->addChoiceItem($choiceItem); 
 
         $form = $this->choiceItemService->createCreateForm($choiceItem);
 

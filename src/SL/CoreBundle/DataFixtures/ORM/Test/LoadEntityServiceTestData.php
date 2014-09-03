@@ -41,6 +41,6 @@ class LoadEntityServiceTestData extends AbstractFixture implements OrderedFixtur
      */
     public function getOrder()
     {
-        return 130; 
+        return 10; 
     }
 }

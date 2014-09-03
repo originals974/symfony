@@ -40,6 +40,6 @@ class LoadPropertyRepositoryTestData extends AbstractFixture implements OrderedF
      */
     public function getOrder()
     {
-        return 130; 
+        return 10; 
     }
 }

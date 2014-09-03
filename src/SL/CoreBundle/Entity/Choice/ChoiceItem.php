@@ -35,6 +35,8 @@ class ChoiceItem extends AbstractEntity
 
     /**
      * Constructor
+     *
+     * @param ChoiceList $choiceList
      */
     public function __construct(ChoiceList $choiceList)
     {

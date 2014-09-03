@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2014-08-21T06:42:51Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+  <file date="2014-09-03T13:20:45Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -40,7 +40,7 @@
       </trans-unit>
       <trans-unit id="b8b163b82a9ec49a30d831fdda6c2d2b7a3f55f1" resname="choice_item.create.message">
         <source>choice_item.create.message</source>
-        <target>choice_item.create.message</target>
+        <target>Créer une valeur de liste : </target>
         <jms:reference-file line="3">Choice/ChoiceItem/table.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="e5660953bedd57a4dddcb72743d3ad24ee55ad01" resname="choice_item.delete.message">
@@ -222,7 +222,7 @@
       </trans-unit>
       <trans-unit id="36868e3c4d465abb486ea1e3bb96576813351e7a" resname="entity_class.delete.reference.error.message">
         <source>entity_class.delete.reference.error.message</source>
-        <target>entity_class.delete.reference.error.message</target>
+        <target>Cette classe est définie comme propriété d'une autre classe.</target>
         <jms:reference-file line="157">Services/EntityClass/EntityClassService.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="4fd185b4eb0b7c91369e677ece4800e0a0801231" resname="entity_class.delete.title">

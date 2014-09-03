@@ -162,9 +162,9 @@ class DoctrineService
         $mapping = $this->generateMapping($entityClass);
 
         $class = new ClassMetadataInfo($entityNamespace);
+        $class->customRepositoryClassName = 'SL\DataBundle\Entity\Repository\SharedEntityRepository';
 
         if($entityClass->getParent() === null){
-            $class->customRepositoryClassName = 'SL\DataBundle\Entity\Repository\SharedEntityRepository';
             $class->setInheritanceType(ClassMetadataInfo::INHERITANCE_TYPE_JOINED);
             $class->setDiscriminatorColumn(array(
                 'name' => 'discr',

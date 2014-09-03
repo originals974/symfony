@@ -110,12 +110,9 @@ class EntityClass extends AbstractEntity
 
         //Create default property "name"
         if($fieldType !== null) {
-            $defaultProperty = new Property();
-            $defaultProperty->setFieldType($fieldType);
+            $defaultProperty = new Property($fieldType, $this);
             $defaultProperty->setDisplayName('Nom');
             $defaultProperty->setRequired(true);
-            $defaultProperty->setEntityClass($this);
-            $this->addProperty($defaultProperty);
         }
         
         //Associate created entityClass with its parent

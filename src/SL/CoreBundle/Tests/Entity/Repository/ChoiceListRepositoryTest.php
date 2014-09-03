@@ -24,7 +24,7 @@ class ChoiceListRepositoryTest extends WebTestCase
 
     protected function tearDown()
     {
-       unset($this->choiceListRepository); 
+       unset($this->choiceListRepository, $this->choiceList); 
     }
 
     public function testFullFindAll()

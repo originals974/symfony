@@ -42,6 +42,6 @@ class LoadChoiceItemServiceTestData extends AbstractFixture implements OrderedFi
      */
     public function getOrder()
     {
-        return 120; 
+        return 10; 
     }
 }

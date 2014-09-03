@@ -1,7 +1,7 @@
 imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
-#    - { resource: elastica.yml }
+    - { resource: elastica.yml }
 
 framework:
     #esi:             ~
@@ -290,45 +290,24 @@ jms_di_extra:
         directories: ["%kernel.root_dir%/../src"]
 
 #FOSElastica
-fos_elastica:
-    clients:
-        default: { host: localhost, port: 9200 }
-    serializer:
-        callback_class: FOS\ElasticaBundle\Serializer\Callback
-        serializer: serializer
-    indexes:
-        slcore:
-            client: default
-            types:
-                EntityClass11:
-                    persistence:
-                        driver: orm
-                        model:  SL\DataBundle\Entity\EntityClass11
-                        provider: ~
-                        listener: ~
-                        finder: ~
-                EntityClass12:
-                    persistence:
-                        driver: orm
-                        model:  SL\DataBundle\Entity\EntityClass12
-                        provider: ~
-                        listener: ~
-                        finder: ~
-                EntityClass13:
-                    persistence:
-                        driver: orm
-                        model:  SL\DataBundle\Entity\EntityClass13
-                        provider: ~
-                        listener: ~
-                        finder: ~
-                EntityClass14:
-                    persistence:
-                        driver: orm
-                        model:  SL\DataBundle\Entity\EntityClass14
-                        provider: ~
-                        listener: ~
-                        finder: ~
-               
+# fos_elastica:
+#     clients:
+#         default: { host: localhost, port: 9200 }
+#     serializer:
+#         callback_class: FOS\ElasticaBundle\Serializer\Callback
+#         serializer: serializer
+#     indexes:
+#         slcore:
+#             client: default
+#             types:
+#                 EntityClass102:
+#                     persistence:
+#                         driver: orm
+#                         model:  SL\DataBundle\Entity\EntityClass102
+#                         provider: ~
+#                         listener: ~
+#                         finder: ~
+
 #Shiva versionning
 shivas_versioning:
     version_parameter:    application_version

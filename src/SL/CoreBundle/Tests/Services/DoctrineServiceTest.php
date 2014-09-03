@@ -26,7 +26,7 @@ class DoctrineServiceTest extends WebTestCase
         $this->databaseEm = $this->getContainer()->get('doctrine')->getManager('database');
             
         $classes = array(
-            'SL\CoreBundle\DataFixtures\ORM\LoadFieldTypeData',
+            'SL\CoreBundle\DataFixtures\ORM\Base\LoadFieldTypeData',
             'SL\CoreBundle\DataFixtures\ORM\Test\LoadDoctrineServiceTestData',
         );
         $this->loadFixtures($classes);

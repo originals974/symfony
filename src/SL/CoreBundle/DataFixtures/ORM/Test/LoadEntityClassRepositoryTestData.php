@@ -43,6 +43,6 @@ class LoadEntityClassRepositoryTestData extends AbstractFixture implements Order
      */
     public function getOrder()
     {
-        return 160; 
+        return 10; 
     }
 }

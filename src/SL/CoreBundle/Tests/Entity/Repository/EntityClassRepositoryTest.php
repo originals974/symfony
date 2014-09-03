@@ -8,7 +8,6 @@ class EntityClassRepositoryTest extends WebTestCase
 {
     private $em; 
     private $entityClassRepository;
-    private $entityClass;
 
     public function setUp()
     {
@@ -24,7 +23,7 @@ class EntityClassRepositoryTest extends WebTestCase
 
     protected function tearDown()
     {
-       unset($this->entityClassRepository); 
+       unset($this->em, $this->entityClassRepository); 
     }
 
     public function testFullFindAll()
@@ -54,9 +53,9 @@ class EntityClassRepositoryTest extends WebTestCase
         * #4
         * Find entity classes with parent
         */
-        $this->entityClass1 = $this->entityClassRepository->findOneByDisplayName('entity_class_1'); 
-        $this->entityClass2 = $this->entityClassRepository->findOneByDisplayName('entity_class_2'); 
-        $this->entityClass2->setParent($this->entityClass1); 
+        $entityClass1 = $this->entityClassRepository->findOneByDisplayName('entity_class_1'); 
+        $entityClass2 = $this->entityClassRepository->findOneByDisplayName('entity_class_2'); 
+        $entityClass2->setParent($entityClass1); 
         $this->em->flush(); 
 
         $entityClasses = $this->entityClassRepository->fullFindAll(1); 
@@ -65,16 +64,16 @@ class EntityClassRepositoryTest extends WebTestCase
 
     public function testFullFindById()
     {
-        $this->entityClass1 = $this->entityClassRepository->findOneByDisplayName('entity_class_1'); 
-        $entityClass = $this->entityClassRepository->fullFindById($this->entityClass1->getId()); 
+        $entityClass1 = $this->entityClassRepository->findOneByDisplayName('entity_class_1'); 
+        $entityClass = $this->entityClassRepository->fullFindById($entityClass1->getId()); 
 
         $this->assertInstanceOf('SL\CoreBundle\Entity\EntityClass\EntityClass', $entityClass);
     }
 
     public function testFindOtherEntityClass()
     {
-        $this->entityClass1 = $this->entityClassRepository->findOneByDisplayName('entity_class_1'); 
-        $qb = $this->entityClassRepository->findOtherEntityClass($this->entityClass1->getId()); 
+        $entityClass1 = $this->entityClassRepository->findOneByDisplayName('entity_class_1'); 
+        $qb = $this->entityClassRepository->findOtherEntityClass($entityClass1->getId()); 
 
         $this->assertInstanceOf('Doctrine\ORM\QueryBuilder', $qb);
         $this->assertCount(9, $qb->getQuery()->getResult());

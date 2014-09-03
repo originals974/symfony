@@ -3,7 +3,7 @@ parameters:
     symfony.config_path : %kernel.root_dir%/config/
     sl_core.number_of_versions : 5
     sl_core.number_of_search_results : 50
-    sl_core.date_format : 'd/m/Y H:i:s'
+    sl_core.date_format : 'd/m/Y'
 
 services:
     sl_core.doctrine:

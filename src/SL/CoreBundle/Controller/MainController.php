@@ -41,7 +41,7 @@ class MainController extends Controller
      */
     public function initAction(Request $request)
     {
-        $this->elasticaService->updateElasticaConfigFile(1,1000); 
+        $this->elasticaService->updateElasticaConfigFile(102,120); 
 
         return new Response(); 
     }

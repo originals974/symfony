@@ -179,7 +179,7 @@ class ElasticaService
                 $subEntity = $entity->{"get".$propertyEntity->getTechnicalName()}();
                 if($subEntity != null) {
                     $node['children'] = array();  
-                    $this->entitieToJSTreeData($node['children'], $subEntity); 
+                    $this->entityToJSTreeData($node['children'], $subEntity); 
                 }
             }
         }

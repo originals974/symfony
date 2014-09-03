@@ -56,8 +56,7 @@ class PropertyController extends Controller
     {
         if ($request->isXmlHttpRequest()) {
 
-            $property = new Property();
-            $property->setEntityClass($entityClass); 
+            $property = new Property(null, $entityClass);
             $formArray = $this->propertyService->createCreateForm($property);
             $selectForm = $formArray['selectForm']; 
             $mainform = $formArray['mainForm'];
@@ -91,8 +90,7 @@ class PropertyController extends Controller
 
             $formMode = $request->query->get('formMode'); 
             
-            $property = $this->propertyService->getPropertyEntityClassByFormMode($formMode); 
-            $property->setEntityClass($entityClass); 
+            $property = $this->propertyService->getPropertyEntityClassByFormMode($formMode, $entityClass); 
 
             $formArray = $this->propertyService->createCreateForm($property, $formMode);
             $selectForm = $formArray['selectForm']; 
@@ -126,9 +124,7 @@ class PropertyController extends Controller
      */
     public function createAction(Request $request, EntityClass $entityClass, $formMode)
     {
-        $property = $this->propertyService->getPropertyEntityClassByFormMode($formMode); 
-        $property->setEntityClass($entityClass);
-        $entityClass->addProperty($property); 
+        $property = $this->propertyService->getPropertyEntityClassByFormMode($formMode, $entityClass); 
 
         $formArray = $this->propertyService->createCreateForm($property, $formMode);
         $selectForm = $formArray['selectForm'];

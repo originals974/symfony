@@ -35,7 +35,9 @@
 							            {% endif %}
 							        {% endfor %}
 							    {% else %}
-							    	{{ propertiesEntity.displayName }}
+							    	{% if propertiesEntity is not null %}
+							    		{{ propertiesEntity.displayName }}
+							    	{% endif %}
 							    {% endif %}
 
 						    {% elseif  property.fieldType.FormType == 'choice' %}

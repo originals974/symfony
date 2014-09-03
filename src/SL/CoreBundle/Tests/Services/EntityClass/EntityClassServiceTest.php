@@ -24,7 +24,7 @@ class EntityClassServiceTest extends WebTestCase
     $this->translator = $this->getContainer()->get('translator'); 
 
     $classes = array(
-        'SL\CoreBundle\DataFixtures\ORM\LoadFieldTypeData',
+        'SL\CoreBundle\DataFixtures\ORM\Base\LoadFieldTypeData',
         'SL\CoreBundle\DataFixtures\ORM\Test\LoadEntityClassServiceTestData',
     );
     $this->loadFixtures($classes);
@@ -33,7 +33,7 @@ class EntityClassServiceTest extends WebTestCase
                                 ->findOneByDisplayName('entity_class'); 
 
     $this->targetEntityClass = $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')
-                                        ->findOneByDisplayName('target_entity_class_1'); 
+                                        ->findOneByDisplayName('target_entity_class_single'); 
 
     $this->simpleEntityClass = $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')
                                         ->findOneByDisplayName('entity_class_1');  

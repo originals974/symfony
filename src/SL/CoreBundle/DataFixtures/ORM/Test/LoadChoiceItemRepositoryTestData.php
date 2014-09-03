@@ -40,6 +40,6 @@ class LoadChoiceItemRepositoryTestData extends AbstractFixture implements Ordere
      */
     public function getOrder()
     {
-        return 140; 
+        return 10; 
     }
 }

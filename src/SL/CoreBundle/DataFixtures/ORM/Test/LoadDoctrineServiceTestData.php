@@ -44,6 +44,6 @@ class LoadDoctrineServiceTestData extends AbstractFixture implements OrderedFixt
      */
     public function getOrder()
     {
-        return 110; 
+        return 10; 
     }
 }
