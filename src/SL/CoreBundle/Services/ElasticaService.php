@@ -148,6 +148,8 @@ class ElasticaService
         $entityClass = $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')->find($entity->getEntityClassId());
 
         $node = array(); 
+        $data[] = &$node;
+
         $node['text'] = $this->jsTreeService->shortenTextNode($entity->getDisplayName(),50); 
         $node['icon'] = 'fa '.$entityClass->getIcon();
         $node['li_attr'] = array(
@@ -165,24 +167,37 @@ class ElasticaService
         $propertiesEntity = $this->em->getRepository('SLCoreBundle:EntityClass\Property')
                                  ->findPropertyEntityByEntityClass($entityClass);
 
+        $node['children'] = array();
+
+        $i = 0;
         foreach($propertiesEntity as $propertyEntity){
 
             if($propertyEntity->isMultiple()){
 
                 $collection = $entity->{"get".$propertyEntity->getTechnicalName()}();
-                if($collection != null) {
-                    $node['children'] = array();  
-                    $this->entitiesToJSTreeData($node['children'], $collection); 
+
+                if($collection->count() != 0) {
+                      
+                    $node['children'][$i] = $this->jsTreeService->getEntityGroupNode($propertyEntity, $collection->count());
+
+                    foreach($collection as $collectionEntity){
+                        $this->entityToJSTreeData($node['children'][$i]['children'], $collectionEntity); 
+                    }
+                    $i++;
                 }
             }
             else {
                 $subEntity = $entity->{"get".$propertyEntity->getTechnicalName()}();
-                if($subEntity != null) {
-                    $node['children'] = array();  
-                    $this->entityToJSTreeData($node['children'], $subEntity); 
+
+                if($subEntity != null) { 
+
+                    $node['children'][$i] = $this->jsTreeService->getEntityGroupNode($propertyEntity, 1);
+
+                    $this->entityToJSTreeData($node['children'][$i]['children'], $subEntity); 
+
+                    $i++;
                 }
             }
-        }
-        $data[] = $node;  
+        }         
     }
 }

@@ -41,6 +41,10 @@ services:
         class: SL\CoreBundle\Services\ElasticaService
         arguments: [@doctrine.orm.entity_manager, @router, @sl_core.js_tree, %sl_data.bundle%, %symfony.config_path%]
 
+    sl_core.menu:
+        class: SL\CoreBundle\Services\MenuService
+        arguments: [@doctrine.orm.entity_manager, @sl_core.icon]
+
     sl_core.test:
         class: SL\CoreBundle\Services\TestService
 

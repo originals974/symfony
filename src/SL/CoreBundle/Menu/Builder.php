@@ -6,6 +6,8 @@ use Knp\Menu\FactoryInterface;
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Knp\Menu\MenuItem; 
 
+use SL\CoreBundle\Entity\EntityClass\EntityClass;
+
 class Builder extends ContainerAware
 {
     /**
@@ -72,7 +74,8 @@ class Builder extends ContainerAware
     public function createEntityMenu(FactoryInterface $factory, array $options)
     {
         $em = $this->container->get('Doctrine')->getManager();
-        $icon = $this->container->get('sl_core.icon');
+        $iconService = $this->container->get('sl_core.icon');
+        $menuService = $this->container->get('sl_core.menu');
 
         $menu = $factory->createItem('root', array(
             'subnavbar' => true,
@@ -81,25 +84,24 @@ class Builder extends ContainerAware
             )
         );
 
-        $entityClasses = $em->getRepository('SLCoreBundle:EntityClass\EntityClass')->fullFindAll();
+        $entityClasses = $em->getRepository('SLCoreBundle:EntityClass\EntityClass')->fullFindAll(0);
         
         foreach($entityClasses as $entityClass) {
 
-            $entityClassLink = $menu->addChild(
-                $entityClass->getTechnicalName(), 
-                array(
-                    'route' => 'entity_new', 
-                    'routeParameters' => array('entity_class_id' => $entityClass->getId()),
-                    'label' => $entityClass->getDisplayName(),
-                    'icon' => $icon->getEntityClassIcon($entityClass),
-                    )
-                );
+            $dropdown = $menu->addChild($entityClass->getTechnicalName(), array(
+                'label' => $entityClass->getDisplayName(),
+                'dropdown' => true,
+                'caret' => true,
+                'icon' => $iconService->getEntityClassIcon($entityClass),
+            ));
 
-            $entityClassLink->setLinkAttributes(array(
-                'data-toggle' => 'modal',
-                'data-target' => '#',
-                )
-            );
+            $menuService->addEntityClassDropDownMenu($dropdown, $entityClass); 
+
+            $subEntityClasses = $em->getRepository('SLCoreBundle:EntityClass\EntityClass')->children($entityClass);
+            foreach($subEntityClasses as $subEntityClass){
+
+                $menuService->addEntityClassDropDownMenu($dropdown, $subEntityClass); 
+            }
         }
 
         return $menu;
@@ -116,7 +118,8 @@ class Builder extends ContainerAware
     public function treeBackEndMenu(FactoryInterface $factory, array $options)
     {
         $em = $this->container->get('Doctrine')->getManager();
-        $icon = $this->container->get('sl_core.icon');
+        $iconService = $this->container->get('sl_core.icon');
+        $menuService = $this->container->get('sl_core.menu');
 
         $menu = $factory->createItem('root');
        
@@ -127,7 +130,7 @@ class Builder extends ContainerAware
             )
         );
         $server->setAttributes(array(
-            'data-jstree' => '{"icon":"'.$icon->getRootServerIcon('fa-lg').'"}',
+            'data-jstree' => '{"icon":"'.$iconService->getRootServerIcon('fa-lg').'"}',
             )
         );
 
@@ -138,12 +141,12 @@ class Builder extends ContainerAware
             )
         );
         $entityClassRoot->setAttributes(array(
-            'data-jstree' => '{"icon":"'.$icon->getRootEntityClassIcon('fa-lg text-primary').'"}',
+            'data-jstree' => '{"icon":"'.$iconService->getRootEntityClassIcon('fa-lg text-primary').'"}',
             )
         );
         
         $entityClasses = $em->getRepository('SLCoreBundle:EntityClass\EntityClass')->fullFindAll(0);
-        $this->addEntityClassItems($entityClassRoot, $entityClasses);
+        $menuService->addEntityClassItems($entityClassRoot, $entityClasses);
 
          /************CHOICE LIST*************/
         $choiceListRoot = $server->addChild('choiceList', array(
@@ -152,7 +155,7 @@ class Builder extends ContainerAware
             )
         );
         $choiceListRoot->setAttributes(array(
-            'data-jstree' => '{"icon":"'.$icon->getRootChoiceListIcon('fa-lg text-primary').'"}',
+            'data-jstree' => '{"icon":"'.$iconService->getRootChoiceListIcon('fa-lg text-primary').'"}',
             )
         );    
 
@@ -170,47 +173,11 @@ class Builder extends ContainerAware
                     );
             $choiceListItem->setAttributes(array(
                 'id' => $choiceList->getTechnicalName(),
-                'data-jstree' => '{"icon":"'.$icon->getChoiceListIcon().'"}'
+                'data-jstree' => '{"icon":"'.$iconService->getChoiceListIcon().'"}'
                 )
             );
         }
 
         return $menu;
-    }
-
-   /**
-    * Linked $entityClasses items with their $parent
-    *
-    * @param MenuItem $parent
-    * @param array $entityClasses
-    *
-    * @return void
-    */
-    private function addEntityClassItems(&$parent, array $entityClasses)
-    {
-        $icon = $this->container->get('sl_core.icon');
-        $em = $this->container->get('Doctrine')->getManager();
-
-        foreach ($entityClasses as $entityClass) {
-            
-            $entityClassItem = $parent->addChild($entityClass->getTechnicalName(), array(
-                        'route' => 'entity_class_show', 
-                        'routeParameters' => array(
-                            'entity_class_id' => $entityClass->getId(),
-                            ),
-                        'label' => $entityClass->getDisplayName(),
-                        )
-                    );
-            $entityClassItem->setAttributes(array(
-                'id' => $entityClass->getTechnicalName(), 
-                'data-jstree' => '{"icon":"'.$icon->getEntityClassIcon($entityClass).'"}'
-                )
-            );
-
-            $entityClasses = $em->getRepository('SLCoreBundle:EntityClass\EntityClass')->children($entityClass, true); 
-
-            $this->addEntityClassItems($entityClassItem, $entityClasses); 
-
-        }
     }
 }

@@ -301,4 +301,35 @@ class EntityService
         return $entitiesExist; 
     }
 
+    /**
+     * Remove link with others entities 
+     * before $entityToDetach delete
+     *
+     * @param AbstractEntity $$entityToDetach
+     *
+     * @return void
+     */
+    public function detachEntity(AbstractEntity $entityToDetach){
+
+        $targetEntityClass = $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')->find($entityToDetach->getEntityClassId());
+
+        $properties = $this->em->getRepository('SLCoreBundle:EntityClass\PropertyEntity')->findByTargetEntityClass($targetEntityClass);
+
+        foreach($properties as $property){
+
+            $entityClass  = $property->getEntityClass(); 
+            $entities = $this->databaseEm->getRepository('SLDataBundle:'.$entityClass->getTechnicalName())->findAll(); 
+
+            foreach($entities as $entity){
+
+                if($property->isMultiple()){
+                    $entity->{'remove'.$property->getTechnicalName()}($entityToDetach); 
+                }
+                else{
+                    $entity->{'set'.$property->getTechnicalName()}(null);
+                }
+            }
+        }
+    }
+
 }

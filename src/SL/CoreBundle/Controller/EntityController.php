@@ -36,6 +36,7 @@ class EntityController extends Controller
      */
     public function __construct(RegistryInterface $registry, DoctrineService $doctrineService, EntityClassService $entityClassService, EntityService $entityService)
     { 
+        $this->em = $registry->getManager();
         $this->databaseEm = $registry->getManager('database');
         $this->doctrineService = $doctrineService;
         $this->entityClassService = $entityClassService;
@@ -307,6 +308,8 @@ class EntityController extends Controller
     public function deleteAction(Request $request, AbstractEntity $entity, $class_namespace)
     {
         if ($request->isXmlHttpRequest()) {
+
+            $this->entityService->detachEntity($entity); 
 
             $this->databaseEm->remove($entity);
             $this->databaseEm->flush();

@@ -55,14 +55,14 @@ class EntityParamConverter implements ParamConverterInterface
     }
 
     if($selectMode == "all"){
-      $filters = $this->databaseEm->getFilters();
-      $filters->disable('softdeleteable');
+      //$filters = $this->databaseEm->getFilters();
+      //$filters->disable('softdeleteable');
     }
     $entity = $this->find($id); 
     $request->attributes->set($name, $entity);
 
     if($selectMode == "all"){
-      $filters->enable('softdeleteable');
+      //$filters->enable('softdeleteable');
     }
 
     return true;

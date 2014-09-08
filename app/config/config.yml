@@ -1,7 +1,7 @@
 imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
-    - { resource: elastica.yml }
+    #- { resource: elastica.yml }
 
 framework:
     #esi:             ~
@@ -212,7 +212,7 @@ doctrine:
                 filters:
                     softdeleteable:
                         class: Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter
-                        enabled: true
+                        enabled: false
                 mappings:
                     SLDataBundle: ~
                     SLMasterBundle: ~
@@ -235,7 +235,7 @@ stof_doctrine_extensions:
             timestampable: true
         database:
             loggable: true
-            softdeleteable: true
+            softdeleteable: false
             timestampable: true
 
 # Swiftmailer Configuration
@@ -271,14 +271,14 @@ jms_translation:
             dirs: [%kernel.root_dir%/Resources]
             output_dir: %kernel.root_dir%/Resources/translations
             ignored_domains: [routes]
-            excluded_names: [*TestCase.php, *Test.php]
+            excluded_names: ['*TestCase.php', '*Test.php']
             excluded_dirs: [cache, data, logs]
             extractors: []
         SLCoreBundle:
             dirs: [%kernel.root_dir%/../src/SL/CoreBundle]
             output_dir: %kernel.root_dir%/../src/SL/CoreBundle/Resources/translations
             ignored_domains: [routes]
-            excluded_names: [*TestCase.php, *Test.php]
+            excluded_names: ['*TestCase.php', '*Test.php']
             excluded_dirs: [cache, data, logs]
             extractors: []
 
@@ -290,23 +290,65 @@ jms_di_extra:
         directories: ["%kernel.root_dir%/../src"]
 
 #FOSElastica
-# fos_elastica:
-#     clients:
-#         default: { host: localhost, port: 9200 }
-#     serializer:
-#         callback_class: FOS\ElasticaBundle\Serializer\Callback
-#         serializer: serializer
-#     indexes:
-#         slcore:
-#             client: default
-#             types:
-#                 EntityClass102:
-#                     persistence:
-#                         driver: orm
-#                         model:  SL\DataBundle\Entity\EntityClass102
-#                         provider: ~
-#                         listener: ~
-#                         finder: ~
+fos_elastica:
+    clients:
+        default: { host: localhost, port: 9200 }
+    serializer:
+        callback_class: FOS\ElasticaBundle\Serializer\Callback
+        serializer: serializer
+    indexes:
+        slcore:
+            client: default
+            types:
+                EntityClass118:
+                    persistence:
+                        driver: orm
+                        model:  SL\DataBundle\Entity\EntityClass118
+                        provider: ~
+                        listener: ~
+                        finder: ~
+                EntityClass119:
+                    persistence:
+                        driver: orm
+                        model:  SL\DataBundle\Entity\EntityClass119
+                        provider: ~
+                        listener: ~
+                        finder: ~
+                EntityClass120:
+                    persistence:
+                        driver: orm
+                        model:  SL\DataBundle\Entity\EntityClass120
+                        provider: ~
+                        listener: ~
+                        finder: ~
+                EntityClass121:
+                    persistence:
+                        driver: orm
+                        model:  SL\DataBundle\Entity\EntityClass121
+                        provider: ~
+                        listener: ~
+                        finder: ~
+                EntityClass122:
+                    persistence:
+                        driver: orm
+                        model:  SL\DataBundle\Entity\EntityClass122
+                        provider: ~
+                        listener: ~
+                        finder: ~
+                EntityClass123:
+                    persistence:
+                        driver: orm
+                        model:  SL\DataBundle\Entity\EntityClass123
+                        provider: ~
+                        listener: ~
+                        finder: ~
+                EntityClass124:
+                    persistence:
+                        driver: orm
+                        model:  SL\DataBundle\Entity\EntityClass124
+                        provider: ~
+                        listener: ~
+                        finder: ~
 
 #Shiva versionning
 shivas_versioning:

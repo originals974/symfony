@@ -7,6 +7,7 @@ use Symfony\Component\Routing\Router;
 use SL\CoreBundle\Entity\EntityClass\EntityClass;
 use SL\CoreBundle\Entity\Choice\ChoiceList;
 use SL\CoreBundle\Services\IconService;
+use SL\CoreBundle\Entity\EntityClass\PropertyEntity;
 
 /**
  * JSTree Service
@@ -93,4 +94,20 @@ class JSTreeService
 
         return $shortedText;
     }
+
+    /**
+     * Get entity group node
+     *
+     * @param PropertyEntity $propertyEntity
+     * @param integer $nbItem
+     *
+     * @return array
+     */
+    public function getEntityGroupNode(PropertyEntity $propertyEntity, $nbItem){
+        return array(
+            'text' => '<b><i>'.$propertyEntity->getDisplayName().' ('.$nbItem.')'.'</i></b>',
+            'icon' => 'fa '.$propertyEntity->getTargetEntityClass()->getIcon(), 
+            'children' => array(),
+        );
+    }   
 }

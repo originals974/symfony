@@ -11,12 +11,9 @@
 %}
 
     {% block section_heading %}
-		<ul class="list-inline">
-		    <li>
-				<span class="fa {{ entityClass.icon() }} fa-3x"></span> 
-			</li>
+    	<ul class="list-inline well">
 			<li>
-				<h3>{{ entity.displayName }}</h3>
+				<i><small>{{ path }}</small></i>
 			</li>
 			<li class="btn-group pull-right">
 				<a title="{{ 'entity.update.title'|trans }}" class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('entity_edit', { 'entity_class_id' : entityClass.id, 'entity_id': entity.id, 'class_namespace' : entity.class }) }}" data-target="#">
@@ -28,6 +25,14 @@
 			    <a title="{{ 'entity.version_history.title'|trans }}" class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('entity_edit_version', { 'entity_class_id' : entityClass.id, 'entity_id': entity.id, 'class_namespace' : entity.class }) }}" data-target="#">
 			        <span class="fa fa-undo"></span>  
 			    </a>
+			</li>
+		</ul>
+		<ul class="list-inline">
+		    <li>
+				<span class="fa {{ entityClass.icon() }} fa-2x"></span> 
+			</li>
+			<li>
+				<h3>{{ entity.displayName }}</h3>
 			</li>
 		</ul>
 		<ul class="list-inline">

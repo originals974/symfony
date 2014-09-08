@@ -78,7 +78,9 @@
 								jsTree.rename_node(selectedNode, data.content.js_tree);
 			            	}
 			            	else if(mode == 'delete') {
+			            		parentNode = jsTree.get_parent(selectedNode);
 			            		jsTree.delete_node(selectedNode); 
+			            		jsTree.select_node(parentNode); 
 			            	}
             			}
 

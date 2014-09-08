@@ -129,6 +129,7 @@ class SearchController extends Controller
         $filters = $this->em->getFilters();
         $filters->disable('softdeleteable');
 
+        $this->get('fos_elastica.index.slcore')->refresh(); 
         $entities = $finder->find($pattern, $this->numberOfSearchResults);
 
         $filters->enable('softdeleteable');

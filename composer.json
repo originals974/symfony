@@ -33,7 +33,7 @@
         "genemu/form-bundle": "2.2.*",
         "jschr/bootstrap-modal": "2.2.5",
         "stof/doctrine-extensions-bundle": "1.1.*@dev",
-        "friendsofsymfony/elastica-bundle": "3.0.*@alpha",
+        "friendsofsymfony/elastica-bundle": "~3.0",
         "jms/serializer-bundle": "0.13.*@dev",
         "shivas/versioning-bundle": "1.0.1",
         "friendsofsymfony/jsrouting-bundle": "@stable",
@@ -41,7 +41,7 @@
         "doctrine/doctrine-fixtures-bundle": "2.2.*@dev",
         "components/jquery": "2.1.*",
         "components/jqueryui": "1.11.*",
-        "fortawesome/font-awesome": "4.1.*",
+        "fortawesome/font-awesome": "4.2.*",
         "vakata/jstree": "dev-master",
         "liip/functional-test-bundle": "dev-master"
     },

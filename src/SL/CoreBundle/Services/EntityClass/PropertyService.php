@@ -118,7 +118,7 @@ class PropertyService
                 'mode' => 'update',  
                 
                 ),
-            'submit_label' => 'update',
+            'submit_label' => 'update.label',
             'submit_color' => 'primary',
             'entity_class_id' => $property->getEntityClass()->getId(),
             )
