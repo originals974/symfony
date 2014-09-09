@@ -9,6 +9,6 @@ search_result:
     pattern:  /search_result/{pattern}.{entityClassTechnicalName}
     defaults: { _controller: SLCoreBundle:Search:refreshJsTreeSearchResults } 
     requirements:
-        _method: GET 
+        _method: POST 
     options:
         expose: true

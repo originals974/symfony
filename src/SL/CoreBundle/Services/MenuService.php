@@ -67,9 +67,6 @@ class MenuService
     */
     public function addEntityClassItems(MenuItem &$parent, array $entityClasses)
     {
-        $icon = $this->container->get('sl_core.icon');
-        $em = $this->container->get('Doctrine')->getManager();
-
         foreach ($entityClasses as $entityClass) {
             
             $entityClassItem = $parent->addChild($entityClass->getTechnicalName(), array(
@@ -86,7 +83,7 @@ class MenuService
                 )
             );
 
-            $entityClasses = $em->getRepository('SLCoreBundle:EntityClass\EntityClass')->children($entityClass, true); 
+            $entityClasses = $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')->children($entityClass, true); 
 
             $this->addEntityClassItems($entityClassItem, $entityClasses); 
 

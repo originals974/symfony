@@ -121,14 +121,14 @@
 		   	$button = $(this); 
 
 			jsTree = $('#jstree').jstree(true);
-			selectedNode = String(jsTree.get_selected());  
-
-			//Update icon for entity class node
-			if(selectedNode.search("EntityClass") != -1) {	
-				jsTree.set_icon(selectedNode, 'fa '+event.icon); 
-			}    
+			selectedNode = String(jsTree.get_selected());    
 
 		    sendToAjaxBackEnd('PUT', $button.attr('ajax-action'), {icon : event.icon}, null);
+
+		    //Update icon for entity class node
+			if(selectedNode.search("EntityClass") != -1) {	
+				jsTree.set_icon(selectedNode, 'fa '+event.icon); 
+			}
 		});
 
         //When change the state of a checkbox of property-content div 
