@@ -16,10 +16,10 @@
                     <a title="{{ 'entity_class.sub.add.title'|trans }}" class="btn btn-default btn-xs" data-toggle="modal" data-target="#" href="{{ path('entity_class_new', { 'entity_class_id' : entityClass.id }) }}">
                         <span class="fa fa-plus"></span>  
                     </a>  
-                    <a title="{{ 'entity_class.update.title'|trans }}" class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('entity_class_edit', { 'entity_class_id': entityClass.id }) }}" data-target="#">
+                    <a {{ entityClass.isReadOnly ? "disabled='disabled'"}} title="{{ 'entity_class.update.title'|trans }}" class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('entity_class_edit', { 'entity_class_id': entityClass.id }) }}" data-target="#">
                         <span class="fa fa-pencil"></span>  
                     </a>
-                    <a title="{{ 'entity_class.delete.title'|trans }}" class="btn btn-danger btn-xs" data-toggle="modal" href="{{ path('entity_class_remove', { 'entity_class_id': entityClass.id }) }}" data-target="#">
+                    <a {{ entityClass.isReadOnly ? "disabled='disabled'"}} title="{{ 'entity_class.delete.title'|trans }}" class="btn btn-danger btn-xs" data-toggle="modal" href="{{ path('entity_class_remove', { 'entity_class_id': entityClass.id }) }}" data-target="#">
                         <span class="fa fa-times"></span>  
                     </a>
                     <a title="{{ 'entity_class.calculated_name.update.title'|trans }}" class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('entity_class_edit_calculated_name', { 'entity_class_id': entityClass.id }) }}" data-target="#">

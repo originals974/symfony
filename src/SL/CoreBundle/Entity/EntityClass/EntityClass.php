@@ -206,6 +206,16 @@ class EntityClass extends AbstractEntity
     }
 
     /**
+     * Get lvl
+     *
+     * @return integer 
+     */
+    public function getLvl()
+    {
+        return $this->lvl;
+    }
+
+    /**
      * Set EntityClass parent 
      *
      * @param EntityClass $parent|null
@@ -259,5 +269,16 @@ class EntityClass extends AbstractEntity
     public function isRoot()
     {
         return $this->root;
+    }
+
+    /**
+     * Return true if EntityClass 
+     * is in read only mode
+     *
+     * @return boolean 
+     */
+    public function isReadOnly()
+    {
+        return ($this->isDocument() and $this->isRoot());
     }
 }

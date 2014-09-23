@@ -9,7 +9,7 @@ entity_class_new:
     defaults: { _controller: SLCoreBundle:EntityClass\EntityClass:new, entity_class_id:0 }
     requirements:
         entity_class_id: \d+
-        _method: GET 
+        _method: GET
 
 entity_class_create:
     pattern: /create/{entity_class_id}

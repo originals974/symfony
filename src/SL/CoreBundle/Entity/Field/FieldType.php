@@ -20,7 +20,7 @@ class FieldType extends AbstractEntity
     /**
      * @var string
      *
-     * @ORM\Column(name="data_type", type="string", length=255)
+     * @ORM\Column(name="data_type", type="string", length=255, nullable=true)
      */
     private $dataType;
 

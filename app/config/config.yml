@@ -237,6 +237,7 @@ stof_doctrine_extensions:
             loggable: true
             softdeleteable: false
             timestampable: true
+            uploadable: true
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -300,56 +301,14 @@ fos_elastica:
         slcore:
             client: default
             types:
-                EntityClass118:
+                EntityClass140:
                     persistence:
                         driver: orm
-                        model:  SL\DataBundle\Entity\EntityClass118
+                        model:  SL\DataBundle\Entity\EntityClass140
                         provider: ~
                         listener: ~
                         finder: ~
-                EntityClass119:
-                    persistence:
-                        driver: orm
-                        model:  SL\DataBundle\Entity\EntityClass119
-                        provider: ~
-                        listener: ~
-                        finder: ~
-                EntityClass120:
-                    persistence:
-                        driver: orm
-                        model:  SL\DataBundle\Entity\EntityClass120
-                        provider: ~
-                        listener: ~
-                        finder: ~
-                EntityClass121:
-                    persistence:
-                        driver: orm
-                        model:  SL\DataBundle\Entity\EntityClass121
-                        provider: ~
-                        listener: ~
-                        finder: ~
-                EntityClass122:
-                    persistence:
-                        driver: orm
-                        model:  SL\DataBundle\Entity\EntityClass122
-                        provider: ~
-                        listener: ~
-                        finder: ~
-                EntityClass123:
-                    persistence:
-                        driver: orm
-                        model:  SL\DataBundle\Entity\EntityClass123
-                        provider: ~
-                        listener: ~
-                        finder: ~
-                EntityClass124:
-                    persistence:
-                        driver: orm
-                        model:  SL\DataBundle\Entity\EntityClass124
-                        provider: ~
-                        listener: ~
-                        finder: ~
-
+               
 #Shiva versionning
 shivas_versioning:
     version_parameter:    application_version

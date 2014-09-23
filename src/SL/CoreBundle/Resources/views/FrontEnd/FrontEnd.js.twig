@@ -47,7 +47,7 @@
                 $(this).find('button[type="submit"]').attr('disabled', true);
             } 
             
-            submitFormToAjaxFrontEnd($(this));
+            submitFormToAjaxFrontEnd(this);
             
             return false;
         });
@@ -72,13 +72,14 @@
 		/**
 	     * Process submitted form by using ajax
 	     *
-	     * @param $form Submitted form
+	     * @param form Submitted form
 	     */
-        function submitFormToAjaxFrontEnd($form) {
+        function submitFormToAjaxFrontEnd(form) {
 
-        	var validTarget, noValidTarget, modalId, mode, entityClassesTechnicalName, n;
+        	var $form, validTarget, noValidTarget, modalId, mode, entityClassesTechnicalName, n;
             var jsTree, jsTreeId, jsTreeIds, openJsTreeDiv, selectedNode, openJsTreeId, openJsTree;  
 
+            $form = $(form);
         	validTarget = '#'+$form.attr('valid-target'); 
         	noValidTarget = '#'+$form.attr('no-valid-target'); 
             mode = $form.attr('mode');
@@ -86,7 +87,9 @@
             $.ajax({
                 type: $form.attr('method'),
                 url: $form.attr('action'),
-                data: $form.serializeArray(),
+                data: new FormData(form),
+                processData: false,
+                contentType: false,
                 dataType : "json",    
                 success: function(data) {
                 	if(data.isValid) {

@@ -11,7 +11,7 @@
         <thead>
             <tr>
                 <th style="width:60px;">
-                    <a title="{{ 'property.add.title'|trans }}" class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('property_new', { 'entity_class_id': entityClass.id }) }}" data-target="#">
+                    <a {{ entityClass.isReadOnly ? "disabled='disabled'"}} title="{{ 'property.add.title'|trans }}" class="btn btn-default btn-xs" data-toggle="modal" href="{{ path('property_new', { 'entity_class_id': entityClass.id }) }}" data-target="#">
                         <span class="fa fa-plus"></span>  
                     </a>
                 </th>
@@ -25,17 +25,21 @@
             {% for property in entityClass.properties %}
                 <tr>
                     <td>
-                        <a title="{{ 'property.delete.title'|trans }}" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#" href="{{ path('property_remove', { 'id': property.id }) }}" >
+                        <a {{ entityClass.isReadOnly ? "disabled='disabled'"}} title="{{ 'property.delete.title'|trans }}" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#" href="{{ path('property_remove', { 'id': property.id }) }}" >
                             <span class="fa fa-times"></span>        
                         </a> 
                     </td>
                     <td>
-                        <input title="{{ 'property.update.required.title'|trans }}" type="checkbox" name="isRequired" value="isRequired" {% if property.isRequired %}checked{% endif %} ajax-action={{ path('property_update_checkbox', { 'id': property.id }) }}>
+                        <input {{ entityClass.isReadOnly ? "disabled='disabled'"}} title="{{ 'property.update.required.title'|trans }}" type="checkbox" name="isRequired" value="isRequired" {% if property.isRequired %}checked{% endif %} ajax-action={{ path('property_update_checkbox', { 'id': property.id }) }}>
                     </td>
                     <td>
-                        <a title="{{ 'property.update.title'|trans }}" data-toggle="modal" data-target="#" href="{{ path('property_edit', { 'id': property.id }) }}">
+                        {% if entityClass.isReadOnly %}
                             {{ property.displayName }}
-                        </a>
+                        {% else %}
+                            <a title="{{ 'property.update.title'|trans }}" data-toggle="modal" data-target="#" href="{{ path('property_edit', { 'id': property.id }) }}">
+                                {{ property.displayName }}
+                            </a>
+                        {% endif %}
                     </td>
                     <td>
                         {{ property.fieldType.displayName }}

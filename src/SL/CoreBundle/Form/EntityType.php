@@ -10,6 +10,7 @@ use Symfony\Component\Translation\Translator;
 
 use SL\CoreBundle\Services\EntityClass\EntityClassService;
 use SL\CoreBundle\Entity\EntityClass\Property;
+use SL\DataBundle\Form\DocumentType; 
 
 class EntityType extends AbstractType
 {
@@ -39,8 +40,8 @@ class EntityType extends AbstractType
     {
         if($options['method'] != 'DELETE'){
 
-            $entityClass= $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')->find($options['entity_class_id']); 
-            $entityClasses = $this->entityClassService->getPath($entityClass); 
+            $mainEntityClass = $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')->find($options['entity_class_id']); 
+            $entityClasses = $this->entityClassService->getPath($mainEntityClass); 
 
             foreach($entityClasses as $entityClass){
 
@@ -55,15 +56,38 @@ class EntityType extends AbstractType
                     )
                 );
 
+                if($entityClass->isDocument() && $entityClass === reset($entityClasses)){
+                    $tab->add(
+                        'document', 
+                        new DocumentType(),  
+                        array(
+                            'label' =>  'main_document.label',
+                            'required' => true,
+                            'horizontal_input_wrapper_class' => 'col-lg-6',
+                        )
+                    );
+                }
+
                 foreach ($entityClass->getProperties() as $property) {
                     
                     $fieldOptions = $this->getFieldOptions($property); 
 
-                    $tab->add(
-                        $property->getTechnicalName(), 
-                        $property->getFieldType()->getFormType(),  
-                        $fieldOptions
-                    );
+                    if($property->getFieldType()->getFormType() === "file"){
+
+                        $tab->add(
+                            $property->getTechnicalName(), 
+                            new DocumentType(),  
+                            $fieldOptions
+                        );
+                    }
+                    else{
+
+                        $tab->add(
+                            $property->getTechnicalName(), 
+                            $property->getFieldType()->getFormType(),  
+                            $fieldOptions
+                        );
+                    }
                 }
 
                 $builder->add($tab); 
@@ -109,7 +133,10 @@ class EntityType extends AbstractType
                 $fieldOptions['multiple'] = $property->isMultiple();
 
                 break;
-            
+            case 'file':
+
+                break;
+                
             case 'choice':
 
                 $choice = array(); 

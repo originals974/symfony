@@ -4,6 +4,7 @@ namespace SL\CoreBundle\Controller\EntityClass;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Doctrine\ORM\EntityManager;
@@ -14,6 +15,7 @@ use SL\CoreBundle\Services\EntityClass\EntityClassService;
 use SL\CoreBundle\Services\JSTreeService;
 use SL\CoreBundle\Services\DoctrineService;
 use SL\CoreBundle\Services\EntityService;
+use SL\DataBundle\Entity\Document;
 
 /**
  * EntityClass controller
@@ -91,7 +93,7 @@ class EntityClassController extends Controller
             $response = $this->redirect($this->generateUrl('back_end'));
         }
 
-        return $response; 
+        return $response;
     }
 
     /**
@@ -127,6 +129,11 @@ class EntityClassController extends Controller
                 //Init calculated name with default created property
                 $this->entityClassService->initCalculatedName($entityClass); 
                 
+                //TO TEST
+                if($entityClass->isDocument() && $entityClass->level === 1){
+                    $this->doctrineService->generateEntityFileAndObjectSchema($entityClass->getParent());
+                }
+
                 $this->doctrineService->generateEntityFileAndObjectSchema($entityClass);  
                 
                 $html = null; 
@@ -135,7 +142,7 @@ class EntityClassController extends Controller
             }
             else {
                 $jsTree = null; 
-                $html = $this-->renderView('SLCoreBundle::save.html.twig', array(
+                $html = $this->renderView('SLCoreBundle::save.html.twig', array(
                     'entity' => $entityClass,
                     'form'   => $form->createView(),
                     )

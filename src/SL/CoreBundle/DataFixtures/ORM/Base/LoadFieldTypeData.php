@@ -81,8 +81,6 @@ class LoadFieldTypeData extends AbstractFixture implements OrderedFixtureInterfa
         //Entity
         $entityType = new FieldType(); 
         $entityType->setDisplayName('Objet');
-        $entityType->setDataType('string'); 
-        $entityType->setLength(255);
         $entityType->setFieldCategory($choiceCategory); 
         $entityType->setFormType('entity'); 
 
@@ -106,6 +104,16 @@ class LoadFieldTypeData extends AbstractFixture implements OrderedFixtureInterfa
         $jqueryDateType->setFieldCategory($dateTimeCategory); 
         $jqueryDateType->setFormType('genemu_jquerydate');
 
+        /**********FILE********/ 
+        $fileCategory = new FieldCategory(); 
+        $fileCategory->setDisplayName('Fichier'); 
+
+        //File
+        $fileType = new FieldType();  
+        $fileType->setDisplayName('Fichier');
+        $fileType->setFieldCategory($fileCategory); 
+        $fileType->setFormType('file');
+
         $manager->persist($textCategory);
         $manager->persist($textType);
         $manager->persist($textAreaType);
@@ -119,6 +127,8 @@ class LoadFieldTypeData extends AbstractFixture implements OrderedFixtureInterfa
         $manager->persist($choiceList);
         $manager->persist($dateTimeCategory);
         $manager->persist($jqueryDateType);
+        $manager->persist($fileCategory);
+        $manager->persist($fileType);
         $manager->flush();
     }
 

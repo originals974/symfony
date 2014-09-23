@@ -7,6 +7,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Stof\DoctrineExtensionsBundle\Uploadable\UploadableManager;
 
 use SL\CoreBundle\Entity\EntityClass\EntityClass;
 use SL\CoreBundle\Doctrine\SLCoreEntityGenerator;
@@ -26,6 +27,7 @@ class DoctrineService
     private $databaseEm;
     private $dataBundle; 
     private $numberOfVersion; 
+    private $uploadableManager; 
 
     /**
      * Constructor
@@ -36,13 +38,14 @@ class DoctrineService
      * @param string $dataBundlePath
      * @param integer $numberOfVersion
      */
-    public function __construct(Filesystem $filesystem, RegistryInterface $registry, HttpKernelInterface $kernel, $dataBundlePath, $numberOfVersion)
+    public function __construct(Filesystem $filesystem, RegistryInterface $registry, HttpKernelInterface $kernel, UploadableManager $uploadableManager, $dataBundlePath, $numberOfVersion)
     {
         $this->filesystem = $filesystem;
         $this->registry = $registry;
         $this->kernel = $kernel; 
         $this->em = $registry->getManager();
         $this->databaseEm = $registry->getManager('database');
+        $this->uploadableManager = $uploadableManager; 
         $this->dataBundle = $this->kernel->getBundle(str_replace('/', '', $dataBundlePath)); 
         $this->numberOfVersion = $numberOfVersion;
     }
@@ -138,7 +141,12 @@ class DoctrineService
         $entityGenerator->setGenerateAnnotations(true);
 
         if($entityClass->getParent() === null){
-            $entityGenerator->setClassToExtend('SL\DataBundle\Entity\MappedSuperclass\AbstractEntity'); 
+            if($entityClass->isDocument()){
+                $entityGenerator->setClassToExtend('SL\DataBundle\Entity\MappedSuperclass\DocumentAbstractEntity'); 
+            }
+            else{
+                $entityGenerator->setClassToExtend('SL\DataBundle\Entity\MappedSuperclass\AbstractEntity'); 
+            }
         }
         else{
             $entityNamespace = $this->getDataEntityNamespace($entityClass->getParent()->getTechnicalName());
@@ -183,6 +191,9 @@ class DoctrineService
             else if($fieldMapping['mappingType'] == 'manyToMany'){
                 $class->mapManyToMany($fieldMapping);
             }
+            else if($fieldMapping['mappingType'] == 'oneToOne'){
+                $class->mapOneToOne($fieldMapping);
+            }
             else {
                 $class->mapField($fieldMapping);
             }
@@ -204,14 +215,15 @@ class DoctrineService
 
         foreach ($entityClass->getProperties() as $property) {  
 
+            $fieldMapping = array(
+                'fieldName' => $property->getTechnicalName(), 
+                'versioned' => true,
+                );
+
             switch ($property->getFieldType()->getFormType()) {
                 case 'entity':
 
-                    $fieldMapping = array(
-                        'fieldName' => $property->getTechnicalName(), 
-                        'targetEntity' => $this->getDataEntityNamespace($property->getTargetEntityClass()->getTechnicalName()),
-                        'versioned' => true,
-                        );
+                    $fieldMapping['targetEntity'] = $this->getDataEntityNamespace($property->getTargetEntityClass()->getTechnicalName());
 
                     if($property->isMultiple()){
                         $fieldMapping['mappingType'] = 'manyToMany';
@@ -221,16 +233,17 @@ class DoctrineService
                     }
 
                     break;
-                default:
+                case 'file':
+                    $fieldMapping['targetEntity'] = 'SL\DataBundle\Entity\Document';
+                    $fieldMapping['mappingType'] = 'oneToOne';
+                    $fieldMapping['cascade'] = array('persist','remove');
 
-                    $fieldMapping = array(
-                        'mappingType' => null,
-                        'fieldName' => $property->getTechnicalName(), 
-                        'type' => ($property->isMultiple())?'array':$property->getFieldType()->getDataType(),
-                        'length' => ($property->isMultiple())?null:$property->getFieldType()->getLength(),
-                        'nullable' => !$property->isRequired(),
-                        'versioned' => true,
-                        ); 
+                    break;
+                default:
+                    $fieldMapping['mappingType'] = null;
+                    $fieldMapping['type'] = ($property->isMultiple())?'array':$property->getFieldType()->getDataType();
+                    $fieldMapping['length'] = ($property->isMultiple())?null:$property->getFieldType()->getLength();
+                    $fieldMapping['nullable'] = !$property->isRequired();
 
                     break;
             }
@@ -327,5 +340,26 @@ class DoctrineService
         }
                 
         return array_slice(array_reverse($formatedLogEntries), 0, $this->numberOfVersion); 
+    }
+
+    /**
+     * Call uploadable manager for stof 
+     * uploadable doctrine extension 
+     *
+     * @param EntityClass $entityClass
+     * @param DataAbstractEntity $entity
+     *
+     * @return void
+     */
+    public function callUploadableManager(EntityClass $entityClass, DataAbstractEntity $entity)
+    {        
+        foreach($entityClass->getProperties() as $property){
+            if($property->getFieldType()->getFormType() === 'file'){
+                $document = $entity->{'get'.$property->getTechnicalName()}(); 
+                if($document->getFile() != null){
+                    $this->uploadableManager->markEntityToUpload($document, $document->getFile());
+                }
+            }
+        }
     }
 }

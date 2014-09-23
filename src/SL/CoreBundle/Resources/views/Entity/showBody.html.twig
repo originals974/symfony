@@ -53,7 +53,12 @@
 							    {% else %}
 							    	{{ attribute(entity, property.technicalName) }}
 							    {% endif %}
+							{% elseif  property.fieldType.FormType == 'file' %}
 
+						    	{% set document = attribute(entity, property.technicalName) %}
+						    	{% if document is not null %}
+						    		{{ document.displayName }}
+						    	{% endif %}
 						    {% else %}
 
 						        {{ attribute(entity, property.technicalName) }}

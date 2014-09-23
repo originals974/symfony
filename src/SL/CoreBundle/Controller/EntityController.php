@@ -4,12 +4,14 @@ namespace SL\CoreBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use SL\MasterBundle\Entity\AbstractEntity; 
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
+use SL\MasterBundle\Entity\AbstractEntity; 
 use SL\CoreBundle\Entity\EntityClass\EntityClass;
 use SL\CoreBundle\Services\DoctrineService;
 use SL\CoreBundle\Services\EntityClass\EntityClassService;
@@ -91,14 +93,18 @@ class EntityController extends Controller
             $entity =  new $class($entityClass->getId()); 
             
             $form = $this->entityService->createCreateForm($entity);
-            $form->handleRequest($request);
+            $form->handleRequest($request); 
 
-            if ($form->isValid()) {
+            if ($form->isValid()) { 
 
                 $displayName = $this->entityService->calculateDisplayName($entity);
                 $entity->setDisplayName($displayName); 
-               
+
                 $this->databaseEm->persist($entity);
+
+                //Save files properties
+                $this->doctrineService->callUploadableManager($entityClass, $entity); 
+                
                 $this->databaseEm->flush();
 
                 $content = null; 
@@ -186,6 +192,10 @@ class EntityController extends Controller
 
                 $displayName = $this->entityService->calculateDisplayName($entity, $entityClass);
                 $entity->setDisplayName($displayName); 
+
+                //Save files properties
+                $this->doctrineService->callUploadableManager($entityClass, $entity);
+
                 $this->databaseEm->flush();
 
                 $content = $displayName; 

@@ -8,7 +8,7 @@ parameters:
 services:
     sl_core.doctrine:
         class: SL\CoreBundle\Services\DoctrineService
-        arguments: [@filesystem, @doctrine, @kernel, %sl_data.bundle%, %sl_core.number_of_versions%]
+        arguments: [@filesystem, @doctrine, @kernel, @stof_doctrine_extensions.uploadable.manager, %sl_data.bundle%, %sl_core.number_of_versions%]
 
     sl_core.js_tree:
         class: SL\CoreBundle\Services\JSTreeService
