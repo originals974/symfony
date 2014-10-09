@@ -103,7 +103,7 @@ class EntityController extends Controller
                 $this->databaseEm->persist($entity);
 
                 //Save files properties
-                $this->doctrineService->callUploadableManager($entityClass, $entity); 
+                //$this->doctrineService->callUploadableManager($entityClass, $entity); 
                 
                 $this->databaseEm->flush();
 
@@ -194,7 +194,7 @@ class EntityController extends Controller
                 $entity->setDisplayName($displayName); 
 
                 //Save files properties
-                $this->doctrineService->callUploadableManager($entityClass, $entity);
+                //$this->doctrineService->callUploadableManager($entityClass, $entity);
 
                 $this->databaseEm->flush();
 

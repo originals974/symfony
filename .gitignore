@@ -9,4 +9,4 @@
 /app/config/parameters.yml
 /src/SL/DataBundle/Entity/*EntityClass*.php
 /components/*
-/web/uploads/documents/*
+/web/uploads/documents/

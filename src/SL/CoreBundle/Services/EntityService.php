@@ -219,41 +219,51 @@ class EntityService
 
         $patternString = $entityClass->getCalculatedName();
 
-        $patternArray = explode("%", $patternString);
+        if($patternString != null){
+            $patternArray = explode("%", $patternString);
 
-        foreach($patternArray as $key => $pattern) {
-            
-            if(strpos(strtolower($pattern), 'property') !== false){
+            foreach($patternArray as $key => $pattern) {
+                
+                if(strpos(strtolower($pattern), 'property') !== false){
 
-                $methodName = 'get'.ucfirst($pattern);
-                $value = $entity->$methodName(); 
+                    $methodName = 'get'.ucfirst($pattern);
+                    $value = $entity->$methodName(); 
 
-                if(is_array($value)){
-                    $value = implode (', ', $value);
-                }
-                else if(is_object($value)){
-                    
-                    if($value instanceof \DateTime){
-                        $value = $value->format($this->dateFormat);
+                    if(is_array($value)){
+                        $value = implode (', ', $value);
                     }
-                    else if($value instanceof PersistentCollection){
+                    else if(is_object($value)){
                         
-                        $temp = array(); 
-                        foreach($value as $entityOfCollection){
-                            $temp[] = $entityOfCollection->getDisplayName(); 
+                        if($value instanceof \DateTime){
+                            $value = $value->format($this->dateFormat);
                         }
-                        $value = implode (', ', $temp);
+                        else if($value instanceof PersistentCollection){
+                            
+                            $temp = array(); 
+                            foreach($value as $entityOfCollection){
+                                $temp[] = $entityOfCollection->getDisplayName(); 
+                            }
+                            $value = implode (', ', $temp);
+                        }
+                        else{
+                            $value = $value->getDisplayName();
+                        }
                     }
-                    else{
-                        $value = $value->getDisplayName();
-                    }
-                }
 
-                $patternArray[$key] = $value; 
+                    $patternArray[$key] = $value; 
+                }
+            }
+
+            $displayName = implode($patternArray);
+        }
+        else {
+            if($entityClass->isDocument()){
+                $displayName = $entity->getDocument()->file->getClientOriginalName();
+            }
+            else{
+                $displayName = "Undefined";
             }
         }
-
-        $displayName = implode($patternArray);
 
         return $displayName; 
     }

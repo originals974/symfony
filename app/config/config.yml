@@ -294,21 +294,75 @@ jms_di_extra:
 fos_elastica:
     clients:
         default: { host: localhost, port: 9200 }
-    serializer:
-        callback_class: FOS\ElasticaBundle\Serializer\Callback
-        serializer: serializer
+    #serializer: ~
     indexes:
         slcore:
-            client: default
             types:
-                EntityClass140:
+                EntityClass31:
+                    mappings:
+                        displayName: ~
+                        guid: ~
+                        document:
+                            type: "object"
+                            properties:
+                                displayName: ~
+                                encodedFile: 
+                                    type : "attachment"
                     persistence:
                         driver: orm
-                        model:  SL\DataBundle\Entity\EntityClass140
+                        model: SL\DataBundle\Entity\EntityClass31
+                        model_to_elastica_transformer:
+                            service: sl_core.search.search_entity_to_elastica_transformer 
                         provider: ~
                         listener: ~
                         finder: ~
-               
+                EntityClass32:
+                    # mappings:
+                    #     guid: ~
+                    #     displayName: ~
+                    #     entityClassId: ~
+                    #     Property1: ~
+                    #     PropertyEntity4:
+                    #         type: "object"
+                    #         properties:
+                    #             guid: ~
+                    #             displayName: ~
+                    #             entityClassId: ~
+                    #             Property2:
+                    #             PropertyEntity5:
+                    #                 type: "object"
+                    #                 properties:
+                    #                     guid: ~
+                    #                     displayName: ~
+                    #                     entityClassId: ~
+                    #                     Property3: ~
+                    persistence:
+                        driver: orm
+                        model: SL\DataBundle\Entity\EntityClass32
+                        model_to_elastica_transformer:
+                            service: sl_core.search.search_entity_to_elastica_transformer 
+                        provider: ~
+                        listener: ~
+                        finder: ~
+                EntityClass33:
+                    persistence:
+                        driver: orm
+                        model: SL\DataBundle\Entity\EntityClass33
+                        model_to_elastica_transformer:
+                            service: sl_core.search.search_entity_to_elastica_transformer 
+                        provider: ~
+                        listener: ~
+                        finder: ~
+                EntityClass34:
+                    persistence:
+                        driver: orm
+                        model: SL\DataBundle\Entity\EntityClass34
+                        model_to_elastica_transformer:
+                            service: sl_core.search.search_entity_to_elastica_transformer 
+                        provider: ~
+                        listener: ~
+                        finder: ~
+
 #Shiva versionning
 shivas_versioning:
     version_parameter:    application_version

@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Gedmo\Mapping\Annotation as Gedmo;
+use \SplFileInfo;
 
 use SL\MasterBundle\Entity\AbstractEntity;
 
@@ -15,7 +16,7 @@ use SL\MasterBundle\Entity\AbstractEntity;
  * @ORM\Table(name="sl_core_document")
  * @ORM\Entity
  * @Gedmo\Loggable(logEntryClass="SL\DataBundle\Entity\LogEntry")
- * @Gedmo\Uploadable(pathMethod="getUploadRootDir", callback="postMove", filenameGenerator="SHA1", allowOverwrite=true, appendNumber=true)
+ * @ORM\HasLifecycleCallbacks
  */
 class Document extends AbstractEntity
 {
@@ -23,27 +24,8 @@ class Document extends AbstractEntity
      * @var string
      *
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Gedmo\UploadableFilePath
      */
     public $path;
-
-    /**
-     * @ORM\Column(name="name", type="string")
-     * @Gedmo\UploadableFileName
-     */
-    private $name;
-
-    /**
-     * @ORM\Column(name="mime_type", type="string")
-     * @Gedmo\UploadableFileMimeType
-     */
-    private $mimeType;
-
-    /**
-     * @ORM\Column(name="size", type="decimal")
-     * @Gedmo\UploadableFileSize
-     */
-    private $size;
 
     /**
      * @var UploadedFile
@@ -64,17 +46,49 @@ class Document extends AbstractEntity
         }
     }
 
+    public function getEncodedFile() 
+    {
+        return new SplFileInfo($this->getAbsolutePath());
+    }
+
+
     /**
-     * Execute after file moved to directory
-     *
-     * @return string
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
      */
-    public function postMove()
+    public function preUpload()
     {
         if (null !== $this->file) {
-            $this->setDisplayName($this->file->getClientOriginalName());
+            $this->setDisplayName($this->file->getClientOriginalName()); 
+            $this->path = sha1(uniqid(mt_rand(), true)).'.'.$this->file->guessExtension();
         }
     }
+
+    /**
+     * @ORM\PostPersist()
+     * @ORM\PostUpdate()
+     */
+    public function upload()
+    {
+        if (null === $this->file) {
+            return;
+        }
+
+        $this->file->move($this->getUploadRootDir(), $this->path);
+
+        unset($this->file);
+    }
+
+    /**
+     * @ORM\PostRemove()
+     */
+    public function removeUpload()
+    {
+        if ($file = $this->getAbsolutePath()) {
+            unlink($file);
+        }
+    }
+
 
     /**
      * Get full path of file
@@ -83,7 +97,7 @@ class Document extends AbstractEntity
      */
     public function getAbsolutePath()
     {
-        return null === $this->path ? null : $this->getUploadRootDir().'/'.$this->path;
+        return null === $this->path ? null : $this->getUploadRootDir().$this->path;
     }
 
     /**
@@ -115,6 +129,6 @@ class Document extends AbstractEntity
      */
     protected function getUploadDir()
     {
-        return 'uploads/documents';
+        return 'uploads/documents/';
     }
 }

@@ -3,7 +3,9 @@
 namespace SL\DataBundle\Entity\MappedSuperclass;
 
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo; 
+use Gedmo\Mapping\Annotation as Gedmo;
+
+use  SL\DataBundle\Entity\Document; 
 
 /**
  * DocumentAbstractEntity

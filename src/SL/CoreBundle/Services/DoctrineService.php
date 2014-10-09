@@ -5,9 +5,13 @@ namespace SL\CoreBundle\Services;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface as Container;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Stof\DoctrineExtensionsBundle\Uploadable\UploadableManager;
+use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader as DataFixturesLoader;
+use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
+use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 
 use SL\CoreBundle\Entity\EntityClass\EntityClass;
 use SL\CoreBundle\Doctrine\SLCoreEntityGenerator;
@@ -23,11 +27,13 @@ class DoctrineService
     private $filesystem;
     private $registry;
     private $kernel;
+    private $uploadableManager; 
+    private $container; 
     private $em; 
     private $databaseEm;
     private $dataBundle; 
     private $numberOfVersion; 
-    private $uploadableManager; 
+    private $initFixturePath; 
 
     /**
      * Constructor
@@ -35,10 +41,22 @@ class DoctrineService
      * @param Filesystem $filesystem
      * @param RegistryInterface $registry
      * @param HttpKernelInterface $kernel
+     * @param UploadableManager $uploadableManager
+     * @param Container $container
      * @param string $dataBundlePath
      * @param integer $numberOfVersion
+     * @param string $initFixturePath
      */
-    public function __construct(Filesystem $filesystem, RegistryInterface $registry, HttpKernelInterface $kernel, UploadableManager $uploadableManager, $dataBundlePath, $numberOfVersion)
+    public function __construct(
+        Filesystem $filesystem, 
+        RegistryInterface $registry, 
+        HttpKernelInterface $kernel, 
+        UploadableManager $uploadableManager, 
+        Container $container, 
+        $dataBundlePath, 
+        $numberOfVersion,
+        $initFixturePath
+        )
     {
         $this->filesystem = $filesystem;
         $this->registry = $registry;
@@ -46,8 +64,10 @@ class DoctrineService
         $this->em = $registry->getManager();
         $this->databaseEm = $registry->getManager('database');
         $this->uploadableManager = $uploadableManager; 
+        $this->container = $container; 
         $this->dataBundle = $this->kernel->getBundle(str_replace('/', '', $dataBundlePath)); 
         $this->numberOfVersion = $numberOfVersion;
+        $this->initFixturePath = $initFixturePath;
     }
 
     /**
@@ -352,7 +372,12 @@ class DoctrineService
      * @return void
      */
     public function callUploadableManager(EntityClass $entityClass, DataAbstractEntity $entity)
-    {        
+    {    
+        if($entityClass->isDocument()){
+            $document = $entity->getDocument(); 
+            $this->uploadableManager->markEntityToUpload($document, $document->getFile());
+        }
+
         foreach($entityClass->getProperties() as $property){
             if($property->getFieldType()->getFormType() === 'file'){
                 $document = $entity->{'get'.$property->getTechnicalName()}(); 
@@ -361,5 +386,23 @@ class DoctrineService
                 }
             }
         }
+    }
+
+    /**
+     * Load init fixtures for application 
+     *
+     * @return void
+     */
+    public function loadInitFixture()
+    {
+        $loader = new DataFixturesLoader($this->container);
+        $loader->loadFromDirectory($this->initFixturePath);
+        $fixtures = $loader->getFixtures();
+        
+        $purger = new ORMPurger($this->em);
+        $purger->setPurgeMode(ORMPurger::PURGE_MODE_DELETE);
+        
+        $executor = new ORMExecutor($this->em, $purger);
+        $executor->execute($fixtures);
     }
 }

@@ -5,6 +5,18 @@
 			<h4>{{ entityClass.displayName }} {{ entityClass.deletedAt is not null ? 'deleted.title'|trans }}</h4>
 
 			<dl class="dl-horizontal">
+				{% if entityClass.isDocument %}
+
+					{% if loop.first %}
+						{% set document = attribute(entity, 'document') %}
+						<dt>{{ 'document.type'|trans }}</dt>
+					    <dd>{{ document.mimetype }}</dd>
+					    <dt>{{ 'document.size'|trans }}</dt>
+					    <dd>{{ document.size }} octets</dd>
+					{% endif %}
+
+				{% endif %}
+
 				{% for property in entityClass.properties %}
 
 					{# Display not soft deleted properties and soft deleted properties which is not empty#}

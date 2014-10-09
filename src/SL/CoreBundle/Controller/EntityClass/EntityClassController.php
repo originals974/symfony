@@ -128,12 +128,6 @@ class EntityClassController extends Controller
 
                 //Init calculated name with default created property
                 $this->entityClassService->initCalculatedName($entityClass); 
-                
-                //TO TEST
-                if($entityClass->isDocument() && $entityClass->level === 1){
-                    $this->doctrineService->generateEntityFileAndObjectSchema($entityClass->getParent());
-                }
-
                 $this->doctrineService->generateEntityFileAndObjectSchema($entityClass);  
                 
                 $html = null; 

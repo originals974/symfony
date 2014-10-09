@@ -4,11 +4,12 @@ parameters:
     sl_core.number_of_versions : 5
     sl_core.number_of_search_results : 50
     sl_core.date_format : 'd/m/Y'
+    sl_core.init_fixture_path : '/var/www/html/symfony/src/SL/CoreBundle/DataFixtures/ORM/Init'
 
 services:
     sl_core.doctrine:
         class: SL\CoreBundle\Services\DoctrineService
-        arguments: [@filesystem, @doctrine, @kernel, @stof_doctrine_extensions.uploadable.manager, %sl_data.bundle%, %sl_core.number_of_versions%]
+        arguments: [@filesystem, @doctrine, @kernel, @stof_doctrine_extensions.uploadable.manager, @service_container, %sl_data.bundle%, %sl_core.number_of_versions%, %sl_core.init_fixture_path%]
 
     sl_core.js_tree:
         class: SL\CoreBundle\Services\JSTreeService
@@ -136,3 +137,7 @@ services:
         arguments: ["SL\MasterBundle\Entity\AbstractEntity", @doctrine]
         tags:
             - { name: request.param_converter, priority: 21 }
+
+    #Elasticsearch transformer       
+    sl_core.search.search_entity_to_elastica_transformer:
+        class: SL\CoreBundle\Search\Transformer\ObjectToElasticaTransformer

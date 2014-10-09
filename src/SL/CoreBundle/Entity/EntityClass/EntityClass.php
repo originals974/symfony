@@ -118,6 +118,7 @@ class EntityClass extends AbstractEntity
         //Associate created entityClass with its parent
         if($parent !== null) {
             $this->setParent($parent);
+            $this->setDocument($parent->isDocument());
         }
     }
 
