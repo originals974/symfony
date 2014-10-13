@@ -6,12 +6,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Doctrine\ORM\EntityManager;
 
-use SL\MasterBundle\Entity\AbstractEntity; 
+use SL\CoreBundle\Entity\MappedSuperclass\AbstractEntity; 
 use SL\CoreBundle\Entity\EntityClass\EntityClass;
 use SL\CoreBundle\Services\DoctrineService;
 use SL\CoreBundle\Services\EntityClass\EntityClassService;
@@ -23,23 +23,22 @@ use SL\CoreBundle\Services\EntityService;
  */
 class EntityController extends Controller
 {
-    private $databaseEm;
+    private $em;
     private $doctrineService;
     private $entityClassService;
     private $entityService;
 
     /**
      * @DI\InjectParams({
-     *     "registry" = @DI\Inject("doctrine"),
+     *     "em" = @DI\Inject("doctrine.orm.entity_manager"),
      *     "doctrineService" = @DI\Inject("sl_core.doctrine"),
      *     "entityClassService" = @DI\Inject("sl_core.entity_class"),
      *     "entityService" = @DI\Inject("sl_core.entity"),
      * })
      */
-    public function __construct(RegistryInterface $registry, DoctrineService $doctrineService, EntityClassService $entityClassService, EntityService $entityService)
+    public function __construct(EntityManager $em, DoctrineService $doctrineService, EntityClassService $entityClassService, EntityService $entityService)
     { 
-        $this->em = $registry->getManager();
-        $this->databaseEm = $registry->getManager('database');
+        $this->em = $em;
         $this->doctrineService = $doctrineService;
         $this->entityClassService = $entityClassService;
         $this->entityService = $entityService;
@@ -58,8 +57,8 @@ class EntityController extends Controller
     {
         if ($request->isXmlHttpRequest()) {
 
-            $class = $this->doctrineService->getDataEntityNamespace($entityClass->getTechnicalName());
-            $entity = new $class($entityClass->getId()); 
+            $class = $this->doctrineService->getEntityNamespace($entityClass->getTechnicalName());
+            $entity = new $class($entityClass); 
 
             $form   = $this->entityService->createCreateForm($entity);
 
@@ -89,8 +88,8 @@ class EntityController extends Controller
     {
         if ($request->isXmlHttpRequest()) {
 
-            $class = $this->doctrineService->getDataEntityNamespace($entityClass->getTechnicalName());
-            $entity =  new $class($entityClass->getId()); 
+            $class = $this->doctrineService->getEntityNamespace($entityClass->getTechnicalName());
+            $entity =  new $class($entityClass); 
             
             $form = $this->entityService->createCreateForm($entity);
             $form->handleRequest($request); 
@@ -100,14 +99,31 @@ class EntityController extends Controller
                 $displayName = $this->entityService->calculateDisplayName($entity);
                 $entity->setDisplayName($displayName); 
 
-                $this->databaseEm->persist($entity);
+                $this->em->persist($entity);
 
                 //Save files properties
                 //$this->doctrineService->callUploadableManager($entityClass, $entity); 
                 
-                $this->databaseEm->flush();
+                $this->em->flush();
 
                 $content = null; 
+
+                //Reset ES index metadada for EntityClass on first instance creation
+                $entities = $this->em->getRepository('SLCoreBundle:Generated\\'.$entityClass->getTechnicalName())
+                                     ->findAll();
+
+                if(count($entities) == 1){
+                    $index = 'slcore';
+                    $type = $entityClass->getTechnicalName(); 
+                    $indexManager = $this->get('fos_elastica.index_manager');
+                    $providerRegistry = $this->get('fos_elastica.provider_registry');
+                    $resetter = $this->get('fos_elastica.resetter');
+
+                    $resetter->resetIndexType($index, $type);
+                    $provider = $providerRegistry->getProvider($index, $type);
+                    $provider->populate();
+                    $indexManager->getIndex($index)->refresh();
+                }
             }
             else {
 
@@ -196,7 +212,7 @@ class EntityController extends Controller
                 //Save files properties
                 //$this->doctrineService->callUploadableManager($entityClass, $entity);
 
-                $this->databaseEm->flush();
+                $this->em->flush();
 
                 $content = $displayName; 
             }
@@ -247,7 +263,7 @@ class EntityController extends Controller
 
             $entityClasses = $this->entityClassService->getPath($entityClass); 
 
-            $currentVersion = $this->databaseEm->getRepository('SLDataBundle:LogEntry')->findCurrentVersion($entity);
+            $currentVersion = $this->em->getRepository('SLCoreBundle:LogEntry')->findCurrentVersion($entity);
 
             $response = $this->render('SLCoreBundle:Entity:show.html.twig', array(
                 'entityClass' => $entityClass, 
@@ -321,8 +337,8 @@ class EntityController extends Controller
 
             $this->entityService->detachEntity($entity); 
 
-            $this->databaseEm->remove($entity);
-            $this->databaseEm->flush();
+            $this->em->remove($entity);
+            $this->em->flush();
 
             $data = array(  
                 'isValid' => true,
@@ -400,12 +416,12 @@ class EntityController extends Controller
             $form->handleRequest($request);
 
             $logEntry = $form->get('logEntry')->getData(); 
-            $this->databaseEm->getRepository('SLDataBundle:LogEntry')->revert($entity, $logEntry->getVersion());
+            $this->em->getRepository('SLCoreBundle:LogEntry')->revert($entity, $logEntry->getVersion());
 
             $displayName = $this->entityService->calculateDisplayName($entity);
             $entity->setDisplayName($displayName); 
             
-            $this->databaseEm->flush();
+            $this->em->flush();
 
             $data = array(  
                 'isValid' => true,

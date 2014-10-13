@@ -15,7 +15,7 @@ use SL\CoreBundle\Services\EntityClass\EntityClassService;
 use SL\CoreBundle\Services\JSTreeService;
 use SL\CoreBundle\Services\DoctrineService;
 use SL\CoreBundle\Services\EntityService;
-use SL\DataBundle\Entity\Document;
+use SL\CoreBundle\Entity\Document;
 
 /**
  * EntityClass controller
@@ -128,7 +128,7 @@ class EntityClassController extends Controller
 
                 //Init calculated name with default created property
                 $this->entityClassService->initCalculatedName($entityClass); 
-                $this->doctrineService->generateEntityFileAndObjectSchema($entityClass);  
+                $this->doctrineService->generateEntityFile($entityClass);  
                 
                 $html = null; 
                 $jsTree = $this->jstreeService->createNewEntityClassNode($entityClass);
@@ -330,8 +330,6 @@ class EntityClassController extends Controller
                 foreach ($children as $child) {
                     $this->doctrineService->removeEntityFile($child);
                 }
-
-                $this->doctrineService->doctrineSchemaUpdateForce();
 
                 $this->doctrineService->entityDelete($entityClass, true);
             }

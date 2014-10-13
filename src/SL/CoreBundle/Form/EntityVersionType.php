@@ -20,7 +20,7 @@ class EntityVersionType extends AbstractType
 
         $builder
             ->add('logEntry', 'entity', array(
-                'class' => 'SLDataBundle:LogEntry',
+                'class' => 'SLCoreBundle:LogEntry',
                 'property' => 'version',
                 'query_builder' => function(EntityRepository $er) use ($entity, $limit){
                                       return $er->findAllVersion($entity, $limit);

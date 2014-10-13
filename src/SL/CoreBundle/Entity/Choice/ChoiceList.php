@@ -6,18 +6,18 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-use SL\CoreBundle\Entity\MappedSuperclass\AbstractEntity;
+use SL\CoreBundle\Entity\MappedSuperclass\ParamAbstractEntity;
 
 /**
  * ChoiceList
  *
- * @ORM\Table(name="sl_core_choice_list",uniqueConstraints={
+ * @ORM\Table(name="param_choice_list",uniqueConstraints={
  *     @ORM\UniqueConstraint(name="unique_index_choice_list_technical_name", columns={"technical_name"})
  * })
  * @ORM\Entity(repositoryClass="SL\CoreBundle\Entity\Repository\ChoiceListRepository")
  * @UniqueEntity(fields={"displayName"})
  */
-class ChoiceList extends AbstractEntity
+class ChoiceList extends ParamAbstractEntity
 {
     /**
      * @var ArrayCollection

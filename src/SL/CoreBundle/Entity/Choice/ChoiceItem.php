@@ -6,18 +6,18 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-use SL\CoreBundle\Entity\MappedSuperclass\AbstractEntity;
+use SL\CoreBundle\Entity\MappedSuperclass\ParamAbstractEntity;
 
 /**
  * ChoiceItem
  *
- * @ORM\Table(name="sl_core_choice_item",uniqueConstraints={
+ * @ORM\Table(name="param_choice_item",uniqueConstraints={
  *      @ORM\UniqueConstraint(name="unique_index_choice_item_choice_list_id_technical_name", columns={"choiceList_id", "technical_name"})
  * })
  * @ORM\Entity(repositoryClass="SL\CoreBundle\Entity\Repository\ChoiceItemRepository")
  * @UniqueEntity(fields={"choiceList","displayName"})
  */
-class ChoiceItem extends AbstractEntity
+class ChoiceItem extends ParamAbstractEntity
 {
      /**
      * @var string

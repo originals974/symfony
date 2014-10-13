@@ -4,8 +4,8 @@ namespace SL\CoreBundle\Listener;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
 
-use SL\MasterBundle\Entity\AbstractEntity as MasterAbstractEntity;
-use SL\CoreBundle\Entity\MappedSuperclass\AbstractEntity as CoreAbstractEntity; 
+use SL\CoreBundle\Entity\MappedSuperclass\AbstractEntity;
+use SL\CoreBundle\Entity\MappedSuperclass\ParamAbstractEntity; 
 
 class DoctrineListener
 {   
@@ -20,7 +20,7 @@ class DoctrineListener
     {
         $entity = $args->getEntity();
 
-        if ($entity instanceof MasterAbstractEntity) {
+        if ($entity instanceof AbstractEntity) {
             $entity->setGuid(uniqid());
         }
     }
@@ -37,7 +37,7 @@ class DoctrineListener
         $entity = $args->getEntity();
         $em = $args->getEntityManager();
 
-        if ($entity instanceof CoreAbstractEntity) {
+        if ($entity instanceof ParamAbstractEntity) {
         	$entity->setTechnicalName(); 
             $em->flush();
         }

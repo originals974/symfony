@@ -6,20 +6,20 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-use SL\CoreBundle\Entity\MappedSuperclass\AbstractEntity;
+use SL\CoreBundle\Entity\MappedSuperclass\ParamAbstractEntity;
 use SL\CoreBundle\Entity\Field\FieldType; 
 
 /**
  * Property
  *
  * @ORM\InheritanceType("JOINED")
- * @ORM\Table(name="sl_core_property",uniqueConstraints={
+ * @ORM\Table(name="param_property",uniqueConstraints={
  *     @ORM\UniqueConstraint(name="unique_index_property_entity_class_id_technical_name", columns={"entityClass_id", "technical_name"})
  * })
  * @ORM\Entity(repositoryClass="SL\CoreBundle\Entity\Repository\PropertyRepository")
  * @UniqueEntity(fields={"entityClass", "displayName"}, repositoryMethod="findByEntityClassAndDisplayName")
  */
-class Property extends AbstractEntity
+class Property extends ParamAbstractEntity
 {
     /**
      * @var boolean

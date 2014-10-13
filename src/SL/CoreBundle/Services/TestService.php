@@ -10,7 +10,7 @@ use SL\CoreBundle\Entity\EntityClass\PropertyEntity;
 use SL\CoreBundle\Entity\EntityClass\PropertyChoice;
 use SL\CoreBundle\Entity\Choice\ChoiceList;
 use SL\CoreBundle\Entity\Choice\ChoiceItem;
-use SL\MasterBundle\Entity\AbstractEntity; 
+use SL\CoreBundle\Entity\MappedSuperclass\AbstractEntity; 
 
 /**
  * Test Service

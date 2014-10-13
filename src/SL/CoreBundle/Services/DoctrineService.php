@@ -15,8 +15,8 @@ use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 
 use SL\CoreBundle\Entity\EntityClass\EntityClass;
 use SL\CoreBundle\Doctrine\SLCoreEntityGenerator;
-use SL\MasterBundle\Entity\AbstractEntity as MasterAbstractEntity;
-use SL\DataBundle\Entity\MappedSuperclass\AbstractEntity as DataAbstractEntity;
+use SL\CoreBundle\Entity\MappedSuperclass\AbstractEntity;
+use SL\CoreBundle\Entity\MappedSuperclass\DataAbstractEntity;
 
 /**
  * DoctrineService
@@ -30,8 +30,6 @@ class DoctrineService
     private $uploadableManager; 
     private $container; 
     private $em; 
-    private $databaseEm;
-    private $dataBundle; 
     private $numberOfVersion; 
     private $initFixturePath; 
 
@@ -43,7 +41,6 @@ class DoctrineService
      * @param HttpKernelInterface $kernel
      * @param UploadableManager $uploadableManager
      * @param Container $container
-     * @param string $dataBundlePath
      * @param integer $numberOfVersion
      * @param string $initFixturePath
      */
@@ -53,7 +50,6 @@ class DoctrineService
         HttpKernelInterface $kernel, 
         UploadableManager $uploadableManager, 
         Container $container, 
-        $dataBundlePath, 
         $numberOfVersion,
         $initFixturePath
         )
@@ -62,25 +58,11 @@ class DoctrineService
         $this->registry = $registry;
         $this->kernel = $kernel; 
         $this->em = $registry->getManager();
-        $this->databaseEm = $registry->getManager('database');
         $this->uploadableManager = $uploadableManager; 
         $this->container = $container; 
-        $this->dataBundle = $this->kernel->getBundle(str_replace('/', '', $dataBundlePath)); 
         $this->numberOfVersion = $numberOfVersion;
         $this->initFixturePath = $initFixturePath;
-    }
-
-    /**
-     * Generate entity file for $entityClass
-     * and update database schema
-     *
-     * @param EntityClass $entityClass
-     *
-     * @return void
-     */
-    public function generateEntityFileAndObjectSchema(EntityClass $entityClass){
-        $this->generateEntityFile($entityClass);
-        $this->doctrineSchemaUpdateForce($entityClass);
+        $this->coreBundle = $this->kernel->getBundle('SLCoreBundle'); 
     }
 
     /**
@@ -106,17 +88,9 @@ class DoctrineService
     */
     public function doctrineSchemaUpdateForce(EntityClass $entityClass = null)
     {
-        $schemaTool = new SchemaTool($this->databaseEm);
-
-        if($entityClass != null) {
-            $metadata = $this->databaseEm->getMetadataFactory()->getMetadataFor($this->getDataEntityNamespace($entityClass->getTechnicalName()));
-            $metadatas[] = $metadata; 
-            $schemaTool->UpdateSchema($metadatas, true);
-        }
-        else {
-            $metadatas = $this->databaseEm->getMetadataFactory()->getAllMetadata();
-            $schemaTool->UpdateSchema($metadatas, false);
-        }
+        $schemaTool = new SchemaTool($this->em);
+        $metadatas = $this->em->getMetadataFactory()->getAllMetadata();
+        $schemaTool->UpdateSchema($metadatas, false);
     }
 
     /**
@@ -161,15 +135,10 @@ class DoctrineService
         $entityGenerator->setGenerateAnnotations(true);
 
         if($entityClass->getParent() === null){
-            if($entityClass->isDocument()){
-                $entityGenerator->setClassToExtend('SL\DataBundle\Entity\MappedSuperclass\DocumentAbstractEntity'); 
-            }
-            else{
-                $entityGenerator->setClassToExtend('SL\DataBundle\Entity\MappedSuperclass\AbstractEntity'); 
-            }
+            $entityGenerator->setClassToExtend('SL\CoreBundle\Entity\MappedSuperclass\DataAbstractEntity'); 
         }
         else{
-            $entityNamespace = $this->getDataEntityNamespace($entityClass->getParent()->getTechnicalName());
+            $entityNamespace = $this->getEntityNamespace($entityClass->getParent()->getTechnicalName());
             $entityGenerator->setClassToExtend($entityNamespace); 
         }
 
@@ -186,11 +155,11 @@ class DoctrineService
      */
     private function initClassMetadataInfo(EntityClass $entityClass) {
 
-        $entityNamespace = $this->getDataEntityNamespace($entityClass->getTechnicalName());
+        $entityNamespace = $this->getEntityNamespace($entityClass->getTechnicalName());
         $mapping = $this->generateMapping($entityClass);
 
         $class = new ClassMetadataInfo($entityNamespace);
-        $class->customRepositoryClassName = 'SL\DataBundle\Entity\Repository\SharedEntityRepository';
+        $class->customRepositoryClassName = 'SL\CoreBundle\Entity\Repository\SharedEntityRepository';
 
         if($entityClass->getParent() === null){
             $class->setInheritanceType(ClassMetadataInfo::INHERITANCE_TYPE_JOINED);
@@ -243,7 +212,7 @@ class DoctrineService
             switch ($property->getFieldType()->getFormType()) {
                 case 'entity':
 
-                    $fieldMapping['targetEntity'] = $this->getDataEntityNamespace($property->getTargetEntityClass()->getTechnicalName());
+                    $fieldMapping['targetEntity'] = $this->getEntityNamespace($property->getTargetEntityClass()->getTechnicalName());
 
                     if($property->isMultiple()){
                         $fieldMapping['mappingType'] = 'manyToMany';
@@ -254,7 +223,7 @@ class DoctrineService
 
                     break;
                 case 'file':
-                    $fieldMapping['targetEntity'] = 'SL\DataBundle\Entity\Document';
+                    $fieldMapping['targetEntity'] = 'SL\CoreBundle\Entity\Document';
                     $fieldMapping['mappingType'] = 'oneToOne';
                     $fieldMapping['cascade'] = array('persist','remove');
 
@@ -281,9 +250,9 @@ class DoctrineService
      *
      * @return string $entityNamespace
      */
-    public function getDataEntityNamespace($entityName)
+    public function getEntityNamespace($entityName)
     {
-        $entityNamespace = $this->registry->getAliasNamespace($this->dataBundle->getName()).'\\'.$entityName;
+        $entityNamespace = $this->registry->getAliasNamespace($this->coreBundle->getName()).'\\Generated\\'.$entityName;
         return $entityNamespace; 
     }
 
@@ -296,20 +265,20 @@ class DoctrineService
      */
     private function getEntityFilePath($entityName)
     {
-        $entityPath = $this->dataBundle->getPath().'/Entity/'.str_replace('\\', '/', $entityName).'.php';
+        $entityPath = $this->coreBundle->getPath().'/Entity/Generated/'.str_replace('\\', '/', $entityName).'.php';
         return $entityPath; 
     }
 
     /**
      * Delete $entity
      *
-     * @param MasterAbstractEntity $entity
+     * @param AbstractEntity $entity
      * @param boolean $hardDelete If true, remove entity from database
      * else softdelete entity
      *
      * @return void
      */
-    public function entityDelete(MasterAbstractEntity $entity, $hardDelete=false){
+    public function entityDelete(AbstractEntity $entity, $hardDelete=false){
 
         $this->em->remove($entity);
         $this->em->flush();
@@ -335,7 +304,7 @@ class DoctrineService
      */
     public function getFormatedLogEntries(DataAbstractEntity $entity)
     {
-        $logEntries = $this->databaseEm->getRepository('SLDataBundle:LogEntry')->getLogEntries($entity); 
+        $logEntries = $this->em->getRepository('SLCoreBundle:LogEntry')->getLogEntries($entity); 
 
         $formatedLogEntries = array(); 
         foreach(array_reverse($logEntries) as $logEntry){

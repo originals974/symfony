@@ -1,7 +1,7 @@
 imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
-    #- { resource: elastica.yml }
+#    - { resource: elastica.yml }
 
 framework:
     #esi:             ~
@@ -168,24 +168,16 @@ doctrine:
         default_connection:   default
         connections:
             default:
-                driver:   "%dictionary_driver%"
-                host:     "%dictionary_host%"
-                port:     "%dictionary_port%"
-                dbname:   "%dictionary_name%"
-                user:     "%dictionary_user%"
-                password: "%dictionary_password%"
+                driver:   "%driver%"
+                host:     "%host%"
+                port:     "%port%"
+                dbname:   "%name%"
+                user:     "%user%"
+                password: "%password%"
                 charset:  UTF8
                 # if using pdo_sqlite as your database driver, add the path in parameters.yml
                 # e.g. database_path: "%kernel.root_dir%/data/data.db3"
                 # path:     "%database_path%"
-            database:
-                driver:   %database_driver%
-                host:     %database_host%
-                port:     %database_port%
-                dbname:   %database_name%
-                user:     %database_user%
-                password: %database_password%
-                charset:  UTF8
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
@@ -200,22 +192,12 @@ doctrine:
                         enabled: true
                 mappings:
                     SLCoreBundle: ~
-                    SLMasterBundle: ~
                     gedmo_tree:
                         type: annotation
                         prefix: Gedmo\Tree\Entity
                         dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Entity"
                         alias: GedmoTree # this one is optional and will default to the name set for the mapping
                         is_bundle: false
-            database:
-                connection:       database
-                filters:
-                    softdeleteable:
-                        class: Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter
-                        enabled: false
-                mappings:
-                    SLDataBundle: ~
-                    SLMasterBundle: ~
                     gedmo_loggable:
                         type: annotation
                         prefix: Gedmo\Loggable\Entity
@@ -229,13 +211,10 @@ stof_doctrine_extensions:
     default_locale: fr
     orm:
         default:
+            loggable: false
             sortable: true
             softdeleteable: true
             tree: true
-            timestampable: true
-        database:
-            loggable: true
-            softdeleteable: false
             timestampable: true
             uploadable: true
 
@@ -294,74 +273,104 @@ jms_di_extra:
 fos_elastica:
     clients:
         default: { host: localhost, port: 9200 }
-    #serializer: ~
     indexes:
         slcore:
             types:
-                EntityClass31:
+                EntityClass1:
                     mappings:
-                        displayName: ~
                         guid: ~
+                        displayName: ~
                         document:
                             type: "object"
                             properties:
+                                guid: ~
                                 displayName: ~
                                 encodedFile: 
                                     type : "attachment"
                     persistence:
                         driver: orm
-                        model: SL\DataBundle\Entity\EntityClass31
+                        model: SL\CoreBundle\Entity\Generated\EntityClass1
                         model_to_elastica_transformer:
-                            service: sl_core.search.search_entity_to_elastica_transformer 
+                            service: sl_core.search.transformer.object_to_elastica_transformer
                         provider: ~
                         listener: ~
                         finder: ~
-                EntityClass32:
-                    # mappings:
-                    #     guid: ~
-                    #     displayName: ~
-                    #     entityClassId: ~
-                    #     Property1: ~
-                    #     PropertyEntity4:
-                    #         type: "object"
-                    #         properties:
-                    #             guid: ~
-                    #             displayName: ~
-                    #             entityClassId: ~
-                    #             Property2:
-                    #             PropertyEntity5:
-                    #                 type: "object"
-                    #                 properties:
-                    #                     guid: ~
-                    #                     displayName: ~
-                    #                     entityClassId: ~
-                    #                     Property3: ~
-                    persistence:
-                        driver: orm
-                        model: SL\DataBundle\Entity\EntityClass32
-                        model_to_elastica_transformer:
-                            service: sl_core.search.search_entity_to_elastica_transformer 
-                        provider: ~
-                        listener: ~
-                        finder: ~
-                EntityClass33:
-                    persistence:
-                        driver: orm
-                        model: SL\DataBundle\Entity\EntityClass33
-                        model_to_elastica_transformer:
-                            service: sl_core.search.search_entity_to_elastica_transformer 
-                        provider: ~
-                        listener: ~
-                        finder: ~
-                EntityClass34:
-                    persistence:
-                        driver: orm
-                        model: SL\DataBundle\Entity\EntityClass34
-                        model_to_elastica_transformer:
-                            service: sl_core.search.search_entity_to_elastica_transformer 
-                        provider: ~
-                        listener: ~
-                        finder: ~
+                # EntityClass2:
+                #     mappings:
+                #     persistence:
+                #         driver: orm
+                #         model: SL\CoreBundle\Entity\Generated\EntityClass2
+                #         model_to_elastica_transformer:
+                #             service: sl_core.search.transformer.object_to_elastica_transformer
+                #         provider: ~
+                #         listener: ~
+                #         finder: ~
+                # EntityClass3:
+                #     mappings:
+                #     persistence:
+                #         driver: orm
+                #         model: SL\CoreBundle\Entity\Generated\EntityClass3
+                #         model_to_elastica_transformer:
+                #             service: sl_core.search.transformer.object_to_elastica_transformer
+                #         provider: ~
+                #         listener: ~
+                #         finder: ~
+                # EntityClass4:
+                #     mappings:
+                #     persistence:
+                #         driver: orm
+                #         model: SL\CoreBundle\Entity\Generated\EntityClass4
+                #         model_to_elastica_transformer:
+                #             service: sl_core.search.transformer.object_to_elastica_transformer
+                #         provider: ~
+                #         listener: ~
+                #         finder: ~
+#                 EntityClass31:
+#                     mappings:
+#                         displayName: ~
+#                         guid: ~
+#                         document:
+#                             type: "object"
+#                             properties:
+#                                 displayName: ~
+#                                 encodedFile: 
+#                                     type : "attachment"
+#                     persistence:
+#                         driver: orm
+#                         model: SL\DataBundle\Entity\EntityClass31
+#                         model_to_elastica_transformer:
+#                             service: sl_core.search.search_entity_to_elastica_transformer 
+#                         provider: ~
+#                         listener: ~
+#                         finder: ~
+#                 EntityClass32:
+#                     mappings:
+#                         guid: ~
+#                         displayName: ~
+#                         entityClassId: ~
+#                         Property1: ~
+#                         PropertyEntity4:
+#                             type: "object"
+#                             properties:
+#                                 guid: ~
+#                                 displayName: ~
+#                                 entityClassId: ~
+#                                 Property2:
+#                                 PropertyEntity5:
+#                                     type: "object"
+#                                     properties:
+#                                         guid: ~
+#                                         displayName: ~
+#                                         entityClassId: ~
+#                                         Property3: ~
+#                     persistence:
+#                         driver: orm
+#                         model: SL\DataBundle\Entity\EntityClass32
+#                         model_to_elastica_transformer:
+#                             service: sl_core.search.search_entity_to_elastica_transformer 
+#                         provider: ~
+#                         listener: ~
+#                         finder: ~
 
 #Shiva versionning
 shivas_versioning:

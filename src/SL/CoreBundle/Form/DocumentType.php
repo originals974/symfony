@@ -1,6 +1,6 @@
 <?php
 
-namespace SL\DataBundle\Form;
+namespace SL\CoreBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -28,7 +28,7 @@ class DocumentType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'SL\DataBundle\Entity\Document',
+            'data_class' => 'SL\CoreBundle\Entity\Document',
             )
         );
     }

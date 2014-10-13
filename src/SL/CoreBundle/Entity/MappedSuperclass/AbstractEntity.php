@@ -4,82 +4,138 @@ namespace SL\CoreBundle\Entity\MappedSuperclass;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use SL\MasterBundle\Entity\AbstractEntity as MasterAbstractEntity; 
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * AbstractEntity
  *
- * @ORM\MappedSuperclass
+ * @ORM\MappedSuperclass()
+ * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
  *
  */
-abstract class AbstractEntity extends MasterAbstractEntity
+abstract class AbstractEntity
 {
+    /**
+     * Hook timestampable behavior
+     * updates createdAt, updatedAt fields
+     */
+    use TimestampableEntity;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
     /**
      * @var string
      *
-     * @ORM\Column(name="technical_name", type="string", length=255, nullable=true)
+     * @ORM\Column(name="guid", type="string", length=255)
      */
-    private $technicalName;
+    private $guid;
 
     /**
-     * @Gedmo\SortablePosition
-     * @ORM\Column(name="position", type="integer")
-     */
-    private $position;
-
-    /**
-     * Set technicalName
+     * @var string
      *
-     * @return AbstractEntity
+     * @Gedmo\Versioned
+     * @ORM\Column(name="display_name", type="string", length=255)
      */
-    public function setTechnicalName()
-    {
-        $this->technicalName = $this->getClassShortName().$this->getId();
-        
-        return $this;
-    }
+    private $displayName;
 
     /**
-     * Get technicalName
-     *
-     * @return string 
+     * @ORM\Column(name="deletedAt", type="datetime", nullable=true)
      */
-    public function getTechnicalName()
-    {
-        return $this->technicalName;
-    }
+    private $deletedAt;
 
     /**
-     * Set position
-     *
-     * @param integer $position
-     * @return AbstractEntity
-     */
-    public function setPosition($position)
-    {
-        $this->position = $position;
-
-        return $this;
-    }
-
-    /**
-     * Get position
+     * Get id
      *
      * @return integer 
      */
-    public function getPosition()
+    public function getId()
     {
-        return $this->position;
+        return $this->id;
     }
 
     /**
-     * Get short name of current class
+     * Get guid
      *
-     * @return String $classShortName Short name of current class
+     * @return string 
      */
-    public function getClassShortName() 
+    public function getGuid()
     {
-        $classShortName = ucfirst(basename(strtr(get_class($this), "\\", "/")));
-        return $classShortName;
+        return $this->guid;
+    }
+
+    /**
+     * Set guid
+     *
+     * @param string $guid
+     * @return AbstractEntity
+     */
+    public function setGuid($guid)
+    {
+        $this->guid = $guid;
+
+        return $this;
+    }
+
+    /**
+     * Set displayName
+     *
+     * @param string $displayName
+     * @return AbstractEntity
+     */
+    public function setDisplayName($displayName)
+    {
+        $this->displayName = $displayName;
+
+        return $this;
+    }
+
+    /**
+     * Get displayName
+     *
+     * @return string 
+     */
+    public function getDisplayName()
+    {
+        return $this->displayName;
+    }
+
+    /**
+     * Set deletedAt
+     *
+     * @param DateTime $deletedAt
+     * @return AbstractEntity
+     */
+    public function setDeletedAt($deletedAt)
+    {
+        $this->deletedAt = $deletedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get deletedAt
+     *
+     * @return integer 
+     */
+    public function getDeletedAt()
+    {
+        return $this->deletedAt;
+    }
+
+    /**
+     * Get class
+     *
+     * @return string 
+     */
+    public function getClass()
+    {
+        return get_class($this);
     }
 }

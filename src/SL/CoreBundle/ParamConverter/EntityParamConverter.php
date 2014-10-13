@@ -5,7 +5,7 @@ namespace SL\CoreBundle\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\NoResultException;
 
 class EntityParamConverter implements ParamConverterInterface
@@ -18,14 +18,14 @@ class EntityParamConverter implements ParamConverterInterface
   * Constructor
   *
   * @param string $class
-  * @param RegistryInterface $registry
+  * @param EntityManager $em
   *
   * @return void
   */ 
-  public function __construct($class, RegistryInterface $registry)
+  public function __construct($class, EntityManager $em)
   {
     $this->class = $class;
-    $this->databaseEm = $registry->getManager('database');
+    $this->em = $em;
   }
 
   /**
@@ -45,7 +45,7 @@ class EntityParamConverter implements ParamConverterInterface
     $options = $configuration->getOptions();
     $id = $request->attributes->get('entity_id');
     $classNamespace = $request->attributes->get('class_namespace'); 
-    $this->repository = $this->databaseEm->getRepository($classNamespace);
+    $this->repository = $this->em->getRepository($classNamespace);
    
     if(isset($options['select_mode'])) {
       $selectMode = $options['select_mode'];
@@ -55,7 +55,7 @@ class EntityParamConverter implements ParamConverterInterface
     }
 
     if($selectMode == "all"){
-      //$filters = $this->databaseEm->getFilters();
+      //$filters = $this->em->getFilters();
       //$filters->disable('softdeleteable');
     }
     $entity = $this->find($id); 

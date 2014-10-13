@@ -1,20 +1,14 @@
 parameters:
-    dictionary_driver: pdo_mysql
-    dictionary_host: 127.0.0.1
-    dictionary_port: null
-    dictionary_name: dictionary
-    dictionary_user: root
-    dictionary_password: root
-    database_driver: pdo_mysql
-    database_host: 127.0.0.1
-    database_port: null
-    database_name: database
-    database_user: root
-    database_password: root
+    driver: pdo_mysql
+    host: 127.0.0.1
+    port: null
+    name: dictionary
+    user: root
+    password: root
     mailer_transport: smtp
     mailer_host: 127.0.0.1
     mailer_user: null
     mailer_password: null
     locale: fr
     secret: 1443237523556754187614
-    application_version: 0.1.0_RC1
+    application_version: 0.3.0

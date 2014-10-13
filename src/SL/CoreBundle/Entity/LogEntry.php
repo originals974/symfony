@@ -1,6 +1,6 @@
 <?php
 
-namespace SL\DataBundle\Entity;
+namespace SL\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\Entity;
@@ -8,10 +8,10 @@ use Doctrine\ORM\Mapping\Index;
 use Gedmo\Loggable\Entity\MappedSuperclass\AbstractLogEntry;
 
 /**
- * SL\DataBundle\Entity\LogEntry
+ * SL\CoreBundle\Entity\LogEntry
  *
  * @Table(
- *     name="sl_core_ext_log_entries",
+ *     name="data_ext_log_entries",
  *  indexes={
  *      @index(name="log_class_lookup_idx", columns={"object_class"}),
  *      @index(name="log_date_lookup_idx", columns={"logged_at"}),
@@ -19,7 +19,7 @@ use Gedmo\Loggable\Entity\MappedSuperclass\AbstractLogEntry;
  *      @index(name="log_version_lookup_idx", columns={"object_id", "object_class", "version"})
  *  }
  * )
- * @Entity(repositoryClass="SL\DataBundle\Entity\Repository\LogEntryRepository")
+ * @Entity(repositoryClass="SL\CoreBundle\Entity\Repository\LogEntryRepository")
  */
 class LogEntry extends AbstractLogEntry
 {

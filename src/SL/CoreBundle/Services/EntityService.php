@@ -4,12 +4,13 @@ namespace SL\CoreBundle\Services;
 
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Routing\Router;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\PersistentCollection;
+use Doctrine\Common\Persistence\Mapping\MappingException; 
 
 use SL\CoreBundle\Entity\EntityClass\EntityClass;
 use SL\CoreBundle\Entity\EntityClass\Property;
-use SL\MasterBundle\Entity\AbstractEntity;
+use SL\CoreBundle\Entity\MappedSuperclass\AbstractEntity;
 
 /**
  * Entity Service
@@ -20,7 +21,6 @@ class EntityService
     private $formFactory;
     private $router;
     private $em; 
-    private $databaseEm;
     private $numberOfVersion; 
     private $dateFormat; 
 
@@ -29,16 +29,15 @@ class EntityService
      *
      * @param FormFactory $formFactory
      * @param Router $router
-     * @param RegistryInterface $registry
+     * @param EntityManager $em
      * @param integer $numberOfVersion
      *
      */
-    public function __construct(FormFactory $formFactory, Router $router, RegistryInterface $registry, $numberOfVersion, $dateFormat)
+    public function __construct(FormFactory $formFactory, Router $router, EntityManager $em, $numberOfVersion, $dateFormat)
     {
         $this->formFactory = $formFactory;
         $this->router = $router;
-        $this->em = $registry->getManager();
-        $this->databaseEm = $registry->getManager('database');
+        $this->em = $em;
         $this->numberOfVersion = $numberOfVersion;
         $this->dateFormat = $dateFormat;
     }
@@ -54,7 +53,7 @@ class EntityService
     {  
         $form = $this->formFactory->create('sl_core_entity', $entity, array(
             'action' => $this->router->generate('entity_create', array(
-                'entity_class_id' => $entity->getEntityClassId(),
+                'entity_class_id' => $entity->getEntityClass()->getId(),
                 )
             ),
             'method' => 'POST',
@@ -66,7 +65,7 @@ class EntityService
                 ),
             'submit_label' => 'create.label',
             'submit_color' => 'primary',
-            'entity_class_id' => $entity->getEntityClassId(),
+            'entity_class_id' => $entity->getEntityClass()->getId(),
             )
         );
 
@@ -84,7 +83,7 @@ class EntityService
     {
         $form = $this->formFactory->create('sl_core_entity', $entity, array(
             'action' => $this->router->generate('entity_update', array(
-                'entity_class_id' => $entity->getEntityClassId(),
+                'entity_class_id' => $entity->getEntityClass()->getId(),
                 'entity_id' => $entity->getId(),
                 'class_namespace' => $entity->getClass(), 
                 )
@@ -98,7 +97,7 @@ class EntityService
                 ),
             'submit_label' => 'update.label',
             'submit_color' => 'primary',
-            'entity_class_id' => $entity->getEntityClassId(),
+            'entity_class_id' => $entity->getEntityClass()->getId(),
             )
         );
         
@@ -129,7 +128,7 @@ class EntityService
                 ),
             'submit_label' => 'delete.label',
             'submit_color' => 'danger',
-            'entity_class_id' => $entity->getEntityClassId(),
+            'entity_class_id' => $entity->getEntityClass()->getId(),
             )
         );
 
@@ -192,14 +191,22 @@ class EntityService
      */
     public function propertyHasNotNullValues(Property $property){
 
-        $entityCount = $this->databaseEm->getRepository('SLDataBundle:'.$property->getEntityClass()->getTechnicalName())
-                                        ->findNotNullValuesByProperty($property);
+        try
+        {
+            $entityCount = $this->em->getRepository('SLCoreBundle:Generated\\'.$property->getEntityClass()->getTechnicalName())
+                                ->findNotNullValuesByProperty($property);
 
-        if(array_shift($entityCount) == 0){
+            if(array_shift($entityCount) == 0){
+                $propertyHasNotNullValues = false; 
+            } 
+            else {
+                $propertyHasNotNullValues = true;  
+            }
+
+        }
+        catch (MappingException $me)
+        {
             $propertyHasNotNullValues = false; 
-        } 
-        else {
-            $propertyHasNotNullValues = true;  
         }
 
         return $propertyHasNotNullValues; 
@@ -215,7 +222,7 @@ class EntityService
      */
     public function calculateDisplayName(AbstractEntity $entity) 
     { 
-        $entityClass = $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')->find($entity->getEntityClassId()); 
+        $entityClass = $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')->find($entity->getEntityClass()->getId()); 
 
         $patternString = $entityClass->getCalculatedName();
 
@@ -277,7 +284,7 @@ class EntityService
     */
     public function refreshDisplayName(EntityClass $entityClass){
 
-        $entities = $this->databaseEm ->getRepository('SLDataBundle:'.$entityClass->getTechnicalName())
+        $entities = $this->em->getRepository('SLCoreBundle:Generated\\'.$entityClass->getTechnicalName())
                                 ->findAll(); 
 
         foreach($entities as $entity) {
@@ -287,7 +294,7 @@ class EntityService
 
         }
 
-        $this->databaseEm->flush(); 
+        $this->em->flush(); 
     }
 
     /**
@@ -299,13 +306,20 @@ class EntityService
      */
     public function entitiesExist(EntityClass $entityClass){
 
-        $entities = $this->databaseEm->getRepository('SLDataBundle:'.$entityClass->getTechnicalName())->findAll();
+        try
+        {
+            $entities = $this->em->getRepository('SLCoreBundle:Generated\\'.$entityClass->getTechnicalName())->findAll();
 
-        if(count($entities) != 0){
-            $entitiesExist = true; 
-        } 
-        else {
-            $entitiesExist = false;  
+            if(count($entities) != 0){
+                $entitiesExist = true; 
+            } 
+            else {
+                $entitiesExist = false;  
+            }
+        }
+        catch (MappingException $me)
+        {
+            $entitiesExist = false; 
         }
 
         return $entitiesExist; 
@@ -321,14 +335,14 @@ class EntityService
      */
     public function detachEntity(AbstractEntity $entityToDetach){
 
-        $targetEntityClass = $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')->find($entityToDetach->getEntityClassId());
+        $targetEntityClass = $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')->find($entityToDetach->getEntityClass()->getId());
 
         $properties = $this->em->getRepository('SLCoreBundle:EntityClass\PropertyEntity')->findByTargetEntityClass($targetEntityClass);
 
         foreach($properties as $property){
 
             $entityClass  = $property->getEntityClass(); 
-            $entities = $this->databaseEm->getRepository('SLDataBundle:'.$entityClass->getTechnicalName())->findAll(); 
+            $entities = $this->em->getRepository('SLCoreBundle:Generated\\'.$entityClass->getTechnicalName())->findAll(); 
 
             foreach($entities as $entity){
 

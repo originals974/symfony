@@ -1,8 +1,9 @@
 <?php
 
-namespace SL\DataBundle\Entity\Repository;
+namespace SL\CoreBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
+
 use SL\CoreBundle\Entity\EntityClass\Property; 
 
 /**

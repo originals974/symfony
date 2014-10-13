@@ -1,7 +1,0 @@
-parameters:
-#    sl_master.example.class: SL\MasterBundle\Example
-
-services:
-#    sl_master.example:
-#        class: %sl_master.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]

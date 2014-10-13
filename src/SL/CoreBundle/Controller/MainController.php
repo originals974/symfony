@@ -55,9 +55,9 @@ class MainController extends Controller
         //Generate elastica config file
         $this->elasticaService->updateElasticaConfigFile(1,100); 
 
-        //Generate Document entity file and database structure
+        //Generate Document entity file
         $documentEntityClass = $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')->findOneByIsDocument(true);
-        $this->doctrineService->generateEntityFileAndObjectSchema($documentEntityClass);
+        $this->doctrineService->generateEntityFile($documentEntityClass);
 
         return new Response(); 
     }
@@ -71,6 +71,9 @@ class MainController extends Controller
      */
 	public function indexFrontEndAction()
     {
+        //Update database structure
+        $this->doctrineService->doctrineSchemaUpdateForce();
+        
         $form = $this->entityService->createSearchForm();
 
         return $this->render('SLCoreBundle:FrontEnd:index.html.twig', array(

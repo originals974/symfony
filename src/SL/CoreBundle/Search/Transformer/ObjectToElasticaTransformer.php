@@ -6,48 +6,37 @@ use Doctrine\ORM\EntityManager;
 use FOS\ElasticaBundle\Transformer\ModelToElasticaTransformerInterface;
 use Elastica\Document;
 
-use SL\CoreBundle\Search\Transformer\TransformerTools; 
+use SL\CoreBundle\Entity\EntityClass\EntityClass;
 
 class ObjectToElasticaTransformer implements ModelToElasticaTransformerInterface
 {
-	//private $em;
-
-    /*public function __construct($em)
-    {
-   		$this->em = $em;
-    }*/
-
-    /*public function entityToFiedlsMapping(AbstractEntity $entity){
-
-        $entityClass = $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')->find($entity->getEntityClassId());
-
-        $mapping = array(); 
-
-        $this->entityClassToFieldsMapping($mapping, $entityClass); 
-
-        return $mapping; 
-    }
-
-    private function entityClassToFieldsMapping(array &$mapping, EntityClass $entityClass){
-
-        $defaultMapping = array(
-            'guid' => null,
-            'displayName' => null,
-            'entityClassId' => null,
-            ); 
+    /**
+     * Complete $fields ES mapping by $entityClass metadata
+     *
+     * @param EntityClass $entityClass
+     * @param array  $fields
+     *
+     * @return void
+     **/
+    private function entityClassToFieldsMapping(EntityClass $entityClass, array &$fields){
 
         foreach($entityClass->getProperties() as $property){
-            if($property->getFormType == 'entity'){
-                $entityClass = $property->getTargetEntityClass();
+            if($property->getFieldType()->getFormType() == 'entity'){
 
-                $mapping[$property->getTechnicalName()] = $defaultMapping; 
-                $this->entityClassToFieldsMapping($mapping[$property->getTechnicalName()], $entityClass);
+                $targetEntityClass =  $property->getTargetEntityClass(); 
+
+                $fields[$property->getTechnicalName()] = array(
+                    'type' => 'object',
+                    'properties' => array(),
+                    ); 
+
+                $this->entityClassToFieldsMapping($targetEntityClass, $fields[$property->getTechnicalName()]['properties']);
             }
             else{
-                $mapping[$property->getTechnicalName()] = null; 
+                $fields[$property->getTechnicalName()] = null; 
             }
         }
-    }*/
+    }
 
     /**
      * Transforms an object into an elastica object having the required keys
@@ -61,36 +50,7 @@ class ObjectToElasticaTransformer implements ModelToElasticaTransformerInterface
     public function transform($object, array $fields, $overwriteMapping = true)
     {
     	if($overwriteMapping) {
-
-    		$transformerTools = new TransformerTools(); 
-    		$fieldsMapping = $transformerTools->entityToFiedlsMapping($object);
-
-    		var_dump($fieldsMapping); 
-
-    		$fields = array(
-	    		'guid' => null,
-	    		'displayName' => null,
-	    		'entityClassId' => null,
-	    		'Property1' => null,
-	    		'PropertyEntity4' => array(
-	    			'type' => 'object',
-	    			'properties' => array(
-	    				'guid' => null,
-	    				'displayName' => null,
-	    				'entityClassId' => null,
-	    				'Property2' => null,
-	    				'PropertyEntity5' => array(
-	    					'type' => 'object',
-	    					'properties' => array(
-	    						'guid' => null,
-	    						'displayName' => null,
-	    						'entityClassId' => null,
-	    						'Property3' => null,
-	    						),
-	    					),
-	    				),
-	    			),
-	    		);
+            $this->entityClassToFieldsMapping($object->getEntityClass(), $fields);
     	}
 
         $identifier = $object->getId();
@@ -125,7 +85,7 @@ class ObjectToElasticaTransformer implements ModelToElasticaTransformerInterface
 
             $document->set($key, $this->normalizeValue($value));
         }
- 
+
         return $document;
     }
 

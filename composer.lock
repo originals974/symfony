@@ -2383,12 +2383,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phiamo/MopaBootstrapBundle.git",
-                "reference": "571b4ca919350ac090c56d6bb6c36135cbed8c4c"
+                "reference": "e1fdf26cc2e436f6797be21f981e98044ba1126f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phiamo/MopaBootstrapBundle/zipball/571b4ca919350ac090c56d6bb6c36135cbed8c4c",
-                "reference": "571b4ca919350ac090c56d6bb6c36135cbed8c4c",
+                "url": "https://api.github.com/repos/phiamo/MopaBootstrapBundle/zipball/e1fdf26cc2e436f6797be21f981e98044ba1126f",
+                "reference": "e1fdf26cc2e436f6797be21f981e98044ba1126f",
                 "shasum": ""
             },
             "require": {
@@ -2439,7 +2439,7 @@
                 "form",
                 "template"
             ],
-            "time": "2014-10-04 12:21:08"
+            "time": "2014-10-12 12:34:04"
         },
         {
             "name": "mopa/composer-bridge",
@@ -3436,12 +3436,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twbs/bootstrap.git",
-                "reference": "61705d35fa314a16579169fb7379e5101716e715"
+                "reference": "4a89fd02b743d5a99e06dbf6e87b8a58366c3dcb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/61705d35fa314a16579169fb7379e5101716e715",
-                "reference": "61705d35fa314a16579169fb7379e5101716e715",
+                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/4a89fd02b743d5a99e06dbf6e87b8a58366c3dcb",
+                "reference": "4a89fd02b743d5a99e06dbf6e87b8a58366c3dcb",
                 "shasum": ""
             },
             "replace": {
@@ -3479,7 +3479,7 @@
                 "responsive",
                 "web"
             ],
-            "time": "2014-10-07 04:57:46"
+            "time": "2014-10-10 06:35:56"
         },
         {
             "name": "twig/extensions",
@@ -3531,16 +3531,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v1.16.0",
+            "version": "v1.16.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Twig.git",
-                "reference": "8ce37115802e257a984a82d38254884085060024"
+                "reference": "7c4c01dcf578523cfcddf383641a4f12790270ec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Twig/zipball/8ce37115802e257a984a82d38254884085060024",
-                "reference": "8ce37115802e257a984a82d38254884085060024",
+                "url": "https://api.github.com/repos/fabpot/Twig/zipball/7c4c01dcf578523cfcddf383641a4f12790270ec",
+                "reference": "7c4c01dcf578523cfcddf383641a4f12790270ec",
                 "shasum": ""
             },
             "require": {
@@ -3584,7 +3584,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2014-07-05 12:19:05"
+            "time": "2014-10-10 14:09:53"
         },
         {
             "name": "vakata/jstree",
@@ -3592,12 +3592,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/vakata/jstree.git",
-                "reference": "efeb98fbb14627685fee6d51614a8936ede2ae19"
+                "reference": "65eb22fdaec018f362f7d16f7ecbccb7dbe4e52f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vakata/jstree/zipball/efeb98fbb14627685fee6d51614a8936ede2ae19",
-                "reference": "efeb98fbb14627685fee6d51614a8936ede2ae19",
+                "url": "https://api.github.com/repos/vakata/jstree/zipball/65eb22fdaec018f362f7d16f7ecbccb7dbe4e52f",
+                "reference": "65eb22fdaec018f362f7d16f7ecbccb7dbe4e52f",
                 "shasum": ""
             },
             "require": {
@@ -3639,7 +3639,7 @@
             ],
             "description": "jsTree is jquery plugin, that provides interactive trees.",
             "homepage": "http://jstree.com",
-            "time": "2014-10-02 14:11:35"
+            "time": "2014-10-11 14:18:51"
         },
         {
             "name": "willdurand/js-translation-bundle",

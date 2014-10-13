@@ -10,7 +10,7 @@ use Symfony\Component\Translation\Translator;
 
 use SL\CoreBundle\Services\EntityClass\EntityClassService;
 use SL\CoreBundle\Entity\EntityClass\Property;
-use SL\DataBundle\Form\DocumentType; 
+use SL\CoreBundle\Form\DocumentType; 
 
 class EntityType extends AbstractType
 {
@@ -128,7 +128,7 @@ class EntityType extends AbstractType
                 break;
             case 'entity':
 
-                $fieldOptions['class'] = 'SLDataBundle:'.$property->getTargetEntityClass()->getTechnicalName();
+                $fieldOptions['class'] = 'SLCoreBundle:Generated\\'.$property->getTargetEntityClass()->getTechnicalName();
                 $fieldOptions['property'] = 'displayName';
                 $fieldOptions['multiple'] = $property->isMultiple();
 

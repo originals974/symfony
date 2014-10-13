@@ -7,7 +7,7 @@ use Symfony\Component\Routing\Router;
 use Symfony\Component\Yaml\Dumper;
 
 use SL\CoreBundle\Services\JSTreeService;
-use SL\DataBundle\Entity\MappedSuperclass\AbstractEntity;
+use SL\CoreBundle\Entity\MappedSuperclass\AbstractEntity;
 
 /**
  * ElasticaService
@@ -18,7 +18,6 @@ class ElasticaService
     private $em;
     private $router;
     private $jsTreeService;
-    private $bundlePath;
     private $configPath; 
 
     /**
@@ -26,15 +25,13 @@ class ElasticaService
      *
      * @param EntityManager $em
      * @param Router $router
-     * @param String $bundlePath
      * @param String $configPath   
      */
-    public function __construct(EntityManager $em, Router $router, JSTreeService $jsTreeService, $bundlePath, $configPath)
+    public function __construct(EntityManager $em, Router $router, JSTreeService $jsTreeService, $configPath)
     {
         $this->em = $em; 
         $this->router = $router; 
         $this->jsTreeService = $jsTreeService; 
-        $this->bundlePath = str_replace("/","\\",$bundlePath);
         $this->configPath = $configPath;
     }
 
@@ -57,7 +54,6 @@ class ElasticaService
 
             $entityClassName = 'EntityClass'.$i; 
             $typeElasticaConfig = $this->getTypeElasticaConfig($entityClassName);
-
             $staticElasticaConfig['fos_elastica']['indexes']['slcore']['types'][$entityClassName] = $typeElasticaConfig;
         }
 
@@ -81,10 +77,6 @@ class ElasticaService
                         'host' => 'localhost', 
                         'port' => 9200,
                         ),
-                    ),
-                'serializer' => array(
-                    'callback_class' => 'FOS\ElasticaBundle\Serializer\Callback',
-                    'serializer' => 'serializer',
                     ),
                 'indexes' => array(
                     'slcore' => array(
@@ -110,7 +102,10 @@ class ElasticaService
         $typeElasticaConfig = array(
                     'persistence' => array(
                         'driver' => 'orm',
-                        'model' => $this->bundlePath.'\\Entity\\'.$entityClassName,
+                        'model' => 'SLCoreBundle\\Entity\\Generated\\'.$entityClassName,
+                        'model_to_elastica_transformer' => array(
+                            'service' => 'sl_core.search.transformer.object_to_elastica_transformer'
+                            ),
                         'provider' => 'chr(126)',
                         'listener' => 'chr(126)',
                         'finder' => 'chr(126)',
@@ -145,7 +140,7 @@ class ElasticaService
      */
     private function entityToJSTreeData(array &$data, AbstractEntity $entity) {
 
-        $entityClass = $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')->find($entity->getEntityClassId());
+        $entityClass = $entity->getEntityClass();
 
         $node = array(); 
         $data[] = &$node;
@@ -157,7 +152,7 @@ class ElasticaService
         );
         $node['a_attr'] = array(
             'href' => $this->router->generate('entity_show', array(
-                'entity_class_id' => $entity->getEntityClassId(),
+                'entity_class_id' => $entityClass->getId(),
                 'entity_id' => $entity->getId(),
                 'class_namespace' => $entity->getClass(),
                 )

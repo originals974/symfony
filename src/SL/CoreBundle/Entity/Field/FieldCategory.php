@@ -6,16 +6,16 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 
-use SL\CoreBundle\Entity\MappedSuperclass\AbstractEntity;
+use SL\CoreBundle\Entity\MappedSuperclass\ParamAbstractEntity;
 
 /**
  * FieldCategory
  *
- * @ORM\Table(name="sl_core_field_category")
+ * @ORM\Table(name="param_field_category")
  * @ORM\Entity
  * @UniqueEntity(fields="displayName")
  */
-class FieldCategory extends AbstractEntity
+class FieldCategory extends ParamAbstractEntity
 {
     /**
      * @var ArrayCollection

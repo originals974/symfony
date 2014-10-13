@@ -6,16 +6,16 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-use SL\CoreBundle\Entity\MappedSuperclass\AbstractEntity;
+use SL\CoreBundle\Entity\MappedSuperclass\ParamAbstractEntity;
 
 /**
  * FieldType
  *
- * @ORM\Table(name="sl_core_field_type")
+ * @ORM\Table(name="param_field_type")
  * @ORM\Entity
  * @UniqueEntity(fields="displayName")
  */
-class FieldType extends AbstractEntity
+class FieldType extends ParamAbstractEntity
 {
     /**
      * @var string

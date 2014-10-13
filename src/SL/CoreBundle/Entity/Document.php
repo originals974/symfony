@@ -1,6 +1,6 @@
 <?php
 
-namespace SL\DataBundle\Entity;
+namespace SL\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -8,14 +8,14 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Gedmo\Mapping\Annotation as Gedmo;
 use \SplFileInfo;
 
-use SL\MasterBundle\Entity\AbstractEntity;
+use SL\CoreBundle\Entity\MappedSuperclass\AbstractEntity;
 
 /**
  * Document
  *
- * @ORM\Table(name="sl_core_document")
+ * @ORM\Table(name="data_document")
  * @ORM\Entity
- * @Gedmo\Loggable(logEntryClass="SL\DataBundle\Entity\LogEntry")
+ * @Gedmo\Loggable(logEntryClass="SL\CoreBundle\Entity\LogEntry")
  * @ORM\HasLifecycleCallbacks
  */
 class Document extends AbstractEntity

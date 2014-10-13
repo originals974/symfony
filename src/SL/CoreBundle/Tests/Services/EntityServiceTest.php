@@ -10,7 +10,6 @@ class EntityServiceTest extends WebTestCase
 	private $entityService; 
   private $doctrineService; 
   private $em; 
-  private $databaseEm; 
   private $fullEntityClass; 
   private $targetEntityClassSingle; 
   private $targetEntityClassMultiple; 
@@ -34,7 +33,6 @@ class EntityServiceTest extends WebTestCase
     $this->doctrineService = $this->getContainer()->get('sl_core.doctrine'); 
     $this->testService = $this->getContainer()->get('sl_core.test'); 
     $this->em = $this->getContainer()->get('doctrine.orm.entity_manager'); 
-    $this->databaseEm = $this->getContainer()->get('doctrine')->getManager('database'); 
 
     //Load fixtures
     $classes = array(
@@ -50,31 +48,31 @@ class EntityServiceTest extends WebTestCase
     $this->targetEntityClassMultiple = $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')
                                                 ->findOneByDisplayName('target_entity_class_multiple');
 
-    $this->doctrineService->generateEntityFileAndObjectSchema($this->targetEntityClassSingle);
-    $this->doctrineService->generateEntityFileAndObjectSchema($this->targetEntityClassMultiple);
+    $this->doctrineService->generateEntityFile($this->targetEntityClassSingle);
+    $this->doctrineService->generateEntityFile($this->targetEntityClassMultiple);
 
     $this->fullEntityClass = $this->em->getRepository('SLCoreBundle:EntityClass\EntityClass')
                                       ->findOneByDisplayName('entity_class');
 
-    $this->doctrineService->generateEntityFileAndObjectSchema($this->fullEntityClass);
+    $this->doctrineService->generateEntityFile($this->fullEntityClass);
 
     //Populate targets entities
-    $class = $this->doctrineService->getDataEntityNamespace($this->targetEntityClassSingle->getTechnicalName());
+    $class = $this->doctrineService->getEntityNamespace($this->targetEntityClassSingle->getTechnicalName());
     $targetEntitySingle = new $class($this->targetEntityClassSingle->getId()); 
     $targetEntitySingle->setDisplayName('target_entity_single'); 
-    $this->databaseEm->persist($targetEntitySingle); 
+    $this->em->persist($targetEntitySingle); 
 
-    $class = $this->doctrineService->getDataEntityNamespace($this->targetEntityClassMultiple->getTechnicalName());
+    $class = $this->doctrineService->getEntityNamespace($this->targetEntityClassMultiple->getTechnicalName());
     $targetEntities = new ArrayCollection();  
     for($i=1; $i<=3; $i++){
       ${'targetEntityMultiple'.$i} = new $class($this->targetEntityClassMultiple->getId()); 
       ${'targetEntityMultiple'.$i}->setDisplayName('target_entity_multiple_'.$i); 
-      $this->databaseEm->persist(${'targetEntityMultiple'.$i}); 
+      $this->em->persist(${'targetEntityMultiple'.$i}); 
       $targetEntities->add(${'targetEntityMultiple'.$i}); 
     }
 
     //Populate entity
-    $class = $this->doctrineService->getDataEntityNamespace($this->fullEntityClass->getTechnicalName());
+    $class = $this->doctrineService->getEntityNamespace($this->fullEntityClass->getTechnicalName());
     $this->entity = new $class($this->fullEntityClass->getId()); 
 
     $data = array(
@@ -93,9 +91,9 @@ class EntityServiceTest extends WebTestCase
     ); 
 
     $this->testService->populateEntity($this->fullEntityClass, $this->entity, $data); 
-    $this->databaseEm->persist($this->entity); 
+    $this->em->persist($this->entity); 
 
-    $this->databaseEm->flush(); 
+    $this->em->flush(); 
 
     $this->propertyText = $this->testService->getPropertyByDisplayName($this->fullEntityClass, 'property_text'); 
     $this->propertyTextArea = $this->testService->getPropertyByDisplayName($this->fullEntityClass, 'property_textarea');
@@ -122,7 +120,6 @@ class EntityServiceTest extends WebTestCase
       $this->entityService, 
       $this->doctrineService, 
       $this->em, 
-      $this->databaseEm, 
       $this->fullEntityClass, 
       $this->targetEntityClassSingle,
       $this->targetEntityClassMultiple,
@@ -184,7 +181,7 @@ class EntityServiceTest extends WebTestCase
     * All properties values are null
     */
     $this->testService->populateEntity($this->fullEntityClass, $this->entity, array('property_text' => null)); 
-    $this->databaseEm->flush();
+    $this->em->flush();
     $propertyHasNotNullValues = $this->entityService->propertyHasNotNullValues($this->propertyText);
 
     $this->assertTrue(!$propertyHasNotNullValues);
@@ -194,7 +191,7 @@ class EntityServiceTest extends WebTestCase
     * One property value is not null
     */
     $this->testService->populateEntity($this->fullEntityClass, $this->entity, array('property_text' => 'not null value')); 
-    $this->databaseEm->flush();
+    $this->em->flush();
     $propertyHasNotNullValues = $this->entityService->propertyHasNotNullValues($this->propertyText);
 
     $this->assertTrue($propertyHasNotNullValues);
@@ -243,7 +240,7 @@ class EntityServiceTest extends WebTestCase
 
     $this->entityService->refreshDisplayName($this->fullEntityClass);
 
-    $entity = $this->databaseEm->getRepository('SLDataBundle:'.$this->fullEntityClass->getTechnicalName())->findOneById($this->entity->getId()); 
+    $entity = $this->em->getRepository('SLCoreBundle:Generated\\'.$this->fullEntityClass->getTechnicalName())->findOneById($this->entity->getId()); 
 
     $this->assertEquals('Test1 Test3', $entity->getDisplayName());
   }
@@ -262,8 +259,8 @@ class EntityServiceTest extends WebTestCase
       * #2
       * Entities don't exist for entity class
       */
-    $this->databaseEm->remove($this->entity);
-    $this->databaseEm->flush();  
+    $this->em->remove($this->entity);
+    $this->em->flush();  
 
     $entitiesExist = $this->entityService->entitiesExist($this->fullEntityClass);
 

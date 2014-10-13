@@ -10,7 +10,6 @@ class DoctrineServiceTest extends WebTestCase
 	private $doctrineService; 
     private $testService;
     private $em; 
-    private $databaseEm;
     private $fullEntityClass; 
     private $simpleEntityClass; 
     private $propertyEntity; 
@@ -23,7 +22,6 @@ class DoctrineServiceTest extends WebTestCase
         $this->doctrineService = $this->getContainer()->get('sl_core.doctrine'); 
         $this->testService = $this->getContainer()->get('sl_core.test'); 
         $this->em = $this->getContainer()->get('doctrine')->getManager();
-        $this->databaseEm = $this->getContainer()->get('doctrine')->getManager('database');
             
         $classes = array(
             'SL\CoreBundle\DataFixtures\ORM\Base\LoadFieldTypeData',
@@ -40,9 +38,10 @@ class DoctrineServiceTest extends WebTestCase
         $this->propertyEntity = $this->testService->getPropertyByDisplayName($this->fullEntityClass, 'property_entity'); 
         $this->propertyEntityMultiple = $this->testService->getPropertyByDisplayName($this->fullEntityClass, 'property_entity_multiple');                                        
    
-        $this->doctrineService->generateEntityFileAndObjectSchema($this->propertyEntity->getTargetEntityClass());
-        $this->doctrineService->generateEntityFileAndObjectSchema($this->propertyEntityMultiple->getTargetEntityClass());
-        $this->doctrineService->generateEntityFileAndObjectSchema($this->fullEntityClass);
+        $this->doctrineService->generateEntityFile($this->propertyEntity->getTargetEntityClass());
+        $this->doctrineService->generateEntityFile($this->propertyEntityMultiple->getTargetEntityClass());
+        $this->doctrineService->generateEntityFile($this->fullEntityClass);
+        $this->doctrineService->doctrineSchemaUpdateForce(); 
     }
 
     protected function tearDown()
@@ -56,7 +55,6 @@ class DoctrineServiceTest extends WebTestCase
             $this->doctrineService, 
             $this->testService,
             $this->em, 
-            $this->databaseEm,
             $this->fullEntityClass,
             $this->simpleEntityClass,
             $this->propertyEntity,
@@ -66,27 +64,27 @@ class DoctrineServiceTest extends WebTestCase
             );
     }
 
-    public function testGenerateEntityFileAndObjectSchema()
+    public function testGenerateEntityFile()
     {
-        $this->assertFileExists('/home/samuel/Sites/symfony/src/SL/DataBundle/Entity/'.$this->propertyEntity->getTargetEntityClass()->getTechnicalName().'.php');
-        $this->assertFileExists('/home/samuel/Sites/symfony/src/SL/DataBundle/Entity/'.$this->propertyEntityMultiple->getTargetEntityClass()->getTechnicalName().'.php');
-        $this->assertFileExists('/home/samuel/Sites/symfony/src/SL/DataBundle/Entity/'.$this->fullEntityClass->getTechnicalName().'.php');
+        $this->assertFileExists('/home/samuel/Sites/symfony/src/SL/CoreBundle/Entity/Generated/'.$this->propertyEntity->getTargetEntityClass()->getTechnicalName().'.php');
+        $this->assertFileExists('/home/samuel/Sites/symfony/src/SL/CoreBundle/Entity/Generated/'.$this->propertyEntityMultiple->getTargetEntityClass()->getTechnicalName().'.php');
+        $this->assertFileExists('/home/samuel/Sites/symfony/src/SL/CoreBundle/Entity/Generated/'.$this->fullEntityClass->getTechnicalName().'.php');
     }
 
     public function testRemoveEntityFile()
     {
         $this->doctrineService->generateEntityFileAndObjectSchema($this->propertyEntity->getTargetEntityClass());
-        $this->assertFileExists('/home/samuel/Sites/symfony/src/SL/DataBundle/Entity/'.$this->propertyEntity->getTargetEntityClass()->getTechnicalName().'.php');
+        $this->assertFileExists('/home/samuel/Sites/symfony/src/SL/CoreBundle/Entity/Generated/'.$this->propertyEntity->getTargetEntityClass()->getTechnicalName().'.php');
 
         $this->doctrineService->removeEntityFile($this->propertyEntity->getTargetEntityClass());
-        $this->assertFileNotExists('/home/samuel/Sites/symfony/src/SL/DataBundle/Entity/'.$this->propertyEntity->getTargetEntityClass()->getTechnicalName().'.php');
+        $this->assertFileNotExists('/home/samuel/Sites/symfony/src/SL/CoreBundle/Entity/Generated/'.$this->propertyEntity->getTargetEntityClass()->getTechnicalName().'.php');
     }
 
-    public function testGetDataEntityNamespace()
+    public function testGetEntityNamespace()
     { 
-       $entityNamespace = $this->doctrineService->getDataEntityNamespace('EntityClass1');
+       $entityNamespace = $this->doctrineService->getEntityNamespace('EntityClass1');
 
-       $this->assertEquals($entityNamespace, 'SL\DataBundle\Entity\EntityClass1'); 
+       $this->assertEquals($entityNamespace, 'SL\CoreBundle\Entity\Generated\EntityClass1'); 
     }
 
     public function testEntityDelete()
@@ -132,7 +130,7 @@ class DoctrineServiceTest extends WebTestCase
     public function testGetFormatedLogEntries()
     {
         //Generate version 1
-        $class = $this->doctrineService->getDataEntityNamespace($this->fullEntityClass->getTechnicalName());
+        $class = $this->doctrineService->getEntityNamespace($this->fullEntityClass->getTechnicalName());
         $this->entity = new $class($this->fullEntityClass->getId()); 
 
         $dataV1 = array(
@@ -149,9 +147,9 @@ class DoctrineServiceTest extends WebTestCase
         ); 
 
         $this->testService->populateEntity($this->fullEntityClass, $this->entity, $dataV1); 
-        $this->databaseEm->persist($this->entity); 
+        $this->em->persist($this->entity); 
 
-        $this->databaseEm->flush();
+        $this->em->flush();
 
         //Generate version 2
         $dataV2 = array(
@@ -168,7 +166,7 @@ class DoctrineServiceTest extends WebTestCase
         ); 
 
         $this->testService->populateEntity($this->fullEntityClass, $this->entity, $dataV2); 
-        $this->databaseEm->flush(); 
+        $this->em->flush(); 
 
         //Generate version 3
         $dataV3 = array(
@@ -185,7 +183,7 @@ class DoctrineServiceTest extends WebTestCase
         ); 
 
         $this->testService->populateEntity($this->fullEntityClass, $this->entity, $dataV3); 
-        $this->databaseEm->flush(); 
+        $this->em->flush(); 
 
         $formatedLogEntries = $this->doctrineService->getFormatedLogEntries($this->entity); 
 

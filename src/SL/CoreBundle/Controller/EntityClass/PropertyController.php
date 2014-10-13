@@ -139,7 +139,7 @@ class PropertyController extends Controller
                 $this->em->persist($property);
                 $this->em->flush();
 
-                $this->doctrineService->generateEntityFileAndObjectSchema($entityClass);  
+                $this->doctrineService->generateEntityFile($entityClass);  
 
                 $html = $this->renderView('SLCoreBundle:EntityClass/Property:table.html.twig', array(
                     'entityClass' => $entityClass, 
@@ -221,8 +221,8 @@ class PropertyController extends Controller
 
                 $this->em->flush();
                       
-                //Update database schema
-                $this->doctrineService->generateEntityFileAndObjectSchema($entityClass);  
+                //Update doctrine entity file
+                $this->doctrineService->generateEntityFile($entityClass);  
 
                 $html = $this->renderView('SLCoreBundle:EntityClass/Property:table.html.twig', array(
                     'entityClass' => $entityClass, 
@@ -316,8 +316,8 @@ class PropertyController extends Controller
             else {
                 $this->doctrineService->entityDelete($property, true);
 
-                //Update doctrine entity and schema
-                $this->doctrineService->generateEntityFileAndObjectSchema($entityClass);  
+                //Update doctrine entity file
+                $this->doctrineService->generateEntityFile($entityClass);  
             }
 
             $html = $this->renderView('SLCoreBundle:EntityClass/Property:table.html.twig', array(

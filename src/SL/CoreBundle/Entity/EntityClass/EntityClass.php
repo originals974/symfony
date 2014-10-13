@@ -10,19 +10,19 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 use SL\CoreBundle\Entity\Field\FieldType; 
 use SL\CoreBundle\Validator\Constraints as SLCoreAssert;
-use SL\CoreBundle\Entity\MappedSuperclass\AbstractEntity;
+use SL\CoreBundle\Entity\MappedSuperclass\ParamAbstractEntity;
 
 /**
  * EntityClass
  *
  * @Gedmo\Tree(type="nested")
- * @ORM\Table(name="sl_core_entity_class",uniqueConstraints={
+ * @ORM\Table(name="param_entity_class",uniqueConstraints={
  *     @ORM\UniqueConstraint(name="unique_index_entity_class_technical_name", columns={"technical_name"})
  *  })
  * @ORM\Entity(repositoryClass="SL\CoreBundle\Entity\Repository\EntityClassRepository")
  * @UniqueEntity(fields="displayName")
  */
-class EntityClass extends AbstractEntity
+class EntityClass extends ParamAbstractEntity
 {
     /**
      * @var string
