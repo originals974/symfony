@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2014-10-14T13:45:21Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+  <file date="2014-10-14T13:58:31Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -323,6 +323,16 @@
         <source>is_required.label</source>
         <target>Requis</target>
         <jms:reference-file line="18">EntityClass/Property/table.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="cdff8db3e245a22f7644659348b9d3a42f7f5c63" resname="label.metadata">
+        <source>label.metadata</source>
+        <target>Métadonnées</target>
+        <jms:reference-file line="42">views/FrontEnd/index.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="01937f6b497913b627e2a1c746f9607916c9c801" resname="label.preview">
+        <source>label.preview</source>
+        <target>Prévisualisation</target>
+        <jms:reference-file line="43">views/FrontEnd/index.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="3ef008cb431503d0febfe75bae4d782304e8e8dc" resname="main_application.name">
         <source>main_application.name</source>
