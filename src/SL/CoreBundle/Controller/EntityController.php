@@ -11,7 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Doctrine\ORM\EntityManager;
 
-use SL\CoreBundle\Entity\MappedSuperclass\AbstractEntity; 
+use SL\CoreBundle\Entity\MappedSuperclass\DataAbstractEntity; 
 use SL\CoreBundle\Entity\EntityClass\EntityClass;
 use SL\CoreBundle\Services\DoctrineService;
 use SL\CoreBundle\Services\EntityClass\EntityClassService;
@@ -155,7 +155,7 @@ class EntityController extends Controller
     *
     * @param Request $request
     * @param EntityClass $entityClass 
-    * @param AbstractEntity $entity 
+    * @param DataAbstractEntity $entity 
     * @param string $class_namespace 
     *
     * @return Response $response
@@ -163,7 +163,7 @@ class EntityController extends Controller
     * @ParamConverter("entityClass", options={"select_mode" = "all"})
     * @ParamConverter("entity", options={"select_mode" = "all"})
     */
-    public function editAction(Request $request, EntityClass $entityClass, AbstractEntity $entity, $class_namespace)
+    public function editAction(Request $request, EntityClass $entityClass, DataAbstractEntity $entity, $class_namespace)
     {
         if ($request->isXmlHttpRequest()) {
 
@@ -189,7 +189,7 @@ class EntityController extends Controller
     *
     * @param Request $request
     * @param EntityClass $entityClass 
-    * @param AbstractEntity $entity 
+    * @param DataAbstractEntity $entity 
     * @param string $class_namespace 
     *
     * @return Mixed $response
@@ -197,7 +197,7 @@ class EntityController extends Controller
     * @ParamConverter("entityClass", options={"select_mode" = "all"})
     * @ParamConverter("entity", options={"select_mode" = "all"})
     */
-    public function updateAction(Request $request, EntityClass $entityClass, AbstractEntity $entity, $class_namespace)
+    public function updateAction(Request $request, EntityClass $entityClass, DataAbstractEntity $entity, $class_namespace)
     {
         if ($request->isXmlHttpRequest()) {
 
@@ -247,7 +247,7 @@ class EntityController extends Controller
     *
     * @param Request $request
     * @param EntityClass $entityClass 
-    * @param AbstractEntity $entity 
+    * @param DataAbstractEntity $entity 
     * @param string $class_namespace 
     *
     * @return Response $response
@@ -255,7 +255,7 @@ class EntityController extends Controller
     * @ParamConverter("entityClass", options={"select_mode" = "all"})
     * @ParamConverter("entity", options={"select_mode" = "all"})
     */
-    public function showAction(Request $request,EntityClass $entityClass, AbstractEntity $entity, $class_namespace)
+    public function showAction(Request $request,EntityClass $entityClass, DataAbstractEntity $entity, $class_namespace)
     {
         if ($request->isXmlHttpRequest()) {
 
@@ -288,7 +288,7 @@ class EntityController extends Controller
     *
     * @param Request $request
     * @param EntityClass $entityClass 
-    * @param AbstractEntity $entity 
+    * @param DataAbstractEntity $entity 
     * @param string $class_namespace 
     *
     * @return Response $response
@@ -296,7 +296,7 @@ class EntityController extends Controller
     * @ParamConverter("entityClass", options={"select_mode" = "all"})
     * @ParamConverter("entity", options={"select_mode" = "all"})
     */
-    public function removeAction(Request $request, EntityClass $entityClass, AbstractEntity $entity, $class_namespace)
+    public function removeAction(Request $request, EntityClass $entityClass, DataAbstractEntity $entity, $class_namespace)
     {
         if ($request->isXmlHttpRequest()) {
 
@@ -324,14 +324,14 @@ class EntityController extends Controller
     * having $class_namespace for class
     *
     * @param Request $request
-    * @param AbstractEntity $entity 
+    * @param DataAbstractEntity $entity 
     * @param string $class_namespace 
     *
     * @return Mixed $response
     *
     * @ParamConverter("entity", options={"select_mode" = "all"})
     */
-    public function deleteAction(Request $request, AbstractEntity $entity, $class_namespace)
+    public function deleteAction(Request $request, DataAbstractEntity $entity, $class_namespace)
     {
         if ($request->isXmlHttpRequest()) {
 
@@ -362,7 +362,7 @@ class EntityController extends Controller
     *
     * @param Request $request
     * @param EntityClass $entityClass 
-    * @param AbstractEntity $entity 
+    * @param DataAbstractEntity $entity 
     * @param string $class_namespace 
     *
     * @return Response $response
@@ -370,7 +370,7 @@ class EntityController extends Controller
     * @ParamConverter("entityClass", options={"select_mode" = "all"})
     * @ParamConverter("entity", options={"select_mode" = "all"})
     */
-    public function editVersionAction(Request $request, EntityClass $entityClass, AbstractEntity $entity, $class_namespace)
+    public function editVersionAction(Request $request, EntityClass $entityClass, DataAbstractEntity $entity, $class_namespace)
     {
         if ($request->isXmlHttpRequest()) {
  
@@ -401,14 +401,14 @@ class EntityController extends Controller
     * having $class_namespace for class
     *
     * @param Request $request
-    * @param AbstractEntity $entity 
+    * @param DataAbstractEntity $entity 
     * @param string $class_namespace 
     *
     * @return Mixed $response
     *
     * @ParamConverter("entity", options={"select_mode" = "all"})
     */
-    public function updateVersionAction(Request $request, AbstractEntity $entity, $class_namespace)
+    public function updateVersionAction(Request $request, DataAbstractEntity $entity, $class_namespace)
     {
         if ($request->isXmlHttpRequest()) {
 

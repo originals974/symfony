@@ -15,5 +15,35 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class EntityClass1 extends \SL\CoreBundle\Entity\MappedSuperclass\DataAbstractEntity
 {
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="Property5", type="date", nullable=true)
+     * @Gedmo\Mapping\Annotation\Versioned
+     */
+    private $Property5;
 
+
+    /**
+     * Set Property5
+     *
+     * @param \DateTime $property5
+     * @return EntityClass1
+     */
+    public function setProperty5($property5)
+    {
+        $this->Property5 = $property5;
+
+        return $this;
+    }
+
+    /**
+     * Get Property5
+     *
+     * @return \DateTime 
+     */
+    public function getProperty5()
+    {
+        return $this->Property5;
+    }
 }

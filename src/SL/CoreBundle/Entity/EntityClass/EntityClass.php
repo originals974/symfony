@@ -238,6 +238,37 @@ class EntityClass extends ParamAbstractEntity
         return $this->parent;
     }
 
+     /**
+     * Get all $entityClass with its parents
+     *
+     * @return array $parents
+     */
+    public function getParents()
+    {
+        $parents = array($this); 
+
+        $this->getParentsRecursive($this, $parents); 
+
+        return $parents;
+    }
+
+     /**
+     * Store all parents of $entityClass in $parents array
+     *
+     * @param EntityClass $entityClass
+     * @param array &$parents
+     *
+     * @return void
+     */
+    private function getParentsRecursive(EntityClass $entityClass, array &$parents)
+    {
+
+        if($entityClass->getParent() != null){
+            array_unshift($parents, $entityClass->getParent()); 
+            $this->getParent($entityClass->getParent(), $parents);
+        }
+    }
+
     /**
      * Set isDocument
      *

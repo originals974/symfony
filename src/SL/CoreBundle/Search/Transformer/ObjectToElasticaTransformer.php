@@ -2,7 +2,6 @@
 
 namespace SL\CoreBundle\Search\Transformer;
  
-use Doctrine\ORM\EntityManager; 
 use FOS\ElasticaBundle\Transformer\ModelToElasticaTransformerInterface;
 use Elastica\Document;
 
@@ -13,27 +12,30 @@ class ObjectToElasticaTransformer implements ModelToElasticaTransformerInterface
     /**
      * Complete $fields ES mapping by $entityClass metadata
      *
-     * @param EntityClass $entityClass
+     * @param EntityClass $mainEntityClass
      * @param array  $fields
      *
      * @return void
      **/
-    private function entityClassToFieldsMapping(EntityClass $entityClass, array &$fields){
+    private function entityClassToFieldsMapping(EntityClass $mainEntityClass, array &$fields){
 
-        foreach($entityClass->getProperties() as $property){
-            if($property->getFieldType()->getFormType() == 'entity'){
+        foreach($mainEntityClass->getParents() as $entityClass){
 
-                $targetEntityClass =  $property->getTargetEntityClass(); 
+            foreach($entityClass->getProperties() as $property){
+                if($property->getFieldType()->getFormType() == 'entity'){
 
-                $fields[$property->getTechnicalName()] = array(
-                    'type' => 'object',
-                    'properties' => array(),
-                    ); 
+                    $targetEntityClass =  $property->getTargetEntityClass(); 
 
-                $this->entityClassToFieldsMapping($targetEntityClass, $fields[$property->getTechnicalName()]['properties']);
-            }
-            else{
-                $fields[$property->getTechnicalName()] = null; 
+                    $fields[$property->getTechnicalName()] = array(
+                        'type' => 'object',
+                        'properties' => array(),
+                        ); 
+
+                    $this->entityClassToFieldsMapping($targetEntityClass, $fields[$property->getTechnicalName()]['properties']);
+                }
+                else{
+                    $fields[$property->getTechnicalName()] = null; 
+                }
             }
         }
     }

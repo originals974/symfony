@@ -7,6 +7,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Gedmo\Mapping\Annotation as Gedmo;
 use \SplFileInfo;
+use \DateTime;
 
 use SL\CoreBundle\Entity\MappedSuperclass\AbstractEntity;
 
@@ -35,6 +36,20 @@ class Document extends AbstractEntity
     public $file;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="mime_type", type="string")
+     */
+    private $mimeType;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="size", type="decimal")
+     */
+    private $size;
+
+    /**
      * Get file
      *
      * @return UploadedFile 
@@ -46,11 +61,63 @@ class Document extends AbstractEntity
         }
     }
 
+    /**
+     * Get file for Elasticsearch
+     *
+     * @return SplFileInfo 
+     */
     public function getEncodedFile() 
     {
         return new SplFileInfo($this->getAbsolutePath());
     }
 
+    /**
+     * Set mimeType
+     *
+     * @param string $mimeType
+     *
+     * @return Document
+     */
+    public function setMimeType($mimeType)
+    {
+        $this->mimeType = $mimeType;
+
+        return $this;
+    }
+
+    /**
+     * Get mimeType
+     *
+     * @return string 
+     */
+    public function getMimeType()
+    {
+        return $this->mimeType;
+    }
+
+    /**
+     * Set size
+     *
+     * @param decimal $size
+     *
+     * @return Document
+     */
+    public function setSize($size)
+    {
+        $this->size = $size;
+
+        return $this;
+    }
+
+    /**
+     * Get size
+     *
+     * @return string 
+     */
+    public function getSize()
+    {
+        return $this->size;
+    }
 
     /**
      * @ORM\PrePersist()
@@ -59,8 +126,14 @@ class Document extends AbstractEntity
     public function preUpload()
     {
         if (null !== $this->file) {
+            var_dump($this->file->getClientMimeType()); 
+            var_dump($this->file->getExtension()); 
+            var_dump($this->file->guessExtension()); 
+
             $this->setDisplayName($this->file->getClientOriginalName()); 
             $this->path = sha1(uniqid(mt_rand(), true)).'.'.$this->file->guessExtension();
+            $this->setMimeType($this->file->getMimeType()); 
+            $this->setSize($this->file->getClientSize()); 
         }
     }
 
@@ -75,6 +148,7 @@ class Document extends AbstractEntity
         }
 
         $this->file->move($this->getUploadRootDir(), $this->path);
+        $this->setUpdatedAt(new DateTime()); 
 
         unset($this->file);
     }

@@ -191,22 +191,6 @@ class EntityClassService
     }
 
     /**
-     * Get direct parent of $entityClass and add it to $parents
-     *
-     * @param EntityClass $entityClass
-     * @param array $parents
-     *
-     * @return void
-     */
-    private function getParent(EntityClass $entityClass, array &$parents){
-
-        if($entityClass->getParent() != null){
-            array_unshift($parents, $entityClass->getParent()); 
-            $this->getParent($entityClass->getParent(), $parents);
-        }
-    }
-
-    /**
      * Ordered properties for $entityClasses
      *
      * @param array $entityClasses Array of entity class
@@ -239,8 +223,9 @@ class EntityClassService
      */
     public function getPath(EntityClass $entityClass){
 
-        $parents = array($entityClass); 
-        $this->getParent($entityClass, $parents);
+        $parents = array(); 
+
+        $parents = $entityClass->getParents(); 
 
         return $this->orderedEntityClassesProperties($parents); 
     }

@@ -7,6 +7,6 @@
 /app/logs/*
 /vendor/
 /app/config/parameters.yml
-/src/SL/DataBundle/Entity/*EntityClass*.php
+/src/SL/CoreBundle/Entity/Generated/
 /components/*
 /web/uploads/documents/

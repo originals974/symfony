@@ -295,26 +295,63 @@ fos_elastica:
                         provider: ~
                         listener: ~
                         finder: ~
-                # EntityClass2:
-                #     mappings:
-                #     persistence:
-                #         driver: orm
-                #         model: SL\CoreBundle\Entity\Generated\EntityClass2
-                #         model_to_elastica_transformer:
-                #             service: sl_core.search.transformer.object_to_elastica_transformer
-                #         provider: ~
-                #         listener: ~
-                #         finder: ~
-                # EntityClass3:
-                #     mappings:
-                #     persistence:
-                #         driver: orm
-                #         model: SL\CoreBundle\Entity\Generated\EntityClass3
-                #         model_to_elastica_transformer:
-                #             service: sl_core.search.transformer.object_to_elastica_transformer
-                #         provider: ~
-                #         listener: ~
-                #         finder: ~
+                EntityClass2:
+                    mappings:
+                        guid: ~
+                        displayName: ~
+                        document:
+                            type: "object"
+                            properties:
+                                guid: ~
+                                displayName: ~
+                                encodedFile: 
+                                    type : "attachment"
+                    persistence:
+                        driver: orm
+                        model: SL\CoreBundle\Entity\Generated\EntityClass2
+                        model_to_elastica_transformer:
+                            service: sl_core.search.transformer.object_to_elastica_transformer
+                        provider: ~
+                        listener: ~
+                        finder: ~
+                EntityClass3:
+                    mappings:
+                        guid: ~
+                        displayName: ~
+                        document:
+                            type: "object"
+                            properties:
+                                guid: ~
+                                displayName: ~
+                                encodedFile: 
+                                    type : "attachment"
+                    persistence:
+                        driver: orm
+                        model: SL\CoreBundle\Entity\Generated\EntityClass3
+                        model_to_elastica_transformer:
+                            service: sl_core.search.transformer.object_to_elastica_transformer
+                        provider: ~
+                        listener: ~
+                        finder: ~
+                EntityClass4:
+                    mappings:
+                        guid: ~
+                        displayName: ~
+                        document:
+                            type: "object"
+                            properties:
+                                guid: ~
+                                displayName: ~
+                                encodedFile: 
+                                    type : "attachment"
+                    persistence:
+                        driver: orm
+                        model: SL\CoreBundle\Entity\Generated\EntityClass4
+                        model_to_elastica_transformer:
+                            service: sl_core.search.transformer.object_to_elastica_transformer
+                        provider: ~
+                        listener: ~
+                        finder: ~
                 # EntityClass4:
                 #     mappings:
                 #     persistence:
