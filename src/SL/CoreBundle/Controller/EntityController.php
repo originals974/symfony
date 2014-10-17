@@ -10,6 +10,7 @@ use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Doctrine\ORM\EntityManager;
+use \DateTime;
 
 use SL\CoreBundle\Entity\MappedSuperclass\DataAbstractEntity; 
 use SL\CoreBundle\Entity\EntityClass\EntityClass;
@@ -208,6 +209,10 @@ class EntityController extends Controller
 
                 $displayName = $this->entityService->calculateDisplayName($entity, $entityClass);
                 $entity->setDisplayName($displayName); 
+                
+                if($entity->getEntityClass()->isDocument()){
+                    $entity->getDocument()->setUpdatedAt(new DateTime()); 
+                }
 
                 //Save files properties
                 //$this->doctrineService->callUploadableManager($entityClass, $entity);
@@ -265,7 +270,7 @@ class EntityController extends Controller
 
             $currentVersion = $this->em->getRepository('SLCoreBundle:LogEntry')->findCurrentVersion($entity);
 
-            $response = $this->render('SLCoreBundle:Entity:show.html.twig', array(
+            $metadata = $this->renderView('SLCoreBundle:Entity:show.html.twig', array(
                 'entityClass' => $entityClass, 
                 'entityClasses' => $entityClasses,
                 'entity' => $entity, 
@@ -273,6 +278,14 @@ class EntityController extends Controller
                 'currentVersion' => array_shift($currentVersion),
                 )
             );
+
+            $data = array(  
+                'metadata' => $metadata,
+                'document_name' => ($entity->getDocument() != null)?$entity->getDocument()->path:'default.pdf',
+                'is_document' => $entity->getEntityClass()->isDocument(),
+            );
+
+            $response = new JsonResponse($data);
         }
         else {
             $response = $this->redirect($this->generateUrl('front_end'));

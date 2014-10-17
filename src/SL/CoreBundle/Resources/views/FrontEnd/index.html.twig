@@ -38,29 +38,29 @@
 
 		<!--Tool section-->
         <section class="col-lg-5">
-        	<ul class="nav nav-tabs" role="tablist">
-			  	<li class="active"><a href="#metadata" role="tab" data-toggle="tab"><i class="fa fa-th-list fa-lg"></i> {{ 'label.metadata'|trans }}</a></li>
-			  	<li><a href="#preview" role="tab" data-toggle="tab"><i class="fa fa-eye fa-lg"></i> {{ 'label.preview'|trans }}</a></li>
-			</ul>
+        	<div id="object_details_tabs">
+	        	<ul id="object_details_tabs_list" class="nav nav-tabs" role="tablist">
+				  	<li class="active"><a href="#metadata" role="tab" data-toggle="tab"><i class="fa fa-th-list fa-lg"></i> {{ 'label.metadata'|trans }}</a></li>
+				  	<li><a href="#preview" role="tab" data-toggle="tab"><i class="fa fa-eye fa-lg"></i> {{ 'label.preview'|trans }}</a></li>
+				</ul>
 
-			<div class="tab-content">
-			  	<div class="tab-pane fade in active" id="metadata">
-			  		<div class="panel panel panel-default">
-		  				<div class="panel-body">
-		            		<div id="features_panel_body"> </div>
-		            	</div>
-		            </div>
-			  	</div>
-			  	<div class="tab-pane fade" id="preview">
-			  		<div class="panel panel panel-default">
-		  				<div class="panel-body">
-		            		
-		            	</div>
-		            </div>
-			  	</div>
+				<div id="object_details_tabs_content" class="tab-content">
+				  	<div class="tab-pane fade active in" id="metadata">
+				  		<div class="panel panel panel-default">
+			  				<div class="panel-body">
+			            		<div id="metadata_panel_body"> </div>
+			            	</div>
+			            </div>
+				  	</div>
+				  	<div class="tab-pane fade" id="preview">
+				  		<div class="panel panel panel-default">
+			  				<div class="panel-body">
+			            		<iframe id="viewer_js" src ="{{ asset('bundles/slcore/ViewerJS/index.html') }}#{{ asset('uploads/documents/default.pdf') }}" width='450' height='550' allowfullscreen webkitallowfullscreen></iframe> 
+			            	</div>
+			            </div>
+				  	</div>
+				</div>
 			</div>
-
-        	
         </section>
 	</div>
 {% endblock %}

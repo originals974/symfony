@@ -1893,16 +1893,16 @@
         },
         {
             "name": "knplabs/knp-components",
-            "version": "1.3.0",
+            "version": "1.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/KnpLabs/knp-components.git",
-                "reference": "756c44523db9cf125381cba2cb08160fd184fb24"
+                "reference": "6d091c2f16eec2769db38f38e08c7bd5847ce072"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/knp-components/zipball/756c44523db9cf125381cba2cb08160fd184fb24",
-                "reference": "756c44523db9cf125381cba2cb08160fd184fb24",
+                "url": "https://api.github.com/repos/KnpLabs/knp-components/zipball/6d091c2f16eec2769db38f38e08c7bd5847ce072",
+                "reference": "6d091c2f16eec2769db38f38e08c7bd5847ce072",
                 "shasum": ""
             },
             "require": {
@@ -1912,6 +1912,7 @@
                 "doctrine/mongodb-odm": "~1.0@beta",
                 "doctrine/orm": "~2.4",
                 "phpunit/phpunit": "~4.2",
+                "ruflin/elastica": "~1.0",
                 "symfony/event-dispatcher": "~2.5"
             },
             "suggest": {
@@ -1956,7 +1957,7 @@
                 "pager",
                 "paginator"
             ],
-            "time": "2014-10-06 09:25:27"
+            "time": "2014-10-06 10:38:10"
         },
         {
             "name": "knplabs/knp-menu",
@@ -2137,16 +2138,16 @@
         },
         {
             "name": "kriswallsmith/assetic",
-            "version": "v1.1.2",
+            "version": "v1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kriswallsmith/assetic.git",
-                "reference": "735cffd3982c6e8cdebe292d5db39d077f65890f"
+                "reference": "df991c124a2212371443b586a1be767500036dee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kriswallsmith/assetic/zipball/735cffd3982c6e8cdebe292d5db39d077f65890f",
-                "reference": "735cffd3982c6e8cdebe292d5db39d077f65890f",
+                "url": "https://api.github.com/repos/kriswallsmith/assetic/zipball/df991c124a2212371443b586a1be767500036dee",
+                "reference": "df991c124a2212371443b586a1be767500036dee",
                 "shasum": ""
             },
             "require": {
@@ -2161,7 +2162,9 @@
                 "leafo/scssphp": "*",
                 "leafo/scssphp-compass": "*",
                 "mrclay/minify": "*",
-                "phpunit/phpunit": "~3.7",
+                "patchwork/jsqueeze": "~1.0",
+                "phpunit/phpunit": "~4",
+                "psr/log": "~1.0",
                 "ptachoire/cssembed": "*",
                 "twig/twig": "~1.6"
             },
@@ -2169,13 +2172,14 @@
                 "leafo/lessphp": "Assetic provides the integration with the lessphp LESS compiler",
                 "leafo/scssphp": "Assetic provides the integration with the scssphp SCSS compiler",
                 "leafo/scssphp-compass": "Assetic provides the integration with the SCSS compass plugin",
+                "patchwork/jsqueeze": "Assetic provides the integration with the JSqueeze JavaScript compressor",
                 "ptachoire/cssembed": "Assetic provides the integration with phpcssembed to embed data uris",
                 "twig/twig": "Assetic provides the integration with the Twig templating engine"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.1-dev"
+                    "dev-master": "1.2-dev"
                 }
             },
             "autoload": {
@@ -2204,7 +2208,7 @@
                 "compression",
                 "minification"
             ],
-            "time": "2013-07-19 00:03:27"
+            "time": "2014-10-14 14:45:32"
         },
         {
             "name": "leafo/lessphp",
@@ -2383,12 +2387,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phiamo/MopaBootstrapBundle.git",
-                "reference": "e1fdf26cc2e436f6797be21f981e98044ba1126f"
+                "reference": "7453e4348f487bb3f04f5dfbb6ab70ee50ede915"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phiamo/MopaBootstrapBundle/zipball/e1fdf26cc2e436f6797be21f981e98044ba1126f",
-                "reference": "e1fdf26cc2e436f6797be21f981e98044ba1126f",
+                "url": "https://api.github.com/repos/phiamo/MopaBootstrapBundle/zipball/7453e4348f487bb3f04f5dfbb6ab70ee50ede915",
+                "reference": "7453e4348f487bb3f04f5dfbb6ab70ee50ede915",
                 "shasum": ""
             },
             "require": {
@@ -2439,7 +2443,7 @@
                 "form",
                 "template"
             ],
-            "time": "2014-10-12 12:34:04"
+            "time": "2014-10-14 05:20:09"
         },
         {
             "name": "mopa/composer-bridge",
@@ -3090,45 +3094,46 @@
         },
         {
             "name": "symfony/assetic-bundle",
-            "version": "v2.3.0",
-            "target-dir": "Symfony/Bundle/AsseticBundle",
+            "version": "v2.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/AsseticBundle.git",
-                "reference": "146dd3cb46b302bd471560471c6aaa930483dac1"
+                "reference": "90ea7fb66d6d5245fd4afc16e4c8070214254fec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/AsseticBundle/zipball/146dd3cb46b302bd471560471c6aaa930483dac1",
-                "reference": "146dd3cb46b302bd471560471c6aaa930483dac1",
+                "url": "https://api.github.com/repos/symfony/AsseticBundle/zipball/90ea7fb66d6d5245fd4afc16e4c8070214254fec",
+                "reference": "90ea7fb66d6d5245fd4afc16e4c8070214254fec",
                 "shasum": ""
             },
             "require": {
-                "kriswallsmith/assetic": "~1.1",
+                "kriswallsmith/assetic": "~1.2",
                 "php": ">=5.3.0",
-                "symfony/framework-bundle": "~2.1"
-            },
-            "require-dev": {
-                "symfony/class-loader": "~2.1",
                 "symfony/console": "~2.1",
-                "symfony/css-selector": "~2.1",
-                "symfony/dom-crawler": "~2.1",
-                "symfony/form": "~2.1",
-                "symfony/twig-bundle": "~2.1",
+                "symfony/framework-bundle": "~2.1",
                 "symfony/yaml": "~2.1"
             },
-            "suggest": {
+            "require-dev": {
+                "kriswallsmith/spork": "~0.2",
+                "patchwork/jsqueeze": "~1.0",
+                "symfony/class-loader": "~2.1",
+                "symfony/css-selector": "~2.1",
+                "symfony/dom-crawler": "~2.1",
                 "symfony/twig-bundle": "~2.1"
+            },
+            "suggest": {
+                "kriswallsmith/spork": "to be able to dump assets in parallel",
+                "symfony/twig-bundle": "to use the Twig integration"
             },
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.1.x-dev"
+                    "dev-master": "2.5-dev"
                 }
             },
             "autoload": {
-                "psr-0": {
-                    "Symfony\\Bundle\\AsseticBundle": ""
+                "psr-4": {
+                    "Symfony\\Bundle\\AsseticBundle\\": ""
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -3149,7 +3154,7 @@
                 "compression",
                 "minification"
             ],
-            "time": "2013-05-16 05:32:23"
+            "time": "2014-10-15 12:03:38"
         },
         {
             "name": "symfony/icu",
@@ -3436,12 +3441,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twbs/bootstrap.git",
-                "reference": "4a89fd02b743d5a99e06dbf6e87b8a58366c3dcb"
+                "reference": "8a6a253355ab1d26865bfbfffaa2a194e173a3aa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/4a89fd02b743d5a99e06dbf6e87b8a58366c3dcb",
-                "reference": "4a89fd02b743d5a99e06dbf6e87b8a58366c3dcb",
+                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/8a6a253355ab1d26865bfbfffaa2a194e173a3aa",
+                "reference": "8a6a253355ab1d26865bfbfffaa2a194e173a3aa",
                 "shasum": ""
             },
             "replace": {
@@ -3479,7 +3484,7 @@
                 "responsive",
                 "web"
             ],
-            "time": "2014-10-10 06:35:56"
+            "time": "2014-10-14 18:41:30"
         },
         {
             "name": "twig/extensions",
@@ -3592,12 +3597,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/vakata/jstree.git",
-                "reference": "65eb22fdaec018f362f7d16f7ecbccb7dbe4e52f"
+                "reference": "507aee118d178817809087897fcc7dffba9b6726"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vakata/jstree/zipball/65eb22fdaec018f362f7d16f7ecbccb7dbe4e52f",
-                "reference": "65eb22fdaec018f362f7d16f7ecbccb7dbe4e52f",
+                "url": "https://api.github.com/repos/vakata/jstree/zipball/507aee118d178817809087897fcc7dffba9b6726",
+                "reference": "507aee118d178817809087897fcc7dffba9b6726",
                 "shasum": ""
             },
             "require": {
@@ -3639,7 +3644,7 @@
             ],
             "description": "jsTree is jquery plugin, that provides interactive trees.",
             "homepage": "http://jstree.com",
-            "time": "2014-10-11 14:18:51"
+            "time": "2014-10-15 13:45:59"
         },
         {
             "name": "willdurand/js-translation-bundle",

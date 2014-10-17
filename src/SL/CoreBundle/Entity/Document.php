@@ -7,7 +7,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Gedmo\Mapping\Annotation as Gedmo;
 use \SplFileInfo;
-use \DateTime;
 
 use SL\CoreBundle\Entity\MappedSuperclass\AbstractEntity;
 
@@ -126,10 +125,6 @@ class Document extends AbstractEntity
     public function preUpload()
     {
         if (null !== $this->file) {
-            var_dump($this->file->getClientMimeType()); 
-            var_dump($this->file->getExtension()); 
-            var_dump($this->file->guessExtension()); 
-
             $this->setDisplayName($this->file->getClientOriginalName()); 
             $this->path = sha1(uniqid(mt_rand(), true)).'.'.$this->file->guessExtension();
             $this->setMimeType($this->file->getMimeType()); 
@@ -148,8 +143,7 @@ class Document extends AbstractEntity
         }
 
         $this->file->move($this->getUploadRootDir(), $this->path);
-        $this->setUpdatedAt(new DateTime()); 
-
+        
         unset($this->file);
     }
 
@@ -181,7 +175,7 @@ class Document extends AbstractEntity
      */
     public function getWebPath()
     {
-        return null === $this->path ? null : $this->getUploadDir().'/'.$this->path;
+        return null === $this->path ? null : $this->getUploadDir().$this->path;
     }
 
     /**

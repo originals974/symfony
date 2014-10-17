@@ -24,19 +24,17 @@
             })
             .on('changed.jstree', function (e, data) {
 
-                var $htmlTarget, i, j; 
-
-                $htmlTarget = '#features_panel_body'; 
+                var i, j; 
 
                 for(i = 0, j = data.selected.length; i < j; i++) {
                     var $url = data.instance.get_node(data.selected[0]).a_attr['href']; 
                 }
 
                 if($url != null && $url != '#' ) {
-                    sendToAjaxFrontEnd('GET', $url, null, $htmlTarget);                                
+                    refreshObjectDetailsTabs($url);                                  
                 }
                 else{
-                    $($htmlTarget).html(null);
+                    $('#metadata_panel_body').html(null);
                 }
             });
         };
@@ -52,7 +50,7 @@
             return false;
         });
 
-
+        //When collapse result screen
         $('#search_result').on('shown.bs.collapse', function () {
 
             var jsTreeId, jsTree, openJsTreeDom, toRefresh; 
@@ -68,6 +66,19 @@
                 openJsTreeDom.attr('to_refresh',0);
             }
         })
+
+        //When shown tab
+        $('#object_details_tabs a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            
+            var activeTabId = $(e.target).attr('href'); 
+
+            //Reload iframe
+            if(activeTabId == "#preview"){
+                document.getElementById('viewer_js').contentDocument.location.reload(true);
+            }
+        })
+
+        //When change display tab
 
 		/**
 	     * Process submitted form by using ajax
@@ -148,21 +159,44 @@
         };
 
         /**
-         * Submit data by using ajax
+         * Refresh object details tabs
          *
-         * @param String $method Ajax method used to send data
          * @param String $url  Url where data are send
-         * @param JSonArray $data Data to send
-         * @param String $htmlTarget Html section to modify after success
          *
          */
-        function sendToAjaxFrontEnd($method, $url, $data, $htmlTarget) {
+        function refreshObjectDetailsTabs($url) {
+            
+            var viewerJSsrc, n, viewerJSPath, activeTabId; 
+
             $.ajax({
-                type: $method,
+                type: 'GET',
                 url: $url,
-                data: $data,
+                data: null,
                 success: function(data) {
-                    $($htmlTarget).html(data);
+                    $('#metadata_panel_body').html(data.metadata);
+
+                    if(data.is_document){
+                        //Refresh document preview
+                        viewerJSsrc = document.getElementById('viewer_js').src;
+                        n = viewerJSsrc.lastIndexOf("/"); 
+                        viewerJSPath = viewerJSsrc.substr(0, n+1); 
+     
+                        document.getElementById('viewer_js').src = viewerJSPath+data.document_name;
+
+                        activeTabId = $('div.active.in').attr('id'); 
+                        if(activeTabId == 'preview'){
+                            document.getElementById('viewer_js').contentDocument.location.reload(true);
+                        }
+
+                        //Manage tab
+                        $('#object_details_tabs_list a:last').show();
+                    }
+                    else{
+                        //Manage tab
+                        $('#object_details_tabs_list a:first').tab('show');
+                        $('#object_details_tabs_list a:last').hide();
+                    }
+
                 },
                 error: function(data) {            
                     alert('error');
