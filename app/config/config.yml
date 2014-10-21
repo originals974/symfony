@@ -39,10 +39,10 @@ assetic:
     bundles:        [ SLCoreBundle]
     filters:
         cssrewrite: ~
-        yui_css:
-            jar: "%kernel.root_dir%/Resources/java/yuicompressor-2.4.8.jar"
-        yui_js:
-            jar: "%kernel.root_dir%/Resources/java/yuicompressor-2.4.8.jar"
+        #yui_css:
+        #    jar: "%kernel.root_dir%/Resources/java/yuicompressor-2.4.8.jar"
+        #yui_js:
+        #    jar: "%kernel.root_dir%/Resources/java/yuicompressor-2.4.8.jar"
         lessphp:
             file: %kernel.root_dir%/../vendor/leafo/lessphp/lessc.inc.php
             apply_to: "\.less$"
@@ -50,116 +50,116 @@ assetic:
         jquery_js:
             inputs:
                - %kernel.root_dir%/../vendor/components/jquery/jquery.min.js
-            filters:
-               - ?yui_js
+            #filters:
+            #   - ?yui_js
             output: assets/js/jquery.min.js
         jquery_ui_css:
             inputs:
                - %kernel.root_dir%/../vendor/components/jqueryui/themes/smoothness/jquery-ui.min.css
-            filters:
-               - ?yui_css
+            #filters:
+            #   - ?yui_css
             output: assets/js/jquery-ui.min.css
         jquery_ui_js:
             inputs:
                - %kernel.root_dir%/../vendor/components/jqueryui/jquery-ui.min.js
-            filters:
-               - ?yui_js
+            #filters:
+            #   - ?yui_js
             output: assets/js/jquery-ui.min.js
         bootstrap_css:
             inputs:
                - %kernel.root_dir%/../vendor/twbs/bootstrap/dist/css/bootstrap.min.css
-            filters:
-               - ?yui_css
+            #filters:
+            #   - ?yui_css
             output: assets/css/bootstrap.min.css
         bootstrap_theme_css:
             inputs:
                - %kernel.root_dir%/../vendor/twbs/bootstrap/dist/css/bootstrap-theme.min.css
-            filters:
-               - ?yui_css
+            #filters:
+            #   - ?yui_css
             output: assets/css/bootstrap-theme.min.css
         bootstrap_js:
             inputs:
                - %kernel.root_dir%/../vendor/twbs/bootstrap/dist/js/bootstrap.min.js
-            filters:
-               - ?yui_js
+            #filters:
+            #   - ?yui_js
             output: assets/js/bootstrap.min.js
         fontawesome_css:
             inputs:
                - %kernel.root_dir%/../vendor/fortawesome/font-awesome/css/font-awesome.min.css
-            filters:
-               - ?yui_css
+            #filters:
+            #   - ?yui_css
             output: assets/css/font-awesome.min.css
         mopabootstrap_collection_js:
             inputs:
                - %kernel.root_dir%/../web/bundles/mopabootstrap/js/mopabootstrap-collection.js
-            filters:
-               - ?yui_js
+            #filters:
+            #   - ?yui_js
             output: assets/js/mopabootstrap-collection.js
         bootstrap_modal_css:
             inputs:
                - %kernel.root_dir%/../vendor/jschr/bootstrap-modal/css/*
-            filters:
-               - ?yui_css
+            #filters:
+            #   - ?yui_css
             output: assets/css/bootstrap-modal.css
         bootstrap_modal_js:
             inputs:
                - %kernel.root_dir%/../vendor/jschr/bootstrap-modal/js/*
-            filters:
-               - ?yui_js
+            #filters:
+            #   - ?yui_js
             output: assets/js/bootstrap-modal.js
         bootstrap_iconpicker_js:
             inputs:
                - %kernel.root_dir%/../web/bundles/slcore/js/bootstrap-iconpicker.min.js
-            filters:
-               - ?yui_js
+            #filters:
+            #   - ?yui_js
             output: assets/js/bootstrap_iconpicker.min.js
         bootstrap_icon_picker_css:
             inputs:
                - %kernel.root_dir%/../web/bundles/slcore/css/bootstrap-iconpicker.min.css
-            filters:
-               - ?yui_css
+            #filters:
+            #   - ?yui_css
             output: assets/css/bootstrap-iconpicker.min.css
         bootstrap_icon_picker_js:
             inputs:
                - %kernel.root_dir%/../web/bundles/slcore/js/bootstrap-iconpicker.min.js
-            filters:
-               - ?yui_js
+            #filters:
+            #   - ?yui_js
             output: assets/js/bootstrap-iconpicker.min.js
         js_tree_css:
             inputs:
                - %kernel.root_dir%/../vendor/vakata/jstree/dist/themes/default/style.min.css
-            filters:
-               - ?yui_css
+            #filters:
+            #   - ?yui_css
             output: assets/css/style.min.css
         js_tree_js:
             inputs:
                - %kernel.root_dir%/../vendor/vakata/jstree/dist/jstree.min.js
-            filters:
-               - ?yui_js
+            #filters:
+            #   - ?yui_js
             output: assets/js/jstree.min.js
         fos_js_routting_js:
             inputs:
                - %kernel.root_dir%/../web/bundles/fosjsrouting/js/router.js
-            filters:
-               - ?yui_js
+            #filters:
+            #   - ?yui_js
             output: assets/js/fosjsrouting-router.js
         insert_at_caret_js:
             inputs:
                - %kernel.root_dir%/../web/bundles/slcore/js/insert-at-caret.js
-            filters:
-               - ?yui_js
+            #filters:
+            #   - ?yui_js
             output: assets/js/insert-at-caret.js
         custom_css:
             inputs:
                - %kernel.root_dir%/../web/bundles/slcore/css/custom.css
-            filters:
-               - ?yui_css
+            #filters:
+            #   - ?yui_css
             output: assets/css/custom.css
         custom_js:
             inputs:
                - %kernel.root_dir%/../web/bundles/slcore/js/custom.js
-            filters:
-               - ?yui_js
+            #filters:
+            #   - ?yui_js
             output: assets/js/custom.js
 
 # Doctrine Configuration

@@ -91,6 +91,7 @@ select {
     color: #F2F2F2;
     line-height: 14px;
     font-family: sans-serif; 
+    visibility: hidden;
 }
 #documentName {
     font-size: 14px;
@@ -504,6 +505,7 @@ html[dir='rtl'] .dropdownToolbarButton {
     font-weight: bold;
     line-height: 14px;
     font-family: sans-serif;
+    visibility: hidden;
 }
 .toolbarButton.about::before {
     display: inline-block;
